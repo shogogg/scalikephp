@@ -1,0 +1,18 @@
+{
+    "name": "shogogg/scalikephp",
+    "description": "ScalikePHP provides Scala like programming tools into PHP.",
+    "keywords": ["scalikephp", "scala", "php"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "shogogg",
+            "email": "shogo@studiofly.net"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "ScalikePHP\\": "src/ScalikePHP/"
+        }
+    }
+}
