@@ -40,8 +40,6 @@ final class None extends Option
 
     /**
      * {@inheritdoc}
-     *
-     * @return $this
      */
     public function filter(callable $callback)
     {
@@ -50,8 +48,6 @@ final class None extends Option
 
     /**
      * {@inheritdoc}
-     *
-     * @return $this
      */
     public function flatMap(callable $callback)
     {
@@ -118,8 +114,6 @@ final class None extends Option
 
     /**
      * {@inheritdoc}
-     *
-     * @return $this
      */
     public function map(callable $callback)
     {
@@ -128,8 +122,6 @@ final class None extends Option
 
     /**
      * {@inheritdoc}
-     *
-     * @return $this
      */
     public function pick($name)
     {

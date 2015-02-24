@@ -24,18 +24,18 @@ interface ScalikeTraversableInterface extends \ArrayAccess, \Countable, \Iterato
     public function exists(callable $f);
 
     /**
-     * 条件にマッチする（関数が true を返す）要素のみの配列(Seq)を返す
+     * 条件にマッチする（関数が true を返す）要素のみを抽出する
      *
      * @param callable $f 真偽値を返す関数
-     * @return ScalikeTraversableInterface
+     * @return self
      */
     public function filter(callable $f);
 
     /**
-     * 条件にマッチしない（関数が false を返す）要素のみの配列(Seq)を返す
+     * 条件にマッチしない（関数が false を返す）要素のみを抽出する
      *
      * @param callable $f 真偽値を返す関数
-     * @return ScalikeTraversableInterface
+     * @return self
      */
     public function filterNot(callable $f);
 
@@ -51,7 +51,7 @@ interface ScalikeTraversableInterface extends \ArrayAccess, \Countable, \Iterato
      * 値の全要素に対して関数を適用し、その戻り値を平坦化して返す
      *
      * @param callable $f 値を返す関数
-     * @return ScalikeTraversableInterface
+     * @return self
      */
     public function flatMap(callable $f);
 
@@ -102,7 +102,7 @@ interface ScalikeTraversableInterface extends \ArrayAccess, \Countable, \Iterato
      * 値の全要素に対して関数を適用し、その戻り値を返す
      *
      * @param callable $f 値を返す関数
-     * @return ScalikeTraversableInterface
+     * @return self
      */
     public function map(callable $f);
 
@@ -124,7 +124,7 @@ interface ScalikeTraversableInterface extends \ArrayAccess, \Countable, \Iterato
      * 値の先頭 n 個の要素を返す
      *
      * @param int $n 取得する要素の数
-     * @return ScalikeTraversableInterface|Seq
+     * @return Seq
      */
     public function take($n);
 
@@ -132,7 +132,7 @@ interface ScalikeTraversableInterface extends \ArrayAccess, \Countable, \Iterato
      * 値の末尾 n 個の要素を返す
      *
      * @param int $n 取得する要素の数
-     * @return ScalikeTraversableInterface|Seq
+     * @return Seq
      */
     public function takeRight($n);
 

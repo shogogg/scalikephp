@@ -30,8 +30,6 @@ final class Some extends Option
 
     /**
      * {@inheritdoc}
-     *
-     * @return Option
      */
     public function filter(callable $f)
     {
@@ -40,8 +38,6 @@ final class Some extends Option
 
     /**
      * {@inheritdoc}
-     *
-     * @return Option
      */
     public function flatMap(callable $f)
     {
@@ -107,8 +103,6 @@ final class Some extends Option
 
     /**
      * {@inheritdoc}
-     *
-     * @return Some
      */
     public function map(callable $f)
     {
