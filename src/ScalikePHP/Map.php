@@ -62,6 +62,23 @@ abstract class Map extends ScalikeTraversable
     abstract public function fold($z, callable $f);
 
     /**
+     * 要素を取得する
+     *
+     * @param string $key
+     * @return mixed
+     * @throws \OutOfBoundsException
+     */
+    abstract public function get($key);
+
+    /**
+     * 要素を取得する
+     *
+     * @param string $key
+     * @return Option
+     */
+    abstract public function getOption($key);
+
+    /**
      * キーの一覧を Seq として取得する
      *
      * @return Seq

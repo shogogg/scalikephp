@@ -82,6 +82,22 @@ class ArrayMap extends Map
     /**
      * {@inheritdoc}
      */
+    public function get($key)
+    {
+        return $this->getOption($key)->getOrThrow(new \OutOfBoundsException("Undefined index: {$key}"));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getOption($key)
+    {
+        return Option::fromArray($this->values, $key);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function jsonSerialize()
     {
         return $this->values;
