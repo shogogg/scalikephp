@@ -29,4 +29,18 @@ class TraversableMap extends ArrayMap
             : new \ArrayIterator($this->toArray());
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function toArray()
+    {
+        static $array = null;
+        if ($array === null) {
+            foreach ($this->values as $key => $x) {
+                $array[$key] = $x;
+            }
+        }
+        return $array;
+    }
+
 }

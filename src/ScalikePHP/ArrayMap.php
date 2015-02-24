@@ -24,7 +24,7 @@ class ArrayMap extends Map
     {
         if (is_array($keyOrArray)) {
             return new ArrayMap($keyOrArray + $this->toArray());
-        } elseif ($keyOrArray instanceof Map || method_exists($keyOrArray, 'toArray')) {
+        } elseif ($keyOrArray instanceof Map) {
             return new ArrayMap($keyOrArray->toArray() + $this->toArray());
         } elseif ($keyOrArray instanceof \Traversable) {
             return new ArrayMap(Map::from($keyOrArray)->toArray() + $this->toArray());
@@ -57,7 +57,7 @@ class ArrayMap extends Map
             $result = call_user_func($f, $x, $key);
             if (is_array($result)) {
                 $array = $result + $array;
-            } elseif ($result instanceof ScalikeTraversable || method_exists($result, 'toArray')) {
+            } elseif ($result instanceof ScalikeTraversable) {
                 $array = $result->toArray() + $array;
             } elseif ($result instanceof \Traversable) {
                 $array = Map::from($result)->toArray() + $array;
