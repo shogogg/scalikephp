@@ -10,6 +10,13 @@ class TraversableMap extends ArrayMap
 {
 
     /**
+     * Arrayed values
+     *
+     * @var array
+     */
+    private $array = null;
+
+    /**
      * Constructor
      *
      * @param PhpTraversable $values 値
@@ -34,13 +41,13 @@ class TraversableMap extends ArrayMap
      */
     public function toArray()
     {
-        static $array = null;
-        if ($array === null) {
+        if ($this->array === null) {
+            $this->array = [];
             foreach ($this->values as $key => $x) {
-                $array[$key] = $x;
+                $this->array[$key] = $x;
             }
         }
-        return $array;
+        return $this->array;
     }
 
 }
