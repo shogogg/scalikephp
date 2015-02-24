@@ -8,6 +8,13 @@ class TraversableSeq extends ArraySeq
 {
 
     /**
+     * Arrayed values
+     *
+     * @var array
+     */
+    private $array = null;
+
+    /**
      * 値
      * @var \Traversable
      */
@@ -76,14 +83,13 @@ class TraversableSeq extends ArraySeq
      */
     public function toArray()
     {
-        static $array = null;
-        if ($array === null) {
-            $array = [];
+        if ($this->array === null) {
+            $this->array = [];
             foreach ($this->values as $x) {
-                $array[] = $x;
+                $this->array[] = $x;
             }
         }
-        return $array;
+        return $this->array;
     }
 
 }
