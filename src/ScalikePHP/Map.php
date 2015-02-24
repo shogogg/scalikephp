@@ -39,7 +39,7 @@ abstract class Map extends ScalikeTraversable
         } elseif ($array instanceof PhpTraversable) {
             return new TraversableMap($array);
         } else {
-            throw new \InvalidArgumentException('Map::fromArray() needs to array or \Traversable.');
+            throw new \InvalidArgumentException('Map::from() needs to array or \Traversable.');
         }
     }
 
