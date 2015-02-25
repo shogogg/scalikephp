@@ -1,0 +1,171 @@
+<?php
+namespace ScalikePHP;
+
+use Traversable as PhpTraversable;
+
+/**
+ * A Mutable Map Implementation
+ */
+class MutableMap extends ArrayMap
+{
+
+    /**
+     * Constructor
+     *
+     * @param array|\Traversable $values 値
+     */
+    public function __construct($values)
+    {
+        if (is_array($values)) {
+            $this->values = $values;
+        } elseif ($values instanceof PhpTraversable) {
+            $this->values = [];
+            foreach ($values as $key => $x) {
+                $this->values[$key] = $x;
+            }
+        } else {
+            throw new \InvalidArgumentException('MutableMap needs an array or \Traversable.');
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function append($keyOrArray, $value = null)
+    {
+        if (is_array($keyOrArray)) {
+            $this->values = $keyOrArray + $this->toArray();
+        } elseif ($keyOrArray instanceof Map) {
+            $this->values = $keyOrArray->toArray() + $this->toArray();
+        } elseif ($keyOrArray instanceof \Traversable) {
+            $this->values = Map::from($keyOrArray)->toArray() + $this->toArray();
+        } else {
+            $this->values[$keyOrArray] = $value;
+        }
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function filter(callable $f)
+    {
+        $array = [];
+        foreach ($this->values as $key => $x) {
+            if (call_user_func($f, $x, $key)) {
+                $array[$key] = $x;
+            }
+        }
+        return Map::mutable($array);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function flatMap(callable $f)
+    {
+        $array = [];
+        foreach ($this->values as $key => $x) {
+            $result = call_user_func($f, $x, $key);
+            if (is_array($result)) {
+                $array = $result + $array;
+            } elseif ($result instanceof ScalikeTraversable) {
+                $array = $result->toArray() + $array;
+            } elseif ($result instanceof \Traversable) {
+                $array = Map::from($result)->toArray() + $array;
+            } else {
+                throw new \InvalidArgumentException('$f should returns a Traversable or an array.');
+            }
+        }
+        return Map::from($array);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function fold($z, callable $f)
+    {
+        foreach ($this->values as $key => $x) {
+            $z = call_user_func($f, $z, $x);
+        }
+        return $z;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function get($key)
+    {
+        return $this->getOption($key)->getOrThrow(new \OutOfBoundsException("Undefined index: {$key}"));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getOption($key)
+    {
+        return Option::fromArray($this->values, $key);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function jsonSerialize()
+    {
+        return $this->values;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function keys()
+    {
+        return Seq::fromArray(array_keys($this->values));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function map(callable $f)
+    {
+        $array = [];
+        foreach ($this->values as $key => $x) {
+            list($newKey, $newValue) = call_user_func($f, $x, $key);
+            $array[$newKey] = $newValue;
+        }
+        return Map::mutable($array);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function mapValues(callable $f)
+    {
+        $array = [];
+        foreach ($this->values as $key => $x) {
+            $array[$key] = call_user_func($f, $x);
+        }
+        return Map::mutable($array);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function toSeq()
+    {
+        $array = [];
+        foreach ($this->values as $key => $x) {
+            $array[] = [$key, $x];
+        }
+        return Seq::fromArray($array);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function values()
+    {
+        return Seq::fromArray($this->values);
+    }
+
+}

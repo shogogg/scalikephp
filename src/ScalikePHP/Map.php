@@ -44,6 +44,24 @@ abstract class Map extends ScalikeTraversable
     }
 
     /**
+     * Create a MutableMap instance from an array (or \Traversable)
+     *
+     * @param array|\Traversable $array
+     * @return MutableMap
+     * @throws \InvalidArgumentException
+     */
+    public static function mutable($array)
+    {
+        if ($array === null) {
+            return new MutableMap([]);
+        } elseif (is_array($array) || $array instanceof PhpTraversable) {
+            return new MutableMap($array);
+        } else {
+            throw new \InvalidArgumentException('Map::mutable() needs to array or \Traversable.');
+        }
+    }
+
+    /**
      * 要素を追加する
      *
      * @param string|array|Map $keyOrArray
