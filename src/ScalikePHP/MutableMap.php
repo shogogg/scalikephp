@@ -149,6 +149,22 @@ class MutableMap extends ArrayMap
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function offsetSet($offset, $x)
+    {
+        $this->update($offset, $x);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function offsetUnset($offset)
+    {
+        unset($this->values[$offset]);
+    }
+
+    /**
      * 指定したキーに該当する要素を削除し、その値を返す
      *
      * @param string $key
