@@ -108,6 +108,24 @@ class MutableMap extends ArrayMap
     }
 
     /**
+     * 要素を取得する, 要素が存在しない場合は $op の値で更新し、その値を返す
+     *
+     * $op が callable の場合はその実行結果を用いる
+     *
+     * @param string $key
+     * @param mixed $op
+     * @return mixed
+     */
+    public function getOrElseUpdate($key, $op)
+    {
+        return $this->get($key)->getOrCall(function () use ($key, $op) {
+            $value = is_callable($op) ? call_user_func($op) : $op;
+            $this->update($key, $value);
+            return $value;
+        });
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function jsonSerialize()
