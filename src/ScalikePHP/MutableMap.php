@@ -149,6 +149,23 @@ class MutableMap extends ArrayMap
     }
 
     /**
+     * 指定したキーに該当する要素を削除し、その値を返す
+     *
+     * @param string $key
+     * @return Option 該当する要素がある場合に Some, ない場合は None
+     */
+    public function remove($key)
+    {
+        if (isset($this->values[$key])) {
+            $value = $this->values[$key];
+            unset($this->values[$key]);
+            return Option::some($value);
+        } else {
+            return Option::none();
+        }
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function toSeq()
@@ -158,6 +175,18 @@ class MutableMap extends ArrayMap
             $array[] = [$key, $x];
         }
         return Seq::fromArray($array);
+    }
+
+    /**
+     * 新しい値を追加する
+     *
+     * @param string $key
+     * @param mixed $value
+     * @return void
+     */
+    public function update($key, $value)
+    {
+        $this->values[$key] = $value;
     }
 
     /**
