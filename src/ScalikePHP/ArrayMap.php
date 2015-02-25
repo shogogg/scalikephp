@@ -84,15 +84,15 @@ class ArrayMap extends Map
      */
     public function get($key)
     {
-        return $this->getOption($key)->getOrThrow(new \OutOfBoundsException("Undefined index: {$key}"));
+        return Option::fromArray($this->values, $key);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getOption($key)
+    public function getOrElse($key, $default)
     {
-        return Option::fromArray($this->values, $key);
+        return $this->get($key)->getOrElse($default);
     }
 
     /**

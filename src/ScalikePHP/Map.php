@@ -83,18 +83,18 @@ abstract class Map extends ScalikeTraversable
      * 要素を取得する
      *
      * @param string $key
-     * @return mixed
-     * @throws \OutOfBoundsException
+     * @return Option
      */
     abstract public function get($key);
 
     /**
-     * 要素を取得する
+     * 要素を取得する, 要素が存在しない場合は $default を返す
      *
      * @param string $key
-     * @return Option
+     * @param mixed $default
+     * @return mixed
      */
-    abstract public function getOption($key);
+    abstract public function getOrElse($key, $default);
 
     /**
      * キーの一覧を Seq として取得する
