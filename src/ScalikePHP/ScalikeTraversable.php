@@ -157,7 +157,11 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
      */
     public function offsetGet($offset)
     {
-        return $this->values[$offset];
+        if (isset($this->values[$offset])) {
+            return $this->values[$offset];
+        } else {
+            throw new \OutOfBoundsException("Undefined offset: {$offset}");
+        }
     }
 
     /**
