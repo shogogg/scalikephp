@@ -86,6 +86,14 @@ abstract class Seq extends ScalikeTraversable
     abstract public function reverse();
 
     /**
+     * 指定された関数の戻り値（または指定されたキーの値）を用いてソートされた Seq を返す
+     *
+     * @param string|callable $f
+     * @return Seq
+     */
+    abstract public function sortBy($f);
+
+    /**
      * Map に変換する
      *
      * $key に string が渡された場合は各要素から $key に該当する要素|プロパティを探し、それをキーとする

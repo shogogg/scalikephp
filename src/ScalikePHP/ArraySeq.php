@@ -122,6 +122,29 @@ class ArraySeq extends Seq
     /**
      * {@inheritdoc}
      */
+    public function sortBy($f)
+    {
+        $array_for_sort = [];
+        if (is_string($f)) {
+            foreach ($this->values as $value) {
+                $array_for_sort[] = Option::fromArray($value, $f)->getOrNull();
+            }
+        } elseif (is_callable($f)) {
+            foreach ($this->values as $value) {
+                $array_for_sort[] = $f($value);
+            }
+        } else {
+            $type = gettype($f);
+            throw new \InvalidArgumentException("Seq::sortWith() needs a string or callable. {$type} given.");
+        }
+        $array_for_new_seq = $this->toArray();
+        array_multisort($array_for_sort, SORT_ASC, $array_for_new_seq);
+        return Seq::fromArray($array_for_new_seq);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function toMap($key)
     {
         $array = [];
