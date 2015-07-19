@@ -64,6 +64,17 @@ interface ScalikeTraversableInterface extends \ArrayAccess, \Countable, \Iterato
     public function forAll(callable $f);
 
     /**
+     * 要素を指定された関数の戻り値でグループ化して返す
+     *
+     * $f に string が渡された場合は各要素から $f に該当する要素|プロパティを探し、それをキーとする
+     * $f に callable が渡された場合は各要素を引数として $f を実行し、それをキーとする
+     *
+     * @param string|callable $f
+     * @return Map
+     */
+    public function groupBy($f);
+
+    /**
      * 値の先頭要素を返す, 要素がない場合は例外を投げる
      *
      * @return mixed 先頭の要素

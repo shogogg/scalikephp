@@ -115,6 +115,29 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
     /**
      * {@inheritdoc}
      */
+    public function groupBy($f)
+    {
+        $array = [];
+        if (is_string($f)) {
+            foreach ($this->values as $x) {
+                $k = Option::fromArray($x, $f)->getOrThrow(new \RuntimeException("Undefined index {$f}"));
+                $array[$k] = isset($array[$k]) ? $array[$k]->append([$x]) : Seq::from($x);
+            }
+        } elseif (is_callable($f)) {
+            foreach ($this->values as $x) {
+                $k = call_user_func($f, $x);
+                $array[$k] = isset($array[$k]) ? $array[$k]->append([$x]) : Seq::from($x);
+            }
+        } else {
+            $type = gettype($f);
+            throw new \InvalidArgumentException("Seq::toMap() needs a string or callable. {$type} given.");
+        }
+        return Map::from($array);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function isEmpty()
     {
         return $this->size() === 0;
