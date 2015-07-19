@@ -120,7 +120,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
         $array = [];
         if (is_string($f)) {
             foreach ($this->values as $x) {
-                $k = Option::fromArray($x, $f)->getOrThrow(new \RuntimeException("Undefined index {$f}"));
+                $k = Option::from($x)->pick($f)->getOrThrow(new \RuntimeException("Undefined index {$f}"));
                 $array[$k] = isset($array[$k]) ? $array[$k]->append([$x]) : Seq::from($x);
             }
         } elseif (is_callable($f)) {
