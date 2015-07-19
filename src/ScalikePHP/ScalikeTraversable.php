@@ -6,7 +6,7 @@ use BadMethodCallException;
 use RuntimeException;
 
 /**
- * Scala like Traversable imple
+ * Scala like Traversable Implementation
  */
 abstract class ScalikeTraversable implements ScalikeTraversableInterface
 {
