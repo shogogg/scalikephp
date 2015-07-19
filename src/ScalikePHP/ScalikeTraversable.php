@@ -160,6 +160,17 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
     }
 
     /**
+     * 要素を文字列化して結合する
+     *
+     * @param string $sep
+     * @return string
+     */
+    public function mkString($sep = "")
+    {
+        return implode($sep, $this->values);
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function nonEmpty()

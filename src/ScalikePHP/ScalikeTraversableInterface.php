@@ -118,6 +118,14 @@ interface ScalikeTraversableInterface extends \ArrayAccess, \Countable, \Iterato
     public function map(callable $f);
 
     /**
+     * 要素を文字列化して結合する
+     *
+     * @param string $sep
+     * @return string
+     */
+    public function mkString($sep = "");
+
+    /**
      * 値が空でないかどうかを判定する
      *
      * @return bool 値が空でない場合に true, そうでない場合に false
