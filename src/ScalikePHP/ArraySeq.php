@@ -127,7 +127,7 @@ class ArraySeq extends Seq
         $array = [];
         if (is_string($key)) {
             foreach ($this->values as $x) {
-                $k = Option::fromArray($x, $key)->getOrThrow(new \RuntimeException("Undefined index {$key}"));
+                $k = Option::from($x)->pick($key)->getOrThrow(new \RuntimeException("Undefined index {$key}"));
                 $array[$k] = $x;
             }
         } elseif (is_callable($key)) {
