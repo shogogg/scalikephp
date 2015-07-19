@@ -27,7 +27,7 @@ interface ScalikeTraversableInterface extends \ArrayAccess, \Countable, \Iterato
      * 条件にマッチする（関数が true を返す）要素のみを抽出する
      *
      * @param callable $f 真偽値を返す関数
-     * @return self
+     * @return static
      */
     public function filter(callable $f);
 
@@ -35,7 +35,7 @@ interface ScalikeTraversableInterface extends \ArrayAccess, \Countable, \Iterato
      * 条件にマッチしない（関数が false を返す）要素のみを抽出する
      *
      * @param callable $f 真偽値を返す関数
-     * @return self
+     * @return static
      */
     public function filterNot(callable $f);
 
@@ -51,7 +51,7 @@ interface ScalikeTraversableInterface extends \ArrayAccess, \Countable, \Iterato
      * 値の全要素に対して関数を適用し、その戻り値を平坦化して返す
      *
      * @param callable $f 値を返す関数
-     * @return self
+     * @return static
      */
     public function flatMap(callable $f);
 
@@ -102,7 +102,7 @@ interface ScalikeTraversableInterface extends \ArrayAccess, \Countable, \Iterato
      * 値の全要素に対して関数を適用し、その戻り値を返す
      *
      * @param callable $f 値を返す関数
-     * @return self
+     * @return static
      */
     public function map(callable $f);
 
