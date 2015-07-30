@@ -33,6 +33,19 @@ class TraversableSeq extends ArraySeq
     /**
      * {@inheritdoc}
      */
+    public function contains($elem)
+    {
+        foreach ($this->values as $x) {
+            if ($x === $elem) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function each(callable $f)
     {
         foreach ($this->values as $x) {

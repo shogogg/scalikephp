@@ -36,6 +36,14 @@ class ArraySeq extends Seq
     /**
      * {@inheritdoc}
      */
+    public function contains($elem)
+    {
+        return in_array($elem, $this->values, true);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function filter(callable $f)
     {
         $values = [];

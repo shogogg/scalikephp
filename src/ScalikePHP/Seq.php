@@ -62,6 +62,14 @@ abstract class Seq extends ScalikeTraversable
     abstract public function append($that);
 
     /**
+     * 指定された値が含まれているかどうかを判定する
+     *
+     * @param mixed $elem
+     * @return bool
+     */
+    abstract public function contains($elem);
+
+    /**
      * 要素を順番に処理してたたみ込む
      *
      * @param mixed $z
