@@ -101,6 +101,22 @@ abstract class Option extends ScalikeTraversable
     abstract public function isDefined();
 
     /**
+     * Some の場合は自身を返し, None の場合は引数の値を返す
+     *
+     * @param Option $b
+     * @return Option
+     */
+    abstract public function orElse(Option $b);
+
+    /**
+     * Some の場合は自身を返し, None の場合は引数の関数を実行してその戻り値を返す
+     *
+     * @param callable $f
+     * @return Option
+     */
+    abstract public function orElseCall(callable $f);
+
+    /**
      * 値が配列またはオブジェクトの場合に、与えられたキーの値を取得する
      *
      * 値を持たないか、与えられたキーに対応する要素・プロパティが存在しない場合は None を返す

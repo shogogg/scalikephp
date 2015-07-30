@@ -123,6 +123,22 @@ final class None extends Option
     /**
      * {@inheritdoc}
      */
+    public function orElse(Option $b)
+    {
+        return $b;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function orElseCall(callable $f)
+    {
+        return $f();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function pick($name)
     {
         return $this;

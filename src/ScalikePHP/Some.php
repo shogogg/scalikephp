@@ -112,6 +112,22 @@ final class Some extends Option
     /**
      * {@inheritdoc}
      */
+    public function orElse(Option $b)
+    {
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function orElseCall(callable $f)
+    {
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function pick($name)
     {
         $x = $this->values[0];
