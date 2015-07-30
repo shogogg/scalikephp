@@ -71,6 +71,14 @@ abstract class Map extends ScalikeTraversable
     abstract public function append($keyOrArray, $value = null);
 
     /**
+     * 指定されたキーが存在するかどうかを判定する
+     *
+     * @param string $key
+     * @return bool
+     */
+    abstract public function contains($key);
+
+    /**
      * 要素を順番に処理してたたみ込む
      *
      * @param mixed $z

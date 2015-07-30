@@ -34,6 +34,17 @@ class ArrayMap extends Map
     }
 
     /**
+     * 指定されたキーが存在するかどうかを判定する
+     *
+     * @param string $key
+     * @return bool
+     */
+    public function contains($key)
+    {
+        return array_key_exists($key, $this->values);
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function filter(callable $f)

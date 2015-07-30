@@ -27,6 +27,19 @@ class TraversableMap extends ArrayMap
     }
 
     /**
+     * 指定されたキーが存在するかどうかを判定する
+     *
+     * @param string $key
+     * @return bool
+     */
+    public function contains($key)
+    {
+        return $this->values instanceof \ArrayAccess
+            ? $this->values->offsetExists($key)
+            : array_key_exists($key, $this->toArray());
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function getIterator()
