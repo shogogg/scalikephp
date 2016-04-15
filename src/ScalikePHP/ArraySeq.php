@@ -44,6 +44,14 @@ class ArraySeq extends Seq
     /**
      * {@inheritdoc}
      */
+    public function distinct()
+    {
+        return new ArraySeq(array_values(array_unique($this->values)));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function filter(callable $f)
     {
         $values = [];

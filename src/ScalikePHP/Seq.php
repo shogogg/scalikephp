@@ -70,6 +70,13 @@ abstract class Seq extends ScalikeTraversable
     abstract public function contains($elem);
 
     /**
+     * 重複を排除した Seq を返す
+     * 
+     * @return Seq
+     */
+    abstract public function distinct();
+
+    /**
      * 要素を順番に処理してたたみ込む
      *
      * @param mixed $z
