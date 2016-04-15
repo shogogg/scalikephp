@@ -15,22 +15,6 @@ class TraversableSeq extends ArraySeq
     private $array = null;
 
     /**
-     * 値
-     * @var \Traversable
-     */
-    protected $values;
-
-    /**
-     * Constructor
-     *
-     * @param \Traversable $values 値
-     */
-    public function __construct(\Traversable $values)
-    {
-        $this->values = $values;
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function contains($elem)

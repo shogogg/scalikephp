@@ -1,9 +1,6 @@
 <?php
 namespace ScalikePHP;
 
-use Exception;
-use RuntimeException;
-
 /**
  * Scala like None
  */
@@ -59,7 +56,7 @@ final class None extends Option
      */
     public function get()
     {
-        throw new RuntimeException("None has no value.");
+        throw new \RuntimeException("None has no value.");
     }
 
     /**
@@ -91,7 +88,7 @@ final class None extends Option
      *
      * @return mixed
      */
-    public function getOrThrow(Exception $exception)
+    public function getOrThrow(\Exception $exception)
     {
         throw $exception;
     }
@@ -125,7 +122,7 @@ final class None extends Option
      */
     public function max()
     {
-        throw new RuntimeException("empty.max");
+        throw new \RuntimeException("empty.max");
     }
 
     /**
@@ -133,7 +130,7 @@ final class None extends Option
      */
     public function maxBy(callable $f)
     {
-        throw new RuntimeException("empty.max");
+        throw new \RuntimeException("empty.max");
     }
 
     /**
@@ -141,7 +138,7 @@ final class None extends Option
      */
     public function min()
     {
-        throw new RuntimeException("empty.min");
+        throw new \RuntimeException("empty.min");
     }
 
     /**
@@ -149,7 +146,7 @@ final class None extends Option
      */
     public function minBy(callable $f)
     {
-        throw new RuntimeException("empty.min");
+        throw new \RuntimeException("empty.min");
     }
 
     /**

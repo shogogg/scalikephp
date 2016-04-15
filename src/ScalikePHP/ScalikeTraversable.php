@@ -1,10 +1,6 @@
 <?php
 namespace ScalikePHP;
 
-use ArrayIterator;
-use BadMethodCallException;
-use RuntimeException;
-
 /**
  * Scala like Traversable Implementation
  */
@@ -13,7 +9,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
 
     /**
      * 値
-     * @var array
+     * @var array|\Traversable
      */
     protected $values;
 
@@ -87,7 +83,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
      */
     public function getIterator()
     {
-        return new ArrayIterator($this->values);
+        return new \ArrayIterator($this->values);
     }
 
     /**
@@ -98,7 +94,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
         foreach ($this->values as $x) {
             return $x;
         }
-        throw new RuntimeException('There is no values.');
+        throw new \RuntimeException('There is no values.');
     }
 
     /**
@@ -203,7 +199,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
      */
     public function offsetSet($offset, $x)
     {
-        throw new BadMethodCallException;
+        throw new \BadMethodCallException;
     }
 
     /**
@@ -211,7 +207,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
      */
     public function offsetUnset($offset)
     {
-        throw new BadMethodCallException;
+        throw new \BadMethodCallException;
     }
 
     /**

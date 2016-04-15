@@ -1,13 +1,18 @@
 <?php
 namespace ScalikePHP;
 
-use Traversable as PhpTraversable;
-
 /**
  * Scala like Seq
  */
 abstract class Seq extends ScalikeTraversable
 {
+
+    /**
+     * 空の Seq
+     *
+     * @var Seq
+     */
+    private static $empty = null;
 
     /**
      * Get an empty Seq instance
@@ -16,11 +21,10 @@ abstract class Seq extends ScalikeTraversable
      */
     public static function emptySeq()
     {
-        $empty = null;
-        if ($empty === null) {
-            $empty = new ArraySeq([]);
+        if (static::$empty === null) {
+            static::$empty = new ArraySeq([]);
         }
-        return $empty;
+        return static::$empty;
     }
 
     /**
@@ -46,11 +50,21 @@ abstract class Seq extends ScalikeTraversable
             return static::emptySeq();
         } elseif (is_array($array)) {
             return new ArraySeq($array);
-        } elseif ($array instanceof PhpTraversable) {
+        } elseif ($array instanceof \Traversable) {
             return new TraversableSeq($array);
         } else {
             throw new \InvalidArgumentException('Seq::fromArray() needs to array or \Traversable.');
         }
+    }
+
+    /**
+     * Constructor
+     *
+     * @param array|\Traversable $values
+     */
+    public function __construct($values)
+    {
+        $this->values = is_array($values) ? array_values($values) : $values;
     }
 
     /**

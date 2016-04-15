@@ -1,13 +1,28 @@
 <?php
 namespace ScalikePHP;
 
-use Traversable as PhpTraversable;
-
 /**
  * Scala like Map
  */
 abstract class Map extends ScalikeTraversable
 {
+
+    /**
+     * 空のマップ
+     *
+     * @var ArrayMap
+     */
+    private static $empty = null;
+
+    /**
+     * Constructor
+     *
+     * @param array|\Traversable $values
+     */
+    public function __construct($values)
+    {
+        $this->values = $values;
+    }
 
     /**
      * Get an empty Map instance
@@ -16,11 +31,10 @@ abstract class Map extends ScalikeTraversable
      */
     public static function emptyMap()
     {
-        $empty = null;
-        if ($empty === null) {
-            $empty = new ArrayMap([]);
+        if (static::$empty === null) {
+            static::$empty = new ArrayMap([]);
         }
-        return $empty;
+        return static::$empty;
     }
 
     /**
@@ -36,7 +50,7 @@ abstract class Map extends ScalikeTraversable
             return static::emptyMap();
         } elseif (is_array($array)) {
             return new ArrayMap($array);
-        } elseif ($array instanceof PhpTraversable) {
+        } elseif ($array instanceof \Traversable) {
             return new TraversableMap($array);
         } else {
             throw new \InvalidArgumentException('Map::from() needs to array or \Traversable.');
@@ -54,7 +68,7 @@ abstract class Map extends ScalikeTraversable
     {
         if ($array === null) {
             return new MutableMap([]);
-        } elseif (is_array($array) || $array instanceof PhpTraversable) {
+        } elseif (is_array($array) || $array instanceof \Traversable) {
             return new MutableMap($array);
         } else {
             throw new \InvalidArgumentException('Map::mutable() needs to array or \Traversable.');

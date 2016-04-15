@@ -1,8 +1,6 @@
 <?php
 namespace ScalikePHP;
 
-use Traversable as PhpTraversable;
-
 /**
  * A Map Implementation using \Traversable
  */
@@ -15,16 +13,6 @@ class TraversableMap extends ArrayMap
      * @var array
      */
     private $array = null;
-
-    /**
-     * Constructor
-     *
-     * @param PhpTraversable $values 値
-     */
-    public function __construct(PhpTraversable $values)
-    {
-        $this->values = $values;
-    }
 
     /**
      * 指定されたキーが存在するかどうかを判定する

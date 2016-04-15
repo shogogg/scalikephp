@@ -8,16 +8,6 @@ class ArraySeq extends Seq
 {
 
     /**
-     * Constructor
-     *
-     * @param array $values 値
-     */
-    public function __construct(array $values)
-    {
-        $this->values = array_values($values);
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function append($that)

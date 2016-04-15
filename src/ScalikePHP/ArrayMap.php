@@ -8,16 +8,6 @@ class ArrayMap extends Map
 {
 
     /**
-     * Constructor
-     *
-     * @param array $values 値
-     */
-    public function __construct(array $values)
-    {
-        $this->values = $values;
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function append($keyOrArray, $value = null)
