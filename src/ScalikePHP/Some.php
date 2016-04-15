@@ -73,7 +73,7 @@ final class Some extends Option
      */
     public function getOrNull()
     {
-        return $this->values[0];
+        return $this->orNull();
     }
 
     /**
@@ -147,6 +147,14 @@ final class Some extends Option
     public function orElse(Option $b)
     {
         return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function orNull()
+    {
+        return $this->values[0];
     }
 
     /**

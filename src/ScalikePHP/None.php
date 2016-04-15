@@ -80,7 +80,7 @@ final class None extends Option
      */
     public function getOrNull()
     {
-        return null;
+        return $this->orNull();
     }
 
     /**
@@ -155,6 +155,14 @@ final class None extends Option
     public function orElse(Option $b)
     {
         return $b;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function orNull()
+    {
+        return null;
     }
 
     /**

@@ -81,6 +81,7 @@ abstract class Option extends ScalikeTraversable
      * 値を返す, 値を持たない場合は null を返す
      *
      * @return mixed
+     * @deprecated Use `orNull`.
      */
     abstract public function getOrNull();
 
@@ -107,6 +108,13 @@ abstract class Option extends ScalikeTraversable
      * @return Option
      */
     abstract public function orElse(Option $b);
+
+    /**
+     * 値を返す, 値を持たない場合は null を返す
+     *
+     * @return mixed
+     */
+    abstract public function orNull();
 
     /**
      * Some の場合は自身を返し, None の場合は引数の関数を実行してその戻り値を返す
