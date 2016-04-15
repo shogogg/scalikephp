@@ -128,22 +128,6 @@ class MutableMap extends ArrayMap
     /**
      * {@inheritdoc}
      */
-    public function jsonSerialize()
-    {
-        return $this->values;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function keys()
-    {
-        return Seq::fromArray(array_keys($this->values));
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function map(callable $f)
     {
         $array = [];
