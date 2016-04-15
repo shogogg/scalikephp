@@ -46,14 +46,6 @@ class TraversableSeq extends ArraySeq
     /**
      * {@inheritdoc}
      */
-    public function distinct()
-    {
-        return new ArraySeq(array_values(array_unique($this->toArray())));
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function each(callable $f)
     {
         foreach ($this->values as $x) {

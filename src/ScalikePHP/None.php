@@ -123,6 +123,38 @@ final class None extends Option
     /**
      * {@inheritdoc}
      */
+    public function max()
+    {
+        throw new RuntimeException("empty.max");
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function maxBy(callable $f)
+    {
+        throw new RuntimeException("empty.max");
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function min()
+    {
+        throw new RuntimeException("empty.min");
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function minBy(callable $f)
+    {
+        throw new RuntimeException("empty.min");
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function orElse(Option $b)
     {
         return $b;

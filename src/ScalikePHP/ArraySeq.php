@@ -46,7 +46,7 @@ class ArraySeq extends Seq
      */
     public function distinct()
     {
-        return new ArraySeq(array_values(array_unique($this->values)));
+        return new ArraySeq(array_values(array_unique($this->toArray())));
     }
 
     /**
@@ -109,6 +109,68 @@ class ArraySeq extends Seq
     public function map(callable $f)
     {
         return new ArraySeq(array_map($f, $this->values));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function max()
+    {
+        if ($this->isEmpty()) {
+            throw new \RuntimeException('empty.max');
+        }
+        return max($this->toArray());
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function maxBy(callable $f)
+    {
+        if ($this->isEmpty()) {
+            throw new \RuntimeException('empty.max');
+        }
+        $max = null;
+        $res = null;
+        foreach ($this->values as $value) {
+            $x = call_user_func($f, $value);
+            if ($max === null || $max < $x) {
+                $max = $x;
+                $res = $value;
+            }
+        }
+        return $res;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function min()
+    {
+        if ($this->isEmpty()) {
+            throw new \RuntimeException('empty.min');
+        }
+        return min($this->toArray());
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function minBy(callable $f)
+    {
+        if ($this->isEmpty()) {
+            throw new \RuntimeException('empty.min');
+        }
+        $min = null;
+        $res = null;
+        foreach ($this->values as $value) {
+            $x = call_user_func($f, $value);
+            if ($min === null || $min > $x) {
+                $min = $x;
+                $res = $value;
+            }
+        }
+        return $res;
     }
 
     /**

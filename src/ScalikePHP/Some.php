@@ -112,6 +112,38 @@ final class Some extends Option
     /**
      * {@inheritdoc}
      */
+    public function max()
+    {
+        return $this->values[0];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function maxBy(callable $f)
+    {
+        return $this->values[0];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function min()
+    {
+        return $this->values[0];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function minBy(callable $f)
+    {
+        return $this->values[0];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function orElse(Option $b)
     {
         return $this;

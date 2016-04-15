@@ -149,6 +149,76 @@ class ArrayMap extends Map
 
     /**
      * {@inheritdoc}
+     *
+     * Scala 同様, 値ではなくキーが最大となる要素（キーと値のペア）を返す.
+     */
+    public function max()
+    {
+        if ($this->isEmpty()) {
+            throw new \RuntimeException('empty.max');
+        }
+        return $this->toSeq()->max();
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * Scala 同様, 値ではなく要素（キーと値のペアを）返す.
+     */
+    public function maxBy(callable $f)
+    {
+        if ($this->isEmpty()) {
+            throw new \RuntimeException('empty.max');
+        }
+        $max = null;
+        $res = null;
+        foreach ($this->values as $key => $value) {
+            $x = call_user_func($f, $value, $key);
+            if ($max === null || $max < $x) {
+                $max = $x;
+                $res = [$key, $value];
+            }
+        }
+        return $res;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * Scala 同様, 値ではなくキーが最小となる要素（キーと値のペア）を返す.
+     */
+    public function min()
+    {
+        if ($this->isEmpty()) {
+            throw new \RuntimeException('empty.min');
+        }
+        return $this->toSeq()->min();
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * Scala 同様, 値ではなく要素（キーと値のペアを）返す.
+     */
+    public function minBy(callable $f)
+    {
+        if ($this->isEmpty()) {
+            throw new \RuntimeException('empty.min');
+        }
+        $min = null;
+        $res = null;
+        foreach ($this->values as $key => $value) {
+            $x = call_user_func($f, $value, $key);
+            if ($min === null || $min > $x) {
+                $min = $x;
+                $res = [$key, $value];
+            }
+        }
+        return $res;
+    }
+
+    /**
+     * {@inheritdoc}
      */
     public function toSeq()
     {

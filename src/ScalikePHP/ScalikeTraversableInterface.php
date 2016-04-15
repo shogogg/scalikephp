@@ -118,6 +118,36 @@ interface ScalikeTraversableInterface extends \ArrayAccess, \Countable, \Iterato
     public function map(callable $f);
 
     /**
+     * 最大の要素を返す
+     *
+     * @return mixed 最大の要素
+     */
+    public function max();
+
+    /**
+     * 関数を適用した結果が最大となる要素を返す
+     *
+     * @param callable $f
+     * @return mixed 最大の要素
+     */
+    public function maxBy(callable $f);
+
+    /**
+     * 最小の要素を返す
+     *
+     * @return mixed 最小の要素
+     */
+    public function min();
+
+    /**
+     * 関数を適用した結果が最小となる要素を返す
+     *
+     * @param callable $f
+     * @return mixed 最小の要素
+     */
+    public function minBy(callable $f);
+
+    /**
      * 要素を文字列化して結合する
      *
      * @param string $sep
