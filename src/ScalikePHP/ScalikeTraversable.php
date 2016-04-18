@@ -68,6 +68,16 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
     /**
      * {@inheritdoc}
      */
+    public function flatten()
+    {
+        return $this->flatMap(function ($x) {
+            return $x;
+        });
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function forAll(callable $f)
     {
         foreach ($this->values as $x) {
