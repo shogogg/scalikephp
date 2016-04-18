@@ -48,6 +48,13 @@ interface ScalikeTraversableInterface extends \ArrayAccess, \Countable, \Iterato
     public function find(callable $f);
 
     /**
+     * 要素を平坦化して返す
+     *
+     * @return static
+     */
+    public function flatten();
+
+    /**
      * 値の全要素に対して関数を適用し、その戻り値を平坦化して返す
      *
      * @param callable $f 値を返す関数
