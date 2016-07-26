@@ -119,7 +119,7 @@ class MutableMap extends ArrayMap
     public function getOrElseUpdate($key, $op)
     {
         return $this->get($key)->getOrCall(function () use ($key, $op) {
-            $value = is_callable($op) ? call_user_func($op) : $op;
+            $value = is_string($op) ? $op : (is_callable($op) ? call_user_func($op) : $op);
             $this->update($key, $value);
             return $value;
         });
