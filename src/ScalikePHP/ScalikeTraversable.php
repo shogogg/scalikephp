@@ -24,7 +24,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
     /**
      * {@inheritdoc}
      */
-    public function each(callable $f)
+    public function each(\Closure $f)
     {
         array_walk($this->values, $f);
     }
@@ -32,7 +32,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
     /**
      * {@inheritdoc}
      */
-    public function exists(callable $f)
+    public function exists(\Closure $f)
     {
         foreach ($this->values as $value) {
             if (call_user_func($f, $value)) {
@@ -45,7 +45,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
     /**
      * {@inheritdoc}
      */
-    public function filterNot(callable $f)
+    public function filterNot(\Closure $f)
     {
         return $this->filter(function ($x) use ($f) {
             return !call_user_func($f, $x);
@@ -55,7 +55,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
     /**
      * {@inheritdoc}
      */
-    public function find(callable $f)
+    public function find(\Closure $f)
     {
         foreach ($this->values as $x) {
             if (call_user_func($f, $x)) {
@@ -78,7 +78,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
     /**
      * {@inheritdoc}
      */
-    public function forAll(callable $f)
+    public function forAll(\Closure $f)
     {
         foreach ($this->values as $x) {
             if (!call_user_func($f, $x)) {
@@ -136,7 +136,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
             }
         } else {
             $type = gettype($f);
-            throw new \InvalidArgumentException("Seq::toMap() needs a string or callable. {$type} given.");
+            throw new \InvalidArgumentException("Seq::toMap() needs a string or \\Closure. {$type} given.");
         }
         return Map::from($array);
     }

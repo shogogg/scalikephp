@@ -96,10 +96,10 @@ abstract class Map extends ScalikeTraversable
      * 要素を順番に処理してたたみ込む
      *
      * @param mixed $z
-     * @param callable $f
+     * @param \Closure $f
      * @return mixed
      */
-    abstract public function fold($z, callable $f);
+    abstract public function fold($z, \Closure $f);
 
     /**
      * 要素を取得する
@@ -128,10 +128,10 @@ abstract class Map extends ScalikeTraversable
     /**
      * 値を変換した Map を返す
      *
-     * @param callable $f
+     * @param \Closure $f
      * @return Map
      */
-    abstract public function mapValues(callable $f);
+    abstract public function mapValues(\Closure $f);
 
     /**
      * 値の一覧を Seq として取得する

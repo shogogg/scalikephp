@@ -64,10 +64,10 @@ abstract class Option extends ScalikeTraversable
     /**
      * 値を返す, 値を持たない場合は関数を実行し、その戻り値を返す
      *
-     * @param callable $f デフォルト値を返す関数
+     * @param \Closure $f デフォルト値を返す関数
      * @return mixed
      */
-    abstract public function getOrCall(callable $f);
+    abstract public function getOrCall(\Closure $f);
 
     /**
      * 値を返す, 値を持たない場合は $default の値を返す
@@ -119,10 +119,10 @@ abstract class Option extends ScalikeTraversable
     /**
      * Some の場合は自身を返し, None の場合は引数の関数を実行してその戻り値を返す
      *
-     * @param callable $f
+     * @param \Closure $f
      * @return Option
      */
-    abstract public function orElseCall(callable $f);
+    abstract public function orElseCall(\Closure $f);
 
     /**
      * 値が配列またはオブジェクトの場合に、与えられたキーの値を取得する

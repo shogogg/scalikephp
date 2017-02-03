@@ -94,10 +94,10 @@ abstract class Seq extends ScalikeTraversable
      * 要素を順番に処理してたたみ込む
      *
      * @param mixed $z
-     * @param callable $f
+     * @param \Closure $f
      * @return mixed
      */
-    abstract public function fold($z, callable $f);
+    abstract public function fold($z, \Closure $f);
 
     /**
      * 先頭に要素を追加する
@@ -117,7 +117,7 @@ abstract class Seq extends ScalikeTraversable
     /**
      * 指定された関数の戻り値（または指定されたキーの値）を用いてソートされた Seq を返す
      *
-     * @param string|callable $f
+     * @param string|\Closure $f
      * @return Seq
      */
     abstract public function sortBy($f);
@@ -126,9 +126,9 @@ abstract class Seq extends ScalikeTraversable
      * Map に変換する
      *
      * $key に string が渡された場合は各要素から $key に該当する要素|プロパティを探し、それをキーとする
-     * $key に callable が渡された場合は各要素を引数として $key を実行し、それをキーとする
+     * $key に \Closure が渡された場合は各要素を引数として $key を実行し、それをキーとする
      *
-     * @param string|callable $key
+     * @param string|\Closure $key
      * @return Map
      */
     abstract public function toMap($key);

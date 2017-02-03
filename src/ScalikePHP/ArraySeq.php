@@ -42,7 +42,7 @@ class ArraySeq extends Seq
     /**
      * {@inheritdoc}
      */
-    public function filter(callable $f)
+    public function filter(\Closure $f)
     {
         $values = [];
         foreach ($this->values as $x) {
@@ -56,7 +56,7 @@ class ArraySeq extends Seq
     /**
      * {@inheritdoc}
      */
-    public function flatMap(callable $f)
+    public function flatMap(\Closure $f)
     {
         $values = [];
         foreach ($this->values as $x) {
@@ -77,7 +77,7 @@ class ArraySeq extends Seq
     /**
      * {@inheritdoc}
      */
-    public function fold($z, callable $f)
+    public function fold($z, \Closure $f)
     {
         foreach ($this->values as $x) {
             $z = call_user_func($f, $z, $x);
@@ -96,7 +96,7 @@ class ArraySeq extends Seq
     /**
      * {@inheritdoc}
      */
-    public function map(callable $f)
+    public function map(\Closure $f)
     {
         return new ArraySeq(array_map($f, $this->values));
     }
@@ -115,7 +115,7 @@ class ArraySeq extends Seq
     /**
      * {@inheritdoc}
      */
-    public function maxBy(callable $f)
+    public function maxBy(\Closure $f)
     {
         if ($this->isEmpty()) {
             throw new \RuntimeException('empty.max');
@@ -146,7 +146,7 @@ class ArraySeq extends Seq
     /**
      * {@inheritdoc}
      */
-    public function minBy(callable $f)
+    public function minBy(\Closure $f)
     {
         if ($this->isEmpty()) {
             throw new \RuntimeException('empty.min');
@@ -203,7 +203,7 @@ class ArraySeq extends Seq
             }
         } else {
             $type = gettype($f);
-            throw new \InvalidArgumentException("Seq::sortWith() needs a string or callable. {$type} given.");
+            throw new \InvalidArgumentException("Seq::sortWith() needs a string or \\Closure. {$type} given.");
         }
         $array_for_new_seq = $this->toArray();
         array_multisort($array_for_sort, SORT_ASC, $array_for_new_seq);
@@ -228,7 +228,7 @@ class ArraySeq extends Seq
             }
         } else {
             $type = gettype($key);
-            throw new \InvalidArgumentException("Seq::toMap() needs a string or callable. {$type} given.");
+            throw new \InvalidArgumentException("Seq::toMap() needs a string or \\Closure. {$type} given.");
         }
         return Map::from($array);
     }

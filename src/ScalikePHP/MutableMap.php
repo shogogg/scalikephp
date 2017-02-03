@@ -48,7 +48,7 @@ class MutableMap extends ArrayMap
     /**
      * {@inheritdoc}
      */
-    public function filter(callable $f)
+    public function filter(\Closure $f)
     {
         $array = [];
         foreach ($this->values as $key => $x) {
@@ -62,7 +62,7 @@ class MutableMap extends ArrayMap
     /**
      * {@inheritdoc}
      */
-    public function flatMap(callable $f)
+    public function flatMap(\Closure $f)
     {
         $array = [];
         foreach ($this->values as $key => $x) {
@@ -83,7 +83,7 @@ class MutableMap extends ArrayMap
     /**
      * {@inheritdoc}
      */
-    public function fold($z, callable $f)
+    public function fold($z, \Closure $f)
     {
         foreach ($this->values as $key => $x) {
             $z = call_user_func($f, $z, $x);
@@ -110,7 +110,7 @@ class MutableMap extends ArrayMap
     /**
      * 要素を取得する, 要素が存在しない場合は $op の値で更新し、その値を返す
      *
-     * $op が callable の場合はその実行結果を用いる
+     * $op が \Closure の場合はその実行結果を用いる
      *
      * @param string $key
      * @param mixed $op
@@ -128,7 +128,7 @@ class MutableMap extends ArrayMap
     /**
      * {@inheritdoc}
      */
-    public function map(callable $f)
+    public function map(\Closure $f)
     {
         $array = [];
         foreach ($this->values as $key => $x) {
@@ -141,7 +141,7 @@ class MutableMap extends ArrayMap
     /**
      * {@inheritdoc}
      */
-    public function mapValues(callable $f)
+    public function mapValues(\Closure $f)
     {
         $array = [];
         foreach ($this->values as $key => $x) {

@@ -38,7 +38,7 @@ final class None extends Option
     /**
      * {@inheritdoc}
      */
-    public function filter(callable $callback)
+    public function filter(\Closure $callback)
     {
         return $this;
     }
@@ -46,7 +46,7 @@ final class None extends Option
     /**
      * {@inheritdoc}
      */
-    public function flatMap(callable $callback)
+    public function flatMap(\Closure $callback)
     {
         return $this;
     }
@@ -62,7 +62,7 @@ final class None extends Option
     /**
      * {@inheritdoc}
      */
-    public function getOrCall(callable $callback)
+    public function getOrCall(\Closure $callback)
     {
         return call_user_func($callback);
     }
@@ -112,7 +112,7 @@ final class None extends Option
     /**
      * {@inheritdoc}
      */
-    public function map(callable $callback)
+    public function map(\Closure $callback)
     {
         return $this;
     }
@@ -128,7 +128,7 @@ final class None extends Option
     /**
      * {@inheritdoc}
      */
-    public function maxBy(callable $f)
+    public function maxBy(\Closure $f)
     {
         throw new \RuntimeException("empty.max");
     }
@@ -144,7 +144,7 @@ final class None extends Option
     /**
      * {@inheritdoc}
      */
-    public function minBy(callable $f)
+    public function minBy(\Closure $f)
     {
         throw new \RuntimeException("empty.min");
     }
@@ -168,7 +168,7 @@ final class None extends Option
     /**
      * {@inheritdoc}
      */
-    public function orElseCall(callable $f)
+    public function orElseCall(\Closure $f)
     {
         return $f();
     }

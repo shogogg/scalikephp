@@ -31,7 +31,7 @@ final class Some extends Option
     /**
      * {@inheritdoc}
      */
-    public function filter(callable $f)
+    public function filter(\Closure $f)
     {
         return call_user_func($f, $this->values[0]) ? $this : Option::none();
     }
@@ -39,7 +39,7 @@ final class Some extends Option
     /**
      * {@inheritdoc}
      */
-    public function flatMap(callable $f)
+    public function flatMap(\Closure $f)
     {
         return call_user_func($f, $this->values[0]);
     }
@@ -55,7 +55,7 @@ final class Some extends Option
     /**
      * {@inheritdoc}
      */
-    public function getOrCall(callable $f)
+    public function getOrCall(\Closure $f)
     {
         return $this->values[0];
     }
@@ -104,7 +104,7 @@ final class Some extends Option
     /**
      * {@inheritdoc}
      */
-    public function map(callable $f)
+    public function map(\Closure $f)
     {
         return static::create(call_user_func($f, $this->values[0]));
     }
@@ -120,7 +120,7 @@ final class Some extends Option
     /**
      * {@inheritdoc}
      */
-    public function maxBy(callable $f)
+    public function maxBy(\Closure $f)
     {
         return $this->values[0];
     }
@@ -136,7 +136,7 @@ final class Some extends Option
     /**
      * {@inheritdoc}
      */
-    public function minBy(callable $f)
+    public function minBy(\Closure $f)
     {
         return $this->values[0];
     }
@@ -160,7 +160,7 @@ final class Some extends Option
     /**
      * {@inheritdoc}
      */
-    public function orElseCall(callable $f)
+    public function orElseCall(\Closure $f)
     {
         return $this;
     }

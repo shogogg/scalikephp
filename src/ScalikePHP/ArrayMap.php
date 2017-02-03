@@ -37,7 +37,7 @@ class ArrayMap extends Map
     /**
      * {@inheritdoc}
      */
-    public function filter(callable $f)
+    public function filter(\Closure $f)
     {
         $array = [];
         foreach ($this->values as $key => $x) {
@@ -51,7 +51,7 @@ class ArrayMap extends Map
     /**
      * {@inheritdoc}
      */
-    public function flatMap(callable $f)
+    public function flatMap(\Closure $f)
     {
         $array = [];
         foreach ($this->values as $key => $x) {
@@ -72,7 +72,7 @@ class ArrayMap extends Map
     /**
      * {@inheritdoc}
      */
-    public function fold($z, callable $f)
+    public function fold($z, \Closure $f)
     {
         foreach ($this->values as $key => $x) {
             $z = call_user_func($f, $z, $x);
@@ -115,7 +115,7 @@ class ArrayMap extends Map
     /**
      * {@inheritdoc}
      */
-    public function map(callable $f)
+    public function map(\Closure $f)
     {
         $array = [];
         foreach ($this->values as $key => $x) {
@@ -128,7 +128,7 @@ class ArrayMap extends Map
     /**
      * {@inheritdoc}
      */
-    public function mapValues(callable $f)
+    public function mapValues(\Closure $f)
     {
         $array = [];
         foreach ($this->values as $key => $x) {
@@ -155,7 +155,7 @@ class ArrayMap extends Map
      *
      * Scala 同様, 値ではなく要素（キーと値のペアを）返す.
      */
-    public function maxBy(callable $f)
+    public function maxBy(\Closure $f)
     {
         if ($this->isEmpty()) {
             throw new \RuntimeException('empty.max');
@@ -190,7 +190,7 @@ class ArrayMap extends Map
      *
      * Scala 同様, 値ではなく要素（キーと値のペアを）返す.
      */
-    public function minBy(callable $f)
+    public function minBy(\Closure $f)
     {
         if ($this->isEmpty()) {
             throw new \RuntimeException('empty.min');
