@@ -17,9 +17,9 @@ class MutableMap extends ArrayMap
     public function __construct($values)
     {
         if (is_array($values)) {
-            $this->values = $values;
+            parent::__construct($values);
         } elseif ($values instanceof PhpTraversable) {
-            $this->values = [];
+            parent::__construct([]);
             foreach ($values as $key => $x) {
                 $this->values[$key] = $x;
             }
@@ -31,7 +31,7 @@ class MutableMap extends ArrayMap
     /**
      * {@inheritdoc}
      */
-    public function append($keyOrArray, $value = null)
+    public function append($keyOrArray, $value = null): Map
     {
         if (is_array($keyOrArray)) {
             $this->values = $keyOrArray + $this->toArray();
@@ -48,7 +48,7 @@ class MutableMap extends ArrayMap
     /**
      * {@inheritdoc}
      */
-    public function filter(\Closure $f)
+    public function filter(\Closure $f): Map
     {
         $array = [];
         foreach ($this->values as $key => $x) {
@@ -62,7 +62,7 @@ class MutableMap extends ArrayMap
     /**
      * {@inheritdoc}
      */
-    public function flatMap(\Closure $f)
+    public function flatMap(\Closure $f): Map
     {
         $array = [];
         foreach ($this->values as $key => $x) {
@@ -94,7 +94,7 @@ class MutableMap extends ArrayMap
     /**
      * {@inheritdoc}
      */
-    public function get($key)
+    public function get($key): Option
     {
         return Option::fromArray($this->values, $key);
     }
@@ -128,7 +128,7 @@ class MutableMap extends ArrayMap
     /**
      * {@inheritdoc}
      */
-    public function map(\Closure $f)
+    public function map(\Closure $f): Map
     {
         $array = [];
         foreach ($this->values as $key => $x) {
@@ -141,7 +141,7 @@ class MutableMap extends ArrayMap
     /**
      * {@inheritdoc}
      */
-    public function mapValues(\Closure $f)
+    public function mapValues(\Closure $f): Map
     {
         $array = [];
         foreach ($this->values as $key => $x) {
@@ -186,7 +186,7 @@ class MutableMap extends ArrayMap
     /**
      * {@inheritdoc}
      */
-    public function toSeq()
+    public function toSeq(): Seq
     {
         $array = [];
         foreach ($this->values as $key => $x) {
@@ -202,7 +202,7 @@ class MutableMap extends ArrayMap
      * @param mixed $value
      * @return void
      */
-    public function update($key, $value)
+    public function update($key, $value): void
     {
         $this->values[$key] = $value;
     }
@@ -210,7 +210,7 @@ class MutableMap extends ArrayMap
     /**
      * {@inheritdoc}
      */
-    public function values()
+    public function values(): Seq
     {
         return Seq::fromArray($this->values);
     }

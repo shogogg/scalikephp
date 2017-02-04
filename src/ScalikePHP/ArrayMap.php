@@ -29,15 +29,17 @@ class ArrayMap extends Map
      * @param string $key
      * @return bool
      */
-    public function contains($key)
+    public function contains($key): bool
     {
         return array_key_exists($key, $this->values);
     }
 
     /**
      * {@inheritdoc}
+     *
+     * @return Map
      */
-    public function filter(\Closure $f)
+    public function filter(\Closure $f): Map
     {
         $array = [];
         foreach ($this->values as $key => $x) {
@@ -50,8 +52,10 @@ class ArrayMap extends Map
 
     /**
      * {@inheritdoc}
+     *
+     * @return Map
      */
-    public function flatMap(\Closure $f)
+    public function flatMap(\Closure $f): Map
     {
         $array = [];
         foreach ($this->values as $key => $x) {
@@ -83,7 +87,7 @@ class ArrayMap extends Map
     /**
      * {@inheritdoc}
      */
-    public function get($key)
+    public function get($key): Option
     {
         return Option::fromArray($this->values, $key);
     }
@@ -107,15 +111,17 @@ class ArrayMap extends Map
     /**
      * {@inheritdoc}
      */
-    public function keys()
+    public function keys(): Seq
     {
         return Seq::fromArray(array_keys($this->values));
     }
 
     /**
      * {@inheritdoc}
+     *
+     * @return Map
      */
-    public function map(\Closure $f)
+    public function map(\Closure $f): Map
     {
         $array = [];
         foreach ($this->values as $key => $x) {
@@ -128,7 +134,7 @@ class ArrayMap extends Map
     /**
      * {@inheritdoc}
      */
-    public function mapValues(\Closure $f)
+    public function mapValues(\Closure $f): Map
     {
         $array = [];
         foreach ($this->values as $key => $x) {
@@ -210,7 +216,7 @@ class ArrayMap extends Map
     /**
      * {@inheritdoc}
      */
-    public function toSeq()
+    public function toSeq(): Seq
     {
         $array = [];
         foreach ($this->values as $key => $x) {
@@ -222,7 +228,7 @@ class ArrayMap extends Map
     /**
      * {@inheritdoc}
      */
-    public function values()
+    public function values(): Seq
     {
         return Seq::fromArray($this->values);
     }

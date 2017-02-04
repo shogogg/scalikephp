@@ -13,7 +13,7 @@ final class Some extends Option
      * @param mixed $value 値
      * @return Some
      */
-    public static function create($value)
+    public static function create($value): Some
     {
         return new static($value);
     }
@@ -31,7 +31,7 @@ final class Some extends Option
     /**
      * {@inheritdoc}
      */
-    public function filter(\Closure $f)
+    public function filter(\Closure $f): Option
     {
         return call_user_func($f, $this->values[0]) ? $this : Option::none();
     }
@@ -39,7 +39,7 @@ final class Some extends Option
     /**
      * {@inheritdoc}
      */
-    public function flatMap(\Closure $f)
+    public function flatMap(\Closure $f): Option
     {
         return call_user_func($f, $this->values[0]);
     }
@@ -87,7 +87,7 @@ final class Some extends Option
     /**
      * {@inheritdoc}
      */
-    public function isDefined()
+    public function isDefined(): bool
     {
         return true;
     }
@@ -104,7 +104,7 @@ final class Some extends Option
     /**
      * {@inheritdoc}
      */
-    public function map(\Closure $f)
+    public function map(\Closure $f): Some
     {
         return static::create(call_user_func($f, $this->values[0]));
     }
@@ -160,7 +160,7 @@ final class Some extends Option
     /**
      * {@inheritdoc}
      */
-    public function orElseCall(\Closure $f)
+    public function orElseCall(\Closure $f): Option
     {
         return $this;
     }
@@ -168,7 +168,7 @@ final class Some extends Option
     /**
      * {@inheritdoc}
      */
-    public function pick($name)
+    public function pick($name): Option
     {
         $x = $this->values[0];
         if (is_array($x) || $x instanceof \ArrayAccess) {

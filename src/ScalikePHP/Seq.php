@@ -19,7 +19,7 @@ abstract class Seq extends ScalikeTraversable
      *
      * @return Seq
      */
-    public static function emptySeq()
+    public static function emptySeq(): Seq
     {
         if (static::$empty === null) {
             static::$empty = new ArraySeq([]);
@@ -32,7 +32,7 @@ abstract class Seq extends ScalikeTraversable
      *
      * @return Seq
      */
-    public static function from()
+    public static function from(): Seq
     {
         return new ArraySeq(func_get_args());
     }
@@ -40,18 +40,18 @@ abstract class Seq extends ScalikeTraversable
     /**
      * Create a Seq instance from an array (or \Traversable)
      *
-     * @param array|\Traversable $array
+     * @param iterable|null $iterable
      * @return Seq
      * @throws \InvalidArgumentException
      */
-    public static function fromArray($array)
+    public static function fromArray(?iterable $iterable): Seq
     {
-        if ($array === null) {
+        if ($iterable === null) {
             return static::emptySeq();
-        } elseif (is_array($array)) {
-            return new ArraySeq($array);
-        } elseif ($array instanceof \Traversable) {
-            return new TraversableSeq($array);
+        } elseif (is_array($iterable)) {
+            return new ArraySeq($iterable);
+        } elseif ($iterable instanceof \Traversable) {
+            return new TraversableSeq($iterable);
         } else {
             throw new \InvalidArgumentException('Seq::fromArray() needs to array or \Traversable.');
         }
@@ -70,10 +70,10 @@ abstract class Seq extends ScalikeTraversable
     /**
      * 末尾に要素を追加する
      *
-     * @param mixed $that
+     * @param iterable $that
      * @return Seq
      */
-    abstract public function append($that);
+    abstract public function append(iterable $that): Seq;
 
     /**
      * 指定された値が含まれているかどうかを判定する
@@ -81,14 +81,14 @@ abstract class Seq extends ScalikeTraversable
      * @param mixed $elem
      * @return bool
      */
-    abstract public function contains($elem);
+    abstract public function contains($elem): bool;
 
     /**
      * 重複を排除した Seq を返す
      * 
      * @return Seq
      */
-    abstract public function distinct();
+    abstract public function distinct(): Seq;
 
     /**
      * 要素を順番に処理してたたみ込む
@@ -102,17 +102,17 @@ abstract class Seq extends ScalikeTraversable
     /**
      * 先頭に要素を追加する
      *
-     * @param mixed $that
+     * @param iterable $that
      * @return Seq
      */
-    abstract public function prepend($that);
+    abstract public function prepend(iterable $that): Seq;
 
     /**
      * 逆順にした Seq を返す
      *
      * @return Seq
      */
-    abstract public function reverse();
+    abstract public function reverse(): Seq;
 
     /**
      * 指定された関数の戻り値（または指定されたキーの値）を用いてソートされた Seq を返す
@@ -120,7 +120,7 @@ abstract class Seq extends ScalikeTraversable
      * @param string|\Closure $f
      * @return Seq
      */
-    abstract public function sortBy($f);
+    abstract public function sortBy($f): Seq;
 
     /**
      * Map に変換する
@@ -131,6 +131,6 @@ abstract class Seq extends ScalikeTraversable
      * @param string|\Closure $key
      * @return Map
      */
-    abstract public function toMap($key);
+    abstract public function toMap($key): Map;
 
 }

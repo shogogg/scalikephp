@@ -16,7 +16,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
     /**
      * {@inheritdoc}
      */
-    final public function count()
+    final public function count(): int
     {
         return $this->size();
     }
@@ -24,7 +24,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
     /**
      * {@inheritdoc}
      */
-    public function each(\Closure $f)
+    public function each(\Closure $f): void
     {
         array_walk($this->values, $f);
     }
@@ -32,7 +32,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
     /**
      * {@inheritdoc}
      */
-    public function exists(\Closure $f)
+    public function exists(\Closure $f): bool
     {
         foreach ($this->values as $value) {
             if (call_user_func($f, $value)) {
@@ -55,7 +55,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
     /**
      * {@inheritdoc}
      */
-    public function find(\Closure $f)
+    public function find(\Closure $f): Option
     {
         foreach ($this->values as $x) {
             if (call_user_func($f, $x)) {
@@ -78,7 +78,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
     /**
      * {@inheritdoc}
      */
-    public function forAll(\Closure $f)
+    public function forAll(\Closure $f): bool
     {
         foreach ($this->values as $x) {
             if (!call_user_func($f, $x)) {
@@ -91,7 +91,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
     /**
      * {@inheritdoc}
      */
-    public function getIterator()
+    public function getIterator(): \Iterator
     {
         return new \ArrayIterator($this->values);
     }
@@ -110,7 +110,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
     /**
      * {@inheritdoc}
      */
-    public function headOption()
+    public function headOption(): Option
     {
         foreach ($this->values as $x) {
             return Option::some($x);
@@ -121,7 +121,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
     /**
      * {@inheritdoc}
      */
-    public function groupBy($f)
+    public function groupBy($f): Map
     {
         $array = [];
         if (is_string($f)) {
@@ -144,7 +144,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
     /**
      * {@inheritdoc}
      */
-    public function isEmpty()
+    public function isEmpty(): bool
     {
         return $this->size() === 0;
     }
@@ -160,7 +160,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
     /**
      * {@inheritdoc}
      */
-    public function lastOption()
+    public function lastOption(): Option
     {
         return $this->takeRight(1)->headOption();
     }
@@ -171,7 +171,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
      * @param string $sep
      * @return string
      */
-    public function mkString($sep = "")
+    public function mkString($sep = ""): string
     {
         return implode($sep, $this->values);
     }
@@ -179,7 +179,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
     /**
      * {@inheritdoc}
      */
-    public function nonEmpty()
+    public function nonEmpty(): bool
     {
         return $this->size() !== 0;
     }
@@ -223,7 +223,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
     /**
      * {@inheritdoc}
      */
-    public function size()
+    public function size(): int
     {
         return count($this->values);
     }
@@ -231,7 +231,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
     /**
      * {@inheritdoc}
      */
-    public function take($n)
+    public function take($n): Seq
     {
         return Seq::fromArray(array_slice($this->toArray(), 0, $n));
     }
@@ -239,7 +239,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
     /**
      * {@inheritdoc}
      */
-    public function takeRight($n)
+    public function takeRight($n): Seq
     {
         return Seq::fromArray(array_slice($this->toArray(), 0 - $n));
     }
@@ -247,7 +247,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
     /**
      * {@inheritdoc}
      */
-    public function toArray()
+    public function toArray(): array
     {
         return $this->values;
     }
@@ -255,7 +255,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
     /**
      * {@inheritdoc}
      */
-    public function toSeq()
+    public function toSeq(): Seq
     {
         return Seq::fromArray($this->values);
     }

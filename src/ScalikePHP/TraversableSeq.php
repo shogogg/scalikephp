@@ -17,7 +17,7 @@ class TraversableSeq extends ArraySeq
     /**
      * {@inheritdoc}
      */
-    public function contains($elem)
+    public function contains($elem): bool
     {
         foreach ($this->values as $x) {
             if ($x === $elem) {
@@ -30,7 +30,7 @@ class TraversableSeq extends ArraySeq
     /**
      * {@inheritdoc}
      */
-    public function each(\Closure $f)
+    public function each(\Closure $f): void
     {
         foreach ($this->values as $x) {
             call_user_func($f, $x);
@@ -40,7 +40,7 @@ class TraversableSeq extends ArraySeq
     /**
      * {@inheritdoc}
      */
-    public function getIterator()
+    public function getIterator(): \Iterator
     {
         return $this->values instanceof \IteratorAggregate
             ? $this->values->getIterator()
@@ -58,7 +58,7 @@ class TraversableSeq extends ArraySeq
     /**
      * {@inheritdoc}
      */
-    public function map(\Closure $f)
+    public function map(\Closure $f): Seq
     {
         $array = [];
         foreach ($this->values as $x) {
@@ -70,7 +70,7 @@ class TraversableSeq extends ArraySeq
     /**
      * {@inheritdoc}
      */
-    public function size()
+    public function size(): int
     {
         return $this->values instanceof \Countable ? count($this->values) : count($this->toArray());
     }
@@ -78,7 +78,7 @@ class TraversableSeq extends ArraySeq
     /**
      * {@inheritdoc}
      */
-    public function toArray()
+    public function toArray(): array
     {
         if ($this->array === null) {
             $this->array = [];

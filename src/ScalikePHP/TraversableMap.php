@@ -20,7 +20,7 @@ class TraversableMap extends ArrayMap
      * @param string $key
      * @return bool
      */
-    public function contains($key)
+    public function contains($key): bool
     {
         return $this->values instanceof \ArrayAccess
             ? $this->values->offsetExists($key)
@@ -30,7 +30,7 @@ class TraversableMap extends ArrayMap
     /**
      * {@inheritdoc}
      */
-    public function getIterator()
+    public function getIterator(): \Iterator
     {
         return $this->values instanceof \IteratorAggregate
             ? $this->values->getIterator()
@@ -40,7 +40,7 @@ class TraversableMap extends ArrayMap
     /**
      * {@inheritdoc}
      */
-    public function toArray()
+    public function toArray(): array
     {
         if ($this->array === null) {
             $this->array = [];

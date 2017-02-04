@@ -19,7 +19,7 @@ final class None extends Option
      *
      * @return None
      */
-    public static function getInstance()
+    public static function getInstance(): None
     {
         if (static::$instance === null) {
             static::$instance = new static;
@@ -38,7 +38,7 @@ final class None extends Option
     /**
      * {@inheritdoc}
      */
-    public function filter(\Closure $callback)
+    public function filter(\Closure $callback): None
     {
         return $this;
     }
@@ -46,7 +46,7 @@ final class None extends Option
     /**
      * {@inheritdoc}
      */
-    public function flatMap(\Closure $callback)
+    public function flatMap(\Closure $callback): None
     {
         return $this;
     }
@@ -96,7 +96,7 @@ final class None extends Option
     /**
      * {@inheritdoc}
      */
-    public function isDefined()
+    public function isDefined(): bool
     {
         return false;
     }
@@ -112,7 +112,7 @@ final class None extends Option
     /**
      * {@inheritdoc}
      */
-    public function map(\Closure $callback)
+    public function map(\Closure $callback): None
     {
         return $this;
     }
@@ -168,7 +168,7 @@ final class None extends Option
     /**
      * {@inheritdoc}
      */
-    public function orElseCall(\Closure $f)
+    public function orElseCall(\Closure $f): Option
     {
         return $f();
     }
@@ -176,7 +176,7 @@ final class None extends Option
     /**
      * {@inheritdoc}
      */
-    public function pick($name)
+    public function pick($name): Option
     {
         return $this;
     }

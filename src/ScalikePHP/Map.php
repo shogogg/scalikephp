@@ -29,7 +29,7 @@ abstract class Map extends ScalikeTraversable
      *
      * @return Map
      */
-    public static function emptyMap()
+    public static function emptyMap(): Map
     {
         if (static::$empty === null) {
             static::$empty = new ArrayMap([]);
@@ -40,11 +40,11 @@ abstract class Map extends ScalikeTraversable
     /**
      * Create a Map instance from an array (or \Traversable)
      *
-     * @param array|\Traversable $array
+     * @param iterable|null $array
      * @return Map
      * @throws \InvalidArgumentException
      */
-    public static function from($array)
+    public static function from(?iterable $array): Map
     {
         if ($array === null) {
             return static::emptyMap();
@@ -64,7 +64,7 @@ abstract class Map extends ScalikeTraversable
      * @return MutableMap
      * @throws \InvalidArgumentException
      */
-    public static function mutable($array)
+    public static function mutable($array): MutableMap
     {
         if ($array === null) {
             return new MutableMap([]);
@@ -90,7 +90,7 @@ abstract class Map extends ScalikeTraversable
      * @param string $key
      * @return bool
      */
-    abstract public function contains($key);
+    abstract public function contains($key): bool;
 
     /**
      * 要素を順番に処理してたたみ込む
@@ -107,7 +107,7 @@ abstract class Map extends ScalikeTraversable
      * @param string $key
      * @return Option
      */
-    abstract public function get($key);
+    abstract public function get($key): Option;
 
     /**
      * 要素を取得する, 要素が存在しない場合は $default を返す
@@ -123,7 +123,7 @@ abstract class Map extends ScalikeTraversable
      *
      * @return Seq
      */
-    abstract public function keys();
+    abstract public function keys(): Seq;
 
     /**
      * 値を変換した Map を返す
@@ -131,13 +131,13 @@ abstract class Map extends ScalikeTraversable
      * @param \Closure $f
      * @return Map
      */
-    abstract public function mapValues(\Closure $f);
+    abstract public function mapValues(\Closure $f): Map;
 
     /**
      * 値の一覧を Seq として取得する
      *
      * @return Seq
      */
-    abstract public function values();
+    abstract public function values(): Seq;
 
 }

@@ -14,7 +14,7 @@ abstract class Option extends ScalikeTraversable
      * @param mixed $none $value を None とする判定に使用する値（デフォルト: null）
      * @return Option 与えられた値が $none に等しい場合に None, そうでない場合は Some
      */
-    final public static function from($value, $none = null)
+    final public static function from($value, $none = null): Option
     {
         return $value === $none ? static::none() : static::some($value);
     }
@@ -27,7 +27,7 @@ abstract class Option extends ScalikeTraversable
      * @param mixed $none $array から見つかった要素を None とする判定に使用する値（デフォルト: null）
      * @return Option $array に $key が含まれないか、その値が $none に等しい場合に None, そうでない場合は Some
      */
-    final public static function fromArray($array, $key, $none = null)
+    final public static function fromArray($array, $key, $none = null): Option
     {
         return isset($array[$key]) ? static::from($array[$key], $none) : static::none();
     }
@@ -36,9 +36,9 @@ abstract class Option extends ScalikeTraversable
      * Get a Some instance
      *
      * @param mixed $value
-     * @return Some
+     * @return Option
      */
-    final public static function some($value)
+    final public static function some($value): Option
     {
         return Some::create($value);
     }
@@ -46,9 +46,9 @@ abstract class Option extends ScalikeTraversable
     /**
      * Get a None instance
      *
-     * @return None
+     * @return Option
      */
-    final public static function none()
+    final public static function none(): Option
     {
         return None::getInstance();
     }
@@ -99,7 +99,7 @@ abstract class Option extends ScalikeTraversable
      *
      * @return bool
      */
-    abstract public function isDefined();
+    abstract public function isDefined(): bool;
 
     /**
      * Some の場合は自身を返し, None の場合は引数の値を返す
@@ -122,7 +122,7 @@ abstract class Option extends ScalikeTraversable
      * @param \Closure $f
      * @return Option
      */
-    abstract public function orElseCall(\Closure $f);
+    abstract public function orElseCall(\Closure $f): Option;
 
     /**
      * 値が配列またはオブジェクトの場合に、与えられたキーの値を取得する
@@ -132,6 +132,6 @@ abstract class Option extends ScalikeTraversable
      * @param string $name
      * @return Option
      */
-    abstract public function pick($name);
+    abstract public function pick($name): Option;
 
 }

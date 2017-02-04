@@ -13,7 +13,7 @@ interface ScalikeTraversableInterface extends \ArrayAccess, \Countable, \Iterato
      * @param \Closure $f 関数
      * @return void
      */
-    public function each(\Closure $f);
+    public function each(\Closure $f): void;
 
     /**
      * 条件にマッチする（関数が true を返す）要素の有無を判定する
@@ -21,7 +21,7 @@ interface ScalikeTraversableInterface extends \ArrayAccess, \Countable, \Iterato
      * @param \Closure $f 真偽値を返す関数
      * @return bool 条件を満たす要素がある場合に true, そうでない場合は false
      */
-    public function exists(\Closure $f);
+    public function exists(\Closure $f): bool;
 
     /**
      * 条件にマッチする（関数が true を返す）要素のみを抽出する
@@ -45,7 +45,7 @@ interface ScalikeTraversableInterface extends \ArrayAccess, \Countable, \Iterato
      * @param \Closure $f 真偽値を返す関数
      * @return Option 最初に見つかった要素, 見つからなかった場合は None
      */
-    public function find(\Closure $f);
+    public function find(\Closure $f): Option;
 
     /**
      * 要素を平坦化して返す
@@ -68,7 +68,7 @@ interface ScalikeTraversableInterface extends \ArrayAccess, \Countable, \Iterato
      * @param \Closure $f 真偽値を返す関数
      * @return bool 全ての要素が条件を満たす場合に true, そうでない場合は false
      */
-    public function forAll(\Closure $f);
+    public function forAll(\Closure $f): bool;
 
     /**
      * 要素を指定された関数の戻り値でグループ化して返す
@@ -79,7 +79,7 @@ interface ScalikeTraversableInterface extends \ArrayAccess, \Countable, \Iterato
      * @param string|\Closure $f
      * @return Map
      */
-    public function groupBy($f);
+    public function groupBy($f): Map;
 
     /**
      * 値の先頭要素を返す, 要素がない場合は例外を投げる
@@ -93,14 +93,14 @@ interface ScalikeTraversableInterface extends \ArrayAccess, \Countable, \Iterato
      *
      * @return Option 先頭の要素, 要素がない場合は None
      */
-    public function headOption();
+    public function headOption(): Option;
 
     /**
      * 値が空かどうかを判定する
      *
      * @return bool 値が空の場合に true, そうでない場合に false
      */
-    public function isEmpty();
+    public function isEmpty(): bool;
 
     /**
      * 値の末尾(最終)要素を返す, 要素がない場合は例外を投げる
@@ -114,7 +114,7 @@ interface ScalikeTraversableInterface extends \ArrayAccess, \Countable, \Iterato
      *
      * @return Option 末尾の要素, 要素がない場合は None
      */
-    public function lastOption();
+    public function lastOption(): Option;
 
     /**
      * 値の全要素に対して関数を適用し、その戻り値を返す
@@ -160,21 +160,21 @@ interface ScalikeTraversableInterface extends \ArrayAccess, \Countable, \Iterato
      * @param string $sep
      * @return string
      */
-    public function mkString($sep = "");
+    public function mkString($sep = ""): string;
 
     /**
      * 値が空でないかどうかを判定する
      *
      * @return bool 値が空でない場合に true, そうでない場合に false
      */
-    public function nonEmpty();
+    public function nonEmpty(): bool;
 
     /**
      * 値の要素数を返す
      *
      * @return int 値の要素数
      */
-    public function size();
+    public function size(): int;
 
     /**
      * 値の先頭 n 個の要素を返す
@@ -182,7 +182,7 @@ interface ScalikeTraversableInterface extends \ArrayAccess, \Countable, \Iterato
      * @param int $n 取得する要素の数
      * @return Seq
      */
-    public function take($n);
+    public function take($n): Seq;
 
     /**
      * 値の末尾 n 個の要素を返す
@@ -190,20 +190,20 @@ interface ScalikeTraversableInterface extends \ArrayAccess, \Countable, \Iterato
      * @param int $n 取得する要素の数
      * @return Seq
      */
-    public function takeRight($n);
+    public function takeRight($n): Seq;
 
     /**
      * 配列に変換する
      *
      * @return array
      */
-    public function toArray();
+    public function toArray(): array;
 
     /**
      * Seq に変換する
      *
      * @return Seq
      */
-    public function toSeq();
+    public function toSeq(): Seq;
 
 }

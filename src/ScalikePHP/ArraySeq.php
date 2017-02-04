@@ -10,7 +10,7 @@ class ArraySeq extends Seq
     /**
      * {@inheritdoc}
      */
-    public function append($that)
+    public function append(iterable $that): Seq
     {
         if (is_array($that)) {
             return new ArraySeq(array_merge($this->toArray(), $that));
@@ -26,7 +26,7 @@ class ArraySeq extends Seq
     /**
      * {@inheritdoc}
      */
-    public function contains($elem)
+    public function contains($elem): bool
     {
         return in_array($elem, $this->values, true);
     }
@@ -34,7 +34,7 @@ class ArraySeq extends Seq
     /**
      * {@inheritdoc}
      */
-    public function distinct()
+    public function distinct(): Seq
     {
         return new ArraySeq(array_values(array_unique($this->toArray())));
     }
@@ -42,7 +42,7 @@ class ArraySeq extends Seq
     /**
      * {@inheritdoc}
      */
-    public function filter(\Closure $f)
+    public function filter(\Closure $f): Seq
     {
         $values = [];
         foreach ($this->values as $x) {
@@ -56,7 +56,7 @@ class ArraySeq extends Seq
     /**
      * {@inheritdoc}
      */
-    public function flatMap(\Closure $f)
+    public function flatMap(\Closure $f): Seq
     {
         $values = [];
         foreach ($this->values as $x) {
@@ -95,8 +95,10 @@ class ArraySeq extends Seq
 
     /**
      * {@inheritdoc}
+     *
+     * @return Seq
      */
-    public function map(\Closure $f)
+    public function map(\Closure $f): Seq
     {
         return new ArraySeq(array_map($f, $this->values));
     }
@@ -166,7 +168,7 @@ class ArraySeq extends Seq
     /**
      * {@inheritdoc}
      */
-    public function prepend($that)
+    public function prepend(iterable $that): Seq
     {
         if (is_array($that)) {
             return new ArraySeq(array_merge($that, $this->toArray()));
@@ -182,7 +184,7 @@ class ArraySeq extends Seq
     /**
      * {@inheritdoc}
      */
-    public function reverse()
+    public function reverse(): Seq
     {
         return new ArraySeq(array_reverse($this->toArray()));
     }
@@ -190,7 +192,7 @@ class ArraySeq extends Seq
     /**
      * {@inheritdoc}
      */
-    public function sortBy($f)
+    public function sortBy($f): Seq
     {
         $array_for_sort = [];
         if (is_string($f)) {
@@ -213,7 +215,7 @@ class ArraySeq extends Seq
     /**
      * {@inheritdoc}
      */
-    public function toMap($key)
+    public function toMap($key): Map
     {
         $array = [];
         if (is_string($key)) {
@@ -236,7 +238,7 @@ class ArraySeq extends Seq
     /**
      * {@inheritdoc}
      */
-    public function toSeq()
+    public function toSeq(): Seq
     {
         return $this;
     }
