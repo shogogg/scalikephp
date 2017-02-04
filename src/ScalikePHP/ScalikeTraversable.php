@@ -35,7 +35,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
     public function exists(\Closure $f): bool
     {
         foreach ($this->values as $value) {
-            if (call_user_func($f, $value)) {
+            if ($f($value)) {
                 return true;
             }
         }
@@ -48,7 +48,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
     public function filterNot(\Closure $f)
     {
         return $this->filter(function ($x) use ($f) {
-            return !call_user_func($f, $x);
+            return !$f($x);
         });
     }
 
@@ -58,7 +58,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
     public function find(\Closure $f): Option
     {
         foreach ($this->values as $x) {
-            if (call_user_func($f, $x)) {
+            if ($f($x)) {
                 return Option::some($x);
             }
         }
@@ -81,7 +81,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
     public function forAll(\Closure $f): bool
     {
         foreach ($this->values as $x) {
-            if (!call_user_func($f, $x)) {
+            if (!$f($x)) {
                 return false;
             }
         }
@@ -131,7 +131,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
             }
         } elseif (is_callable($f)) {
             foreach ($this->values as $x) {
-                $k = call_user_func($f, $x);
+                $k = $f($x);
                 $array[$k] = isset($array[$k]) ? $array[$k]->append([$x]) : Seq::from($x);
             }
         } else {

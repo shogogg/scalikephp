@@ -33,7 +33,7 @@ final class Some extends Option
      */
     public function filter(\Closure $f): Option
     {
-        return call_user_func($f, $this->values[0]) ? $this : Option::none();
+        return $f($this->values[0]) ? $this : Option::none();
     }
 
     /**
@@ -41,7 +41,7 @@ final class Some extends Option
      */
     public function flatMap(\Closure $f): Option
     {
-        return call_user_func($f, $this->values[0]);
+        return $f($this->values[0]);
     }
 
     /**
@@ -106,7 +106,7 @@ final class Some extends Option
      */
     public function map(\Closure $f): Some
     {
-        return static::create(call_user_func($f, $this->values[0]));
+        return static::create($f($this->values[0]));
     }
 
     /**

@@ -46,7 +46,7 @@ class ArraySeq extends Seq
     {
         $values = [];
         foreach ($this->values as $x) {
-            if (call_user_func($f, $x)) {
+            if ($f($x)) {
                 $values[] = $x;
             }
         }
@@ -60,7 +60,7 @@ class ArraySeq extends Seq
     {
         $values = [];
         foreach ($this->values as $x) {
-            $result = call_user_func($f, $x);
+            $result = $f($x);
             if (is_array($result)) {
                 $values = array_merge($values, $result);
             } elseif ($result instanceof ScalikeTraversable || method_exists($result, 'toArray')) {
@@ -80,7 +80,7 @@ class ArraySeq extends Seq
     public function fold($z, \Closure $f)
     {
         foreach ($this->values as $x) {
-            $z = call_user_func($f, $z, $x);
+            $z = $f($z, $x);
         }
         return $z;
     }
@@ -125,7 +125,7 @@ class ArraySeq extends Seq
         $max = null;
         $res = null;
         foreach ($this->values as $value) {
-            $x = call_user_func($f, $value);
+            $x = $f($value);
             if ($max === null || $max < $x) {
                 $max = $x;
                 $res = $value;
@@ -156,7 +156,7 @@ class ArraySeq extends Seq
         $min = null;
         $res = null;
         foreach ($this->values as $value) {
-            $x = call_user_func($f, $value);
+            $x = $f($value);
             if ($min === null || $min > $x) {
                 $min = $x;
                 $res = $value;
@@ -225,7 +225,7 @@ class ArraySeq extends Seq
             }
         } elseif (is_callable($key)) {
             foreach ($this->values as $x) {
-                $k = call_user_func($key, $x);
+                $k = $key($x);
                 $array[$k] = $x;
             }
         } else {

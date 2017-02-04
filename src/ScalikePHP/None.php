@@ -64,7 +64,7 @@ final class None extends Option
      */
     public function getOrCall(\Closure $callback)
     {
-        return call_user_func($callback);
+        return $callback();
     }
 
     /**

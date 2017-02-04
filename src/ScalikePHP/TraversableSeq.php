@@ -33,7 +33,7 @@ class TraversableSeq extends ArraySeq
     public function each(\Closure $f): void
     {
         foreach ($this->values as $x) {
-            call_user_func($f, $x);
+            $f($x);
         }
     }
 
@@ -62,7 +62,7 @@ class TraversableSeq extends ArraySeq
     {
         $array = [];
         foreach ($this->values as $x) {
-            $array[] = call_user_func($f, $x);
+            $array[] = $f($x);
         }
         return new ArraySeq($array);
     }

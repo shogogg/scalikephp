@@ -52,7 +52,7 @@ class MutableMap extends ArrayMap
     {
         $array = [];
         foreach ($this->values as $key => $x) {
-            if (call_user_func($f, $x, $key)) {
+            if ($f($x, $key)) {
                 $array[$key] = $x;
             }
         }
@@ -66,7 +66,7 @@ class MutableMap extends ArrayMap
     {
         $array = [];
         foreach ($this->values as $key => $x) {
-            $result = call_user_func($f, $x, $key);
+            $result = $f($x, $key);
             if (is_array($result)) {
                 $array = $result + $array;
             } elseif ($result instanceof ScalikeTraversable) {
@@ -86,7 +86,7 @@ class MutableMap extends ArrayMap
     public function fold($z, \Closure $f)
     {
         foreach ($this->values as $key => $x) {
-            $z = call_user_func($f, $z, $x);
+            $z = $f($z, $x);
         }
         return $z;
     }
@@ -119,7 +119,7 @@ class MutableMap extends ArrayMap
     public function getOrElseUpdate($key, $op)
     {
         return $this->get($key)->getOrCall(function () use ($key, $op) {
-            $value = is_string($op) ? $op : (is_callable($op) ? call_user_func($op) : $op);
+            $value = is_string($op) ? $op : ($op instanceof \Closure ? $op() : $op);
             $this->update($key, $value);
             return $value;
         });
@@ -132,7 +132,7 @@ class MutableMap extends ArrayMap
     {
         $array = [];
         foreach ($this->values as $key => $x) {
-            list($newKey, $newValue) = call_user_func($f, $x, $key);
+            list($newKey, $newValue) = $f($x, $key);
             $array[$newKey] = $newValue;
         }
         return Map::mutable($array);
@@ -145,7 +145,7 @@ class MutableMap extends ArrayMap
     {
         $array = [];
         foreach ($this->values as $key => $x) {
-            $array[$key] = call_user_func($f, $x);
+            $array[$key] = $f($x);
         }
         return Map::mutable($array);
     }

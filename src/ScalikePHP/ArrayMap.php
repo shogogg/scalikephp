@@ -43,7 +43,7 @@ class ArrayMap extends Map
     {
         $array = [];
         foreach ($this->values as $key => $x) {
-            if (call_user_func($f, $x, $key)) {
+            if ($f($x, $key)) {
                 $array[$key] = $x;
             }
         }
@@ -59,7 +59,7 @@ class ArrayMap extends Map
     {
         $array = [];
         foreach ($this->values as $key => $x) {
-            $result = call_user_func($f, $x, $key);
+            $result = $f($x, $key);
             if (is_array($result)) {
                 $array = $result + $array;
             } elseif ($result instanceof ScalikeTraversable) {
@@ -79,7 +79,7 @@ class ArrayMap extends Map
     public function fold($z, \Closure $f)
     {
         foreach ($this->values as $key => $x) {
-            $z = call_user_func($f, $z, $x);
+            $z = $f($z, $x);
         }
         return $z;
     }
@@ -125,7 +125,7 @@ class ArrayMap extends Map
     {
         $array = [];
         foreach ($this->values as $key => $x) {
-            list($newKey, $newValue) = call_user_func($f, $x, $key);
+            list($newKey, $newValue) = $f($x, $key);
             $array[$newKey] = $newValue;
         }
         return Map::from($array);
@@ -138,7 +138,7 @@ class ArrayMap extends Map
     {
         $array = [];
         foreach ($this->values as $key => $x) {
-            $array[$key] = call_user_func($f, $x);
+            $array[$key] = $f($x);
         }
         return Map::from($array);
     }
@@ -169,7 +169,7 @@ class ArrayMap extends Map
         $max = null;
         $res = null;
         foreach ($this->values as $key => $value) {
-            $x = call_user_func($f, $value, $key);
+            $x = $f($value, $key);
             if ($max === null || $max < $x) {
                 $max = $x;
                 $res = [$key, $value];
@@ -204,7 +204,7 @@ class ArrayMap extends Map
         $min = null;
         $res = null;
         foreach ($this->values as $key => $value) {
-            $x = call_user_func($f, $value, $key);
+            $x = $f($value, $key);
             if ($min === null || $min > $x) {
                 $min = $x;
                 $res = [$key, $value];
