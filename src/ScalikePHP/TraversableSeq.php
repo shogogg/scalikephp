@@ -15,7 +15,7 @@ class TraversableSeq extends ArraySeq
     private $array = null;
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function contains($elem): bool
     {
@@ -28,7 +28,7 @@ class TraversableSeq extends ArraySeq
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function each(\Closure $f): void
     {
@@ -38,7 +38,7 @@ class TraversableSeq extends ArraySeq
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getIterator(): \Iterator
     {
@@ -48,7 +48,7 @@ class TraversableSeq extends ArraySeq
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     function jsonSerialize()
     {
@@ -56,7 +56,7 @@ class TraversableSeq extends ArraySeq
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function map(\Closure $f): Seq
     {
@@ -68,7 +68,7 @@ class TraversableSeq extends ArraySeq
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function size(): int
     {
@@ -76,7 +76,7 @@ class TraversableSeq extends ArraySeq
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function toArray(): array
     {

@@ -29,7 +29,7 @@ class MutableMap extends ArrayMap
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function append($keyOrArray, $value = null): Map
     {
@@ -46,7 +46,7 @@ class MutableMap extends ArrayMap
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function filter(\Closure $f): Map
     {
@@ -60,7 +60,7 @@ class MutableMap extends ArrayMap
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function flatMap(\Closure $f): Map
     {
@@ -81,7 +81,7 @@ class MutableMap extends ArrayMap
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function fold($z, \Closure $f)
     {
@@ -92,7 +92,7 @@ class MutableMap extends ArrayMap
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function get($key): Option
     {
@@ -100,7 +100,7 @@ class MutableMap extends ArrayMap
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getOrElse($key, $default)
     {
@@ -126,7 +126,7 @@ class MutableMap extends ArrayMap
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function map(\Closure $f): Map
     {
@@ -139,7 +139,7 @@ class MutableMap extends ArrayMap
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function mapValues(\Closure $f): Map
     {
@@ -151,7 +151,7 @@ class MutableMap extends ArrayMap
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function offsetSet($offset, $x)
     {
@@ -159,7 +159,7 @@ class MutableMap extends ArrayMap
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function offsetUnset($offset)
     {
@@ -184,7 +184,7 @@ class MutableMap extends ArrayMap
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function toSeq(): Seq
     {
@@ -208,7 +208,7 @@ class MutableMap extends ArrayMap
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function values(): Seq
     {

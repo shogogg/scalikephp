@@ -8,7 +8,7 @@ class ArraySeq extends Seq
 {
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function append(iterable $that): Seq
     {
@@ -24,7 +24,7 @@ class ArraySeq extends Seq
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function contains($elem): bool
     {
@@ -32,7 +32,7 @@ class ArraySeq extends Seq
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function distinct(): Seq
     {
@@ -40,7 +40,7 @@ class ArraySeq extends Seq
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function filter(\Closure $f): Seq
     {
@@ -54,7 +54,7 @@ class ArraySeq extends Seq
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function flatMap(\Closure $f): Seq
     {
@@ -75,7 +75,7 @@ class ArraySeq extends Seq
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function fold($z, \Closure $f)
     {
@@ -86,7 +86,7 @@ class ArraySeq extends Seq
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function jsonSerialize()
     {
@@ -94,7 +94,7 @@ class ArraySeq extends Seq
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      *
      * @return Seq
      */
@@ -104,7 +104,7 @@ class ArraySeq extends Seq
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function max()
     {
@@ -115,7 +115,7 @@ class ArraySeq extends Seq
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function maxBy(\Closure $f)
     {
@@ -135,7 +135,7 @@ class ArraySeq extends Seq
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function min()
     {
@@ -146,7 +146,7 @@ class ArraySeq extends Seq
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function minBy(\Closure $f)
     {
@@ -166,7 +166,7 @@ class ArraySeq extends Seq
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function prepend(iterable $that): Seq
     {
@@ -182,7 +182,7 @@ class ArraySeq extends Seq
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function reverse(): Seq
     {
@@ -190,7 +190,7 @@ class ArraySeq extends Seq
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function sortBy($f): Seq
     {
@@ -213,7 +213,7 @@ class ArraySeq extends Seq
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function toMap($key): Map
     {
@@ -236,7 +236,7 @@ class ArraySeq extends Seq
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function toSeq(): Seq
     {

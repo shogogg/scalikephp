@@ -14,7 +14,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
     protected $values;
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     final public function count(): int
     {
@@ -22,7 +22,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function each(\Closure $f): void
     {
@@ -30,7 +30,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function exists(\Closure $f): bool
     {
@@ -43,7 +43,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function filterNot(\Closure $f)
     {
@@ -53,7 +53,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function find(\Closure $f): Option
     {
@@ -66,7 +66,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function flatten()
     {
@@ -76,7 +76,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function forAll(\Closure $f): bool
     {
@@ -89,7 +89,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getIterator(): \Iterator
     {
@@ -97,7 +97,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function head()
     {
@@ -108,7 +108,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function headOption(): Option
     {
@@ -119,7 +119,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function groupBy($f): Map
     {
@@ -142,7 +142,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function isEmpty(): bool
     {
@@ -150,7 +150,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function last()
     {
@@ -158,7 +158,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function lastOption(): Option
     {
@@ -177,7 +177,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function nonEmpty(): bool
     {
@@ -185,7 +185,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function offsetExists($offset)
     {
@@ -193,7 +193,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function offsetGet($offset)
     {
@@ -205,7 +205,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function offsetSet($offset, $x)
     {
@@ -213,7 +213,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function offsetUnset($offset)
     {
@@ -221,7 +221,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function size(): int
     {
@@ -229,7 +229,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function take($n): Seq
     {
@@ -237,7 +237,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function takeRight($n): Seq
     {
@@ -245,7 +245,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function toArray(): array
     {
@@ -253,7 +253,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function toSeq(): Seq
     {

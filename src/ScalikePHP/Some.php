@@ -29,7 +29,7 @@ final class Some extends Option
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function filter(\Closure $f): Option
     {
@@ -37,7 +37,7 @@ final class Some extends Option
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function flatMap(\Closure $f): Option
     {
@@ -45,7 +45,7 @@ final class Some extends Option
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function get()
     {
@@ -53,7 +53,7 @@ final class Some extends Option
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getOrCall(\Closure $f)
     {
@@ -61,7 +61,7 @@ final class Some extends Option
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getOrElse($default)
     {
@@ -69,7 +69,7 @@ final class Some extends Option
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getOrNull()
     {
@@ -77,7 +77,7 @@ final class Some extends Option
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getOrThrow(\Exception $exception)
     {
@@ -85,7 +85,7 @@ final class Some extends Option
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function isDefined(): bool
     {
@@ -93,7 +93,7 @@ final class Some extends Option
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function jsonSerialize()
     {
@@ -102,7 +102,7 @@ final class Some extends Option
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function map(\Closure $f): Some
     {
@@ -110,7 +110,7 @@ final class Some extends Option
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function max()
     {
@@ -118,7 +118,7 @@ final class Some extends Option
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function maxBy(\Closure $f)
     {
@@ -126,7 +126,7 @@ final class Some extends Option
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function min()
     {
@@ -134,7 +134,7 @@ final class Some extends Option
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function minBy(\Closure $f)
     {
@@ -142,7 +142,7 @@ final class Some extends Option
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function orElse(Option $b)
     {
@@ -150,7 +150,7 @@ final class Some extends Option
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function orNull()
     {
@@ -158,7 +158,7 @@ final class Some extends Option
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function orElseCall(\Closure $f): Option
     {
@@ -166,7 +166,7 @@ final class Some extends Option
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function pick($name): Option
     {

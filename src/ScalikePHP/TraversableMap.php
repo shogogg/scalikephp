@@ -28,7 +28,7 @@ class TraversableMap extends ArrayMap
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getIterator(): \Iterator
     {
@@ -38,7 +38,7 @@ class TraversableMap extends ArrayMap
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function toArray(): array
     {

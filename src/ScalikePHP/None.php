@@ -36,7 +36,7 @@ final class None extends Option
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function filter(\Closure $callback): None
     {
@@ -44,7 +44,7 @@ final class None extends Option
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function flatMap(\Closure $callback): None
     {
@@ -52,7 +52,7 @@ final class None extends Option
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function get()
     {
@@ -60,7 +60,7 @@ final class None extends Option
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getOrCall(\Closure $callback)
     {
@@ -68,7 +68,7 @@ final class None extends Option
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getOrElse($default)
     {
@@ -76,7 +76,7 @@ final class None extends Option
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getOrNull()
     {
@@ -84,7 +84,7 @@ final class None extends Option
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      *
      * @return mixed
      */
@@ -94,7 +94,7 @@ final class None extends Option
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function isDefined(): bool
     {
@@ -102,7 +102,7 @@ final class None extends Option
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function jsonSerialize()
     {
@@ -110,7 +110,7 @@ final class None extends Option
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function map(\Closure $callback): None
     {
@@ -118,7 +118,7 @@ final class None extends Option
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function max()
     {
@@ -126,7 +126,7 @@ final class None extends Option
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function maxBy(\Closure $f)
     {
@@ -134,7 +134,7 @@ final class None extends Option
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function min()
     {
@@ -142,7 +142,7 @@ final class None extends Option
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function minBy(\Closure $f)
     {
@@ -150,7 +150,7 @@ final class None extends Option
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function orElse(Option $b)
     {
@@ -158,7 +158,7 @@ final class None extends Option
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function orNull()
     {
@@ -166,7 +166,7 @@ final class None extends Option
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function orElseCall(\Closure $f): Option
     {
@@ -174,7 +174,7 @@ final class None extends Option
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function pick($name): Option
     {

@@ -8,7 +8,7 @@ class ArrayMap extends Map
 {
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function append($keyOrArray, $value = null)
     {
@@ -35,7 +35,7 @@ class ArrayMap extends Map
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      *
      * @return Map
      */
@@ -51,7 +51,7 @@ class ArrayMap extends Map
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      *
      * @return Map
      */
@@ -74,7 +74,7 @@ class ArrayMap extends Map
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function fold($z, \Closure $f)
     {
@@ -85,7 +85,7 @@ class ArrayMap extends Map
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function get($key): Option
     {
@@ -93,7 +93,7 @@ class ArrayMap extends Map
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getOrElse($key, $default)
     {
@@ -101,7 +101,7 @@ class ArrayMap extends Map
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function jsonSerialize()
     {
@@ -109,7 +109,7 @@ class ArrayMap extends Map
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function keys(): Seq
     {
@@ -117,7 +117,7 @@ class ArrayMap extends Map
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      *
      * @return Map
      */
@@ -132,7 +132,7 @@ class ArrayMap extends Map
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function mapValues(\Closure $f): Map
     {
@@ -144,7 +144,7 @@ class ArrayMap extends Map
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      *
      * Scala 同様, 値ではなくキーが最大となる要素（キーと値のペア）を返す.
      */
@@ -157,7 +157,7 @@ class ArrayMap extends Map
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      *
      * Scala 同様, 値ではなく要素（キーと値のペアを）返す.
      */
@@ -179,7 +179,7 @@ class ArrayMap extends Map
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      *
      * Scala 同様, 値ではなくキーが最小となる要素（キーと値のペア）を返す.
      */
@@ -192,7 +192,7 @@ class ArrayMap extends Map
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      *
      * Scala 同様, 値ではなく要素（キーと値のペアを）返す.
      */
@@ -214,7 +214,7 @@ class ArrayMap extends Map
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function toSeq(): Seq
     {
@@ -226,7 +226,7 @@ class ArrayMap extends Map
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function values(): Seq
     {
