@@ -53,6 +53,8 @@ abstract class Option extends ScalikeTraversable
         return None::getInstance();
     }
 
+
+
     /**
      * 値を返す, 値を持たない場合は例外を投げる
      *
@@ -62,28 +64,21 @@ abstract class Option extends ScalikeTraversable
     abstract public function get();
 
     /**
-     * 値を返す, 値を持たない場合は関数を実行し、その戻り値を返す
+     * 値を返す, 値を持たない場合は関数を実行し、その戻り値を返す.
      *
      * @param \Closure $f デフォルト値を返す関数
      * @return mixed
+     * @deprecated Use `getOrElse`
      */
     abstract public function getOrCall(\Closure $f);
 
     /**
-     * 値を返す, 値を持たない場合は $default の値を返す
+     * 値を返す, 値を持たない場合は $default の戻り値を返す.
      *
-     * @param mixed $default デフォルト値
+     * @param \Closure $default デフォルト値を返す関数
      * @return mixed
      */
-    abstract public function getOrElse($default);
-
-    /**
-     * 値を返す, 値を持たない場合は null を返す
-     *
-     * @return mixed
-     * @deprecated Use `orNull`.
-     */
-    abstract public function getOrNull();
+    abstract public function getOrElse(\Closure $default);
 
     /**
      * 値を返す, 値を持たない場合は $exception を投げる
@@ -91,6 +86,7 @@ abstract class Option extends ScalikeTraversable
      * @param \Exception $exception
      * @return mixed
      * @throws \Exception
+     * @deprecated Use `getOrElse`
      */
     abstract public function getOrThrow(\Exception $exception);
 

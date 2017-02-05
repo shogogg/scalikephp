@@ -30,11 +30,12 @@ abstract class Seq extends ScalikeTraversable
     /**
      * Create a Seq instance from arguments
      *
+     * @param mixed[] $items
      * @return Seq
      */
-    public static function from(): Seq
+    public static function from(... $items): Seq
     {
-        return new ArraySeq(func_get_args());
+        return new IterableSeq($items);
     }
 
     /**
@@ -48,23 +49,11 @@ abstract class Seq extends ScalikeTraversable
     {
         if ($iterable === null) {
             return static::emptySeq();
-        } elseif (is_array($iterable)) {
-            return new ArraySeq($iterable);
-        } elseif ($iterable instanceof \Traversable) {
-            return new TraversableSeq($iterable);
+        } elseif (is_iterable($iterable)) {
+            return new IterableSeq($iterable);
         } else {
-            throw new \InvalidArgumentException('Seq::fromArray() needs to array or \Traversable.');
+            throw new \InvalidArgumentException("Seq::fromArray() needs to iterable");
         }
-    }
-
-    /**
-     * Constructor
-     *
-     * @param array|\Traversable $values
-     */
-    public function __construct($values)
-    {
-        $this->values = is_array($values) ? array_values($values) : $values;
     }
 
     /**

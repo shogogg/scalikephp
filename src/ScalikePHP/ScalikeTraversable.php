@@ -8,10 +8,28 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
 {
 
     /**
-     * 値
-     * @var array|\Traversable
+     * 値.
+     *
+     * @var iterable
      */
     protected $values;
+
+    /**
+     * 値.
+     *
+     * @var array
+     */
+    protected $array = null;
+
+    /**
+     * Constructor.
+     *
+     * @param iterable $values
+     */
+    protected function __construct(iterable $values)
+    {
+        $this->values = $values;
+    }
 
     /**
      * @inheritdoc
@@ -26,7 +44,9 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
      */
     public function each(\Closure $f): void
     {
-        array_walk($this->values, $f);
+        foreach ($this->values as $value) {
+            $f($value);
+        }
     }
 
     /**
@@ -89,11 +109,23 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
     }
 
     /**
+     * Get values as generator.
+     *
+     * @return \Generator
+     */
+    protected function getGenerator(): \Generator
+    {
+        foreach ($this->values as $value) {
+            yield $value;
+        }
+    }
+
+    /**
      * @inheritdoc
      */
     public function getIterator(): \Iterator
     {
-        return new \ArrayIterator($this->values);
+        return $this->values instanceof \Iterator ? $this->values : $this->getGenerator();
     }
 
     /**
@@ -125,18 +157,20 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
     {
         $array = [];
         if (is_string($f)) {
-            foreach ($this->values as $x) {
-                $k = Option::from($x)->pick($f)->getOrThrow(new \RuntimeException("Undefined index {$f}"));
-                $array[$k] = isset($array[$k]) ? $array[$k]->append([$x]) : Seq::from($x);
-            }
-        } elseif (is_callable($f)) {
-            foreach ($this->values as $x) {
-                $k = $f($x);
-                $array[$k] = isset($array[$k]) ? $array[$k]->append([$x]) : Seq::from($x);
-            }
+            $key = function ($x) use ($f) {
+                return Option::from($x)->pick($f)->getOrCall(function () use ($f): void {
+                    throw new \RuntimeException("Undefined index {$f}");
+                });
+            };
+        } elseif ($f instanceof \Closure) {
+            $key = $f;
         } else {
             $type = gettype($f);
             throw new \InvalidArgumentException("Seq::toMap() needs a string or \\Closure. {$type} given.");
+        }
+        foreach ($this->values as $x) {
+            $k = $key($x);
+            $array[$k] = isset($array[$k]) ? $array[$k]->append([$x]) : Seq::from($x);
         }
         return Map::from($array);
     }
@@ -171,9 +205,9 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
      * @param string $sep
      * @return string
      */
-    public function mkString($sep = ""): string
+    public function mkString(string $sep = ""): string
     {
-        return implode($sep, $this->values);
+        return implode($sep, $this->toArray());
     }
 
     /**
@@ -249,7 +283,17 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
      */
     public function toArray(): array
     {
-        return $this->values;
+        if ($this->array === null) {
+            if (is_array($this->values)) {
+                $this->array = $this->values;
+            } else {
+                $this->array = [];
+                foreach ($this->values as $value) {
+                    $this->array[] = $value;
+                }
+            }
+        }
+        return $this->array;
     }
 
     /**

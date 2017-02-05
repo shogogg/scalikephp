@@ -23,9 +23,9 @@ final class Some extends Option
      *
      * @param mixed $value 値
      */
-    private function __construct($value)
+    protected function __construct($value)
     {
-        $this->values = [$value];
+        parent::__construct([$value]);
     }
 
     /**
@@ -63,7 +63,7 @@ final class Some extends Option
     /**
      * @inheritdoc
      */
-    public function getOrElse($default)
+    public function getOrElse(\Closure $default)
     {
         return $this->values[0];
     }

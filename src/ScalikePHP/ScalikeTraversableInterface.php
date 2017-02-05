@@ -26,10 +26,10 @@ interface ScalikeTraversableInterface extends \ArrayAccess, \Countable, \Iterato
     /**
      * 条件にマッチする（関数が true を返す）要素のみを抽出する
      *
-     * @param \Closure $f 真偽値を返す関数
+     * @param \Closure $p 真偽値を返す関数
      * @return static
      */
-    public function filter(\Closure $f);
+    public function filter(\Closure $p);
 
     /**
      * 条件にマッチしない（関数が false を返す）要素のみを抽出する
@@ -160,7 +160,7 @@ interface ScalikeTraversableInterface extends \ArrayAccess, \Countable, \Iterato
      * @param string $sep
      * @return string
      */
-    public function mkString($sep = ""): string;
+    public function mkString(string $sep = ""): string;
 
     /**
      * 値が空でないかどうかを判定する

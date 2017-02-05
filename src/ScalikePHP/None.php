@@ -30,9 +30,9 @@ final class None extends Option
     /**
      * Constructor
      */
-    private function __construct()
+    protected function __construct()
     {
-        $this->values = [];
+        parent::__construct([]);
     }
 
     /**
@@ -62,25 +62,17 @@ final class None extends Option
     /**
      * @inheritdoc
      */
-    public function getOrCall(\Closure $callback)
+    public function getOrCall(\Closure $f)
     {
-        return $callback();
+        return $f();
     }
 
     /**
      * @inheritdoc
      */
-    public function getOrElse($default)
+    public function getOrElse(\Closure $default)
     {
-        return $default;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getOrNull()
-    {
-        return $this->orNull();
+        return $default();
     }
 
     /**

@@ -15,16 +15,6 @@ abstract class Map extends ScalikeTraversable
     private static $empty = null;
 
     /**
-     * Constructor
-     *
-     * @param array|\Traversable $values
-     */
-    public function __construct($values)
-    {
-        $this->values = $values;
-    }
-
-    /**
      * Get an empty Map instance
      *
      * @return Map
@@ -40,43 +30,41 @@ abstract class Map extends ScalikeTraversable
     /**
      * Create a Map instance from an array (or \Traversable)
      *
-     * @param iterable|null $array
+     * @param iterable|null $iterable
      * @return Map
      * @throws \InvalidArgumentException
      */
-    public static function from(?iterable $array): Map
+    public static function from(?iterable $iterable): Map
     {
-        if ($array === null) {
+        if ($iterable === null) {
             return static::emptyMap();
-        } elseif (is_array($array)) {
-            return new ArrayMap($array);
-        } elseif ($array instanceof \Traversable) {
-            return new TraversableMap($array);
+        } elseif (is_iterable($iterable)) {
+            return new IterableMap($iterable);
         } else {
             throw new \InvalidArgumentException('Map::from() needs to array or \Traversable.');
         }
     }
 
     /**
-     * Create a MutableMap instance from an array (or \Traversable)
+     * Create a MutableMap instance from an iterable.
      *
-     * @param array|\Traversable $array
+     * @param iterable|null $iterable
      * @return MutableMap
      * @throws \InvalidArgumentException
      */
-    public static function mutable($array): MutableMap
+    public static function mutable(?iterable $iterable): MutableMap
     {
-        if ($array === null) {
+        if ($iterable === null) {
             return new MutableMap([]);
-        } elseif (is_array($array) || $array instanceof \Traversable) {
-            return new MutableMap($array);
+        } elseif (is_iterable($iterable)) {
+            return new MutableMap($iterable);
         } else {
             throw new \InvalidArgumentException('Map::mutable() needs to array or \Traversable.');
         }
     }
 
     /**
-     * 要素を追加する
+     * 要素を追加する.
      *
      * @param string|array|Map $keyOrArray
      * @param mixed $value
@@ -85,7 +73,7 @@ abstract class Map extends ScalikeTraversable
     abstract public function append($keyOrArray, $value = null);
 
     /**
-     * 指定されたキーが存在するかどうかを判定する
+     * 指定されたキーが存在するかどうかを判定する.
      *
      * @param string $key
      * @return bool
@@ -93,7 +81,7 @@ abstract class Map extends ScalikeTraversable
     abstract public function contains($key): bool;
 
     /**
-     * 要素を順番に処理してたたみ込む
+     * 要素を順番に処理してたたみ込む.
      *
      * @param mixed $z
      * @param \Closure $f
@@ -102,39 +90,46 @@ abstract class Map extends ScalikeTraversable
     abstract public function fold($z, \Closure $f);
 
     /**
-     * 要素を取得する
+     * 要素を取得する.
      *
-     * @param string $key
+     * @param mixed $key
      * @return Option
      */
     abstract public function get($key): Option;
 
     /**
-     * 要素を取得する, 要素が存在しない場合は $default を返す
+     * 要素を取得する, 要素が存在しない場合は $default を返す.
      *
-     * @param string $key
-     * @param mixed $default
+     * @param mixed $key
+     * @param \Closure $default
      * @return mixed
      */
-    abstract public function getOrElse($key, $default);
+    abstract public function getOrElse($key, \Closure $default);
 
     /**
-     * キーの一覧を Seq として取得する
+     * キーの一覧を Seq として取得する.
      *
      * @return Seq
      */
     abstract public function keys(): Seq;
 
     /**
-     * 値を変換した Map を返す
+     * 値を変換した Map を返す.
      *
      * @param \Closure $f
      * @return Map
      */
-    abstract public function mapValues(\Closure $f): Map;
+    abstract public function mapValues(\Closure $f);
 
     /**
-     * 値の一覧を Seq として取得する
+     * 連想配列に変換する.
+     *
+     * @return array
+     */
+    abstract public function toAssoc(): array;
+
+    /**
+     * 値の一覧を Seq として取得する.
      *
      * @return Seq
      */

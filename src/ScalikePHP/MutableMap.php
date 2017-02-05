@@ -6,39 +6,38 @@ use Traversable as PhpTraversable;
 /**
  * A Mutable Map Implementation
  */
-class MutableMap extends ArrayMap
+class MutableMap extends IterableMap
 {
 
     /**
-     * Constructor
+     * Constructor.
      *
-     * @param array|\Traversable $values 値
+     * @param iterable $values 値
      */
-    public function __construct($values)
+    public function __construct(iterable $values)
     {
         if (is_array($values)) {
             parent::__construct($values);
         } elseif ($values instanceof PhpTraversable) {
             parent::__construct([]);
-            foreach ($values as $key => $x) {
-                $this->values[$key] = $x;
+            foreach ($values as $key => $value) {
+                $this->values[$key] = $value;
             }
         } else {
-            throw new \InvalidArgumentException('MutableMap needs an array or \Traversable.');
+            throw new \InvalidArgumentException("MutableMap needs an iterable");
         }
     }
 
     /**
      * @inheritdoc
+     * @return MutableMap
      */
-    public function append($keyOrArray, $value = null): Map
+    public function append($keyOrArray, $value = null): MutableMap
     {
-        if (is_array($keyOrArray)) {
-            $this->values = $keyOrArray + $this->toArray();
-        } elseif ($keyOrArray instanceof Map) {
-            $this->values = $keyOrArray->toArray() + $this->toArray();
-        } elseif ($keyOrArray instanceof \Traversable) {
-            $this->values = Map::from($keyOrArray)->toArray() + $this->toArray();
+        if (is_iterable($keyOrArray)) {
+            foreach ($keyOrArray as $key => $value) {
+                $this->values[$key] = $value;
+            }
         } else {
             $this->values[$keyOrArray] = $value;
         }
@@ -47,64 +46,20 @@ class MutableMap extends ArrayMap
 
     /**
      * @inheritdoc
+     * @return MutableMap
      */
-    public function filter(\Closure $f): Map
+    public function filter(\Closure $p): MutableMap
     {
-        $array = [];
-        foreach ($this->values as $key => $x) {
-            if ($f($x, $key)) {
-                $array[$key] = $x;
-            }
-        }
-        return Map::mutable($array);
+        return Map::mutable($this->filterGenerator($this->values, $p));
     }
 
     /**
      * @inheritdoc
+     * @return MutableMap
      */
-    public function flatMap(\Closure $f): Map
+    public function flatMap(\Closure $f): MutableMap
     {
-        $array = [];
-        foreach ($this->values as $key => $x) {
-            $result = $f($x, $key);
-            if (is_array($result)) {
-                $array = $result + $array;
-            } elseif ($result instanceof ScalikeTraversable) {
-                $array = $result->toArray() + $array;
-            } elseif ($result instanceof \Traversable) {
-                $array = Map::from($result)->toArray() + $array;
-            } else {
-                throw new \InvalidArgumentException('$f should returns a Traversable or an array.');
-            }
-        }
-        return Map::from($array);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function fold($z, \Closure $f)
-    {
-        foreach ($this->values as $key => $x) {
-            $z = $f($z, $x);
-        }
-        return $z;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function get($key): Option
-    {
-        return Option::fromArray($this->values, $key);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getOrElse($key, $default)
-    {
-        return $this->get($key)->getOrElse($default);
+        return Map::mutable($this->flatMapGenerator($this->values, $f));
     }
 
     /**
@@ -112,14 +67,14 @@ class MutableMap extends ArrayMap
      *
      * $op が \Closure の場合はその実行結果を用いる
      *
-     * @param string $key
-     * @param mixed $op
+     * @param mixed $key
+     * @param \Closure $op
      * @return mixed
      */
-    public function getOrElseUpdate($key, $op)
+    public function getOrElseUpdate($key, \Closure $op)
     {
-        return $this->get($key)->getOrCall(function () use ($key, $op) {
-            $value = is_string($op) ? $op : ($op instanceof \Closure ? $op() : $op);
+        return $this->get($key)->getOrElse(function () use ($key, $op) {
+            $value = $op();
             $this->update($key, $value);
             return $value;
         });
@@ -130,12 +85,7 @@ class MutableMap extends ArrayMap
      */
     public function map(\Closure $f): Map
     {
-        $array = [];
-        foreach ($this->values as $key => $x) {
-            list($newKey, $newValue) = $f($x, $key);
-            $array[$newKey] = $newValue;
-        }
-        return Map::mutable($array);
+        return Map::mutable($this->mapGenerator($this->values, $f));
     }
 
     /**
@@ -143,11 +93,7 @@ class MutableMap extends ArrayMap
      */
     public function mapValues(\Closure $f): Map
     {
-        $array = [];
-        foreach ($this->values as $key => $x) {
-            $array[$key] = $f($x);
-        }
-        return Map::mutable($array);
+        return Map::mutable($this->mapValuesGenerator($this->values, $f));
     }
 
     /**
@@ -172,7 +118,7 @@ class MutableMap extends ArrayMap
      * @param string $key
      * @return Option 該当する要素がある場合に Some, ない場合は None
      */
-    public function remove($key)
+    public function remove($key): Option
     {
         if (isset($this->values[$key])) {
             $value = $this->values[$key];
@@ -181,18 +127,6 @@ class MutableMap extends ArrayMap
         } else {
             return Option::none();
         }
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function toSeq(): Seq
-    {
-        $array = [];
-        foreach ($this->values as $key => $x) {
-            $array[] = [$key, $x];
-        }
-        return Seq::fromArray($array);
     }
 
     /**
@@ -205,14 +139,6 @@ class MutableMap extends ArrayMap
     public function update($key, $value): void
     {
         $this->values[$key] = $value;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function values(): Seq
-    {
-        return Seq::fromArray($this->values);
     }
 
 }
