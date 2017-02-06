@@ -9,7 +9,9 @@
             "email": "shogo@studiofly.net"
         }
     ],
-    "require": {},
+    "require": {
+        "php": ">=7.1.0"
+    },
     "autoload": {
         "psr-4": {
             "ScalikePHP\\": "src/ScalikePHP/"
