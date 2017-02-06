@@ -12,9 +12,18 @@
     "require": {
         "php": ">=7.1.0"
     },
+    "require-dev": {
+        "phpunit/phpunit": "6.0.5",
+        "mockery/mockery": "0.9.7"
+    },
     "autoload": {
         "psr-4": {
             "ScalikePHP\\": "src/ScalikePHP/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Test\\": "test/"
         }
     }
 }

@@ -54,9 +54,17 @@ final class None extends Option
     /**
      * @inheritdoc
      */
+    public function flatten(): None
+    {
+        return $this;
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function get()
     {
-        throw new \RuntimeException("None has no value.");
+        throw new \LogicException("None has no value.");
     }
 
     /**
@@ -64,7 +72,7 @@ final class None extends Option
      */
     public function getOrCall(\Closure $f)
     {
-        return $f();
+        return $this->getOrElse($f);
     }
 
     /**
@@ -114,7 +122,7 @@ final class None extends Option
      */
     public function max()
     {
-        throw new \RuntimeException("empty.max");
+        throw new \LogicException("empty.max");
     }
 
     /**
@@ -122,7 +130,7 @@ final class None extends Option
      */
     public function maxBy(\Closure $f)
     {
-        throw new \RuntimeException("empty.max");
+        throw new \LogicException("empty.max");
     }
 
     /**
@@ -130,7 +138,7 @@ final class None extends Option
      */
     public function min()
     {
-        throw new \RuntimeException("empty.min");
+        throw new \LogicException("empty.min");
     }
 
     /**
@@ -138,15 +146,20 @@ final class None extends Option
      */
     public function minBy(\Closure $f)
     {
-        throw new \RuntimeException("empty.min");
+        throw new \LogicException("empty.min");
     }
 
     /**
      * @inheritdoc
      */
-    public function orElse(Option $b)
+    public function orElse(\Closure $b): Option
     {
-        return $b;
+        $x = $b();
+        if ($x instanceof Option) {
+            return $x;
+        } else {
+            throw new \LogicException("Closure should returns an Option");
+        }
     }
 
     /**

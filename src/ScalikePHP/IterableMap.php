@@ -70,6 +70,15 @@ class IterableMap extends Map
 
     /**
      * @inheritdoc
+     * @throws \LogicException
+     */
+    public function flatten(): Map
+    {
+        throw new \LogicException("Map::flatten() has not supported");
+    }
+
+    /**
+     * @inheritdoc
      */
     public function fold($z, \Closure $f)
     {

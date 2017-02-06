@@ -2,7 +2,7 @@
 namespace ScalikePHP;
 
 /**
- * Scala like Map
+ * Scala like Map.
  */
 abstract class Map extends ScalikeTraversable
 {

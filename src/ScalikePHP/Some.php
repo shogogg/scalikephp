@@ -31,9 +31,9 @@ final class Some extends Option
     /**
      * @inheritdoc
      */
-    public function filter(\Closure $f): Option
+    public function filter(\Closure $p): Option
     {
-        return $f($this->values[0]) ? $this : Option::none();
+        return $p($this->values[0]) ? $this : Option::none();
     }
 
     /**
@@ -41,7 +41,24 @@ final class Some extends Option
      */
     public function flatMap(\Closure $f): Option
     {
-        return $f($this->values[0]);
+        $x = $f($this->values[0]);
+        if ($x instanceof Option) {
+            return $x;
+        } else {
+            throw new \LogicException("Closure should returns an Option");
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function flatten(): Option
+    {
+        if ($this->values[0] instanceof Option) {
+            return $this->values[0];
+        } else {
+            throw new \LogicException("Element should be an Option");
+        }
     }
 
     /**
@@ -57,7 +74,7 @@ final class Some extends Option
      */
     public function getOrCall(\Closure $f)
     {
-        return $this->values[0];
+        return $this->getOrElse($f);
     }
 
     /**
@@ -66,14 +83,6 @@ final class Some extends Option
     public function getOrElse(\Closure $default)
     {
         return $this->values[0];
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getOrNull()
-    {
-        return $this->orNull();
     }
 
     /**
@@ -144,7 +153,7 @@ final class Some extends Option
     /**
      * @inheritdoc
      */
-    public function orElse(Option $b)
+    public function orElse(\Closure $b): Option
     {
         return $this;
     }

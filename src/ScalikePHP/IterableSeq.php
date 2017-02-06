@@ -73,6 +73,14 @@ final class IterableSeq extends Seq
     /**
      * @inheritdoc
      */
+    public function flatten(): Seq
+    {
+        return Seq::fromArray($this->flattenGenerator($this->values));
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function fold($z, \Closure $f)
     {
         foreach ($this->values as $value) {
@@ -229,11 +237,30 @@ final class IterableSeq extends Seq
     protected function flatMapGenerator(iterable $iterable, \Closure $f): \Iterator
     {
         foreach ($iterable as $value) {
-            $iterable = $f($value);
-            if (is_iterable($iterable) === false) {
+            $xs = $f($value);
+            if (is_iterable($xs) === false) {
                 throw new \LogicException("Closure should returns an iterable");
             }
-            foreach ($iterable as $x) {
+            foreach ($xs as $x) {
+                yield $x;
+            }
+        }
+    }
+
+    /**
+     * Create a Generator from iterable with flatten.
+     *
+     * @param iterable $iterable
+     * @return \Iterator
+     * @throws \LogicException
+     */
+    protected function flattenGenerator(iterable $iterable): \Iterator
+    {
+        foreach ($iterable as $value) {
+            if (is_iterable($value) === false) {
+                throw new \LogicException("Closure should returns an iterable");
+            }
+            foreach ($value as $x) {
                 yield $x;
             }
         }

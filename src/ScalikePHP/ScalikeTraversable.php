@@ -52,10 +52,10 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
     /**
      * @inheritdoc
      */
-    public function exists(\Closure $f): bool
+    public function exists(\Closure $p): bool
     {
         foreach ($this->values as $value) {
-            if ($f($value)) {
+            if ($p($value)) {
                 return true;
             }
         }
@@ -65,20 +65,20 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
     /**
      * @inheritdoc
      */
-    public function filterNot(\Closure $f)
+    public function filterNot(\Closure $p)
     {
-        return $this->filter(function ($x) use ($f) {
-            return !$f($x);
+        return $this->filter(function ($x) use ($p) {
+            return !$p($x);
         });
     }
 
     /**
      * @inheritdoc
      */
-    public function find(\Closure $f): Option
+    public function find(\Closure $p): Option
     {
         foreach ($this->values as $x) {
-            if ($f($x)) {
+            if ($p($x)) {
                 return Option::some($x);
             }
         }
@@ -88,20 +88,10 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
     /**
      * @inheritdoc
      */
-    public function flatten()
-    {
-        return $this->flatMap(function ($x) {
-            return $x;
-        });
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function forAll(\Closure $f): bool
+    public function forAll(\Closure $p): bool
     {
         foreach ($this->values as $x) {
-            if (!$f($x)) {
+            if (!$p($x)) {
                 return false;
             }
         }
@@ -136,7 +126,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
         foreach ($this->values as $x) {
             return $x;
         }
-        throw new \RuntimeException('There is no values.');
+        throw new \LogicException("There is no value");
     }
 
     /**
@@ -158,7 +148,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
         $array = [];
         if (is_string($f)) {
             $key = function ($x) use ($f) {
-                return Option::from($x)->pick($f)->getOrCall(function () use ($f): void {
+                return Option::from($x)->pick($f)->getOrElse(function () use ($f): void {
                     throw new \RuntimeException("Undefined index {$f}");
                 });
             };
@@ -259,13 +249,13 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
      */
     public function size(): int
     {
-        return count($this->values);
+        return count($this->toArray());
     }
 
     /**
      * @inheritdoc
      */
-    public function take($n): Seq
+    public function take(int $n): Seq
     {
         return Seq::fromArray(array_slice($this->toArray(), 0, $n));
     }
@@ -273,7 +263,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
     /**
      * @inheritdoc
      */
-    public function takeRight($n): Seq
+    public function takeRight(int $n): Seq
     {
         return Seq::fromArray(array_slice($this->toArray(), 0 - $n));
     }
