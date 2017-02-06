@@ -2,7 +2,7 @@
 namespace ScalikePHP;
 
 /**
- * Scala like Traversable Interface
+ * Scala like Traversable Interface.
  */
 interface ScalikeTraversableInterface extends \ArrayAccess, \Countable, \IteratorAggregate, \JsonSerializable
 {

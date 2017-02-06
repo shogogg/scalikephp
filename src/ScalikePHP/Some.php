@@ -2,7 +2,7 @@
 namespace ScalikePHP;
 
 /**
- * Scala like Some
+ * Scala like Some.
  */
 final class Some extends Option
 {

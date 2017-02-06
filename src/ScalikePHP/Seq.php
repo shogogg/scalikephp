@@ -2,7 +2,7 @@
 namespace ScalikePHP;
 
 /**
- * Scala like Seq
+ * Scala like Seq.
  */
 abstract class Seq extends ScalikeTraversable
 {

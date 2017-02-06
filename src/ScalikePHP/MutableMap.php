@@ -4,7 +4,7 @@ namespace ScalikePHP;
 use Traversable as PhpTraversable;
 
 /**
- * A Mutable Map Implementation
+ * A Mutable Map Implementation.
  */
 class MutableMap extends IterableMap
 {

@@ -2,7 +2,7 @@
 namespace ScalikePHP;
 
 /**
- * Scala like Traversable Implementation
+ * Scala like Traversable Implementation.
  */
 abstract class ScalikeTraversable implements ScalikeTraversableInterface
 {

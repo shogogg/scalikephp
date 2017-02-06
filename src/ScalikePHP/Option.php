@@ -2,7 +2,7 @@
 namespace ScalikePHP;
 
 /**
- * Scala like Option
+ * Scala like Option.
  */
 abstract class Option extends ScalikeTraversable
 {

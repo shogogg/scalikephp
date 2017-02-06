@@ -2,7 +2,7 @@
 namespace ScalikePHP;
 
 /**
- * Scala like None
+ * Scala like None.
  */
 final class None extends Option
 {
