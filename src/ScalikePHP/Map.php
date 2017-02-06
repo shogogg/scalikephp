@@ -14,27 +14,27 @@ abstract class Map extends ScalikeTraversable
 {
 
     /**
-     * 空のマップ
+     * 空のマップ.
      *
-     * @var ArrayMap
+     * @var Map
      */
     private static $empty = null;
 
     /**
-     * Get an empty Map instance
+     * Get an empty Map instance.
      *
      * @return Map
      */
     public static function emptyMap(): Map
     {
         if (static::$empty === null) {
-            static::$empty = new ArrayMap([]);
+            static::$empty = new IterableMap([]);
         }
         return static::$empty;
     }
 
     /**
-     * Create a Map instance from an array (or \Traversable)
+     * Create a Map instance from an iterable.
      *
      * @param iterable|null $iterable
      * @return Map

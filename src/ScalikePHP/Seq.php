@@ -28,7 +28,7 @@ abstract class Seq extends ScalikeTraversable
     public static function emptySeq(): Seq
     {
         if (static::$empty === null) {
-            static::$empty = new ArraySeq([]);
+            static::$empty = new IterableSeq([]);
         }
         return static::$empty;
     }
