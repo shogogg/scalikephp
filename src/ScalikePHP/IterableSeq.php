@@ -10,7 +10,7 @@ namespace ScalikePHP;
 /**
  * A Seq implementation using iterable.
  */
-final class IterableSeq extends Seq
+class IterableSeq extends Seq
 {
 
     /**
@@ -20,12 +20,7 @@ final class IterableSeq extends Seq
      */
     public function __construct(iterable $values)
     {
-        if (is_array($values)) {
-            $this->array = array_values($values);
-            parent::__construct($this->array);
-        } else {
-            parent::__construct($values);
-        }
+        parent::__construct($values);
     }
 
     /**
@@ -214,6 +209,14 @@ final class IterableSeq extends Seq
             throw new \InvalidArgumentException("Seq::toMap() needs a string or \\Closure. {$type} given.");
         }
         return Map::from($array);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function toSeq(): Seq
+    {
+        return $this;
     }
 
     /**

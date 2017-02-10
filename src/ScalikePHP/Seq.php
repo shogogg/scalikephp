@@ -28,7 +28,7 @@ abstract class Seq extends ScalikeTraversable
     public static function emptySeq(): Seq
     {
         if (static::$empty === null) {
-            static::$empty = new IterableSeq([]);
+            static::$empty = new ArraySeq([]);
         }
         return static::$empty;
     }
@@ -41,7 +41,7 @@ abstract class Seq extends ScalikeTraversable
      */
     public static function from(... $items): Seq
     {
-        return new IterableSeq($items);
+        return new ArraySeq($items);
     }
 
     /**
@@ -55,6 +55,8 @@ abstract class Seq extends ScalikeTraversable
     {
         if ($iterable === null) {
             return static::emptySeq();
+        } elseif (is_array($iterable)) {
+            return empty($iterable) ? static::emptySeq() : new ArraySeq($iterable);
         } elseif (is_iterable($iterable)) {
             return new IterableSeq($iterable);
         } else {
