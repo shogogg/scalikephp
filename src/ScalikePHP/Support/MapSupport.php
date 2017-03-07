@@ -139,6 +139,14 @@ trait MapSupport
     public function mapValues(\Closure $f): Map {
         return new TraversableMap($this->mapValuesGenerator($this->getIterator(), $f));
     }
+    /**
+     * @inheritdoc
+     * @see Map::sumBy()
+     */
+    public function sumBy(\Closure $f)
+    {
+        return $this->fold(0, $f);
+    }
 
     /**
      * @inheritdoc

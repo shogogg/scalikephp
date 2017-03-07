@@ -365,6 +365,14 @@ final class None extends Option
     /**
      * @inheritdoc
      */
+    public function sumBy(\Closure $f)
+    {
+        return 0;
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function take(int $n): Option
     {
         return $this;

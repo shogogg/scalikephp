@@ -78,6 +78,15 @@ trait SeqSupport
     }
 
     /**
+     * @inheritdoc
+     * @see Seq::sumBy()
+     */
+    public function sumBy(\Closure $f)
+    {
+        return $this->fold(0, $f);
+    }
+
+    /**
      * Create a Generator from iterable with filter.
      *
      * @param iterable $iterable

@@ -66,10 +66,10 @@ trait MapTestCases
      */
     public function testCount(): void
     {
-        Assert::same(0, ($this->map())->count());
-        Assert::same(1, ($this->map(["a" => 1]))->count());
-        Assert::same(2, ($this->map(["a" => 1, "b" => 2]))->count());
-        Assert::same(3, ($this->map(["a" => 1, "b" => 2, "c" => 3]))->count());
+        Assert::same(0, $this->map()->count());
+        Assert::same(1, $this->map(["a" => 1])->count());
+        Assert::same(2, $this->map(["a" => 1, "b" => 2])->count());
+        Assert::same(3, $this->map(["a" => 1, "b" => 2, "c" => 3])->count());
     }
 
     /**
@@ -608,10 +608,43 @@ trait MapTestCases
      */
     public function testSize(): void
     {
-        Assert::same(0, ($this->map())->size());
-        Assert::same(1, ($this->map(["a" => 1]))->size());
-        Assert::same(2, ($this->map(["a" => 1, "b" => 2]))->size());
-        Assert::same(3, ($this->map(["a" => 1, "b" => 2, "c" => 3]))->size());
+        Assert::same(0, $this->map()->size());
+        Assert::same(1, $this->map(["a" => 1])->size());
+        Assert::same(2, $this->map(["a" => 1, "b" => 2])->size());
+        Assert::same(3, $this->map(["a" => 1, "b" => 2, "c" => 3])->size());
+    }
+
+    /**
+     * Tests for Map::sum().
+     *
+     * @see \ScalikePHP\ArrayMap::sum()
+     * @see \ScalikePHP\TraversableMap::sum()
+     */
+    public function testSum(): void
+    {
+        $f = function(): void {
+            $this->map()->sum();
+        };
+        $g = function(): void {
+            $this->map(["a" => 1, "b" => 2, "c" => 3])->sum();
+        };
+        Assert::throws(\LogicException::class, $f);
+        Assert::throws(\LogicException::class, $g);
+    }
+
+    /**
+     * Tests for Map::sumBy().
+     *
+     * @see \ScalikePHP\ArrayMap::sumBy()
+     * @see \ScalikePHP\TraversableMap::sumBy()
+     */
+    public function testSumBy(): void
+    {
+        $f = function(int $z, int $value, string $key): int {
+            return $z + $value;
+        };
+        Assert::same(0, $this->map()->sumBy($f));
+        Assert::same(6, $this->map(["a" => 1, "b" => 2, "c" => 3])->sumBy($f));
     }
 
     /**

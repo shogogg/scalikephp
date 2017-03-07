@@ -234,6 +234,14 @@ abstract class Map extends ScalikeTraversable
     /**
      * @inheritdoc
      */
+    public function sum()
+    {
+        throw new \LogicException("`Map::flatten()` has not supported: Use `Map::sumBy()` instead");
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function take(int $n): Map
     {
         return new ArrayMap(array_slice($this->toAssoc(), 0, $n));

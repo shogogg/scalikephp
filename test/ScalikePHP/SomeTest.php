@@ -424,6 +424,35 @@ class SomeTest extends TestCase
     }
 
     /**
+     * Tests for Some::sum().
+     *
+     * @see \ScalikePHP\Some::sum()
+     */
+    public function testSum(): void
+    {
+        Assert::same(1, Some::create(1)->sum());
+        Assert::same(2, Some::create(2)->sum());
+        Assert::same("abc", Some::create("abc")->sum());
+        Assert::same("xyz", Some::create("xyz")->sum());
+    }
+
+    /**
+     * Tests for Some::sumBy().
+     *
+     * @see \ScalikePHP\Some::sumBy()
+     */
+    public function testSumBy(): void
+    {
+        $f = function(int $z, int $value): int {
+            return $z + $value;
+        };
+        Assert::same(1, Some::create(1)->sumBy($f));
+        Assert::same(2, Some::create(2)->sumBy($f));
+        Assert::same("abc", Some::create("abc")->sumBy($f));
+        Assert::same("xyz", Some::create("xyz")->sumBy($f));
+    }
+
+    /**
      * Tests for Some::take().
      *
      * @see \ScalikePHP\Some::take()

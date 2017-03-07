@@ -197,4 +197,12 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
         throw new \BadMethodCallException;
     }
 
+    /**
+     * @inheritdoc
+     */
+    public function sum()
+    {
+        return array_sum($this->toArray());
+    }
+
 }

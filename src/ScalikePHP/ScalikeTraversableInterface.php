@@ -185,6 +185,21 @@ interface ScalikeTraversableInterface extends \ArrayAccess, \Countable, \Iterato
     public function size(): int;
 
     /**
+     * Returns sum of elements.
+     *
+     * @return mixed
+     */
+    public function sum();
+
+    /**
+     * Returns sum of elements, using custom function.
+     *
+     * @param \Closure $f
+     * @return mixed
+     */
+    public function sumBy(\Closure $f);
+
+    /**
      * Returns first `$n` elements.
      *
      * @param int $n

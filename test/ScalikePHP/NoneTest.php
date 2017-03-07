@@ -402,6 +402,29 @@ class NoneTest extends TestCase
     }
 
     /**
+     * Tests for None::sum().
+     *
+     * @see \ScalikePHP\None::sum()
+     */
+    public function testSum(): void
+    {
+        Assert::same(0, Option::none()->sum());
+    }
+
+    /**
+     * Tests for None::sumBy().
+     *
+     * @see \ScalikePHP\None::sumBy()
+     */
+    public function testSumBy(): void
+    {
+        $f = function(int $z, int $value): int {
+            return $z + $value;
+        };
+        Assert::same(0, Option::none()->sumBy($f));
+    }
+
+    /**
      * Tests for None::take().
      *
      * @see \ScalikePHP\None::take()

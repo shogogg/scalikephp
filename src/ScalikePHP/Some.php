@@ -197,6 +197,22 @@ final class Some extends Option
     /**
      * @inheritdoc
      */
+    public function sum()
+    {
+        return $this->array[0];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function sumBy(\Closure $f)
+    {
+        return $this->array[0];
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function pick($name): Option
     {
         $value = $this->array[0];
