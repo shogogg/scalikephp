@@ -141,6 +141,14 @@ final class None extends Option
 
     /**
      * @inheritdoc
+     */
+    public function getOrElseValue($default)
+    {
+        return $default;
+    }
+
+    /**
+     * @inheritdoc
      *
      * @return mixed
      */

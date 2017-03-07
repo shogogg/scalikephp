@@ -90,6 +90,14 @@ abstract class Option extends ScalikeTraversable
     abstract public function getOrElse(\Closure $default);
 
     /**
+     * 値を返す, 値を持たない場合は $default の値を返す.
+     *
+     * @param mixed $default デフォルト値
+     * @return mixed
+     */
+    abstract public function getOrElseValue($default);
+
+    /**
      * 値を返す, 値を持たない場合は $exception を投げる.
      *
      * @param \Exception $exception

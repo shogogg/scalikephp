@@ -199,6 +199,17 @@ class SomeTest extends TestCase
     }
 
     /**
+     * Tests for Some::getOrElseValue().
+     *
+     * @see \ScalikePHP\Some::getOrElseValue()
+     */
+    public function testGetOrElseValue(): void
+    {
+        Assert::same(1, Some::create(1)->getOrElseValue(0));
+        Assert::same("abc", Some::create("abc")->getOrElseValue("xyz"));
+    }
+
+    /**
      * Tests for Some::groupBy().
      *
      * @see \ScalikePHP\Some::groupBy()

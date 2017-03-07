@@ -174,6 +174,17 @@ class NoneTest extends TestCase
     }
 
     /**
+     * Tests for Some::getOrElseValue().
+     *
+     * @see \ScalikePHP\Some::getOrElseValue()
+     */
+    public function testGetOrElseValue(): void
+    {
+        Assert::same(0, Option::none()->getOrElseValue(0));
+        Assert::same("xyz", Option::none()->getOrElseValue("xyz"));
+    }
+
+    /**
      * Tests for None::groupBy().
      *
      * @see \ScalikePHP\None::groupBy()
