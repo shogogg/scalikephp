@@ -5,6 +5,8 @@
  * This software is released under the MIT License.
  * http://opensource.org/licenses/mit-license.php
  */
+declare(strict_types = 1);
+
 namespace ScalikePHP;
 
 /**
@@ -14,7 +16,7 @@ abstract class Option extends ScalikeTraversable
 {
 
     /**
-     * 与えられた値から Option を生成する
+     * 与えられた値から Option を生成する.
      *
      * @param mixed $value 値
      * @param mixed $none $value を None とする判定に使用する値（デフォルト: null）
@@ -26,7 +28,7 @@ abstract class Option extends ScalikeTraversable
     }
 
     /**
-     * 配列から Option を生成する
+     * 配列から Option を生成する.
      *
      * @param array|\ArrayAccess $array 配列
      * @param string $key 対象のキー
@@ -39,7 +41,7 @@ abstract class Option extends ScalikeTraversable
     }
 
     /**
-     * Get a Some instance
+     * Get a Some instance.
      *
      * @param mixed $value
      * @return Option
@@ -50,7 +52,7 @@ abstract class Option extends ScalikeTraversable
     }
 
     /**
-     * Get a None instance
+     * Get a None instance.
      *
      * @return Option
      */
@@ -60,7 +62,7 @@ abstract class Option extends ScalikeTraversable
     }
 
     /**
-     * 値を返す, 値を持たない場合は例外を投げる
+     * 値を返す, 値を持たない場合は例外を投げる.
      *
      * @return mixed
      *
@@ -88,7 +90,7 @@ abstract class Option extends ScalikeTraversable
     abstract public function getOrElse(\Closure $default);
 
     /**
-     * 値を返す, 値を持たない場合は $exception を投げる
+     * 値を返す, 値を持たない場合は $exception を投げる.
      *
      * @param \Exception $exception
      * @return mixed
@@ -101,7 +103,7 @@ abstract class Option extends ScalikeTraversable
     abstract public function getOrThrow(\Exception $exception);
 
     /**
-     * 値を持っているかどうかを判定する
+     * 値を持っているかどうかを判定する.
      *
      * @return bool
      */
@@ -116,14 +118,14 @@ abstract class Option extends ScalikeTraversable
     abstract public function orElse(\Closure $b): Option;
 
     /**
-     * 値を返す, 値を持たない場合は null を返す
+     * 値を返す, 値を持たない場合は null を返す.
      *
      * @return mixed
      */
     abstract public function orNull();
 
     /**
-     * Some の場合は自身を返し, None の場合は引数の関数を実行してその戻り値を返す
+     * Some の場合は自身を返し, None の場合は引数の関数を実行してその戻り値を返す.
      *
      * @param \Closure $f
      * @return Option
@@ -134,7 +136,7 @@ abstract class Option extends ScalikeTraversable
     abstract public function orElseCall(\Closure $f): Option;
 
     /**
-     * 値が配列またはオブジェクトの場合に、与えられたキーの値を取得する
+     * 値が配列またはオブジェクトの場合に、与えられたキーの値を取得する.
      *
      * 値を持たないか、与えられたキーに対応する要素・プロパティが存在しない場合は None を返す
      *
@@ -142,5 +144,31 @@ abstract class Option extends ScalikeTraversable
      * @return Option
      */
     abstract public function pick($name): Option;
+
+    /**
+     * @inheritdoc
+     */
+    public function take(int $n)
+    {
+        return $n <= 0 ? self::none() : $this;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function takeRight(int $n)
+    {
+        return $n <= 0 ? self::none() : $this;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function toGenerator(): \Generator
+    {
+        foreach ($this->toArray() as $value) {
+            yield $value;
+        }
+    }
 
 }

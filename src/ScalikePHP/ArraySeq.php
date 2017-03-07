@@ -5,13 +5,19 @@
  * This software is released under the MIT License.
  * http://opensource.org/licenses/mit-license.php
  */
+declare(strict_types = 1);
+
 namespace ScalikePHP;
+
+use ScalikePHP\Support\ArraySupport;
 
 /**
  * A Seq implementation using array.
  */
-class ArraySeq extends IterableSeq
+class ArraySeq extends Seq
 {
+
+    use ArraySupport;
 
     /**
      * Constructor.
@@ -20,8 +26,7 @@ class ArraySeq extends IterableSeq
      */
     public function __construct(array $values)
     {
-        $this->array = array_values($values);
-        parent::__construct($this->array);
+        $this->setArray(array_values($values));
     }
 
     /**
@@ -30,8 +35,36 @@ class ArraySeq extends IterableSeq
     public function append(iterable $that): Seq
     {
         return is_array($that)
-            ? Seq::fromArray(array_merge($this->array, $that))
-            : Seq::fromArray($this->mergeGenerator($this->values, $that));
+            ? new ArraySeq(array_merge($this->array, array_values($that)))
+            : new TraversableSeq($this->mergeGenerator($this->array, $that));
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function contains($elem): bool
+    {
+        return in_array($elem, $this->array, true);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function distinct(): Seq
+    {
+        // `array_keys(array_count_values(...))` is faster than `array_unique(...)`
+        return new ArraySeq(array_keys(array_count_values($this->array)));
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function fold($z, \Closure $f)
+    {
+        foreach ($this->array as $value) {
+            $z = $f($z, $value);
+        }
+        return $z;
     }
 
     /**
@@ -40,16 +73,16 @@ class ArraySeq extends IterableSeq
     public function prepend(iterable $that): Seq
     {
         return is_array($that)
-            ? Seq::fromArray(array_merge($that, $this->values))
-            : Seq::fromArray($this->mergeGenerator($that, $this->values));
+            ? new ArraySeq(array_merge($that, $this->array))
+            : new TraversableSeq($this->mergeGenerator($that, $this->array));
     }
 
     /**
      * @inheritdoc
      */
-    public function toArray(): array
+    public function toSeq(): Seq
     {
-        return $this->array;
+        return $this;
     }
 
 }

@@ -5,6 +5,8 @@
  * This software is released under the MIT License.
  * http://opensource.org/licenses/mit-license.php
  */
+declare(strict_types = 1);
+
 namespace Test\ScalikePHP;
 
 use ScalikePHP\None;
@@ -22,7 +24,7 @@ final class Assert
      * @return void
      * @see TestCase::assertFalse()
      */
-    public static function false(bool $condition, string $message = "")
+    public static function false(bool $condition, string $message = ""): void
     {
         TestCase::assertFalse($condition, $message);
     }
@@ -62,7 +64,7 @@ final class Assert
      * @return void
      * @see TestCase::assertSame()
      */
-    public static function same($expected, $actual, string $message = "")
+    public static function same($expected, $actual, string $message = ""): void
     {
         TestCase::assertSame($expected, $actual, $message);
     }
@@ -107,7 +109,7 @@ final class Assert
      * @return void
      * @see TestCase::assertTrue()
      */
-    public static function true(bool $condition, string $message = "")
+    public static function true(bool $condition, string $message = ""): void
     {
         TestCase::assertTrue($condition, $message);
     }

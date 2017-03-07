@@ -5,32 +5,35 @@
  * This software is released under the MIT License.
  * http://opensource.org/licenses/mit-license.php
  */
+declare(strict_types = 1);
+
 namespace ScalikePHP;
 
-use Traversable as PhpTraversable;
+use ScalikePHP\Support\ArraySupport;
 
 /**
  * A Mutable Map Implementation.
  */
-class MutableMap extends IterableMap
+class MutableMap extends ArrayMap
 {
+
+    use ArraySupport;
 
     /**
      * Constructor.
      *
-     * @param iterable $values 値
+     * @param iterable $iterable 値
      */
-    public function __construct(iterable $values)
+    public function __construct(iterable $iterable)
     {
-        if (is_array($values)) {
-            parent::__construct($values);
-        } elseif ($values instanceof PhpTraversable) {
-            parent::__construct([]);
-            foreach ($values as $key => $value) {
-                $this->values[$key] = $value;
-            }
+        if (is_array($iterable)) {
+            parent::__construct($iterable);
         } else {
-            throw new \InvalidArgumentException("MutableMap needs an iterable");
+            $assoc = [];
+            foreach ($iterable as $key => $value) {
+                $assoc[$key] = $value;
+            }
+            parent::__construct($assoc);
         }
     }
 
@@ -42,10 +45,10 @@ class MutableMap extends IterableMap
     {
         if (is_iterable($keyOrArray)) {
             foreach ($keyOrArray as $key => $value) {
-                $this->values[$key] = $value;
+                $this->array[$key] = $value;
             }
         } else {
-            $this->values[$keyOrArray] = $value;
+            $this->array[$keyOrArray] = $value;
         }
         return $this;
     }
@@ -56,7 +59,7 @@ class MutableMap extends IterableMap
      */
     public function filter(\Closure $p): MutableMap
     {
-        return Map::mutable($this->filterGenerator($this->values, $p));
+        return new MutableMap($this->filterGenerator($this->array, $p));
     }
 
     /**
@@ -65,13 +68,11 @@ class MutableMap extends IterableMap
      */
     public function flatMap(\Closure $f): MutableMap
     {
-        return Map::mutable($this->flatMapGenerator($this->values, $f));
+        return new MutableMap($this->flatMapGenerator($this->array, $f));
     }
 
     /**
-     * 要素を取得する, 要素が存在しない場合は $op の値で更新し、その値を返す
-     *
-     * $op が \Closure の場合はその実行結果を用いる
+     * 要素を取得する, 要素が存在しない場合は $op の値で更新し、その値を返す.
      *
      * @param mixed $key
      * @param \Closure $op
@@ -91,7 +92,7 @@ class MutableMap extends IterableMap
      */
     public function map(\Closure $f): Map
     {
-        return Map::mutable($this->mapGenerator($this->values, $f));
+        return new MutableMap($this->mapGenerator($this->array, $f));
     }
 
     /**
@@ -99,15 +100,15 @@ class MutableMap extends IterableMap
      */
     public function mapValues(\Closure $f): Map
     {
-        return Map::mutable($this->mapValuesGenerator($this->values, $f));
+        return new MutableMap($this->mapValuesGenerator($this->array, $f));
     }
 
     /**
      * @inheritdoc
      */
-    public function offsetSet($offset, $x)
+    public function offsetSet($offset, $value)
     {
-        $this->update($offset, $x);
+        $this->update($offset, $value);
     }
 
     /**
@@ -115,20 +116,20 @@ class MutableMap extends IterableMap
      */
     public function offsetUnset($offset)
     {
-        unset($this->values[$offset]);
+        unset($this->array[$offset]);
     }
 
     /**
-     * 指定したキーに該当する要素を削除し、その値を返す
+     * 指定したキーに該当する要素を削除し、その値を返す.
      *
      * @param string $key
      * @return Option 該当する要素がある場合に Some, ない場合は None
      */
     public function remove($key): Option
     {
-        if (isset($this->values[$key])) {
-            $value = $this->values[$key];
-            unset($this->values[$key]);
+        if (isset($this->array[$key])) {
+            $value = $this->array[$key];
+            unset($this->array[$key]);
             return Option::some($value);
         } else {
             return Option::none();
@@ -136,7 +137,7 @@ class MutableMap extends IterableMap
     }
 
     /**
-     * 新しい値を追加する
+     * 新しい値を追加する.
      *
      * @param string $key
      * @param mixed $value
@@ -144,7 +145,7 @@ class MutableMap extends IterableMap
      */
     public function update($key, $value): void
     {
-        $this->values[$key] = $value;
+        $this->array[$key] = $value;
     }
 
 }

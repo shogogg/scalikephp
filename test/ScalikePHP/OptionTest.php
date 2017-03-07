@@ -5,6 +5,8 @@
  * This software is released under the MIT License.
  * http://opensource.org/licenses/mit-license.php
  */
+declare(strict_types = 1);
+
 namespace Test\ScalikePHP;
 
 use ScalikePHP\None;
@@ -24,13 +26,13 @@ class OptionTest extends TestCase
      *
      * @see \ScalikePHP\Option::from()
      */
-    public function testFrom()
+    public function testFrom(): void
     {
-        self::assertInstanceOf(Some::class, Option::from(0));
-        self::assertInstanceOf(Some::class, Option::from("abc"));
-        self::assertInstanceOf(None::class, Option::from(null));
-        self::assertInstanceOf(None::class, Option::from(0, 0));
-        self::assertInstanceOf(None::class, Option::from("abc", "abc"));
+        Assert::instanceOf(Some::class, Option::from(0));
+        Assert::instanceOf(Some::class, Option::from("abc"));
+        Assert::instanceOf(None::class, Option::from(null));
+        Assert::instanceOf(None::class, Option::from(0, 0));
+        Assert::instanceOf(None::class, Option::from("abc", "abc"));
     }
 
     /**
@@ -38,12 +40,12 @@ class OptionTest extends TestCase
      *
      * @see \ScalikePHP\Option::fromArray()
      */
-    public function testFromArray()
+    public function testFromArray(): void
     {
         $array = ["foo" => "bar"];
-        self::assertInstanceOf(Some::class, Option::fromArray($array, "foo"));
-        self::assertInstanceOf(None::class, Option::fromArray($array, "bar"));
-        self::assertSame("bar", Option::fromArray($array, "foo")->get());
+        Assert::instanceOf(Some::class, Option::fromArray($array, "foo"));
+        Assert::instanceOf(None::class, Option::fromArray($array, "bar"));
+        Assert::same("bar", Option::fromArray($array, "foo")->get());
     }
 
     /**
@@ -51,9 +53,9 @@ class OptionTest extends TestCase
      *
      * @see \ScalikePHP\Option::none()
      */
-    public function testNone()
+    public function testNone(): void
     {
-        self::assertInstanceOf(None::class, Option::none());
+        Assert::instanceOf(None::class, Option::none());
     }
 
     /**
@@ -61,14 +63,14 @@ class OptionTest extends TestCase
      *
      * @see \ScalikePHP\Option::some()
      */
-    public function testSome()
+    public function testSome(): void
     {
-        self::assertInstanceOf(Some::class, Option::some(1));
-        self::assertInstanceOf(Some::class, Option::some("abc"));
-        self::assertInstanceOf(Some::class, Option::some(null));
-        self::assertSame(1, Option::some(1)->get());
-        self::assertSame("abc", Option::some("abc")->get());
-        self::assertSame(null, Option::some(null)->get());
+        Assert::instanceOf(Some::class, Option::some(1));
+        Assert::instanceOf(Some::class, Option::some("abc"));
+        Assert::instanceOf(Some::class, Option::some(null));
+        Assert::same(1, Option::some(1)->get());
+        Assert::same("abc", Option::some("abc")->get());
+        Assert::same(null, Option::some(null)->get());
     }
 
 }

@@ -5,6 +5,8 @@
  * This software is released under the MIT License.
  * http://opensource.org/licenses/mit-license.php
  */
+declare(strict_types = 1);
+
 namespace ScalikePHP;
 
 /**
@@ -14,14 +16,14 @@ final class None extends Option
 {
 
     /**
-     * Singleton instance
+     * Singleton instance.
      *
      * @var None
      */
     private static $instance = null;
 
     /**
-     * Get a None instance
+     * Get a None instance.
      *
      * @return None
      */
@@ -34,17 +36,49 @@ final class None extends Option
     }
 
     /**
-     * Constructor
+     * @inheritdoc
      */
-    protected function __construct()
+    public function count()
     {
-        parent::__construct([]);
+        return 0;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function each(\Closure $f): void
+    {
+        // nothing to do.
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function exists(\Closure $p): bool
+    {
+        return false;
     }
 
     /**
      * @inheritdoc
      */
     public function filter(\Closure $callback): None
+    {
+        return $this;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function filterNot(\Closure $p)
+    {
+        return $this;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function find(\Closure $p): Option
     {
         return $this;
     }
@@ -68,9 +102,25 @@ final class None extends Option
     /**
      * @inheritdoc
      */
+    public function forAll(\Closure $p): bool
+    {
+        return true;
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function get()
     {
         throw new \LogicException("None has no value.");
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getIterator()
+    {
+        return new \EmptyIterator;
     }
 
     /**
@@ -102,6 +152,30 @@ final class None extends Option
     /**
      * @inheritdoc
      */
+    public function groupBy($f): Map
+    {
+        return Map::emptyMap();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function head()
+    {
+        throw new \LogicException("There is no value");
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function headOption(): Option
+    {
+        return $this;
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function isDefined(): bool
     {
         return false;
@@ -110,9 +184,33 @@ final class None extends Option
     /**
      * @inheritdoc
      */
+    public function isEmpty(): bool
+    {
+        return true;
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function jsonSerialize()
     {
         return null;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function last()
+    {
+        throw new \LogicException("There is no value");
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function lastOption(): Option
+    {
+        return $this;
     }
 
     /**
@@ -158,11 +256,59 @@ final class None extends Option
     /**
      * @inheritdoc
      */
+    public function mkString(string $sep = ""): string
+    {
+        return "";
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function nonEmpty(): bool
+    {
+        return false;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function offsetExists($offset): bool
+    {
+        return false;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function offsetGet($offset)
+    {
+        throw new \OutOfBoundsException("Undefined offset: {$offset}");
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function offsetSet($offset, $value)
+    {
+        throw new \BadMethodCallException;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function offsetUnset($offset)
+    {
+        throw new \BadMethodCallException;
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function orElse(\Closure $b): Option
     {
-        $x = $b();
-        if ($x instanceof Option) {
-            return $x;
+        $option = $b();
+        if ($option instanceof Option) {
+            return $option;
         } else {
             throw new \LogicException("Closure should returns an Option");
         }
@@ -190,6 +336,46 @@ final class None extends Option
     public function pick($name): Option
     {
         return $this;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function size(): int
+    {
+        return 0;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function take(int $n): Option
+    {
+        return $this;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function takeRight(int $n): Option
+    {
+        return $this;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function toArray(): array
+    {
+        return [];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function toSeq(): Seq
+    {
+        return Seq::emptySeq();
     }
 
 }

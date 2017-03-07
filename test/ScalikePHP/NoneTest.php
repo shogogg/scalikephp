@@ -5,8 +5,11 @@
  * This software is released under the MIT License.
  * http://opensource.org/licenses/mit-license.php
  */
+declare(strict_types = 1);
+
 namespace Test\ScalikePHP;
 
+use ScalikePHP\None;
 use ScalikePHP\Option;
 use ScalikePHP\Seq;
 use ScalikePHP\Some;
@@ -405,8 +408,8 @@ class NoneTest extends TestCase
      */
     public function testTake(): void
     {
-        Assert::instanceOf(Seq::class, Option::none()->take(1));
-        Assert::instanceOf(Seq::class, Option::none()->take(2));
+        Assert::instanceOf(None::class, Option::none()->take(1));
+        Assert::instanceOf(None::class, Option::none()->take(2));
         Assert::same([], Option::none()->take(1)->toArray());
         Assert::same([], Option::none()->take(2)->toArray());
     }
@@ -418,8 +421,8 @@ class NoneTest extends TestCase
      */
     public function testTakeRight(): void
     {
-        Assert::instanceOf(Seq::class, Option::none()->takeRight(1));
-        Assert::instanceOf(Seq::class, Option::none()->takeRight(2));
+        Assert::instanceOf(None::class, Option::none()->takeRight(1));
+        Assert::instanceOf(None::class, Option::none()->takeRight(2));
         Assert::same([], Option::none()->takeRight(1)->toArray());
         Assert::same([], Option::none()->takeRight(2)->toArray());
     }

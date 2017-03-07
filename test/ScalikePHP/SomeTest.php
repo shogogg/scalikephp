@@ -5,6 +5,8 @@
  * This software is released under the MIT License.
  * http://opensource.org/licenses/mit-license.php
  */
+declare(strict_types = 1);
+
 namespace Test\ScalikePHP;
 
 use ScalikePHP\Option;
@@ -428,8 +430,8 @@ class SomeTest extends TestCase
      */
     public function testTake(): void
     {
-        Assert::instanceOf(Seq::class, Some::create(1)->take(1));
-        Assert::instanceOf(Seq::class, Some::create("abc")->take(1));
+        Assert::instanceOf(Some::class, Some::create(1)->take(1));
+        Assert::instanceOf(Some::class, Some::create("abc")->take(1));
         Assert::same([1], Some::create(1)->take(1)->toArray());
         Assert::same([1], Some::create(1)->take(2)->toArray());
         Assert::same(["abc"], Some::create("abc")->take(1)->toArray());
@@ -443,8 +445,8 @@ class SomeTest extends TestCase
      */
     public function testTakeRight(): void
     {
-        Assert::instanceOf(Seq::class, Some::create(1)->takeRight(1));
-        Assert::instanceOf(Seq::class, Some::create("abc")->takeRight(1));
+        Assert::instanceOf(Some::class, Some::create(1)->takeRight(1));
+        Assert::instanceOf(Some::class, Some::create("abc")->takeRight(1));
         Assert::same([1], Some::create(1)->takeRight(1)->toArray());
         Assert::same([1], Some::create(1)->takeRight(2)->toArray());
         Assert::same(["abc"], Some::create("abc")->takeRight(1)->toArray());

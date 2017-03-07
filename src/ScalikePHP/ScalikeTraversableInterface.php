@@ -5,6 +5,8 @@
  * This software is released under the MIT License.
  * http://opensource.org/licenses/mit-license.php
  */
+declare(strict_types = 1);
+
 namespace ScalikePHP;
 
 /**
@@ -176,37 +178,44 @@ interface ScalikeTraversableInterface extends \ArrayAccess, \Countable, \Iterato
     public function nonEmpty(): bool;
 
     /**
-     * 値の要素数を返す.
+     * Returns a number of elements.
      *
-     * @return int 値の要素数
+     * @return int
      */
     public function size(): int;
 
     /**
-     * 値の先頭 n 個の要素を返す.
+     * Returns first `$n` elements.
      *
-     * @param int $n 取得する要素の数
-     * @return Seq
+     * @param int $n
+     * @return static
      */
-    public function take(int $n): Seq;
+    public function take(int $n);
 
     /**
-     * 値の末尾 n 個の要素を返す.
+     * Returns last `$n` elements.
      *
-     * @param int $n 取得する要素の数
-     * @return Seq
+     * @param int $n
+     * @return static
      */
-    public function takeRight(int $n): Seq;
+    public function takeRight(int $n);
 
     /**
-     * 配列に変換する.
+     * Convert to an array.
      *
      * @return array
      */
     public function toArray(): array;
 
     /**
-     * Seq に変換する.
+     * Convert to a Generator.
+     *
+     * @return \Generator
+     */
+    public function toGenerator(): \Generator;
+
+    /**
+     * Convert to a Seq.
      *
      * @return Seq
      */

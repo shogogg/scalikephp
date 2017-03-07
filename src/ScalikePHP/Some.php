@@ -5,7 +5,11 @@
  * This software is released under the MIT License.
  * http://opensource.org/licenses/mit-license.php
  */
+declare(strict_types = 1);
+
 namespace ScalikePHP;
+
+use ScalikePHP\Support\ArraySupport;
 
 /**
  * Scala like Some.
@@ -13,8 +17,10 @@ namespace ScalikePHP;
 final class Some extends Option
 {
 
+    use ArraySupport;
+
     /**
-     * Create a Some instance
+     * Create a Some instance.
      *
      * @param mixed $value 値
      * @return Some
@@ -25,13 +31,13 @@ final class Some extends Option
     }
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param mixed $value 値
      */
     protected function __construct($value)
     {
-        parent::__construct([$value]);
+        $this->setArray([$value]);
     }
 
     /**
@@ -39,7 +45,7 @@ final class Some extends Option
      */
     public function filter(\Closure $p): Option
     {
-        return $p($this->values[0]) ? $this : Option::none();
+        return $p($this->array[0]) ? $this : Option::none();
     }
 
     /**
@@ -47,9 +53,9 @@ final class Some extends Option
      */
     public function flatMap(\Closure $f): Option
     {
-        $x = $f($this->values[0]);
-        if ($x instanceof Option) {
-            return $x;
+        $option = $f($this->array[0]);
+        if ($option instanceof Option) {
+            return $option;
         } else {
             throw new \LogicException("Closure should returns an Option");
         }
@@ -60,8 +66,8 @@ final class Some extends Option
      */
     public function flatten(): Option
     {
-        if ($this->values[0] instanceof Option) {
-            return $this->values[0];
+        if ($this->array[0] instanceof Option) {
+            return $this->array[0];
         } else {
             throw new \LogicException("Element should be an Option");
         }
@@ -72,7 +78,7 @@ final class Some extends Option
      */
     public function get()
     {
-        return $this->values[0];
+        return $this->array[0];
     }
 
     /**
@@ -88,7 +94,7 @@ final class Some extends Option
      */
     public function getOrElse(\Closure $default)
     {
-        return $this->values[0];
+        return $this->array[0];
     }
 
     /**
@@ -96,7 +102,15 @@ final class Some extends Option
      */
     public function getOrThrow(\Exception $exception)
     {
-        return $this->values[0];
+        return $this->array[0];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function groupByElement($value, $key): ScalikeTraversable
+    {
+        return $this;
     }
 
     /**
@@ -112,8 +126,8 @@ final class Some extends Option
      */
     public function jsonSerialize()
     {
-        $x = $this->values[0];
-        return $x instanceof \JsonSerializable ? $x->jsonSerialize() : $x;
+        $value = $this->array[0];
+        return $value instanceof \JsonSerializable ? $value->jsonSerialize() : $value;
     }
 
     /**
@@ -121,7 +135,7 @@ final class Some extends Option
      */
     public function map(\Closure $f): Some
     {
-        return static::create($f($this->values[0]));
+        return static::create($f($this->array[0]));
     }
 
     /**
@@ -129,7 +143,7 @@ final class Some extends Option
      */
     public function max()
     {
-        return $this->values[0];
+        return $this->array[0];
     }
 
     /**
@@ -137,7 +151,7 @@ final class Some extends Option
      */
     public function maxBy(\Closure $f)
     {
-        return $this->values[0];
+        return $this->array[0];
     }
 
     /**
@@ -145,7 +159,7 @@ final class Some extends Option
      */
     public function min()
     {
-        return $this->values[0];
+        return $this->array[0];
     }
 
     /**
@@ -153,7 +167,7 @@ final class Some extends Option
      */
     public function minBy(\Closure $f)
     {
-        return $this->values[0];
+        return $this->array[0];
     }
 
     /**
@@ -169,7 +183,7 @@ final class Some extends Option
      */
     public function orNull()
     {
-        return $this->values[0];
+        return $this->array[0];
     }
 
     /**
@@ -185,14 +199,22 @@ final class Some extends Option
      */
     public function pick($name): Option
     {
-        $x = $this->values[0];
-        if (is_array($x) || $x instanceof \ArrayAccess) {
-            return Option::fromArray($x, $name);
-        } elseif (is_object($x) && (property_exists($x, $name) || method_exists($x, '__get'))) {
-            return Option::from($x->{$name});
+        $value = $this->array[0];
+        if (is_array($value) || $value instanceof \ArrayAccess) {
+            return Option::fromArray($value, $name);
+        } elseif (is_object($value) && (property_exists($value, $name) || method_exists($value, '__get'))) {
+            return Option::from($value->{$name});
         } else {
             return Option::none();
         }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function toSeq(): Seq
+    {
+        return new ArraySeq($this->array);
     }
 
 }
