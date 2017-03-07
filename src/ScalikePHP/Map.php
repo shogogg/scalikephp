@@ -9,15 +9,11 @@ declare(strict_types = 1);
 
 namespace ScalikePHP;
 
-use ScalikePHP\Support\GeneralSupport;
-
 /**
  * Scala like Map.
  */
 abstract class Map extends ScalikeTraversable
 {
-
-    use GeneralSupport;
 
     /**
      * An empty Map instance.

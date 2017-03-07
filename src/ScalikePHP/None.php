@@ -152,9 +152,25 @@ final class None extends Option
     /**
      * @inheritdoc
      */
+    protected function getRawIterable(): iterable
+    {
+        return new \EmptyIterator;
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function groupBy($f): Map
     {
         return Map::emptyMap();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function groupByElement($value, $key): ScalikeTraversable
+    {
+        return $this;
     }
 
     /**

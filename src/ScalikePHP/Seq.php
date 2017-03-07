@@ -17,8 +17,6 @@ use ScalikePHP\Support\GeneralSupport;
 abstract class Seq extends ScalikeTraversable
 {
 
-    use GeneralSupport;
-
     /**
      * 空の Seq.
      *

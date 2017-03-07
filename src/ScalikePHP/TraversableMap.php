@@ -134,7 +134,7 @@ class TraversableMap extends Map
      */
     public function headOption(): Option
     {
-        foreach ($this->getIterator() as $key => $value) {
+        foreach ($this->getRawIterable() as $key => $value) {
             return Option::some([$key, $value]);
         }
         return Option::none();

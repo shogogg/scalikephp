@@ -9,10 +9,7 @@ declare(strict_types = 1);
 
 namespace ScalikePHP\Support;
 
-use ScalikePHP\ArrayMap;
 use ScalikePHP\ArraySeq;
-use ScalikePHP\Map;
-use ScalikePHP\Option;
 use ScalikePHP\Seq;
 
 /**
@@ -20,8 +17,6 @@ use ScalikePHP\Seq;
  */
 trait TraversableSupport
 {
-
-    use GeneralSupport;
 
     /**
      * @var mixed[]
@@ -62,59 +57,6 @@ trait TraversableSupport
 
     /**
      * @inheritdoc
-     * @see ScalikeTraversable::each()
-     */
-    public function each(\Closure $f): void
-    {
-        foreach ($this->traversable as $value) {
-            $f($value);
-        }
-    }
-
-    /**
-     * @inheritdoc
-     * @see ScalikeTraversable::exists()
-     */
-    public function exists(\Closure $p): bool
-    {
-        foreach ($this->traversable as $value) {
-            if ($p($value)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * @inheritdoc
-     * @see ScalikeTraversable::find()
-     */
-    public function find(\Closure $p): Option
-    {
-        foreach ($this->traversable as $value) {
-            if ($p($value)) {
-                return Option::some($value);
-            }
-        }
-        return Option::none();
-    }
-
-    /**
-     * @inheritdoc
-     * @see ScalikeTraversable::forAll()
-     */
-    public function forAll(\Closure $p): bool
-    {
-        foreach ($this->traversable as $value) {
-            if (!$p($value)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
-     * @inheritdoc
      * @see ScalikeTraversable::getIterator()
      */
     public function getIterator(): \Iterator
@@ -130,41 +72,11 @@ trait TraversableSupport
 
     /**
      * @inheritdoc
-     * @see ScalikeTraversable::head()
+     * @see ScalikeTraversable::getRawIterable()
      */
-    public function head()
+    protected function getRawIterable(): iterable
     {
-        foreach ($this->traversable as $value) {
-            return $value;
-        }
-        throw new \LogicException("There is no value");
-    }
-
-    /**
-     * @inheritdoc
-     * @see ScalikeTraversable::headOption()
-     */
-    public function headOption(): Option
-    {
-        foreach ($this->traversable as $value) {
-            return Option::some($value);
-        }
-        return Option::none();
-    }
-
-    /**
-     * @inheritdoc
-     * @see ScalikeTraversable::groupBy()
-     */
-    public function groupBy($f): Map
-    {
-        $g = $this->groupByClosure($f);
-        $assoc = [];
-        foreach ($this->traversable as $key => $value) {
-            $k = $g($value);
-            $assoc[$k] = isset($assoc[$k]) ? $assoc[$k]->append([$key => $value]) : $this->groupByElement($value, $key);
-        }
-        return new ArrayMap($assoc);
+        return $this->traversable;
     }
 
     /**
