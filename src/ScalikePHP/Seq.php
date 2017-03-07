@@ -80,7 +80,10 @@ abstract class Seq extends ScalikeTraversable
      * @param mixed $elem
      * @return bool
      */
-    abstract public function contains($elem): bool;
+    public function contains($elem): bool
+    {
+        return in_array($elem, $this->toArray(), true);
+    }
 
     /**
      * 重複を排除した Seq を返す.
@@ -89,32 +92,8 @@ abstract class Seq extends ScalikeTraversable
      */
     public function distinct(): Seq
     {
+        // `array_keys(array_count_values(...))` is faster than `array_unique(...)`
         return new ArraySeq(array_keys(array_count_values($this->toArray())));
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function filter(\Closure $p)
-    {
-        return new TraversableSeq($this->filterGenerator($this->getIterator(), $p));
-    }
-
-    /**
-     * @inheritdoc
-     * @throws \LogicException
-     */
-    public function flatMap(\Closure $f): Seq
-    {
-        return new TraversableSeq($this->flatMapGenerator($this->getIterator(), $f));
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function flatten(): Seq
-    {
-        return new TraversableSeq($this->flattenGenerator($this->getIterator()));
     }
 
     /**
@@ -129,25 +108,9 @@ abstract class Seq extends ScalikeTraversable
     /**
      * @inheritdoc
      */
-    protected function groupByElement($value, $key): ScalikeTraversable
-    {
-        return new ArraySeq([$value]);
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function jsonSerialize(): array
     {
         return $this->toArray();
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function map(\Closure $f)
-    {
-        return new TraversableSeq($this->mapGenerator($this->getIterator(), $f));
     }
 
     /**
@@ -214,10 +177,7 @@ abstract class Seq extends ScalikeTraversable
      * @param iterable $that
      * @return Seq
      */
-    public function prepend(iterable $that): Seq
-    {
-        return new TraversableSeq($this->mergeGenerator($that, $this));
-    }
+    abstract public function prepend(iterable $that): Seq;
 
     /**
      * 逆順にした Seq を返す.
@@ -309,93 +269,6 @@ abstract class Seq extends ScalikeTraversable
             throw new \InvalidArgumentException("Seq::toMap() needs a string or \\Closure. {$type} given.");
         }
         return new ArrayMap($assoc);
-    }
-
-    /**
-     * Create a Generator from iterable with filter.
-     *
-     * @param iterable $iterable
-     * @param \Closure $p
-     * @return \Generator
-     */
-    protected function filterGenerator(iterable $iterable, \Closure $p): \Generator
-    {
-        foreach ($iterable as $value) {
-            if ($p($value)) {
-                yield $value;
-            }
-        }
-    }
-
-    /**
-     * Create a Generator from iterable with flatmap.
-     *
-     * @param iterable $iterable
-     * @param \Closure $f
-     * @return \Generator
-     * @throws \LogicException
-     */
-    protected function flatMapGenerator(iterable $iterable, \Closure $f): \Generator
-    {
-        foreach ($iterable as $value) {
-            $xs = $f($value);
-            if (is_iterable($xs) === false) {
-                throw new \LogicException("Closure should returns an iterable");
-            }
-            foreach ($xs as $x) {
-                yield $x;
-            }
-        }
-    }
-
-    /**
-     * Create a Generator from iterable with flatten.
-     *
-     * @param iterable $iterable
-     * @return \Generator
-     * @throws \LogicException
-     */
-    protected function flattenGenerator(iterable $iterable): \Generator
-    {
-        foreach ($iterable as $value) {
-            if (is_iterable($value) === false) {
-                throw new \LogicException("Closure should returns an iterable");
-            }
-            foreach ($value as $x) {
-                yield $x;
-            }
-        }
-    }
-
-    /**
-     * Create a Generator from iterable with map function.
-     *
-     * @param iterable $iterable
-     * @param \Closure $f
-     * @return \Generator
-     */
-    protected function mapGenerator(iterable $iterable, \Closure $f): \Generator
-    {
-        foreach ($iterable as $value) {
-            yield $f($value);
-        }
-    }
-
-    /**
-     * Create a Generator from two iterables.
-     *
-     * @param iterable $a
-     * @param iterable $b
-     * @return \Generator
-     */
-    protected function mergeGenerator(iterable $a, iterable $b): \Generator
-    {
-        foreach ($a as $value) {
-            yield $value;
-        }
-        foreach ($b as $value) {
-            yield $value;
-        }
     }
 
 }

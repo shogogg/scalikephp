@@ -10,6 +10,7 @@ declare(strict_types = 1);
 namespace ScalikePHP;
 
 use ScalikePHP\Support\GeneratorIterator;
+use ScalikePHP\Support\SeqSupport;
 use ScalikePHP\Support\TraversableSupport;
 
 /**
@@ -18,7 +19,7 @@ use ScalikePHP\Support\TraversableSupport;
 class TraversableSeq extends Seq
 {
 
-    use TraversableSupport;
+    use SeqSupport, TraversableSupport;
 
     /**
      * Constructor.
@@ -35,26 +36,7 @@ class TraversableSeq extends Seq
      */
     public function append(iterable $that): Seq
     {
-        return new TraversableSeq($this->mergeGenerator($this->traversable, $that));
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function contains($elem): bool
-    {
-        return in_array($elem, $this->toArray(), true);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function fold($z, \Closure $f)
-    {
-        foreach ($this->traversable as $value) {
-            $z = $f($z, $value);
-        }
-        return $z;
+        return new TraversableSeq($this->mergeGenerator($this->getRawIterable(), $that));
     }
 
     /**
@@ -62,7 +44,7 @@ class TraversableSeq extends Seq
      */
     public function prepend(iterable $that): Seq
     {
-        return new TraversableSeq($this->mergeGenerator($that, $this->traversable));
+        return new TraversableSeq($this->mergeGenerator($that, $this->getRawIterable()));
     }
 
     /**
