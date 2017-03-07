@@ -134,6 +134,14 @@ trait MapSupport
 
     /**
      * @inheritdoc
+     * @see Map::mapValues()
+     */
+    public function mapValues(\Closure $f): Map {
+        return new TraversableMap($this->mapValuesGenerator($this->getIterator(), $f));
+    }
+
+    /**
+     * @inheritdoc
      * @see Map::toArray()
      */
     public function toArray(): array
@@ -148,13 +156,6 @@ trait MapSupport
     public function toSeq(): Seq
     {
         return new TraversableSeq($this->pairGenerator());
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function mapValues(\Closure $f): Map {
-        return new TraversableMap($this->mapValuesGenerator($this->getIterator(), $f));
     }
 
     /**
