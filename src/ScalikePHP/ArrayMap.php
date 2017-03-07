@@ -10,6 +10,7 @@ declare(strict_types = 1);
 namespace ScalikePHP;
 
 use ScalikePHP\Support\ArraySupport;
+use ScalikePHP\Support\MapSupport;
 
 /**
  * A Seq implementation using array.
@@ -17,7 +18,10 @@ use ScalikePHP\Support\ArraySupport;
 class ArrayMap extends Map
 {
 
-    use ArraySupport;
+    use ArraySupport, MapSupport {
+        MapSupport::toArray insteadof ArraySupport;
+        MapSupport::toSeq insteadof ArraySupport;
+    }
 
     /**
      * Constructor.
@@ -52,91 +56,9 @@ class ArrayMap extends Map
     /**
      * @inheritdoc
      */
-    public function each(\Closure $f): void
-    {
-        foreach ($this->array as $key => $value) {
-            $f($value, $key);
-        }
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function exists(\Closure $p): bool
-    {
-        foreach ($this->array as $key => $value) {
-            if ($p($value, $key)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function find(\Closure $p): Option
-    {
-        foreach ($this->array as $key => $value) {
-            if ($p($value, $key)) {
-                return Option::some([$key, $value]);
-            }
-        }
-        return Option::none();
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function fold($z, \Closure $f)
-    {
-        foreach ($this->array as $key => $value) {
-            $z = $f($z, $value, $key);
-        }
-        return $z;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function forAll(\Closure $p): bool
-    {
-        foreach ($this->array as $key => $value) {
-            if (!$p($value, $key)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function get($key): Option
     {
         return Option::fromArray($this->array, $key);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function head()
-    {
-        foreach ($this->array as $key => $value) {
-            return [$key, $value];
-        }
-        throw new \LogicException("There is no value");
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function headOption(): Option
-    {
-        foreach ($this->array as $key => $value) {
-            return Option::some([$key, $value]);
-        }
-        return Option::none();
     }
 
     /**
@@ -150,25 +72,9 @@ class ArrayMap extends Map
     /**
      * @inheritdoc
      */
-    public function toArray(): array
-    {
-        return $this->toSeq()->toArray();
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function toAssoc(): array
     {
         return $this->array;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function toSeq(): Seq
-    {
-        return new TraversableSeq($this->pairGenerator());
     }
 
     /**

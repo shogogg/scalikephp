@@ -101,25 +101,9 @@ abstract class Map extends ScalikeTraversable
     /**
      * @inheritdoc
      */
-    public function filter(\Closure $p)
-    {
-        return new TraversableMap($this->filterGenerator($this->getIterator(), $p));
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function flatten()
     {
         throw new \LogicException("Map::flatten() has not supported");
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function flatMap(\Closure $f)
-    {
-        return new TraversableMap($this->flatMapGenerator($this->getIterator(), $f));
     }
 
     /**
@@ -162,14 +146,6 @@ abstract class Map extends ScalikeTraversable
     /**
      * @inheritdoc
      */
-    public function map(\Closure $f)
-    {
-        return new TraversableMap($this->mapGenerator($this, $f));
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function mkString(string $sep = ""): string
     {
         $f = function (array $x): string {
@@ -191,9 +167,7 @@ abstract class Map extends ScalikeTraversable
      * @param \Closure $f
      * @return Map
      */
-    public function mapValues(\Closure $f): Map {
-        return new TraversableMap($this->mapValuesGenerator($this->getIterator(), $f));
-    }
+    abstract public function mapValues(\Closure $f): Map;
 
     /**
      * @inheritdoc
@@ -216,7 +190,7 @@ abstract class Map extends ScalikeTraversable
         }
         $max = null;
         $res = [];
-        foreach ($this->toAssoc() as $key => $value) {
+        foreach ($this->getRawIterable() as $key => $value) {
             $x = $f($value, $key);
             if ($max === null || $max < $x) {
                 $max = $x;
@@ -247,7 +221,7 @@ abstract class Map extends ScalikeTraversable
         }
         $min = null;
         $res = [];
-        foreach ($this->toAssoc() as $key => $value) {
+        foreach ($this->getRawIterable() as $key => $value) {
             $x = $f($value, $key);
             if ($min === null || $min > $x) {
                 $min = $x;
@@ -285,20 +259,8 @@ abstract class Map extends ScalikeTraversable
      */
     public function toGenerator(): \Generator
     {
-        foreach ($this->toAssoc() as $key => $value) {
+        foreach ($this->getRawIterable() as $key => $value) {
             yield $key => $value;
-        }
-    }
-
-    /**
-     * Returns a generator that yields key & value pairs.
-     *
-     * @return \Generator
-     */
-    protected function pairGenerator(): \Generator
-    {
-        foreach ($this->getIterator() as $key => $value) {
-            yield [$key, $value];
         }
     }
 
@@ -308,88 +270,5 @@ abstract class Map extends ScalikeTraversable
      * @return Seq
      */
     abstract public function values(): Seq;
-
-    /**
-     * Create a Generator from iterable with filter.
-     *
-     * @param iterable $iterable
-     * @param \Closure $p
-     * @return \Generator
-     */
-    protected function filterGenerator(iterable $iterable, \Closure $p): \Generator
-    {
-        foreach ($iterable as $key => $value) {
-            if ($p($value, $key)) {
-                yield $key => $value;
-            }
-        }
-    }
-
-    /**
-     * Create a Generator from iterable with flatmap.
-     *
-     * @param iterable $iterable
-     * @param \Closure $f
-     * @return \Generator
-     * @throws \LogicException
-     */
-    protected function flatMapGenerator(iterable $iterable, \Closure $f): \Generator
-    {
-        foreach ($iterable as $key => $value) {
-            $iterable = $f($value, $key);
-            if (is_iterable($iterable) === false) {
-                throw new \LogicException("Closure should returns an iterable");
-            }
-            foreach ($iterable as $newKey => $newValue) {
-                yield $newKey => $newValue;
-            }
-        }
-    }
-
-    /**
-     * Create a Generator from iterable with map function.
-     *
-     * @param iterable $iterable
-     * @param \Closure $f
-     * @return \Generator
-     */
-    protected function mapGenerator(iterable $iterable, \Closure $f): \Generator
-    {
-        foreach ($iterable as $key => $value) {
-            [$newKey, $newValue] = $f($value, $key);
-            yield $newKey => $newValue;
-        }
-    }
-
-    /**
-     * Create a Generator from iterable with map function.
-     *
-     * @param iterable $iterable
-     * @param \Closure $f
-     * @return \Generator
-     */
-    protected function mapValuesGenerator(iterable $iterable, \Closure $f): \Generator
-    {
-        foreach ($iterable as $key => $value) {
-            yield $key => $f($value, $key);
-        }
-    }
-
-    /**
-     * Create a Generator from two iterables.
-     *
-     * @param iterable $a
-     * @param iterable $b
-     * @return \Generator
-     */
-    protected function mergeGenerator(iterable $a, iterable $b): \Generator
-    {
-        foreach ($a as $key => $value) {
-            yield $key => $value;
-        }
-        foreach ($b as $key => $value) {
-            yield $key => $value;
-        }
-    }
 
 }

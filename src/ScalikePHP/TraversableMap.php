@@ -9,7 +9,7 @@ declare(strict_types = 1);
 
 namespace ScalikePHP;
 
-use ScalikePHP\Support\GeneratorIterator;
+use ScalikePHP\Support\MapSupport;
 use ScalikePHP\Support\TraversableSupport;
 
 /**
@@ -18,7 +18,10 @@ use ScalikePHP\Support\TraversableSupport;
 class TraversableMap extends Map
 {
 
-    use TraversableSupport;
+    use MapSupport, TraversableSupport {
+        MapSupport::toArray insteadof TraversableSupport;
+        MapSupport::toSeq insteadof TraversableSupport;
+    }
 
     /**
      * Constructor.
@@ -53,91 +56,9 @@ class TraversableMap extends Map
     /**
      * @inheritdoc
      */
-    public function each(\Closure $f): void
-    {
-        foreach ($this->getIterator() as $key => $value) {
-            $f($value, $key);
-        }
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function exists(\Closure $p): bool
-    {
-        foreach ($this->getIterator() as $key => $value) {
-            if ($p($value, $key)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function find(\Closure $p): Option
-    {
-        foreach ($this->getIterator() as $key => $value) {
-            if ($p($value, $key)) {
-                return Option::some([$key, $value]);
-            }
-        }
-        return Option::none();
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function fold($z, \Closure $f)
-    {
-        foreach ($this->getIterator() as $key => $value) {
-            $z = $f($z, $value, $key);
-        }
-        return $z;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function forAll(\Closure $p): bool
-    {
-        foreach ($this->getIterator() as $key => $value) {
-            if (!$p($value, $key)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function get($key): Option
     {
         return Option::fromArray($this->toAssoc(), $key);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function head()
-    {
-        foreach ($this->getIterator() as $key => $value) {
-            return [$key, $value];
-        }
-        throw new \LogicException("There is no value");
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function headOption(): Option
-    {
-        foreach ($this->getRawIterable() as $key => $value) {
-            return Option::some([$key, $value]);
-        }
-        return Option::none();
     }
 
     /**
@@ -151,26 +72,10 @@ class TraversableMap extends Map
     /**
      * @inheritdoc
      */
-    public function toArray(): array
-    {
-        return $this->toSeq()->toArray();
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function toAssoc(): array
     {
         $this->compute();
         return $this->array;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function toSeq(): Seq
-    {
-        return new TraversableSeq($this->pairGenerator());
     }
 
     /**

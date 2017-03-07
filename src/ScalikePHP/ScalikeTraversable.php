@@ -7,11 +7,15 @@
  */
 namespace ScalikePHP;
 
+use ScalikePHP\Support\GeneralSupport;
+
 /**
  * Scala like Traversable Implementation.
  */
 abstract class ScalikeTraversable implements ScalikeTraversableInterface
 {
+
+    use GeneralSupport;
 
     /**
      * @inheritdoc
@@ -75,13 +79,6 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
         }
         return true;
     }
-
-    /**
-     * Get raw iterable.
-     *
-     * @return iterable
-     */
-    abstract protected function getRawIterable(): iterable;
 
     /**
      * @inheritdoc
