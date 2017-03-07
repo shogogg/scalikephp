@@ -1,6 +1,5 @@
 {
     "name": "shogogg/scalikephp",
-    "version": "0.4.0",
     "description": "ScalikePHP provides Scala like programming tools into PHP.",
     "keywords": ["scalikephp", "scala", "php"],
     "license": "MIT",
