@@ -218,14 +218,6 @@ abstract class Seq extends ScalikeTraversable
     /**
      * @inheritdoc
      */
-    public function take(int $n): Seq
-    {
-        return new ArraySeq(array_slice($this->toArray(), 0, $n));
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function takeRight(int $n): Seq
     {
         return new ArraySeq(array_slice($this->toArray(), 0 - $n, $n));

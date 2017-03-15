@@ -74,7 +74,7 @@ trait SeqSupport
      */
     public function map(\Closure $f)
     {
-        return new TraversableSeq($this->mapGenerator($this->getIterator(), $f));
+        return new TraversableSeq($this->mapGenerator($this->getRawIterable(), $f));
     }
 
     /**
@@ -84,6 +84,15 @@ trait SeqSupport
     public function sumBy(\Closure $f)
     {
         return $this->fold(0, $f);
+    }
+
+    /**
+     * @inheritdoc
+     * @see Seq::take()
+     */
+    public function take(int $n): Seq
+    {
+        return new TraversableSeq($this->takeGenerator($this->getRawIterable(), $n));
     }
 
     /**
@@ -170,6 +179,24 @@ trait SeqSupport
         }
         foreach ($b as $value) {
             yield $value;
+        }
+    }
+
+    /**
+     * Create a Generator from first $n elements of iterable.
+     *
+     * @param iterable $iterable
+     * @param int $n
+     * @return \Generator
+     */
+    protected function takeGenerator(iterable $iterable, int $n): \Generator
+    {
+        $i = $n;
+        foreach ($iterable as $value) {
+            yield $value;
+            if (--$i <= 0) {
+                break;
+            }
         }
     }
 

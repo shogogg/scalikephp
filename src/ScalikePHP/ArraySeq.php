@@ -53,6 +53,14 @@ class ArraySeq extends Seq
     /**
      * @inheritdoc
      */
+    public function take(int $n): Seq
+    {
+        return new ArraySeq(array_slice($this->array, 0, $n));
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function toSeq(): Seq
     {
         return $this;
