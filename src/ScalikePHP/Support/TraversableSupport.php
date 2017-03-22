@@ -148,10 +148,7 @@ trait TraversableSupport
     private function compute(): void
     {
         if ($this->computed === false) {
-            $this->array = [];
-            foreach ($this->traversable as $key => $value) {
-                $this->array[$key] = $value;
-            }
+            $this->array = iterator_to_array($this->traversable);
             $this->computed = true;
         }
     }
