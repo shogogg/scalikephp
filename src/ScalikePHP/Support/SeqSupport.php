@@ -92,7 +92,7 @@ trait SeqSupport
      */
     public function take(int $n): Seq
     {
-        return new TraversableSeq($this->takeGenerator($this->getRawIterable(), $n));
+        return $n <= 0 ? Seq::emptySeq() : new TraversableSeq($this->takeGenerator($this->getRawIterable(), $n));
     }
 
     /**
@@ -189,15 +189,13 @@ trait SeqSupport
      * @param int $n
      * @return \Generator
      */
-    protected function takeGenerator(iterable $iterable, int $n): \Generator
+    private function takeGenerator(iterable $iterable, int $n): \Generator
     {
-        if ($n > 0) {
-            $i = $n;
-            foreach ($iterable as $value) {
-                yield $value;
-                if (--$i <= 0) {
-                    break;
-                }
+        $i = $n;
+        foreach ($iterable as $value) {
+            yield $value;
+            if (--$i <= 0) {
+                break;
             }
         }
     }
