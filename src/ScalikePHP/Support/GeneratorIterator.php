@@ -46,8 +46,8 @@ final class GeneratorIterator implements \IteratorAggregate
         while ($this->generator->valid()) {
             $key = $this->generator->key();
             $value = $this->generator->current();
-            $this->cache[$key] = $value;
             yield $key => $value;
+            $this->cache[$key] = $value;
             $this->generator->next();
         }
     }
