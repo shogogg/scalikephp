@@ -236,7 +236,7 @@ abstract class Map extends ScalikeTraversable
      */
     public function sum()
     {
-        throw new \LogicException("`Map::flatten()` has not supported: Use `Map::sumBy()` instead");
+        throw new \LogicException("`Map::sum()` has not supported: Use `Map::sumBy()` instead");
     }
 
     /**
