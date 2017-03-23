@@ -266,7 +266,7 @@ trait MapSupport
      * @param iterable $b
      * @return \Generator
      */
-    protected function mergeGenerator(iterable $a, iterable $b): \Generator
+    private function mergeGenerator(iterable $a, iterable $b): \Generator
     {
         foreach ($a as $key => $value) {
             yield $key => $value;
@@ -281,7 +281,7 @@ trait MapSupport
      *
      * @return \Generator
      */
-    protected function pairGenerator(): \Generator
+    private function pairGenerator(): \Generator
     {
         foreach ($this->getRawIterable() as $key => $value) {
             yield [$key, $value];
