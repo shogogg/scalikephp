@@ -26,7 +26,7 @@ class ArrayMap extends Map
     /**
      * Constructor.
      *
-     * @param mixed[] $assoc
+     * @param array $assoc
      */
     public function __construct(array $assoc)
     {

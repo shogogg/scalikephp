@@ -23,7 +23,7 @@ class ArraySeq extends Seq
     /**
      * Constructor.
      *
-     * @param mixed[] $values
+     * @param array $values
      */
     public function __construct(array $values)
     {

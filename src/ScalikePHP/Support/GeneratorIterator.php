@@ -21,7 +21,7 @@ final class GeneratorIterator implements \IteratorAggregate
     private $generator;
 
     /**
-     * @var mixed[]
+     * @var array
      */
     private $cache = [];
 

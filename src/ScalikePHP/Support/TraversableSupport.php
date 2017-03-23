@@ -19,7 +19,7 @@ trait TraversableSupport
 {
 
     /**
-     * @var mixed[]
+     * @var array
      */
     private $array;
 

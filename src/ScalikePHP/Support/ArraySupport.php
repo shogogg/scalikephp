@@ -19,7 +19,7 @@ trait ArraySupport
 {
 
     /**
-     * @var mixed[]
+     * @var array
      */
     private $array;
 

@@ -38,7 +38,7 @@ abstract class Seq extends ScalikeTraversable
     /**
      * Create a Seq instance from arguments.
      *
-     * @param mixed[] $items
+     * @param array $items
      * @return Seq
      */
     final public static function from(... $items): Seq
