@@ -26,15 +26,7 @@ class MutableMap extends ArrayMap
      */
     public function __construct(iterable $iterable)
     {
-        if (is_array($iterable)) {
-            parent::__construct($iterable);
-        } else {
-            $assoc = [];
-            foreach ($iterable as $key => $value) {
-                $assoc[$key] = $value;
-            }
-            parent::__construct($assoc);
-        }
+        parent::__construct(is_array($iterable) ? $iterable : iterator_to_array($iterable));
     }
 
     /**
@@ -68,7 +60,7 @@ class MutableMap extends ArrayMap
      */
     public function flatMap(\Closure $f): MutableMap
     {
-        return new MutableMap($this->flatMapGenerator($this->array, $f));
+        return new MutableMap($this->flatMapAssoc($this->array, $f));
     }
 
     /**
@@ -92,7 +84,7 @@ class MutableMap extends ArrayMap
      */
     public function map(\Closure $f): Map
     {
-        return new MutableMap($this->mapGenerator($this->array, $f));
+        return new MutableMap($this->mapAssoc($this->array, $f));
     }
 
     /**

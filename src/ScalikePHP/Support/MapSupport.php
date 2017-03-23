@@ -9,6 +9,7 @@ declare(strict_types = 1);
 
 namespace ScalikePHP\Support;
 
+use ScalikePHP\ArrayMap;
 use ScalikePHP\Map;
 use ScalikePHP\Option;
 use ScalikePHP\Seq;
@@ -74,7 +75,7 @@ trait MapSupport
      */
     public function flatMap(\Closure $f)
     {
-        return new TraversableMap($this->flatMapGenerator($this->getRawIterable(), $f));
+        return new ArrayMap($this->flatMapAssoc($this->getRawIterable(), $f));
     }
 
     /**
@@ -129,7 +130,7 @@ trait MapSupport
      */
     public function map(\Closure $f)
     {
-        return new TraversableMap($this->mapGenerator($this->getRawIterable(), $f));
+        return new ArrayMap($this->mapAssoc($this->getRawIterable(), $f));
     }
 
     /**
@@ -139,6 +140,7 @@ trait MapSupport
     public function mapValues(\Closure $f): Map {
         return new TraversableMap($this->mapValuesGenerator($this->getIterator(), $f));
     }
+
     /**
      * @inheritdoc
      * @see Map::sumBy()
@@ -173,13 +175,26 @@ trait MapSupport
      * @param \Closure $p
      * @return \Generator
      */
-    private function filterGenerator(iterable $iterable, \Closure $p): \Generator
+    protected function filterGenerator(iterable $iterable, \Closure $p): \Generator
     {
         foreach ($iterable as $key => $value) {
             if ($p($value, $key)) {
                 yield $key => $value;
             }
         }
+    }
+
+    /**
+     * Create an assoc from iterable with flatmap.
+     *
+     * @param iterable $iterable
+     * @param \Closure $f
+     * @return array
+     * @throws \LogicException
+     */
+    protected function flatMapAssoc(iterable $iterable, \Closure $f): array
+    {
+        return iterator_to_array($this->flatMapGenerator($iterable, $f));
     }
 
     /**
@@ -204,6 +219,18 @@ trait MapSupport
     }
 
     /**
+     * Create an assoc from iterable with map function.
+     *
+     * @param iterable $iterable
+     * @param \Closure $f
+     * @return array
+     */
+    protected function mapAssoc(iterable $iterable, \Closure $f): array
+    {
+        return iterator_to_array($this->mapGenerator($iterable, $f));
+    }
+
+    /**
      * Create a Generator from iterable with map function.
      *
      * @param iterable $iterable
@@ -225,7 +252,7 @@ trait MapSupport
      * @param \Closure $f
      * @return \Generator
      */
-    private function mapValuesGenerator(iterable $iterable, \Closure $f): \Generator
+    protected function mapValuesGenerator(iterable $iterable, \Closure $f): \Generator
     {
         foreach ($iterable as $key => $value) {
             yield $key => $f($value, $key);
@@ -239,7 +266,7 @@ trait MapSupport
      * @param iterable $b
      * @return \Generator
      */
-    private function mergeGenerator(iterable $a, iterable $b): \Generator
+    protected function mergeGenerator(iterable $a, iterable $b): \Generator
     {
         foreach ($a as $key => $value) {
             yield $key => $value;
@@ -254,7 +281,7 @@ trait MapSupport
      *
      * @return \Generator
      */
-    private function pairGenerator(): \Generator
+    protected function pairGenerator(): \Generator
     {
         foreach ($this->getRawIterable() as $key => $value) {
             yield [$key, $value];
