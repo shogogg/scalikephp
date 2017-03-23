@@ -62,6 +62,7 @@ trait MapSupport
 
     /**
      * @inheritdoc
+     * @return Map
      * @see Map::filter()
      */
     public function filter(\Closure $p)
@@ -71,6 +72,7 @@ trait MapSupport
 
     /**
      * @inheritdoc
+     * @return Map
      * @see Map::flatMap()
      */
     public function flatMap(\Closure $f)
@@ -126,6 +128,7 @@ trait MapSupport
 
     /**
      * @inheritdoc
+     * @return Map
      * @see Map::map()
      */
     public function map(\Closure $f)

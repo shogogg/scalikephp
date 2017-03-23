@@ -380,6 +380,7 @@ final class None extends Option
 
     /**
      * @inheritdoc
+     * @return Option
      */
     public function take(int $n): Option
     {
@@ -388,6 +389,7 @@ final class None extends Option
 
     /**
      * @inheritdoc
+     * @return Option
      */
     public function takeRight(int $n): Option
     {

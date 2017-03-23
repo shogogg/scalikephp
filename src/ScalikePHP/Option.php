@@ -128,7 +128,7 @@ abstract class Option extends ScalikeTraversable
     /**
      * 値を返す, 値を持たない場合は null を返す.
      *
-     * @return mixed
+     * @return mixed|null
      */
     abstract public function orNull();
 
@@ -139,7 +139,7 @@ abstract class Option extends ScalikeTraversable
      * @return Option
      *
      * @deprecated
-     * @see Option::orNull()
+     * @see Option::getOrElse()
      */
     abstract public function orElseCall(\Closure $f): Option;
 
@@ -155,6 +155,7 @@ abstract class Option extends ScalikeTraversable
 
     /**
      * @inheritdoc
+     * @return Option
      */
     public function take(int $n)
     {
@@ -163,6 +164,7 @@ abstract class Option extends ScalikeTraversable
 
     /**
      * @inheritdoc
+     * @return Option
      */
     public function takeRight(int $n)
     {

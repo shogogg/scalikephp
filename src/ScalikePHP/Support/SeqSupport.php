@@ -24,6 +24,7 @@ trait SeqSupport
 
     /**
      * @inheritdoc
+     * @return Seq
      * @see Seq::filter()
      */
     public function filter(\Closure $p)
@@ -33,6 +34,7 @@ trait SeqSupport
 
     /**
      * @inheritdoc
+     * @return Seq
      * @see Seq::flatMap()
      */
     public function flatMap(\Closure $f): Seq
@@ -42,6 +44,7 @@ trait SeqSupport
 
     /**
      * @inheritdoc
+     * @return Seq
      * @see Seq::flatten()
      */
     public function flatten(): Seq
@@ -70,6 +73,7 @@ trait SeqSupport
 
     /**
      * @inheritdoc
+     * @return Seq
      * @see Seq::map()
      */
     public function map(\Closure $f)
@@ -88,6 +92,7 @@ trait SeqSupport
 
     /**
      * @inheritdoc
+     * @return Seq
      * @see Seq::take()
      */
     public function take(int $n): Seq

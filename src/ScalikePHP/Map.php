@@ -241,6 +241,7 @@ abstract class Map extends ScalikeTraversable
 
     /**
      * @inheritdoc
+     * @return Map
      */
     public function take(int $n): Map
     {
@@ -249,6 +250,7 @@ abstract class Map extends ScalikeTraversable
 
     /**
      * @inheritdoc
+     * @return Map
      */
     public function takeRight(int $n): Map
     {

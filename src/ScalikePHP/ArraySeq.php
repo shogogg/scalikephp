@@ -48,6 +48,7 @@ class ArraySeq extends Seq
 
     /**
      * @inheritdoc
+     * @return Seq
      */
     public function take(int $n): Seq
     {
