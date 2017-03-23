@@ -191,11 +191,13 @@ trait SeqSupport
      */
     protected function takeGenerator(iterable $iterable, int $n): \Generator
     {
-        $i = $n;
-        foreach ($iterable as $value) {
-            yield $value;
-            if (--$i <= 0) {
-                break;
+        if ($n > 0) {
+            $i = $n;
+            foreach ($iterable as $value) {
+                yield $value;
+                if (--$i <= 0) {
+                    break;
+                }
             }
         }
     }
