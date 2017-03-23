@@ -27,7 +27,7 @@ trait SeqSupport
      * @return Seq
      * @see Seq::filter()
      */
-    public function filter(\Closure $p)
+    public function filter(\Closure $p): Seq
     {
         return new TraversableSeq($this->filterGenerator($this->getRawIterable(), $p));
     }
@@ -76,7 +76,7 @@ trait SeqSupport
      * @return Seq
      * @see Seq::map()
      */
-    public function map(\Closure $f)
+    public function map(\Closure $f): Seq
     {
         return new TraversableSeq($this->mapGenerator($this->getRawIterable(), $f));
     }

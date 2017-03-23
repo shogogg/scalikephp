@@ -184,7 +184,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
     /**
      * @inheritdoc
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         throw new \BadMethodCallException;
     }
@@ -192,7 +192,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
     /**
      * @inheritdoc
      */
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         throw new \BadMethodCallException;
     }

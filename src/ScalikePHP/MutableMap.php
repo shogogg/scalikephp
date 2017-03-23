@@ -98,7 +98,7 @@ class MutableMap extends ArrayMap
     /**
      * @inheritdoc
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         $this->update($offset, $value);
     }
@@ -106,7 +106,7 @@ class MutableMap extends ArrayMap
     /**
      * @inheritdoc
      */
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         unset($this->array[$offset]);
     }

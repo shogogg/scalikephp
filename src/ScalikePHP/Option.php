@@ -157,7 +157,7 @@ abstract class Option extends ScalikeTraversable
      * @inheritdoc
      * @return Option
      */
-    public function take(int $n)
+    public function take(int $n): Option
     {
         return $n <= 0 ? self::none() : $this;
     }
@@ -166,7 +166,7 @@ abstract class Option extends ScalikeTraversable
      * @inheritdoc
      * @return Option
      */
-    public function takeRight(int $n)
+    public function takeRight(int $n): Option
     {
         return $n <= 0 ? self::none() : $this;
     }

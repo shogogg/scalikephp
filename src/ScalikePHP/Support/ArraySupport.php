@@ -38,7 +38,7 @@ trait ArraySupport
      * @inheritdoc
      * @see ScalikeTraversable::count()
      */
-    public function count()
+    public function count(): int
     {
         return count($this->array);
     }

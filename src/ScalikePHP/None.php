@@ -38,7 +38,7 @@ final class None extends Option
     /**
      * @inheritdoc
      */
-    public function count()
+    public function count(): int
     {
         return 0;
     }
@@ -312,7 +312,7 @@ final class None extends Option
     /**
      * @inheritdoc
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         throw new \BadMethodCallException;
     }
@@ -320,7 +320,7 @@ final class None extends Option
     /**
      * @inheritdoc
      */
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         throw new \BadMethodCallException;
     }
@@ -373,7 +373,7 @@ final class None extends Option
     /**
      * @inheritdoc
      */
-    public function sumBy(\Closure $f)
+    public function sumBy(\Closure $f): int
     {
         return 0;
     }
