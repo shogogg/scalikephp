@@ -35,9 +35,7 @@ class ArraySeq extends Seq
      */
     public function append(iterable $that): Seq
     {
-        return is_array($that)
-            ? new ArraySeq(array_merge($this->array, array_values($that)))
-            : new TraversableSeq($this->mergeGenerator($this->array, $that));
+        return new TraversableSeq($this->mergeGenerator($this->array, $that));
     }
 
     /**
@@ -45,9 +43,7 @@ class ArraySeq extends Seq
      */
     public function prepend(iterable $that): Seq
     {
-        return is_array($that)
-            ? new ArraySeq(array_merge($that, $this->array))
-            : new TraversableSeq($this->mergeGenerator($that, $this->array));
+        return new TraversableSeq($this->mergeGenerator($that, $this->array));
     }
 
     /**
