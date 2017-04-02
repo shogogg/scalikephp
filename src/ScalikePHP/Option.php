@@ -44,9 +44,9 @@ abstract class Option extends ScalikeTraversable
      * Get a Some instance.
      *
      * @param mixed $value
-     * @return Option
+     * @return Some
      */
-    final public static function some($value): Option
+    final public static function some($value): Some
     {
         return Some::create($value);
     }
