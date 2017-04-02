@@ -71,6 +71,27 @@ trait MapTestCases
         Assert::same(2, $this->map(["a" => 1, "b" => 2])->count());
         Assert::same(3, $this->map(["a" => 1, "b" => 2, "c" => 3])->count());
     }
+    /**
+     * Tests for Map::drop().
+     *
+     * @see \ScalikePHP\Map::drop()
+     */
+    public function testDrop(): void
+    {
+        $seq = $this->map(["one" => 1, "two" => 2, "three" => 3, "four" => 4, "five" => 5]);
+        Assert::instanceOf(Map::class, $seq->drop(3));
+        Assert::same(["four" => 4, "five" => 5], $seq->drop(3)->toAssoc());
+        Assert::instanceOf(Map::class, $seq->drop(2));
+        Assert::same(["three" => 3, "four" => 4, "five" => 5], $seq->drop(2)->toAssoc());
+        Assert::instanceOf(Map::class, $seq->drop(1));
+        Assert::same(["two" => 2, "three" => 3, "four" => 4, "five" => 5], $seq->drop(1)->toAssoc());
+        Assert::instanceOf(Map::class, $seq->drop(0));
+        Assert::same(["one" => 1, "two" => 2, "three" => 3, "four" => 4, "five" => 5], $seq->drop(0)->toAssoc());
+        Assert::instanceOf(Map::class, $seq->drop(-1));
+        Assert::same(["one" => 1, "two" => 2, "three" => 3, "four" => 4, "five" => 5], $seq->drop(-1)->toAssoc());
+        Assert::instanceOf(Map::class, $seq->drop(-2));
+        Assert::same(["one" => 1, "two" => 2, "three" => 3, "four" => 4, "five" => 5], $seq->drop(-2)->toAssoc());
+    }
 
     /**
      * Tests for Map::each().

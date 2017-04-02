@@ -42,6 +42,15 @@ final class Some extends Option
 
     /**
      * @inheritdoc
+     * @return Seq
+     */
+    public function drop(int $n): Seq
+    {
+        return $n <= 0 ? $this->toSeq() : Seq::emptySeq();
+    }
+
+    /**
+     * @inheritdoc
      */
     public function filter(\Closure $p): Option
     {

@@ -80,6 +80,28 @@ trait SeqTestCases
     }
 
     /**
+     * Tests for Seq::drop().
+     *
+     * @see \ScalikePHP\Seq::drop()
+     */
+    public function testDrop(): void
+    {
+        $seq = $this->seq("one", "two", "three", "four", "five");
+        Assert::instanceOf(Seq::class, $seq->drop(3));
+        Assert::same(["four", "five"], $seq->drop(3)->toArray());
+        Assert::instanceOf(Seq::class, $seq->drop(2));
+        Assert::same(["three", "four", "five"], $seq->drop(2)->toArray());
+        Assert::instanceOf(Seq::class, $seq->drop(1));
+        Assert::same(["two", "three", "four", "five"], $seq->drop(1)->toArray());
+        Assert::instanceOf(Seq::class, $seq->drop(0));
+        Assert::same(["one", "two", "three", "four", "five"], $seq->drop(0)->toArray());
+        Assert::instanceOf(Seq::class, $seq->drop(-1));
+        Assert::same(["one", "two", "three", "four", "five"], $seq->drop(-1)->toArray());
+        Assert::instanceOf(Seq::class, $seq->drop(-2));
+        Assert::same(["one", "two", "three", "four", "five"], $seq->drop(-2)->toArray());
+    }
+
+    /**
      * Tests for Seq::each().
      *
      * @see \ScalikePHP\ArraySeq::each()

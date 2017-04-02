@@ -25,6 +25,16 @@ trait SeqSupport
     /**
      * @inheritdoc
      * @return Seq
+     * @see Seq::drop()
+     */
+    public function drop(int $n): Seq
+    {
+        return new TraversableSeq($this->dropGenerator($this->getRawIterable(), $n));
+    }
+
+    /**
+     * @inheritdoc
+     * @return Seq
      * @see Seq::filter()
      */
     public function filter(\Closure $p): Seq
@@ -98,6 +108,25 @@ trait SeqSupport
     public function take(int $n): Seq
     {
         return $n <= 0 ? Seq::emptySeq() : new TraversableSeq($this->takeGenerator($this->getRawIterable(), $n));
+    }
+
+    /**
+     * Crate a dropped generator.
+     *
+     * @param iterable $iterable
+     * @param int $n
+     * @return \Generator
+     */
+    private function dropGenerator(iterable $iterable, int $n): \Generator
+    {
+        $i = $n;
+        foreach ($iterable as $value) {
+            if ($i <= 0) {
+                yield $value;
+            } else {
+                --$i;
+            }
+        }
     }
 
     /**

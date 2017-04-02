@@ -45,6 +45,15 @@ final class None extends Option
 
     /**
      * @inheritdoc
+     * @return Seq
+     */
+    public function drop(int $n): Seq
+    {
+        return Seq::emptySeq();
+    }
+
+    /**
+     * @inheritdoc
      */
     public function each(\Closure $f): void
     {

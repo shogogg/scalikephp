@@ -16,6 +16,14 @@ interface ScalikeTraversableInterface extends \ArrayAccess, \Countable, \Iterato
 {
 
     /**
+     * Drop file $n elements.
+     *
+     * @param int $n
+     * @return static
+     */
+    public function drop(int $n);
+
+    /**
      * 値の全要素に対して関数 $f を適用する.
      *
      * @param \Closure $f

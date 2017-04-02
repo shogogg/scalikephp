@@ -50,6 +50,26 @@ class SomeTest extends TestCase
     }
 
     /**
+     * Tests for Some::drop().
+     *
+     * @see \ScalikePHP\Some::drop()
+     */
+    public function testDrop(): void
+    {
+        $some = Option::some(1);
+        // 1以上
+        for ($i = 2; $i > 0; --$i) {
+            Assert::instanceOf(Seq::class, $some->drop($i));
+            Assert::same([], $some->drop($i)->toArray());
+        }
+        // 0以下
+        for ($i = 0; $i >= -2; --$i) {
+            Assert::instanceOf(Seq::class, $some->drop($i));
+            Assert::same([1], $some->drop($i)->toArray());
+        }
+    }
+
+    /**
      * Tests for Some::each().
      *
      * @see \ScalikePHP\Some::each()

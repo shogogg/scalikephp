@@ -26,6 +26,16 @@ trait MapSupport
 
     /**
      * @inheritdoc
+     * @return Map
+     * @see Map::drop()
+     */
+    public function drop(int $n): Map
+    {
+        return new TraversableMap($this->dropGenerator($this->getRawIterable(), $n));
+    }
+
+    /**
+     * @inheritdoc
      */
     public function each(\Closure $f): void
     {
@@ -169,6 +179,25 @@ trait MapSupport
     public function toSeq(): Seq
     {
         return new TraversableSeq($this->pairGenerator());
+    }
+
+    /**
+     * Crate a dropped generator.
+     *
+     * @param iterable $iterable
+     * @param int $n
+     * @return \Generator
+     */
+    private function dropGenerator(iterable $iterable, int $n): \Generator
+    {
+        $i = $n;
+        foreach ($iterable as $key => $value) {
+            if ($i <= 0) {
+                yield $key => $value;
+            } else {
+                --$i;
+            }
+        }
     }
 
     /**

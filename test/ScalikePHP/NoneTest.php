@@ -33,6 +33,20 @@ class NoneTest extends TestCase
     }
 
     /**
+     * Tests for None::drop().
+     *
+     * @see \ScalikePHP\None::drop()
+     */
+    public function testDrop(): void
+    {
+        $none = Option::none();
+        for ($i = 2; $i >= -2; --$i) {
+            Assert::instanceOf(Seq::class, $none->drop($i));
+            Assert::same([], $none->drop($i)->toArray());
+        }
+    }
+
+    /**
      * Tests for None::each().
      *
      * @see \ScalikePHP\None::each()
