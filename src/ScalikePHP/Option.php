@@ -54,9 +54,9 @@ abstract class Option extends ScalikeTraversable
     /**
      * Get a None instance.
      *
-     * @return Option
+     * @return None
      */
-    final public static function none(): Option
+    final public static function none(): None
     {
         return None::getInstance();
     }
