@@ -75,7 +75,7 @@ trait MapSupport
      * @return Map
      * @see Map::filter()
      */
-    public function filter(\Closure $p): Map
+    public function filter(\Closure $p)
     {
         return new TraversableMap($this->filterGenerator($this->getRawIterable(), $p));
     }
@@ -85,7 +85,7 @@ trait MapSupport
      * @return Map
      * @see Map::flatMap()
      */
-    public function flatMap(\Closure $f): Map
+    public function flatMap(\Closure $f)
     {
         return new ArrayMap($this->flatMapAssoc($this->getRawIterable(), $f));
     }
@@ -141,7 +141,7 @@ trait MapSupport
      * @return Map
      * @see Map::map()
      */
-    public function map(\Closure $f): Map
+    public function map(\Closure $f)
     {
         return new ArrayMap($this->mapAssoc($this->getRawIterable(), $f));
     }
@@ -150,7 +150,7 @@ trait MapSupport
      * @inheritdoc
      * @see Map::mapValues()
      */
-    public function mapValues(\Closure $f): Map {
+    public function mapValues(\Closure $f) {
         return new TraversableMap($this->mapValuesGenerator($this->getIterator(), $f));
     }
 

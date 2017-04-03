@@ -167,7 +167,7 @@ abstract class Map extends ScalikeTraversable
      * @param \Closure $f
      * @return Map
      */
-    abstract public function mapValues(\Closure $f): Map;
+    abstract public function mapValues(\Closure $f);
 
     /**
      * @inheritdoc

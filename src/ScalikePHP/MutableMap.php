@@ -82,7 +82,7 @@ class MutableMap extends ArrayMap
     /**
      * @inheritdoc
      */
-    public function map(\Closure $f): Map
+    public function map(\Closure $f): MutableMap
     {
         return new MutableMap($this->mapAssoc($this->array, $f));
     }
@@ -90,7 +90,7 @@ class MutableMap extends ArrayMap
     /**
      * @inheritdoc
      */
-    public function mapValues(\Closure $f): Map
+    public function mapValues(\Closure $f): MutableMap
     {
         return new MutableMap($this->mapValuesGenerator($this->array, $f));
     }
