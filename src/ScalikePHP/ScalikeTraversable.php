@@ -81,20 +81,6 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
     }
 
     /**
-     * @inheritdoc
-     */
-    public function groupBy($f): Map
-    {
-        $g = $this->groupByClosure($f);
-        $assoc = [];
-        foreach ($this->getRawIterable() as $key => $value) {
-            $k = $g($value);
-            $assoc[$k] = isset($assoc[$k]) ? $assoc[$k]->append([$key => $value]) : $this->groupByElement($value, $key);
-        }
-        return new ArrayMap($assoc);
-    }
-
-    /**
      * Generate a Closure for `groupBy`.
      *
      * @param string|\Closure $f
@@ -115,15 +101,6 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
             throw new \InvalidArgumentException("`groupBy` needs a string or \\Closure. {$type} given.");
         }
     }
-
-    /**
-     * Create new element for `groupBy`.
-     *
-     * @param mixed $value
-     * @param mixed $key
-     * @return ScalikeTraversable
-     */
-    abstract protected function groupByElement($value, $key): ScalikeTraversable;
 
     /**
      * @inheritdoc

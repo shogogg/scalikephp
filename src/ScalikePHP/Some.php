@@ -125,9 +125,15 @@ final class Some extends Option
     /**
      * @inheritdoc
      */
-    protected function groupByElement($value, $key): ScalikeTraversable
+    public function groupBy($f): Map
     {
-        return $this;
+        $g = $this->groupByClosure($f);
+        $assoc = [];
+        foreach ($this->getRawIterable() as $value) {
+            $x = $g($value);
+            $assoc[$x] = $this->toSeq();
+        }
+        return new ArrayMap($assoc);
     }
 
     /**

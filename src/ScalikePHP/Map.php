@@ -58,9 +58,19 @@ abstract class Map extends ScalikeTraversable
     /**
      * @inheritdoc
      */
-    protected function groupByElement($value, $key): ScalikeTraversable
+    public function groupBy($f): Map
     {
-        return new ArrayMap([$key => $value]);
+        $g = $this->groupByClosure($f);
+        $assoc = [];
+        foreach ($this->getRawIterable() as $key => $value) {
+            $x = $g($value);
+            $assoc[$x] = isset($assoc[$x]) ? $assoc[$x] : [];
+            $assoc[$x][$key] = $value;
+        }
+        foreach ($assoc as $key => $xs) {
+            $assoc[$key] = new ArrayMap($xs);
+        }
+        return new ArrayMap($assoc);
     }
 
     /**

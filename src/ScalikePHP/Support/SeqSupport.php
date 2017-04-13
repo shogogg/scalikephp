@@ -75,14 +75,6 @@ trait SeqSupport
 
     /**
      * @inheritdoc
-     */
-    protected function groupByElement($value, $key): ScalikeTraversable
-    {
-        return new ArraySeq([$value]);
-    }
-
-    /**
-     * @inheritdoc
      * @return Seq
      * @see Seq::map()
      */

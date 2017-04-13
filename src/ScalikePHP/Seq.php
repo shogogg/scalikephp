@@ -108,6 +108,24 @@ abstract class Seq extends ScalikeTraversable
     /**
      * @inheritdoc
      */
+    public function groupBy($f): Map
+    {
+        $g = $this->groupByClosure($f);
+        $assoc = [];
+        foreach ($this->getRawIterable() as $key => $value) {
+            $x = $g($value);
+            $assoc[$x] = isset($assoc[$x]) ? $assoc[$x] : [];
+            $assoc[$x][] = $value;
+        }
+        foreach ($assoc as $key => $xs) {
+            $assoc[$key] = new ArraySeq($xs);
+        }
+        return new ArrayMap($assoc);
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function jsonSerialize(): array
     {
         return $this->toArray();

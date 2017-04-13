@@ -185,14 +185,6 @@ final class None extends Option
     /**
      * @inheritdoc
      */
-    protected function groupByElement($value, $key): ScalikeTraversable
-    {
-        return $this;
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function head()
     {
         throw new \LogicException("There is no value");
