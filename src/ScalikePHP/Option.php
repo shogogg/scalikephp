@@ -176,8 +176,8 @@ abstract class Option extends ScalikeTraversable
      */
     public function toGenerator(): \Generator
     {
-        foreach ($this->toArray() as $value) {
-            yield $value;
+        foreach ($this->toArray() as $index => $value) {
+            yield $index => $value;
         }
     }
 

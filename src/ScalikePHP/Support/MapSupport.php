@@ -315,8 +315,9 @@ trait MapSupport
      */
     private function pairGenerator(): \Generator
     {
+        $index = 0;
         foreach ($this->getRawIterable() as $key => $value) {
-            yield [$key, $value];
+            yield $index++ => [$key, $value];
         }
     }
 

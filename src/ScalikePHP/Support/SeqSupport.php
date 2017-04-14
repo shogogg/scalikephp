@@ -112,9 +112,10 @@ trait SeqSupport
     private function dropGenerator(iterable $iterable, int $n): \Generator
     {
         $i = $n;
+        $index = 0;
         foreach ($iterable as $value) {
             if ($i <= 0) {
-                yield $value;
+                yield $index++ => $value;
             } else {
                 --$i;
             }
@@ -130,9 +131,10 @@ trait SeqSupport
      */
     private function filterGenerator(iterable $iterable, \Closure $p): \Generator
     {
+        $index = 0;
         foreach ($iterable as $value) {
             if ($p($value)) {
-                yield $value;
+                yield $index++ => $value;
             }
         }
     }
@@ -147,13 +149,14 @@ trait SeqSupport
      */
     private function flatMapGenerator(iterable $iterable, \Closure $f): \Generator
     {
+        $index = 0;
         foreach ($iterable as $value) {
             $xs = $f($value);
             if (is_iterable($xs) === false) {
                 throw new \LogicException("Closure should returns an iterable");
             }
             foreach ($xs as $x) {
-                yield $x;
+                yield $index++ => $x;
             }
         }
     }
@@ -167,12 +170,13 @@ trait SeqSupport
      */
     private function flattenGenerator(iterable $iterable): \Generator
     {
+        $index = 0;
         foreach ($iterable as $value) {
             if (is_iterable($value) === false) {
                 throw new \LogicException("Closure should returns an iterable");
             }
             foreach ($value as $x) {
-                yield $x;
+                yield $index++ => $x;
             }
         }
     }
@@ -186,8 +190,9 @@ trait SeqSupport
      */
     private function mapGenerator(iterable $iterable, \Closure $f): \Generator
     {
+        $index = 0;
         foreach ($iterable as $value) {
-            yield $f($value);
+            yield $index++ => $f($value);
         }
     }
 
@@ -200,11 +205,12 @@ trait SeqSupport
      */
     protected function mergeGenerator(iterable $a, iterable $b): \Generator
     {
+        $index = 0;
         foreach ($a as $value) {
-            yield $value;
+            yield $index++ => $value;
         }
         foreach ($b as $value) {
-            yield $value;
+            yield $index++ => $value;
         }
     }
 
@@ -218,8 +224,9 @@ trait SeqSupport
     private function takeGenerator(iterable $iterable, int $n): \Generator
     {
         $i = $n;
+        $index = 0;
         foreach ($iterable as $value) {
-            yield $value;
+            yield $index++ => $value;
             if (--$i <= 0) {
                 break;
             }
