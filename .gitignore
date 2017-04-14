@@ -2,6 +2,7 @@
 *.swp
 .DS_Store
 .idea
+.php-version
 composer.phar
 Thumbs.db
 /vendor
