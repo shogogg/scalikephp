@@ -87,6 +87,14 @@ interface ScalikeTraversableInterface extends \ArrayAccess, \Countable, \Iterato
     public function forAll(\Closure $p): bool;
 
     /**
+     * 要素を用いてジェネレータを生成する.
+     *
+     * @param \Closure $f 各要素を受け取りジェネレータを返す関数
+     * @return \Generator
+     */
+    public function generate(\Closure $f): \Generator;
+
+    /**
      * 要素を指定された関数の戻り値でグループ化して返す.
      *
      * - $f に string が渡された場合は各要素から $f に該当する要素|プロパティを探し、それをキーとする

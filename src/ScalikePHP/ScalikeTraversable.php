@@ -81,6 +81,18 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
     }
 
     /**
+     * @inheritdoc
+     */
+    public function generate(\Closure $f): \Generator
+    {
+        foreach ($this->getRawIterable() as $k => $v) {
+            foreach ($f($v, $k) as $gk => $gv) {
+                yield $gk => $gv;
+            }
+        }
+    }
+
+    /**
      * Generate a Closure for `groupBy`.
      *
      * @param string|\Closure $f
