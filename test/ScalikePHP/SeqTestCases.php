@@ -79,6 +79,32 @@ trait SeqTestCases
         Assert::same(["foo", "bar", "baz"], $seq->distinct()->toArray());
     }
 
+
+    /**
+     * Tests for Seq::distinctBy().
+     *
+     * @see \ScalikePHP\Seq::distinctBy()
+     */
+    public function testDistinctBy(): void
+    {
+        $seq = $this->seq(
+            ["name" => "foo"],
+            ["name" => "bar"],
+            ["name" => "foo"],
+            ["name" => "baz"],
+            ["name" => "bar"],
+            ["name" => "foo"],
+            ["name" => "baz"],
+        );
+        $f = function (array $x) {
+            return $x["name"];
+        };
+        Assert::same(
+            [["name" => "foo"], ["name" => "bar"], ["name" => "baz"]],
+            $seq->distinctBy($f)->toArray()
+        );
+    }
+
     /**
      * Tests for Seq::drop().
      *

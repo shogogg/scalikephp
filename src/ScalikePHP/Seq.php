@@ -97,6 +97,27 @@ abstract class Seq extends ScalikeTraversable
     }
 
     /**
+     * 指定された関数の戻り値を用いて重複を排除した Seq を返す.
+     *
+     * @param \Closure $f
+     * @return Seq
+     */
+    public function distinctBy(\Closure $f): Seq
+    {
+        $g = call_user_func(function () use ($f) {
+            $keys = [];
+            foreach ($this->getRawIterable() as $value) {
+                $key = $f($value);
+                if (!in_array($key, $keys, true)) {
+                    $keys[] = $key;
+                    yield $value;
+                }
+            }
+        });
+        return new TraversableSeq($g);
+    }
+
+    /**
      * 要素を順番に処理してたたみ込む
      *
      * @param mixed $z
