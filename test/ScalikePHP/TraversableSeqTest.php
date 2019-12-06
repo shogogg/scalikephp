@@ -27,12 +27,11 @@ class TraversableSeqTest extends TestCase
      */
     protected function seq(... $values): Seq
     {
-        $g = function () use ($values) {
+        return new TraversableSeq(function () use ($values) {
             foreach ($values as $value) {
                 yield $value;
             }
-        };
-        return new TraversableSeq($g());
+        });
     }
 
 }

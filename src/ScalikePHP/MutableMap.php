@@ -26,7 +26,7 @@ class MutableMap extends ArrayMap
      */
     public function __construct(iterable $iterable)
     {
-        parent::__construct(is_array($iterable) ? $iterable : iterator_to_array($iterable));
+        parent::__construct($iterable instanceof \Traversable ? iterator_to_array($iterable) : $iterable);
     }
 
     /**
@@ -51,7 +51,7 @@ class MutableMap extends ArrayMap
      */
     public function filter(\Closure $p): MutableMap
     {
-        return new MutableMap($this->filterGenerator($this->array, $p));
+        return new MutableMap($this->filterGenerator($p));
     }
 
     /**
@@ -60,7 +60,7 @@ class MutableMap extends ArrayMap
      */
     public function flatMap(\Closure $f): MutableMap
     {
-        return new MutableMap($this->flatMapAssoc($this->array, $f));
+        return new MutableMap($this->flatMapGenerator($f));
     }
 
     /**
@@ -92,7 +92,7 @@ class MutableMap extends ArrayMap
      */
     public function mapValues(\Closure $f): MutableMap
     {
-        return new MutableMap($this->mapValuesGenerator($this->array, $f));
+        return new MutableMap($this->mapValuesGenerator($f));
     }
 
     /**
@@ -126,6 +126,12 @@ class MutableMap extends ArrayMap
         } else {
             return Option::none();
         }
+    }
+
+    /** {@inheritdoc} */
+    protected function getRawIterable(): iterable
+    {
+        return $this->array;
     }
 
     /**

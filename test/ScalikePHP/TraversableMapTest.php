@@ -27,12 +27,11 @@ class TraversableMapTest extends TestCase
      */
     protected function map(array $values = []): Map
     {
-        $g = function () use ($values) {
+        return new TraversableMap(function () use ($values) {
             foreach ($values as $key => $value) {
                 yield $key => $value;
             }
-        };
-        return new TraversableMap($g());
+        });
     }
 
 }

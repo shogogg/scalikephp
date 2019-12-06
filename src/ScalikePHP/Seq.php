@@ -60,7 +60,9 @@ abstract class Seq extends ScalikeTraversable
         } elseif (is_array($iterable)) {
             return empty($iterable) ? static::emptySeq() : new ArraySeq($iterable);
         } elseif (is_iterable($iterable)) {
-            return new TraversableSeq($iterable);
+            return new TraversableSeq(function () use ($iterable) {
+                yield from $iterable;
+            });
         } else {
             throw new \InvalidArgumentException("Seq::fromArray() needs to iterable");
         }
@@ -104,7 +106,7 @@ abstract class Seq extends ScalikeTraversable
      */
     public function distinctBy(\Closure $f): Seq
     {
-        $g = call_user_func(function () use ($f) {
+        return new TraversableSeq(function () use ($f) {
             $keys = [];
             foreach ($this->getRawIterable() as $value) {
                 $key = $f($value);
@@ -114,7 +116,6 @@ abstract class Seq extends ScalikeTraversable
                 }
             }
         });
-        return new TraversableSeq($g);
     }
 
     /**

@@ -14,6 +14,8 @@ use ScalikePHP\Seq;
 
 /**
  * ScalikeTraversable implementation using an iterator(\Traversable).
+ *
+ * @mixin \ScalikePHP\ScalikeTraversable
  */
 trait TraversableSupport
 {
@@ -24,9 +26,9 @@ trait TraversableSupport
     private $array;
 
     /**
-     * @var \Traversable
+     * @var \Closure
      */
-    private $traversable;
+    private $closure;
 
     /**
      * @var bool
@@ -36,52 +38,44 @@ trait TraversableSupport
     /**
      * Set the traversable.
      *
-     * @param \Traversable $traversable
+     * @param \Closure $closure
      * @return void
      */
-    protected function setTraversable(\Traversable $traversable): void
+    protected function setClosure(\Closure $closure): void
     {
-        $this->traversable = $traversable instanceof \Generator
-            ? new GeneratorIterator($traversable)
-            : $traversable;
+        $this->closure = $closure;
     }
 
     /**
-     * @inheritdoc
-     * @see ScalikeTraversable::count()
+     * {@inheritdoc}
+     *
+     * @throws \Exception
      */
     public function count(): int
     {
         return count($this->toArray());
     }
 
-    /**
-     * @inheritdoc
-     * @see ScalikeTraversable::getIterator()
-     */
+    /** {@inheritdoc} */
     public function getIterator(): \Iterator
     {
-        if ($this->traversable instanceof \Iterator) {
-            return $this->traversable;
-        } elseif ($this->traversable instanceof \IteratorAggregate) {
-            return $this->traversable->getIterator();
-        } else {
-            return new \ArrayIterator($this->toArray());
-        }
+        return call_user_func($this->closure);
     }
 
     /**
-     * @inheritdoc
-     * @see ScalikeTraversable::getRawIterable()
+     * {@inheritdoc}
+     *
+     * @throws \Exception
      */
     protected function getRawIterable(): iterable
     {
-        return $this->traversable;
+        return $this->getIterator();
     }
 
     /**
-     * @inheritdoc
-     * @see ScalikeTraversable::isEmpty()
+     * {@inheritdoc}
+     *
+     * @throws \Exception
      */
     public function isEmpty(): bool
     {
@@ -89,8 +83,9 @@ trait TraversableSupport
     }
 
     /**
-     * @inheritdoc
-     * @see ScalikeTraversable::offsetExists()
+     * {@inheritdoc}
+     *
+     * @throws \Exception
      */
     public function offsetExists($offset): bool
     {
@@ -99,8 +94,9 @@ trait TraversableSupport
     }
 
     /**
-     * @inheritdoc
-     * @see ScalikeTraversable::offsetGet()
+     * {@inheritdoc}
+     *
+     * @throws \Exception
      */
     public function offsetGet($offset)
     {
@@ -113,8 +109,9 @@ trait TraversableSupport
     }
 
     /**
-     * @inheritdoc
-     * @see ScalikeTraversable::size()
+     * {@inheritdoc}
+     *
+     * @throws \Exception
      */
     public function size(): int
     {
@@ -122,8 +119,9 @@ trait TraversableSupport
     }
 
     /**
-     * @inheritdoc
-     * @see ScalikeTraversable::toArray()
+     * {@inheritdoc}
+     *
+     * @throws \Exception
      */
     public function toArray(): array
     {
@@ -132,8 +130,9 @@ trait TraversableSupport
     }
 
     /**
-     * @inheritdoc
-     * @see ScalikeTraversable::toSeq()
+     * {@inheritdoc}
+     *
+     * @throws \Exception
      */
     public function toSeq(): Seq
     {
@@ -141,16 +140,10 @@ trait TraversableSupport
     }
 
     /**
-     * Compute values.
+     * {@inheritdoc}
      *
-     * @return void
+     * @throws \Exception
      */
-    private function compute(): void
-    {
-        if ($this->computed === false) {
-            $this->array = iterator_to_array($this->traversable);
-            $this->computed = true;
-        }
-    }
+    abstract protected function compute(): void;
 
 }

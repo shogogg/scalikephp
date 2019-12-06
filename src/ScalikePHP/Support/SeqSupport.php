@@ -16,6 +16,8 @@ use ScalikePHP\TraversableSeq;
 
 /**
  * Support functions for Seq.
+ *
+ * @mixin \ScalikePHP\ScalikeTraversable
  */
 trait SeqSupport
 {
@@ -29,42 +31,66 @@ trait SeqSupport
      */
     public function drop(int $n): Seq
     {
-        return new TraversableSeq($this->dropGenerator($this->getRawIterable(), $n));
+        return new TraversableSeq(function () use ($n): \Generator {
+            $i = $n;
+            $index = 0;
+            foreach ($this->getRawIterable() as $value) {
+                if ($i <= 0) {
+                    yield $index++ => $value;
+                } else {
+                    --$i;
+                }
+            }
+        });
     }
 
-    /**
-     * @inheritdoc
-     * @return Seq
-     * @see Seq::filter()
-     */
+    /** {@inheritdoc} */
     public function filter(\Closure $p): Seq
     {
-        return new TraversableSeq($this->filterGenerator($this->getRawIterable(), $p));
+        return new TraversableSeq(function () use ($p): \Generator {
+            $index = 0;
+            foreach ($this->getRawIterable() as $value) {
+                if ($p($value)) {
+                    yield $index++ => $value;
+                }
+            }
+        });
     }
 
-    /**
-     * @inheritdoc
-     * @return Seq
-     * @see Seq::flatMap()
-     */
+    /** {@inheritdoc} */
     public function flatMap(\Closure $f): Seq
     {
-        return new TraversableSeq($this->flatMapGenerator($this->getRawIterable(), $f));
+        return new TraversableSeq(function () use ($f): \Generator {
+            $index = 0;
+            foreach ($this->getRawIterable() as $value) {
+                $xs = $f($value);
+                if (is_iterable($xs) === false) {
+                    throw new \LogicException("Closure should returns an iterable");
+                }
+                foreach ($xs as $x) {
+                    yield $index++ => $x;
+                }
+            }
+        });
     }
 
-    /**
-     * @inheritdoc
-     * @return Seq
-     * @see Seq::flatten()
-     */
+    /** {@inheritdoc} */
     public function flatten(): Seq
     {
-        return new TraversableSeq($this->flattenGenerator($this->getRawIterable()));
+        return new TraversableSeq(function (): \Generator {
+            $index = 0;
+            foreach ($this->getRawIterable() as $value) {
+                if (is_iterable($value) === false) {
+                    throw new \LogicException("Closure should returns an iterable");
+                }
+                foreach ($value as $x) {
+                    yield $index++ => $x;
+                }
+            }
+        });
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** {@inheritdoc} */
     public function fold($z, \Closure $f)
     {
         foreach ($this->getRawIterable() as $value) {
@@ -73,164 +99,36 @@ trait SeqSupport
         return $z;
     }
 
-    /**
-     * @inheritdoc
-     * @return Seq
-     * @see Seq::map()
-     */
+    /** {@inheritdoc} */
     public function map(\Closure $f): Seq
     {
-        return new TraversableSeq($this->mapGenerator($this->getRawIterable(), $f));
+        return new TraversableSeq(function () use ($f): \Generator {
+            $index = 0;
+            foreach ($this->getRawIterable() as $value) {
+                yield $index++ => $f($value);
+            }
+        });
     }
 
-    /**
-     * @inheritdoc
-     * @see Seq::sumBy()
-     */
+    /** {@inheritdoc} */
     public function sumBy(\Closure $f)
     {
         return $this->fold(0, $f);
     }
 
-    /**
-     * @inheritdoc
-     * @return Seq
-     * @see Seq::take()
-     */
+    /** {@inheritdoc} */
     public function take(int $n): Seq
     {
-        return $n <= 0 ? Seq::emptySeq() : new TraversableSeq($this->takeGenerator($this->getRawIterable(), $n));
-    }
-
-    /**
-     * Crate a dropped generator.
-     *
-     * @param iterable $iterable
-     * @param int $n
-     * @return \Generator
-     */
-    private function dropGenerator(iterable $iterable, int $n): \Generator
-    {
-        $i = $n;
-        $index = 0;
-        foreach ($iterable as $value) {
-            if ($i <= 0) {
+        return $n <= 0 ? Seq::emptySeq() : new TraversableSeq(function () use ($n): \Generator {
+            $i = $n;
+            $index = 0;
+            foreach ($this->getRawIterable() as $value) {
                 yield $index++ => $value;
-            } else {
-                --$i;
+                if (--$i <= 0) {
+                    break;
+                }
             }
-        }
-    }
-
-    /**
-     * Create a Generator from iterable with filter.
-     *
-     * @param iterable $iterable
-     * @param \Closure $p
-     * @return \Generator
-     */
-    private function filterGenerator(iterable $iterable, \Closure $p): \Generator
-    {
-        $index = 0;
-        foreach ($iterable as $value) {
-            if ($p($value)) {
-                yield $index++ => $value;
-            }
-        }
-    }
-
-    /**
-     * Create a Generator from iterable with flatmap.
-     *
-     * @param iterable $iterable
-     * @param \Closure $f
-     * @return \Generator
-     * @throws \LogicException
-     */
-    private function flatMapGenerator(iterable $iterable, \Closure $f): \Generator
-    {
-        $index = 0;
-        foreach ($iterable as $value) {
-            $xs = $f($value);
-            if (is_iterable($xs) === false) {
-                throw new \LogicException("Closure should returns an iterable");
-            }
-            foreach ($xs as $x) {
-                yield $index++ => $x;
-            }
-        }
-    }
-
-    /**
-     * Create a Generator from iterable with flatten.
-     *
-     * @param iterable $iterable
-     * @return \Generator
-     * @throws \LogicException
-     */
-    private function flattenGenerator(iterable $iterable): \Generator
-    {
-        $index = 0;
-        foreach ($iterable as $value) {
-            if (is_iterable($value) === false) {
-                throw new \LogicException("Closure should returns an iterable");
-            }
-            foreach ($value as $x) {
-                yield $index++ => $x;
-            }
-        }
-    }
-
-    /**
-     * Create a Generator from iterable with map function.
-     *
-     * @param iterable $iterable
-     * @param \Closure $f
-     * @return \Generator
-     */
-    private function mapGenerator(iterable $iterable, \Closure $f): \Generator
-    {
-        $index = 0;
-        foreach ($iterable as $value) {
-            yield $index++ => $f($value);
-        }
-    }
-
-    /**
-     * Create a Generator from two iterables.
-     *
-     * @param iterable $a
-     * @param iterable $b
-     * @return \Generator
-     */
-    protected function mergeGenerator(iterable $a, iterable $b): \Generator
-    {
-        $index = 0;
-        foreach ($a as $value) {
-            yield $index++ => $value;
-        }
-        foreach ($b as $value) {
-            yield $index++ => $value;
-        }
-    }
-
-    /**
-     * Create a Generator from first $n elements of iterable.
-     *
-     * @param iterable $iterable
-     * @param int $n
-     * @return \Generator
-     */
-    private function takeGenerator(iterable $iterable, int $n): \Generator
-    {
-        $i = $n;
-        $index = 0;
-        foreach ($iterable as $value) {
-            yield $index++ => $value;
-            if (--$i <= 0) {
-                break;
-            }
-        }
+        });
     }
 
 }

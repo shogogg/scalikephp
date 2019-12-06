@@ -14,6 +14,8 @@ use ScalikePHP\Seq;
 
 /**
  * ScalikeTraversable implementation using an array.
+ *
+ * @mixin \ScalikePHP\ScalikeTraversable
  */
 trait ArraySupport
 {

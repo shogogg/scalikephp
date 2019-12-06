@@ -26,11 +26,11 @@ class TraversableMap extends Map
     /**
      * Constructor.
      *
-     * @param \Traversable $traversable
+     * @param \Closure $closure
      */
-    public function __construct(\Traversable $traversable)
+    public function __construct(\Closure $closure)
     {
-        $this->setTraversable($traversable);
+        $this->setClosure($closure);
     }
 
     /**
@@ -38,11 +38,10 @@ class TraversableMap extends Map
      */
     public function append($keyOrArray, $value = null)
     {
-        $g = $this->mergeGenerator(
-            $this->traversable,
-            is_array($keyOrArray) ? $keyOrArray : [$keyOrArray => $value]
-        );
-        return new TraversableMap($g, true);
+        return new TraversableMap(function () use ($keyOrArray, $value): \Generator {
+            yield from $this->getRawIterable();
+            yield from is_array($keyOrArray) ? $keyOrArray : [$keyOrArray => $value];
+        });
     }
 
     /**
@@ -69,21 +68,26 @@ class TraversableMap extends Map
         return new ArraySeq(array_keys($this->toAssoc()));
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** {@inheritdoc} */
     public function toAssoc(): array
     {
         $this->compute();
         return $this->array;
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** {@inheritdoc} */
     public function values(): Seq
     {
         return new ArraySeq(array_values($this->toAssoc()));
+    }
+
+    /** {@inheritdoc} */
+    protected function compute(): void
+    {
+        if ($this->computed === false) {
+            $this->array = iterator_to_array($this->getIterator(), true);
+            $this->computed = true;
+        }
     }
 
 }

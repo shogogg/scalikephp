@@ -35,7 +35,10 @@ class ArraySeq extends Seq
      */
     public function append(iterable $that): Seq
     {
-        return new TraversableSeq($this->mergeGenerator($this->array, $that));
+        return new TraversableSeq(function () use ($that): \Generator {
+            yield from $this->array;
+            yield from $that;
+        });
     }
 
     /**
@@ -43,7 +46,10 @@ class ArraySeq extends Seq
      */
     public function prepend(iterable $that): Seq
     {
-        return new TraversableSeq($this->mergeGenerator($that, $this->array));
+        return new TraversableSeq(function () use ($that): \Generator {
+            yield from $that;
+            yield from $this->array;
+        });
     }
 
     /**

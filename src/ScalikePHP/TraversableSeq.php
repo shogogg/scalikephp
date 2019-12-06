@@ -9,7 +9,6 @@ declare(strict_types = 1);
 
 namespace ScalikePHP;
 
-use ScalikePHP\Support\GeneratorIterator;
 use ScalikePHP\Support\SeqSupport;
 use ScalikePHP\Support\TraversableSupport;
 
@@ -24,11 +23,11 @@ class TraversableSeq extends Seq
     /**
      * Constructor.
      *
-     * @param \Traversable $traversable
+     * @param \Closure $closure
      */
-    public function __construct(\Traversable $traversable)
+    public function __construct(\Closure $closure)
     {
-        $this->setTraversable($traversable);
+        $this->setClosure($closure);
     }
 
     /**
@@ -36,7 +35,10 @@ class TraversableSeq extends Seq
      */
     public function append(iterable $that): Seq
     {
-        return new TraversableSeq($this->mergeGenerator($this->getRawIterable(), $that));
+        return new TraversableSeq(function () use ($that): \Generator {
+            yield from $this->getRawIterable();
+            yield from $that;
+        });
     }
 
     /**
@@ -44,7 +46,10 @@ class TraversableSeq extends Seq
      */
     public function prepend(iterable $that): Seq
     {
-        return new TraversableSeq($this->mergeGenerator($that, $this->getRawIterable()));
+        return new TraversableSeq(function () use ($that): \Generator {
+            yield from $that;
+            yield from $this->getRawIterable();
+        });
     }
 
     /**
@@ -53,6 +58,15 @@ class TraversableSeq extends Seq
     public function toSeq(): Seq
     {
         return $this;
+    }
+
+    /** {@inheritdoc} */
+    protected function compute(): void
+    {
+        if ($this->computed === false) {
+            $this->array = iterator_to_array($this->getIterator(), false);
+            $this->computed = true;
+        }
     }
 
 }
