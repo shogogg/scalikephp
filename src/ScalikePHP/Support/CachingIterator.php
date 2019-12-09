@@ -10,7 +10,7 @@ declare(strict_types=1);
 namespace ScalikePHP\Support;
 
 /**
- * GeneratorIterator - Rewindable iterator wrapping generator.
+ * CachingIterator - Rewindable iterator wrapping generator.
  */
 final class CachingIterator implements \IteratorAggregate
 {

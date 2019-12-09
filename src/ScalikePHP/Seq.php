@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace ScalikePHP;
 
+use ScalikePHP\Support\ClosureIterator;
+
 /**
  * Scala like Seq.
  */
@@ -30,12 +32,7 @@ abstract class Seq extends ScalikeTraversable
      */
     final public static function create(\Closure $f): Seq
     {
-        $iterator = $f();
-        if ($iterator instanceof \Traversable) {
-            return self::fromIterator($iterator);
-        } else {
-            throw new \InvalidArgumentException;
-        }
+        return self::fromTraversable(new ClosureIterator($f));
     }
 
     /**
@@ -72,11 +69,11 @@ abstract class Seq extends ScalikeTraversable
     final public static function fromArray(?iterable $iterable): Seq
     {
         if ($iterable === null) {
-            return static::emptySeq();
+            return self::emptySeq();
         } elseif (is_array($iterable)) {
             return empty($iterable) ? static::emptySeq() : new ArraySeq($iterable);
         } elseif ($iterable instanceof \Traversable) {
-            return new TraversableSeq($iterable);
+            return self::fromTraversable($iterable);
         } else {
             throw new \InvalidArgumentException("Seq::fromArray() needs to iterable");
         }
@@ -85,12 +82,12 @@ abstract class Seq extends ScalikeTraversable
     /**
      * Create an instance from an iterator.
      *
-     * @param \Iterator $iterator
+     * @param \Traversable $traversable
      * @return \ScalikePHP\Seq
      */
-    final public static function fromIterator(\Iterator $iterator): Seq
+    final public static function fromTraversable(\Traversable $traversable): Seq
     {
-        return new TraversableSeq($iterator);
+        return new TraversableSeq($traversable);
     }
 
     /**

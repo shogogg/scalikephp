@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace ScalikePHP;
 
+use ScalikePHP\Support\ClosureIterator;
+
 /**
  * Scala like Map.
  */
@@ -30,12 +32,7 @@ abstract class Map extends ScalikeTraversable
      */
     final public static function create(\Closure $f): Map
     {
-        $iterator = $f();
-        if ($iterator instanceof \Traversable) {
-            return Map::fromTraversable($iterator);
-        } else {
-            throw new \InvalidArgumentException;
-        }
+        return Map::fromTraversable(new ClosureIterator($f));
     }
 
     /**
