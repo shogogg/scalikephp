@@ -5,7 +5,7 @@
  * This software is released under the MIT License.
  * http://opensource.org/licenses/mit-license.php
  */
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Test\ScalikePHP;
 
@@ -27,11 +27,7 @@ class TraversableMapTest extends TestCase
      */
     protected function map(array $values = []): Map
     {
-        return new TraversableMap(function () use ($values) {
-            foreach ($values as $key => $value) {
-                yield $key => $value;
-            }
-        });
+        return new TraversableMap(new \ArrayIterator($values));
     }
 
 }

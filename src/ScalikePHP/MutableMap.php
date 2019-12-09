@@ -5,7 +5,7 @@
  * This software is released under the MIT License.
  * http://opensource.org/licenses/mit-license.php
  */
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace ScalikePHP;
 
@@ -29,10 +29,7 @@ class MutableMap extends ArrayMap
         parent::__construct($iterable instanceof \Traversable ? iterator_to_array($iterable) : $iterable);
     }
 
-    /**
-     * @inheritdoc
-     * @return MutableMap
-     */
+    /** {@inheritdoc} */
     public function append($keyOrArray, $value = null): MutableMap
     {
         if (is_iterable($keyOrArray)) {
@@ -45,19 +42,13 @@ class MutableMap extends ArrayMap
         return $this;
     }
 
-    /**
-     * @inheritdoc
-     * @return MutableMap
-     */
+    /** {@inheritdoc} */
     public function filter(\Closure $p): MutableMap
     {
         return new MutableMap($this->filterGenerator($p));
     }
 
-    /**
-     * @inheritdoc
-     * @return MutableMap
-     */
+    /** {@inheritdoc} */
     public function flatMap(\Closure $f): MutableMap
     {
         return new MutableMap($this->flatMapGenerator($f));
@@ -79,33 +70,25 @@ class MutableMap extends ArrayMap
         });
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** {@inheritdoc} */
     public function map(\Closure $f): MutableMap
     {
         return new MutableMap($this->mapAssoc($this->array, $f));
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** {@inheritdoc} */
     public function mapValues(\Closure $f): MutableMap
     {
         return new MutableMap($this->mapValuesGenerator($f));
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** {@inheritdoc} */
     public function offsetSet($offset, $value): void
     {
         $this->update($offset, $value);
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** {@inheritdoc} */
     public function offsetUnset($offset): void
     {
         unset($this->array[$offset]);

@@ -5,7 +5,7 @@
  * This software is released under the MIT License.
  * http://opensource.org/licenses/mit-license.php
  */
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Test\ScalikePHP;
 
@@ -25,7 +25,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
      *
      * @return MockInterface|\Mockery\MockInterface
      */
-    public static function spy()
+    public static function spy(): Mockery\MockInterface
     {
         return Mockery::spy();
     }

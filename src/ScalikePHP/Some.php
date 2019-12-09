@@ -5,7 +5,7 @@
  * This software is released under the MIT License.
  * http://opensource.org/licenses/mit-license.php
  */
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace ScalikePHP;
 
@@ -40,26 +40,19 @@ final class Some extends Option
         $this->setArray([$value]);
     }
 
-    /**
-     * @inheritdoc
-     * @return Seq
-     */
+    /** {@inheritdoc} */
     public function drop(int $n): Seq
     {
         return $n <= 0 ? $this->toSeq() : Seq::emptySeq();
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** {@inheritdoc} */
     public function filter(\Closure $p): Option
     {
         return $p($this->array[0]) ? $this : Option::none();
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** {@inheritdoc} */
     public function flatMap(\Closure $f): Option
     {
         $option = $f($this->array[0]);
@@ -70,9 +63,7 @@ final class Some extends Option
         }
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** {@inheritdoc} */
     public function flatten(): Option
     {
         if ($this->array[0] instanceof Option) {
@@ -82,160 +73,128 @@ final class Some extends Option
         }
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** {@inheritdoc} */
     public function get()
     {
         return $this->array[0];
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** {@inheritdoc} */
+    public function getIterator(): \Traversable
+    {
+        return new \ArrayIterator($this->array);
+    }
+
+    /** {@inheritdoc} */
     public function getOrCall(\Closure $f)
     {
         return $this->getOrElse($f);
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** {@inheritdoc} */
     public function getOrElse(\Closure $default)
     {
         return $this->array[0];
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** {@inheritdoc} */
     public function getOrElseValue($default)
     {
         return $this->array[0];
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** {@inheritdoc} */
     public function getOrThrow(\Exception $exception)
     {
         return $this->array[0];
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** {@inheritdoc} */
     public function groupBy($f): Map
     {
         $g = $this->groupByClosure($f);
         $assoc = [];
-        foreach ($this->getRawIterable() as $value) {
+        foreach ($this->array as $value) {
             $x = $g($value);
             $assoc[$x] = $this->toSeq();
         }
         return new ArrayMap($assoc);
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** {@inheritdoc} */
     public function isDefined(): bool
     {
         return true;
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** {@inheritdoc} */
     public function jsonSerialize()
     {
         $value = $this->array[0];
         return $value instanceof \JsonSerializable ? $value->jsonSerialize() : $value;
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** {@inheritdoc} */
     public function map(\Closure $f): Some
     {
         return static::create($f($this->array[0]));
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** {@inheritdoc} */
     public function max()
     {
         return $this->array[0];
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** {@inheritdoc} */
     public function maxBy(\Closure $f)
     {
         return $this->array[0];
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** {@inheritdoc} */
     public function min()
     {
         return $this->array[0];
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** {@inheritdoc} */
     public function minBy(\Closure $f)
     {
         return $this->array[0];
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** {@inheritdoc} */
     public function orElse(\Closure $b): Option
     {
         return $this;
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** {@inheritdoc} */
     public function orNull()
     {
         return $this->array[0];
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** {@inheritdoc} */
     public function orElseCall(\Closure $f): Option
     {
         return $this;
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** {@inheritdoc} */
     public function sum()
     {
         return $this->array[0];
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** {@inheritdoc} */
     public function sumBy(\Closure $f)
     {
         return $this->array[0];
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** {@inheritdoc} */
     public function pick($name): Option
     {
         $value = $this->array[0];
@@ -248,9 +207,13 @@ final class Some extends Option
         }
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** {@inheritdoc} */
+    public function toArray(): array
+    {
+        return $this->array;
+    }
+
+    /** {@inheritdoc} */
     public function toSeq(): Seq
     {
         return new ArraySeq($this->array);

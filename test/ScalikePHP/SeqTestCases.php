@@ -5,7 +5,7 @@
  * This software is released under the MIT License.
  * http://opensource.org/licenses/mit-license.php
  */
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Test\ScalikePHP;
 
@@ -23,7 +23,7 @@ trait SeqTestCases
      * @param array $values
      * @return \ScalikePHP\Seq
      */
-    abstract protected function seq(... $values): Seq;
+    abstract protected function seq(...$values): Seq;
 
     /**
      * Tests for Seq::append().
@@ -79,7 +79,6 @@ trait SeqTestCases
         Assert::same(["foo", "bar", "baz"], $seq->distinct()->toArray());
     }
 
-
     /**
      * Tests for Seq::distinctBy().
      *
@@ -94,7 +93,7 @@ trait SeqTestCases
             ["name" => "baz"],
             ["name" => "bar"],
             ["name" => "foo"],
-            ["name" => "baz"],
+            ["name" => "baz"]
         );
         $f = function (array $x) {
             return $x["name"];
@@ -318,7 +317,7 @@ trait SeqTestCases
         };
         $expected = [
             "language" => ["php", "python", "scala"],
-            "framework" => ["symfony", "django", "playframework"]
+            "framework" => ["symfony", "django", "playframework"],
         ];
         Assert::same($expected, $seq->groupBy($f)->mapValues($g)->toAssoc());
         Assert::same($expected, $seq->groupBy("type")->mapValues($g)->toAssoc());
@@ -625,33 +624,6 @@ trait SeqTestCases
         Assert::same(2, ($this->seq("foo", "bar"))->size());
         Assert::same(3, ($this->seq("foo", "bar", "baz"))->size());
     }
-    /**
-     * Tests for Seq::sum().
-     *
-     * @see \ScalikePHP\ArraySeq::sum()
-     * @see \ScalikePHP\TraversableSeq::sum()
-     */
-    public function testSum(): void
-    {
-        Assert::same(0, $this->seq()->sum());
-        Assert::same(0, $this->seq("a", "b", "c")->sum());
-        Assert::same(10, $this->seq(1, 2, 3, 4)->sum());
-    }
-
-    /**
-     * Tests for Seq::sumBy().
-     *
-     * @see \ScalikePHP\ArraySeq::sumBy()
-     * @see \ScalikePHP\TraversableSeq::sumBy()
-     */
-    public function testSumBy(): void
-    {
-        $f = function(int $z, string $value): int {
-            return $z + strlen($value);
-        };
-        Assert::same(0, $this->seq()->sumBy($f));
-        Assert::same(10, $this->seq("a", "pi", "dog", "beer")->sumBy($f));
-    }
 
     /**
      * Tests for Seq::sortBy().
@@ -673,6 +645,34 @@ trait SeqTestCases
         };
         Assert::same(["Alice", "Bob", "Carol", "Ellen", "Frank"], $seq->sortBy($f)->map($f)->toArray());
         Assert::same(["Alice", "Bob", "Carol", "Ellen", "Frank"], $seq->sortBy("name")->map($f)->toArray());
+    }
+
+    /**
+     * Tests for Seq::sum().
+     *
+     * @see \ScalikePHP\ArraySeq::sum()
+     * @see \ScalikePHP\TraversableSeq::sum()
+     */
+    public function testSum(): void
+    {
+        Assert::same(0, $this->seq()->sum());
+        Assert::same(0, $this->seq("a", "b", "c")->sum());
+        Assert::same(10, $this->seq(1, 2, 3, 4)->sum());
+    }
+
+    /**
+     * Tests for Seq::sumBy().
+     *
+     * @see \ScalikePHP\ArraySeq::sumBy()
+     * @see \ScalikePHP\TraversableSeq::sumBy()
+     */
+    public function testSumBy(): void
+    {
+        $f = function (int $z, string $value): int {
+            return $z + strlen($value);
+        };
+        Assert::same(0, $this->seq()->sumBy($f));
+        Assert::same(10, $this->seq("a", "pi", "dog", "beer")->sumBy($f));
     }
 
     /**

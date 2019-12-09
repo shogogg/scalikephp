@@ -5,12 +5,9 @@
  * This software is released under the MIT License.
  * http://opensource.org/licenses/mit-license.php
  */
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace ScalikePHP\Support;
-
-use ScalikePHP\ArraySeq;
-use ScalikePHP\Seq;
 
 /**
  * ScalikeTraversable implementation using an iterator(\Traversable).
@@ -23,27 +20,29 @@ trait TraversableSupport
     /**
      * @var array
      */
-    private $array;
+    protected $array;
 
     /**
-     * @var \Closure
+     * @var \Traversable
      */
-    private $closure;
+    protected $traversable;
 
     /**
      * @var bool
      */
-    private $computed = false;
+    protected $computed = false;
 
     /**
      * Set the traversable.
      *
-     * @param \Closure $closure
+     * @param \Traversable $traversable
      * @return void
      */
-    protected function setClosure(\Closure $closure): void
+    protected function setTraversable(\Traversable $traversable): void
     {
-        $this->closure = $closure;
+        $this->traversable = $traversable instanceof \Generator || $traversable instanceof \NoRewindIterator
+            ? new CachingIterator($traversable)
+            : $traversable;
     }
 
     /**
@@ -57,19 +56,15 @@ trait TraversableSupport
     }
 
     /** {@inheritdoc} */
-    public function getIterator(): \Iterator
+    public function getIterator(): \Traversable
     {
-        return call_user_func($this->closure);
+        return $this->computed ? new \ArrayIterator($this->array) : $this->traversable;
     }
 
-    /**
-     * {@inheritdoc}
-     *
-     * @throws \Exception
-     */
+    /** {@inheritdoc} */
     protected function getRawIterable(): iterable
     {
-        return $this->getIterator();
+        return $this->computed ? $this->array : $this->traversable;
     }
 
     /**
@@ -116,27 +111,6 @@ trait TraversableSupport
     public function size(): int
     {
         return count($this->toArray());
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @throws \Exception
-     */
-    public function toArray(): array
-    {
-        $this->compute();
-        return $this->array;
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @throws \Exception
-     */
-    public function toSeq(): Seq
-    {
-        return new ArraySeq($this->toArray());
     }
 
     /**

@@ -5,7 +5,7 @@
  * This software is released under the MIT License.
  * http://opensource.org/licenses/mit-license.php
  */
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Test\ScalikePHP;
 
@@ -71,6 +71,7 @@ trait MapTestCases
         Assert::same(2, $this->map(["a" => 1, "b" => 2])->count());
         Assert::same(3, $this->map(["a" => 1, "b" => 2, "c" => 3])->count());
     }
+
     /**
      * Tests for Map::drop().
      *
@@ -78,19 +79,19 @@ trait MapTestCases
      */
     public function testDrop(): void
     {
-        $seq = $this->map(["one" => 1, "two" => 2, "three" => 3, "four" => 4, "five" => 5]);
-        Assert::instanceOf(Map::class, $seq->drop(3));
-        Assert::same(["four" => 4, "five" => 5], $seq->drop(3)->toAssoc());
-        Assert::instanceOf(Map::class, $seq->drop(2));
-        Assert::same(["three" => 3, "four" => 4, "five" => 5], $seq->drop(2)->toAssoc());
-        Assert::instanceOf(Map::class, $seq->drop(1));
-        Assert::same(["two" => 2, "three" => 3, "four" => 4, "five" => 5], $seq->drop(1)->toAssoc());
-        Assert::instanceOf(Map::class, $seq->drop(0));
-        Assert::same(["one" => 1, "two" => 2, "three" => 3, "four" => 4, "five" => 5], $seq->drop(0)->toAssoc());
-        Assert::instanceOf(Map::class, $seq->drop(-1));
-        Assert::same(["one" => 1, "two" => 2, "three" => 3, "four" => 4, "five" => 5], $seq->drop(-1)->toAssoc());
-        Assert::instanceOf(Map::class, $seq->drop(-2));
-        Assert::same(["one" => 1, "two" => 2, "three" => 3, "four" => 4, "five" => 5], $seq->drop(-2)->toAssoc());
+        $map = $this->map(["one" => 1, "two" => 2, "three" => 3, "four" => 4, "five" => 5]);
+        Assert::instanceOf(Map::class, $map->drop(3));
+        Assert::same(["four" => 4, "five" => 5], $map->drop(3)->toAssoc());
+        Assert::instanceOf(Map::class, $map->drop(2));
+        Assert::same(["three" => 3, "four" => 4, "five" => 5], $map->drop(2)->toAssoc());
+        Assert::instanceOf(Map::class, $map->drop(1));
+        Assert::same(["two" => 2, "three" => 3, "four" => 4, "five" => 5], $map->drop(1)->toAssoc());
+        Assert::instanceOf(Map::class, $map->drop(0));
+        Assert::same(["one" => 1, "two" => 2, "three" => 3, "four" => 4, "five" => 5], $map->drop(0)->toAssoc());
+        Assert::instanceOf(Map::class, $map->drop(-1));
+        Assert::same(["one" => 1, "two" => 2, "three" => 3, "four" => 4, "five" => 5], $map->drop(-1)->toAssoc());
+        Assert::instanceOf(Map::class, $map->drop(-2));
+        Assert::same(["one" => 1, "two" => 2, "three" => 3, "four" => 4, "five" => 5], $map->drop(-2)->toAssoc());
     }
 
     /**
@@ -247,7 +248,6 @@ trait MapTestCases
                 $map->flatten();
             }
         );
-
     }
 
     /**
@@ -289,44 +289,6 @@ trait MapTestCases
     }
 
     /**
-     * Tests for Map::groupBy().
-     *
-     * @see \ScalikePHP\ArrayMap::groupBy()
-     * @see \ScalikePHP\TraversableMap::groupBy()
-     */
-    public function testGroupBy(): void
-    {
-        $map = $this->map([
-            "php" => ["name" => "php", "type" => "language"],
-            "python" => ["name" => "python", "type" => "language"],
-            "scala" => ["name" => "scala", "type" => "language"],
-            "symfony" => ["name" => "symfony", "type" => "framework"],
-            "django" => ["name" => "django", "type" => "framework"],
-            "playframework" => ["name" => "playframework", "type" => "framework"]
-        ]);
-        $f = function (array $item): string {
-            return $item["type"];
-        };
-        $g = function (Map $items): array {
-            return $items->toAssoc();
-        };
-        $expected = [
-            "language" => [
-                "php" => ["name" => "php", "type" => "language"],
-                "python" => ["name" => "python", "type" => "language"],
-                "scala" => ["name" => "scala", "type" => "language"],
-            ],
-            "framework" => [
-                "symfony" => ["name" => "symfony", "type" => "framework"],
-                "django" => ["name" => "django", "type" => "framework"],
-                "playframework" => ["name" => "playframework", "type" => "framework"]
-            ],
-        ];
-        Assert::same($expected, $map->groupBy($f)->mapValues($g)->toAssoc());
-        Assert::same($expected, $map->groupBy("type")->mapValues($g)->toAssoc());
-    }
-
-    /**
      * Tests for Map::get().
      *
      * @see \ScalikePHP\ArrayMap::get()
@@ -357,6 +319,44 @@ trait MapTestCases
         Assert::same("Subaru", $map->getOrElse("Levorg", $default));
         Assert::same("Toyota", $map->getOrElse("Prius", $default));
         Assert::same("Undefined", $map->getOrElse("Fit", $default));
+    }
+
+    /**
+     * Tests for Map::groupBy().
+     *
+     * @see \ScalikePHP\ArrayMap::groupBy()
+     * @see \ScalikePHP\TraversableMap::groupBy()
+     */
+    public function testGroupBy(): void
+    {
+        $map = $this->map([
+            "php" => ["name" => "php", "type" => "language"],
+            "python" => ["name" => "python", "type" => "language"],
+            "scala" => ["name" => "scala", "type" => "language"],
+            "symfony" => ["name" => "symfony", "type" => "framework"],
+            "django" => ["name" => "django", "type" => "framework"],
+            "playframework" => ["name" => "playframework", "type" => "framework"],
+        ]);
+        $f = function (array $item): string {
+            return $item["type"];
+        };
+        $g = function (Map $items): array {
+            return $items->toAssoc();
+        };
+        $expected = [
+            "language" => [
+                "php" => ["name" => "php", "type" => "language"],
+                "python" => ["name" => "python", "type" => "language"],
+                "scala" => ["name" => "scala", "type" => "language"],
+            ],
+            "framework" => [
+                "symfony" => ["name" => "symfony", "type" => "framework"],
+                "django" => ["name" => "django", "type" => "framework"],
+                "playframework" => ["name" => "playframework", "type" => "framework"],
+            ],
+        ];
+        Assert::same($expected, $map->groupBy($f)->mapValues($g)->toAssoc());
+        Assert::same($expected, $map->groupBy("type")->mapValues($g)->toAssoc());
     }
 
     /**
@@ -643,10 +643,10 @@ trait MapTestCases
      */
     public function testSum(): void
     {
-        $f = function(): void {
+        $f = function (): void {
             $this->map()->sum();
         };
-        $g = function(): void {
+        $g = function (): void {
             $this->map(["a" => 1, "b" => 2, "c" => 3])->sum();
         };
         Assert::throws(\LogicException::class, $f);
@@ -661,7 +661,7 @@ trait MapTestCases
      */
     public function testSumBy(): void
     {
-        $f = function(int $z, int $value, string $key): int {
+        $f = function (int $z, int $value, string $key): int {
             return $z + $value;
         };
         Assert::same(0, $this->map()->sumBy($f));

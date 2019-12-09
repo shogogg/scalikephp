@@ -5,12 +5,11 @@
  * This software is released under the MIT License.
  * http://opensource.org/licenses/mit-license.php
  */
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace ScalikePHP;
 
 use ScalikePHP\Support\ArraySupport;
-use ScalikePHP\Support\MapSupport;
 
 /**
  * A Seq implementation using array.
@@ -18,10 +17,7 @@ use ScalikePHP\Support\MapSupport;
 class ArrayMap extends Map
 {
 
-    use ArraySupport, MapSupport {
-        MapSupport::toArray insteadof ArraySupport;
-        MapSupport::toSeq insteadof ArraySupport;
-    }
+    use ArraySupport;
 
     /**
      * Constructor.
@@ -33,9 +29,7 @@ class ArrayMap extends Map
         $this->setArray($assoc);
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** {@inheritdoc} */
     public function append($keyOrArray, $value = null)
     {
         $assoc = array_merge(
@@ -45,41 +39,49 @@ class ArrayMap extends Map
         return new ArrayMap($assoc);
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** {@inheritdoc} */
     public function contains($key): bool
     {
         return isset($this->array[$key]);
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** {@inheritdoc} */
+    public function drop(int $n): Map
+    {
+        return $n <= 0 ? $this : new ArrayMap(array_slice($this->array, $n));
+    }
+
+    /** {@inheritdoc} */
     public function get($key): Option
     {
         return Option::fromArray($this->array, $key);
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** {@inheritdoc} */
     public function keys(): Seq
     {
         return new ArraySeq(array_keys($this->array));
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** {@inheritdoc} */
+    public function take(int $n): Map
+    {
+        if ($n > 0) {
+            return new ArrayMap(array_slice($this->array, 0, $n));
+        } elseif ($n === 0) {
+            return Map::emptyMap();
+        } else {
+            return $this;
+        }
+    }
+
+    /** {@inheritdoc} */
     public function toAssoc(): array
     {
         return $this->array;
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** {@inheritdoc} */
     public function values(): Seq
     {
         return new ArraySeq(array_values($this->array));

@@ -5,12 +5,11 @@
  * This software is released under the MIT License.
  * http://opensource.org/licenses/mit-license.php
  */
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace ScalikePHP;
 
 use ScalikePHP\Support\ArraySupport;
-use ScalikePHP\Support\SeqSupport;
 
 /**
  * A Seq implementation using array.
@@ -18,7 +17,7 @@ use ScalikePHP\Support\SeqSupport;
 class ArraySeq extends Seq
 {
 
-    use ArraySupport, SeqSupport;
+    use ArraySupport;
 
     /**
      * Constructor.
@@ -31,42 +30,31 @@ class ArraySeq extends Seq
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
+     *
+     * @throws \Exception
      */
-    public function append(iterable $that): Seq
+    public function drop(int $n): Seq
     {
-        return new TraversableSeq(function () use ($that): \Generator {
-            yield from $this->array;
-            yield from $that;
-        });
+        return $n <= 0 ? $this : new ArraySeq(array_slice($this->array, $n));
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function prepend(iterable $that): Seq
-    {
-        return new TraversableSeq(function () use ($that): \Generator {
-            yield from $that;
-            yield from $this->array;
-        });
-    }
-
-    /**
-     * @inheritdoc
-     * @return Seq
-     */
+    /** {@inheritdoc} */
     public function take(int $n): Seq
     {
-        return new ArraySeq(array_slice($this->array, 0, $n));
+        if ($n > 0) {
+            return new ArraySeq(array_slice($this->array, 0, $n));
+        } elseif ($n === 0) {
+            return Seq::emptySeq();
+        } else {
+            return $this;
+        }
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function toSeq(): Seq
+    /** {@inheritdoc} */
+    public function toArray(): array
     {
-        return $this;
+        return $this->array;
     }
 
 }

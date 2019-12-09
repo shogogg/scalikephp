@@ -5,7 +5,7 @@
  * This software is released under the MIT License.
  * http://opensource.org/licenses/mit-license.php
  */
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace ScalikePHP;
 
@@ -153,27 +153,19 @@ abstract class Option extends ScalikeTraversable
      */
     abstract public function pick($name): Option;
 
-    /**
-     * @inheritdoc
-     * @return Option
-     */
+    /** {@inheritdoc} */
     public function take(int $n): Option
     {
         return $n <= 0 ? self::none() : $this;
     }
 
-    /**
-     * @inheritdoc
-     * @return Option
-     */
+    /** {@inheritdoc} */
     public function takeRight(int $n): Option
     {
         return $n <= 0 ? self::none() : $this;
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** {@inheritdoc} */
     public function toGenerator(): \Generator
     {
         foreach ($this->toArray() as $index => $value) {

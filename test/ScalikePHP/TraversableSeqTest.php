@@ -5,7 +5,7 @@
  * This software is released under the MIT License.
  * http://opensource.org/licenses/mit-license.php
  */
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Test\ScalikePHP;
 
@@ -25,13 +25,9 @@ class TraversableSeqTest extends TestCase
     /**
      * @inheritdoc
      */
-    protected function seq(... $values): Seq
+    protected function seq(...$values): Seq
     {
-        return new TraversableSeq(function () use ($values) {
-            foreach ($values as $value) {
-                yield $value;
-            }
-        });
+        return new TraversableSeq(new \ArrayIterator($values));
     }
 
 }

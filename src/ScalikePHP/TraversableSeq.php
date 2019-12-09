@@ -5,11 +5,10 @@
  * This software is released under the MIT License.
  * http://opensource.org/licenses/mit-license.php
  */
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace ScalikePHP;
 
-use ScalikePHP\Support\SeqSupport;
 use ScalikePHP\Support\TraversableSupport;
 
 /**
@@ -18,53 +17,75 @@ use ScalikePHP\Support\TraversableSupport;
 class TraversableSeq extends Seq
 {
 
-    use SeqSupport, TraversableSupport;
+    use TraversableSupport;
 
     /**
      * Constructor.
      *
-     * @param \Closure $closure
+     * @param \Traversable $traversable
      */
-    public function __construct(\Closure $closure)
+    public function __construct(\Traversable $traversable)
     {
-        $this->setClosure($closure);
+        $this->setTraversable($traversable);
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
+     *
+     * @throws \Exception
      */
-    public function append(iterable $that): Seq
+    public function drop(int $n): Seq
     {
-        return new TraversableSeq(function () use ($that): \Generator {
-            yield from $this->getRawIterable();
-            yield from $that;
+        return $n <= 0 ? $this : Seq::create(function () use ($n): \Traversable {
+            $i = $n;
+            $index = 0;
+            foreach ($this->getRawIterable() as $value) {
+                if ($i <= 0) {
+                    yield $index++ => $value;
+                } else {
+                    --$i;
+                }
+            }
         });
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function prepend(iterable $that): Seq
+    /** {@inheritdoc} */
+    public function take(int $n): Seq
     {
-        return new TraversableSeq(function () use ($that): \Generator {
-            yield from $that;
-            yield from $this->getRawIterable();
-        });
+        if ($n > 0) {
+            return Seq::create(function () use ($n): \Traversable {
+                $i = $n;
+                $index = 0;
+                foreach ($this->getRawIterable() as $value) {
+                    yield $index++ => $value;
+                    if (--$i <= 0) {
+                        break;
+                    }
+                }
+            });
+        } elseif ($n === 0) {
+            return Seq::emptySeq();
+        } else {
+            return $this;
+        }
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
+     *
+     * @throws \Exception
      */
-    public function toSeq(): Seq
+    public function toArray(): array
     {
-        return $this;
+        $this->compute();
+        return $this->array;
     }
 
     /** {@inheritdoc} */
     protected function compute(): void
     {
         if ($this->computed === false) {
-            $this->array = iterator_to_array($this->getIterator(), false);
+            $this->array = iterator_to_array($this->traversable, false);
             $this->computed = true;
         }
     }

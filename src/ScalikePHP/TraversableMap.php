@@ -5,11 +5,10 @@
  * This software is released under the MIT License.
  * http://opensource.org/licenses/mit-license.php
  */
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace ScalikePHP;
 
-use ScalikePHP\Support\MapSupport;
 use ScalikePHP\Support\TraversableSupport;
 
 /**
@@ -18,54 +17,78 @@ use ScalikePHP\Support\TraversableSupport;
 class TraversableMap extends Map
 {
 
-    use MapSupport, TraversableSupport {
-        MapSupport::toArray insteadof TraversableSupport;
-        MapSupport::toSeq insteadof TraversableSupport;
-    }
+    use TraversableSupport;
 
     /**
      * Constructor.
      *
-     * @param \Closure $closure
+     * @param \Traversable $traversable
      */
-    public function __construct(\Closure $closure)
+    public function __construct(\Traversable $traversable)
     {
-        $this->setClosure($closure);
+        $this->setTraversable($traversable);
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** {@inheritdoc} */
     public function append($keyOrArray, $value = null)
     {
-        return new TraversableMap(function () use ($keyOrArray, $value): \Generator {
-            yield from $this->getRawIterable();
+        return Map::create(function () use ($keyOrArray, $value): \Generator {
+            yield from $this->traversable;
             yield from is_array($keyOrArray) ? $keyOrArray : [$keyOrArray => $value];
         });
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** {@inheritdoc} */
     public function contains($key): bool
     {
         return array_key_exists($key, $this->toAssoc());
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** {@inheritdoc} */
+    public function drop(int $n): Map
+    {
+        return $n <= 0 ? $this : Map::create(function () use ($n): \Traversable {
+            $i = $n;
+            foreach ($this->getRawIterable() as $key => $value) {
+                if ($i <= 0) {
+                    yield $key => $value;
+                } else {
+                    --$i;
+                }
+            }
+        });
+    }
+
+    /** {@inheritdoc} */
     public function get($key): Option
     {
         return Option::fromArray($this->toAssoc(), $key);
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** {@inheritdoc} */
     public function keys(): Seq
     {
         return new ArraySeq(array_keys($this->toAssoc()));
+    }
+
+    /** {@inheritdoc} */
+    public function take(int $n): Map
+    {
+        if ($n > 0) {
+            return Map::create(function () use ($n): \Traversable {
+                $i = $n;
+                foreach ($this->getRawIterable() as $key => $value) {
+                    yield $key => $value;
+                    if (--$i <= 0) {
+                        break;
+                    }
+                }
+            });
+        } elseif ($n === 0) {
+            return Map::emptyMap();
+        } else {
+            return $this;
+        }
     }
 
     /** {@inheritdoc} */
@@ -85,7 +108,7 @@ class TraversableMap extends Map
     protected function compute(): void
     {
         if ($this->computed === false) {
-            $this->array = iterator_to_array($this->getIterator(), true);
+            $this->array = iterator_to_array($this->traversable, true);
             $this->computed = true;
         }
     }

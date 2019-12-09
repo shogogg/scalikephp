@@ -5,14 +5,13 @@
  * This software is released under the MIT License.
  * http://opensource.org/licenses/mit-license.php
  */
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Test\ScalikePHP;
 
 use ScalikePHP\ArraySeq;
-use ScalikePHP\GeneratorSeq;
-use ScalikePHP\TraversableSeq;
 use ScalikePHP\Seq;
+use ScalikePHP\TraversableSeq;
 
 /**
  * Tests for Seq.

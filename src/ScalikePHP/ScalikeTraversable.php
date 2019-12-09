@@ -7,20 +7,13 @@
  */
 namespace ScalikePHP;
 
-use ScalikePHP\Support\GeneralSupport;
-
 /**
  * Scala like Traversable Implementation.
  */
 abstract class ScalikeTraversable implements ScalikeTraversableInterface
 {
 
-    use GeneralSupport;
-
-    /**
-     * @inheritdoc
-     * @see ScalikeTraversable::each()
-     */
+    /** {@inheritdoc} */
     public function each(\Closure $f): void
     {
         foreach ($this->getRawIterable() as $key => $value) {
@@ -28,10 +21,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     * @see ScalikeTraversable::exists()
-     */
+    /** {@inheritdoc} */
     public function exists(\Closure $p): bool
     {
         foreach ($this->getRawIterable() as $value) {
@@ -42,9 +32,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
         return false;
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** {@inheritdoc} */
     public function filterNot(\Closure $p)
     {
         return $this->filter(function ($value) use ($p) {
@@ -52,10 +40,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
         });
     }
 
-    /**
-     * @inheritdoc
-     * @see ScalikeTraversable::find()
-     */
+    /** {@inheritdoc} */
     public function find(\Closure $p): Option
     {
         foreach ($this->getRawIterable() as $value) {
@@ -66,10 +51,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
         return Option::none();
     }
 
-    /**
-     * @inheritdoc
-     * @see ScalikeTraversable::forAll()
-     */
+    /** {@inheritdoc} */
     public function forAll(\Closure $p): bool
     {
         foreach ($this->getRawIterable() as $value) {
@@ -80,9 +62,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
         return true;
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** {@inheritdoc} */
     public function generate(\Closure $f): \Generator
     {
         foreach ($this->getRawIterable() as $k => $v) {
@@ -91,6 +71,13 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
             }
         }
     }
+
+    /**
+     * Get raw iterable.
+     *
+     * @return iterable
+     */
+    abstract protected function getRawIterable(): iterable;
 
     /**
      * Generate a Closure for `groupBy`.
@@ -114,10 +101,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     * @see ScalikeTraversable::head()
-     */
+    /** {@inheritdoc} */
     public function head()
     {
         foreach ($this->getRawIterable() as $value) {
@@ -126,10 +110,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
         throw new \LogicException("There is no value");
     }
 
-    /**
-     * @inheritdoc
-     * @see ScalikeTraversable::headOption()
-     */
+    /** {@inheritdoc} */
     public function headOption(): Option
     {
         foreach ($this->getRawIterable() as $value) {
@@ -138,57 +119,43 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
         return Option::none();
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** {@inheritdoc} */
     public function last()
     {
         return $this->takeRight(1)->toSeq()->head();
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** {@inheritdoc} */
     public function lastOption(): Option
     {
         return $this->takeRight(1)->toSeq()->headOption();
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** {@inheritdoc} */
     public function mkString(string $sep = ""): string
     {
         return implode($sep, $this->toArray());
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** {@inheritdoc} */
     public function nonEmpty(): bool
     {
         return !$this->isEmpty();
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** {@inheritdoc} */
     public function offsetSet($offset, $value): void
     {
         throw new \BadMethodCallException;
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** {@inheritdoc} */
     public function offsetUnset($offset): void
     {
         throw new \BadMethodCallException;
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** {@inheritdoc} */
     public function sum()
     {
         return array_sum($this->toArray());
