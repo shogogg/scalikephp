@@ -26,8 +26,8 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
      */
     public function each(Closure $f): void
     {
-        foreach ($this->getRawIterable() as $value) {
-            $f($value);
+        foreach ($this->getRawIterable() as $key => $value) {
+            $f($value, $key);
         }
     }
 

@@ -203,8 +203,8 @@ abstract class Seq extends ScalikeTraversable
     {
         return self::create(function () use ($f): Generator {
             $index = 0;
-            foreach ($this->getRawIterable() as $value) {
-                $xs = $f($value);
+            foreach ($this->getRawIterable() as $key => $value) {
+                $xs = $f($value, $key);
                 if (is_iterable($xs) === false) {
                     throw new LogicException('Closure should returns an iterable');
                 }
@@ -281,8 +281,8 @@ abstract class Seq extends ScalikeTraversable
     {
         return self::create(function () use ($f): Generator {
             $index = 0;
-            foreach ($this->getRawIterable() as $value) {
-                yield $index++ => $f($value);
+            foreach ($this->getRawIterable() as $key => $value) {
+                yield $index++ => $f($value, $key);
             }
         });
     }

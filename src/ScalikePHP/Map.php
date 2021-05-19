@@ -95,16 +95,6 @@ abstract class Map extends ScalikeTraversable
     /**
      * {@inheritdoc}
      */
-    public function each(Closure $f): void
-    {
-        foreach ($this->getRawIterable() as $key => $value) {
-            $f($value, $key);
-        }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function exists(Closure $p): bool
     {
         foreach ($this->getRawIterable() as $key => $value) {

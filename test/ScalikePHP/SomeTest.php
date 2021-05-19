@@ -83,7 +83,7 @@ final class SomeTest extends TestCase
         $f = function () use ($spy): void {
             call_user_func_array([$spy, 'spy'], func_get_args());
         };
-        $spy->shouldReceive('spy')->with(1)->once();
+        $spy->shouldReceive('spy')->with(1, 0)->once();
         Some::create(1)->each($f);
     }
 

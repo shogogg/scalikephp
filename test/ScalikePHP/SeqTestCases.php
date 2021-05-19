@@ -145,9 +145,9 @@ trait SeqTestCases
         $f = function () use ($spy): void {
             call_user_func_array([$spy, 'spy'], func_get_args());
         };
-        $spy->shouldReceive('spy')->with(1)->once();
-        $spy->shouldReceive('spy')->with(2)->once();
-        $spy->shouldReceive('spy')->with(3)->once();
+        $spy->shouldReceive('spy')->with(1, 0)->once();
+        $spy->shouldReceive('spy')->with(2, 1)->once();
+        $spy->shouldReceive('spy')->with(3, 2)->once();
         $this->seq(1, 2, 3)->each($f);
     }
 
@@ -225,10 +225,22 @@ trait SeqTestCases
     public function testFlatMap(): void
     {
         $seq = $this->seq('foo', 'bar', 'baz');
+
         $f = fn (string $x): array => [$x, strtoupper($x)];
-        $g = fn (string $x): Seq => $this->seq($x, ucfirst($x));
         Assert::same(['foo', 'FOO', 'bar', 'BAR', 'baz', 'BAZ'], $seq->flatMap($f)->toArray());
+
+        $g = fn (string $x): Seq => $this->seq($x, ucfirst($x));
         Assert::same(['foo', 'Foo', 'bar', 'Bar', 'baz', 'Baz'], $seq->flatMap($g)->toArray());
+
+        $spy = self::spy();
+        $h = function () use ($spy): array {
+            call_user_func_array([$spy, 'spy'], func_get_args());
+            return func_get_args();
+        };
+        $spy->shouldReceive('spy')->with('foo', 0)->once();
+        $spy->shouldReceive('spy')->with('bar', 1)->once();
+        $spy->shouldReceive('spy')->with('baz', 2)->once();
+        $seq->flatMap($h)->computed();
     }
 
     /**
@@ -403,10 +415,22 @@ trait SeqTestCases
     public function testMap(): void
     {
         $seq = $this->seq('Fizz', 'Buzz', 'FizzBuzz');
+
         $f = fn (string $x): string => strtoupper($x);
-        $g = fn (string $x): int => strlen($x);
         Assert::same(['FIZZ', 'BUZZ', 'FIZZBUZZ'], $seq->map($f)->toArray());
+
+        $g = fn (string $x): int => strlen($x);
         Assert::same([4, 4, 8], $seq->map($g)->toArray());
+
+        $spy = self::spy();
+        $h = function () use ($spy): array {
+            call_user_func_array([$spy, 'spy'], func_get_args());
+            return func_get_args();
+        };
+        $spy->shouldReceive('spy')->with('Fizz', 0)->once();
+        $spy->shouldReceive('spy')->with('Buzz', 1)->once();
+        $spy->shouldReceive('spy')->with('FizzBuzz', 2)->once();
+        $seq->map($h)->computed();
     }
 
     /**
