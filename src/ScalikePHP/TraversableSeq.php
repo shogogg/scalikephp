@@ -33,6 +33,14 @@ class TraversableSeq extends Seq
     /**
      * {@inheritdoc}
      */
+    public function computed(): Seq
+    {
+        return new ArraySeq($this->toArray());
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function drop(int $n): Seq
     {
         return $n <= 0 ? $this : Seq::create(function () use ($n): Generator {

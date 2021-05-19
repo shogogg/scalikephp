@@ -31,4 +31,15 @@ final class ArraySeqTest extends TestCase
     {
         return new ArraySeq($values);
     }
+
+    /**
+     * Tests for ArraySeq::computed().
+     *
+     * @see \ScalikePHP\ArraySeq::computed()
+     */
+    public function testComputed(): void
+    {
+        $seq = $this->seq('foo', 'bar', 'baz');
+        Assert::same($seq, $seq->computed());
+    }
 }

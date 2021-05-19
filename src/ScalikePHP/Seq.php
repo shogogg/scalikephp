@@ -38,7 +38,7 @@ abstract class Seq extends ScalikeTraversable
     /**
      * Get an empty Seq instance.
      *
-     * @return Seq
+     * @return \ScalikePHP\Seq
      */
     final public static function empty(): self
     {
@@ -51,7 +51,7 @@ abstract class Seq extends ScalikeTraversable
     /**
      * Get an empty Seq instance.
      *
-     * @return Seq
+     * @return \ScalikePHP\Seq
      * @deprecated
      */
     final public static function emptySeq(): self
@@ -63,7 +63,7 @@ abstract class Seq extends ScalikeTraversable
      * Create a Seq instance from arguments.
      *
      * @param array $items
-     * @return Seq
+     * @return \ScalikePHP\Seq
      */
     final public static function from(...$items): self
     {
@@ -75,7 +75,7 @@ abstract class Seq extends ScalikeTraversable
      *
      * @param null|iterable $iterable
      * @throws InvalidArgumentException
-     * @return Seq
+     * @return \ScalikePHP\Seq
      */
     final public static function fromArray(?iterable $iterable): self
     {
@@ -125,7 +125,7 @@ abstract class Seq extends ScalikeTraversable
      * 末尾に要素を追加する.
      *
      * @param iterable $that
-     * @return Seq
+     * @return \ScalikePHP\Seq
      */
     public function append(iterable $that): self
     {
@@ -133,10 +133,16 @@ abstract class Seq extends ScalikeTraversable
     }
 
     /**
+     * 遅延されている計算を行った結果を返す.
+     *
+     * @return \ScalikePHP\Seq
+     */
+    abstract public function computed(): self;
+
+    /**
      * 指定された値が含まれているかどうかを判定する.
      *
      * @param mixed $elem
-     *
      * @return bool
      */
     public function contains($elem): bool
@@ -147,7 +153,7 @@ abstract class Seq extends ScalikeTraversable
     /**
      * 重複を排除した Seq を返す.
      *
-     * @return Seq
+     * @return \ScalikePHP\Seq
      */
     public function distinct(): self
     {
@@ -159,7 +165,7 @@ abstract class Seq extends ScalikeTraversable
      * 指定された関数の戻り値を用いて重複を排除した Seq を返す.
      *
      * @param Closure $f
-     * @return Seq
+     * @return \ScalikePHP\Seq
      */
     public function distinctBy(Closure $f): self
     {
@@ -344,7 +350,7 @@ abstract class Seq extends ScalikeTraversable
      *
      * @param iterable $that
      *
-     * @return Seq
+     * @return \ScalikePHP\Seq
      */
     public function prepend(iterable $that): self
     {
@@ -354,7 +360,7 @@ abstract class Seq extends ScalikeTraversable
     /**
      * 逆順にした Seq を返す.
      *
-     * @return Seq
+     * @return \ScalikePHP\Seq
      */
     public function reverse(): self
     {
@@ -365,7 +371,7 @@ abstract class Seq extends ScalikeTraversable
      * 指定された関数の戻り値（または指定されたキーの値）を用いてソートされた Seq を返す.
      *
      * @param Closure|string $f
-     * @return Seq
+     * @return \ScalikePHP\Seq
      */
     public function sortBy($f): self
     {

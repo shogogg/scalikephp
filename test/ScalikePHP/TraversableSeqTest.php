@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace Test\ScalikePHP;
 
 use ArrayIterator;
+use ScalikePHP\ArraySeq;
 use ScalikePHP\Seq;
 use ScalikePHP\TraversableSeq;
 
@@ -31,5 +32,18 @@ final class TraversableSeqTest extends TestCase
     protected function seq(...$values): Seq
     {
         return new TraversableSeq(new ArrayIterator($values));
+    }
+
+    /**
+     * Tests for TraversableSeq::computed().
+     *
+     * @see \ScalikePHP\TraversableSeq::computed()
+     */
+    public function testComputed(): void
+    {
+        $seq = $this->seq('foo', 'bar', 'baz');
+        $actual = $seq->computed();
+        Assert::instanceOf(ArraySeq::class, $actual);
+        Assert::same($seq->toArray(), $actual->toArray());
     }
 }

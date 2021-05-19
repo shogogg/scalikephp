@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace ScalikePHP;
 
-use Exception;
 use ScalikePHP\Support\ArraySupport;
 
 /**
@@ -31,8 +30,14 @@ class ArraySeq extends Seq
 
     /**
      * {@inheritdoc}
-     *
-     * @throws Exception
+     */
+    public function computed(): Seq
+    {
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
      */
     public function drop(int $n): Seq
     {
