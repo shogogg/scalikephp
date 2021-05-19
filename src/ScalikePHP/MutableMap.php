@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2017 shogogg <shogo@studiofly.net>
+ * Copyright (c) 2017 shogogg <shogo@studiofly.net>.
  *
  * This software is released under the MIT License.
  * http://opensource.org/licenses/mit-license.php
@@ -9,14 +9,15 @@ declare(strict_types=1);
 
 namespace ScalikePHP;
 
+use Closure;
 use ScalikePHP\Support\ArraySupport;
+use Traversable;
 
 /**
  * A Mutable Map Implementation.
  */
 class MutableMap extends ArrayMap
 {
-
     use ArraySupport;
 
     /**
@@ -26,11 +27,11 @@ class MutableMap extends ArrayMap
      */
     public function __construct(iterable $iterable)
     {
-        parent::__construct($iterable instanceof \Traversable ? iterator_to_array($iterable) : $iterable);
+        parent::__construct($iterable instanceof Traversable ? iterator_to_array($iterable) : $iterable);
     }
 
     /** {@inheritdoc} */
-    public function append($keyOrArray, $value = null): MutableMap
+    public function append($keyOrArray, $value = null): self
     {
         if (is_iterable($keyOrArray)) {
             foreach ($keyOrArray as $key => $value) {
@@ -43,25 +44,26 @@ class MutableMap extends ArrayMap
     }
 
     /** {@inheritdoc} */
-    public function filter(\Closure $p): MutableMap
+    public function filter(Closure $p): self
     {
-        return new MutableMap($this->filterGenerator($p));
+        return new self($this->filterGenerator($p));
     }
 
     /** {@inheritdoc} */
-    public function flatMap(\Closure $f): MutableMap
+    public function flatMap(Closure $f): self
     {
-        return new MutableMap($this->flatMapGenerator($f));
+        return new self($this->flatMapGenerator($f));
     }
 
     /**
      * 要素を取得する, 要素が存在しない場合は $op の値で更新し、その値を返す.
      *
      * @param mixed $key
-     * @param \Closure $op
+     * @param Closure $op
+     *
      * @return mixed
      */
-    public function getOrElseUpdate($key, \Closure $op)
+    public function getOrElseUpdate($key, Closure $op)
     {
         return $this->get($key)->getOrElse(function () use ($key, $op) {
             $value = $op();
@@ -71,15 +73,15 @@ class MutableMap extends ArrayMap
     }
 
     /** {@inheritdoc} */
-    public function map(\Closure $f): MutableMap
+    public function map(Closure $f): self
     {
-        return new MutableMap($this->mapAssoc($this->array, $f));
+        return new self($this->mapAssoc($this->array, $f));
     }
 
     /** {@inheritdoc} */
-    public function mapValues(\Closure $f): MutableMap
+    public function mapValues(Closure $f): self
     {
-        return new MutableMap($this->mapValuesGenerator($f));
+        return new self($this->mapValuesGenerator($f));
     }
 
     /** {@inheritdoc} */
@@ -98,6 +100,7 @@ class MutableMap extends ArrayMap
      * 指定したキーに該当する要素を削除し、その値を返す.
      *
      * @param string $key
+     *
      * @return Option 該当する要素がある場合に Some, ない場合は None
      */
     public function remove($key): Option
@@ -122,11 +125,9 @@ class MutableMap extends ArrayMap
      *
      * @param string $key
      * @param mixed $value
-     * @return void
      */
     public function update($key, $value): void
     {
         $this->array[$key] = $value;
     }
-
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2017 shogogg <shogo@studiofly.net>
+ * Copyright (c) 2017 shogogg <shogo@studiofly.net>.
  *
  * This software is released under the MIT License.
  * http://opensource.org/licenses/mit-license.php
@@ -9,16 +9,20 @@ declare(strict_types=1);
 
 namespace ScalikePHP;
 
+use ArrayAccess;
+use Closure;
+use Generator;
+
 /**
  * Scala like Traversable Interface.
  */
-interface ScalikeTraversableInterface extends \ArrayAccess, \Countable, \IteratorAggregate, \JsonSerializable
+interface ScalikeTraversableInterface extends ArrayAccess, \Countable, \IteratorAggregate, \JsonSerializable
 {
-
     /**
      * Drop file $n elements.
      *
      * @param int $n
+     *
      * @return static
      */
     public function drop(int $n);
@@ -26,42 +30,45 @@ interface ScalikeTraversableInterface extends \ArrayAccess, \Countable, \Iterato
     /**
      * 値の全要素に対して関数 $f を適用する.
      *
-     * @param \Closure $f
-     * @return void
+     * @param Closure $f
      */
-    public function each(\Closure $f): void;
+    public function each(Closure $f): void;
 
     /**
      * 条件にマッチする（関数が true を返す）要素の有無を判定する.
      *
-     * @param \Closure $p 真偽値を返す関数
+     * @param Closure $p 真偽値を返す関数
+     *
      * @return bool 条件を満たす要素がある場合に true, そうでない場合は false
      */
-    public function exists(\Closure $p): bool;
+    public function exists(Closure $p): bool;
 
     /**
      * 条件にマッチする（関数が true を返す）要素のみを抽出する.
      *
-     * @param \Closure $p 真偽値を返す関数
+     * @param Closure $p 真偽値を返す関数
+     *
      * @return static
      */
-    public function filter(\Closure $p);
+    public function filter(Closure $p);
 
     /**
      * 条件にマッチしない（関数が false を返す）要素のみを抽出する.
      *
-     * @param \Closure $p 真偽値を返す関数
+     * @param Closure $p 真偽値を返す関数
+     *
      * @return static
      */
-    public function filterNot(\Closure $p);
+    public function filterNot(Closure $p);
 
     /**
      * 条件にマッチする（関数が true を返す）最初の要素を返す.
      *
-     * @param \Closure $p 真偽値を返す関数
+     * @param Closure $p 真偽値を返す関数
+     *
      * @return Option 最初に見つかった要素, 見つからなかった場合は None
      */
-    public function find(\Closure $p): Option;
+    public function find(Closure $p): Option;
 
     /**
      * 要素を平坦化して返す.
@@ -73,26 +80,29 @@ interface ScalikeTraversableInterface extends \ArrayAccess, \Countable, \Iterato
     /**
      * 値の全要素に対して関数を適用し、その戻り値を平坦化して返す.
      *
-     * @param \Closure $f 値を返す関数
+     * @param Closure $f 値を返す関数
+     *
      * @return static
      */
-    public function flatMap(\Closure $f);
+    public function flatMap(Closure $f);
 
     /**
      * 全ての要素が条件にマッチする（関数が true を返す）かどうかを判定する.
      *
-     * @param \Closure $p 真偽値を返す関数
+     * @param Closure $p 真偽値を返す関数
+     *
      * @return bool 全ての要素が条件を満たす場合に true, そうでない場合は false
      */
-    public function forAll(\Closure $p): bool;
+    public function forAll(Closure $p): bool;
 
     /**
      * 要素を用いてジェネレータを生成する.
      *
-     * @param \Closure $f 各要素を受け取りジェネレータを返す関数
-     * @return \Generator
+     * @param Closure $f 各要素を受け取りジェネレータを返す関数
+     *
+     * @return Generator
      */
-    public function generate(\Closure $f): \Generator;
+    public function generate(Closure $f): Generator;
 
     /**
      * 要素を指定された関数の戻り値でグループ化して返す.
@@ -100,7 +110,8 @@ interface ScalikeTraversableInterface extends \ArrayAccess, \Countable, \Iterato
      * - $f に string が渡された場合は各要素から $f に該当する要素|プロパティを探し、それをキーとする
      * - $f に \Closure が渡された場合は各要素を引数として $f を実行し、それをキーとする
      *
-     * @param string|\Closure $f
+     * @param Closure|string $f
+     *
      * @return Map
      */
     public function groupBy($f): Map;
@@ -143,10 +154,11 @@ interface ScalikeTraversableInterface extends \ArrayAccess, \Countable, \Iterato
     /**
      * 値の全要素に対して関数を適用し, その戻り値を返す.
      *
-     * @param \Closure $f 値を返す関数
+     * @param Closure $f 値を返す関数
+     *
      * @return static
      */
-    public function map(\Closure $f);
+    public function map(Closure $f);
 
     /**
      * 最大の要素を返す.
@@ -158,10 +170,11 @@ interface ScalikeTraversableInterface extends \ArrayAccess, \Countable, \Iterato
     /**
      * 関数を適用した結果が最大となる要素を返す.
      *
-     * @param \Closure $f
+     * @param Closure $f
+     *
      * @return mixed 最大の要素
      */
-    public function maxBy(\Closure $f);
+    public function maxBy(Closure $f);
 
     /**
      * 最小の要素を返す.
@@ -173,18 +186,20 @@ interface ScalikeTraversableInterface extends \ArrayAccess, \Countable, \Iterato
     /**
      * 関数を適用した結果が最小となる要素を返す.
      *
-     * @param \Closure $f
+     * @param Closure $f
+     *
      * @return mixed 最小の要素
      */
-    public function minBy(\Closure $f);
+    public function minBy(Closure $f);
 
     /**
      * 要素を文字列化して結合する.
      *
      * @param string $sep
+     *
      * @return string
      */
-    public function mkString(string $sep = ""): string;
+    public function mkString(string $sep = ''): string;
 
     /**
      * 値が空でないかどうかを判定する.
@@ -210,15 +225,17 @@ interface ScalikeTraversableInterface extends \ArrayAccess, \Countable, \Iterato
     /**
      * Returns sum of elements, using custom function.
      *
-     * @param \Closure $f
+     * @param Closure $f
+     *
      * @return mixed
      */
-    public function sumBy(\Closure $f);
+    public function sumBy(Closure $f);
 
     /**
      * Returns first `$n` elements.
      *
      * @param int $n
+     *
      * @return static
      */
     public function take(int $n);
@@ -227,6 +244,7 @@ interface ScalikeTraversableInterface extends \ArrayAccess, \Countable, \Iterato
      * Returns last `$n` elements.
      *
      * @param int $n
+     *
      * @return static
      */
     public function takeRight(int $n);
@@ -241,9 +259,9 @@ interface ScalikeTraversableInterface extends \ArrayAccess, \Countable, \Iterato
     /**
      * Convert to a Generator.
      *
-     * @return \Generator
+     * @return Generator
      */
-    public function toGenerator(): \Generator;
+    public function toGenerator(): Generator;
 
     /**
      * Convert to a Seq.
@@ -251,5 +269,4 @@ interface ScalikeTraversableInterface extends \ArrayAccess, \Countable, \Iterato
      * @return Seq
      */
     public function toSeq(): Seq;
-
 }

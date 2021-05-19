@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2017 shogogg <shogo@studiofly.net>
+ * Copyright (c) 2017 shogogg <shogo@studiofly.net>.
  *
  * This software is released under the MIT License.
  * http://opensource.org/licenses/mit-license.php
@@ -9,22 +9,23 @@ declare(strict_types=1);
 
 namespace ScalikePHP;
 
+use Exception;
 use ScalikePHP\Support\TraversableSupport;
+use Traversable;
 
 /**
  * A Seq implementation using iterator(\Traversable).
  */
 class TraversableSeq extends Seq
 {
-
     use TraversableSupport;
 
     /**
      * Constructor.
      *
-     * @param \Traversable $traversable
+     * @param Traversable $traversable
      */
-    public function __construct(\Traversable $traversable)
+    public function __construct(Traversable $traversable)
     {
         $this->setTraversable($traversable);
     }
@@ -32,11 +33,11 @@ class TraversableSeq extends Seq
     /**
      * {@inheritdoc}
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function drop(int $n): Seq
     {
-        return $n <= 0 ? $this : Seq::create(function () use ($n): \Traversable {
+        return $n <= 0 ? $this : Seq::create(function () use ($n): Traversable {
             $i = $n;
             $index = 0;
             foreach ($this->getRawIterable() as $value) {
@@ -53,7 +54,7 @@ class TraversableSeq extends Seq
     public function take(int $n): Seq
     {
         if ($n > 0) {
-            return Seq::create(function () use ($n): \Traversable {
+            return Seq::create(function () use ($n): Traversable {
                 $i = $n;
                 $index = 0;
                 foreach ($this->getRawIterable() as $value) {
@@ -73,7 +74,7 @@ class TraversableSeq extends Seq
     /**
      * {@inheritdoc}
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function toArray(): array
     {
@@ -89,5 +90,4 @@ class TraversableSeq extends Seq
             $this->computed = true;
         }
     }
-
 }

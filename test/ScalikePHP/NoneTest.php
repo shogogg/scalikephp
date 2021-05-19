@@ -1,14 +1,15 @@
 <?php
 /**
- * Copyright (c) 2017 shogogg <shogo@studiofly.net>
+ * Copyright (c) 2017 shogogg <shogo@studiofly.net>.
  *
  * This software is released under the MIT License.
  * http://opensource.org/licenses/mit-license.php
  */
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Test\ScalikePHP;
 
+use LogicException;
 use ScalikePHP\None;
 use ScalikePHP\Option;
 use ScalikePHP\Seq;
@@ -18,10 +19,12 @@ use ScalikePHP\Some;
  * Tests for None.
  *
  * @see \ScalikePHP\None
+ *
+ * @internal
+ * @coversNothing
  */
-class NoneTest extends TestCase
+final class NoneTest extends TestCase
 {
-
     /**
      * Tests for None::count().
      *
@@ -55,9 +58,9 @@ class NoneTest extends TestCase
     {
         $spy = self::spy();
         $f = function () use ($spy): void {
-            call_user_func_array([$spy, "spy"], func_get_args());
+            call_user_func_array([$spy, 'spy'], func_get_args());
         };
-        $spy->shouldNotReceive("spy");
+        $spy->shouldNotReceive('spy');
         Option::none()->each($f);
     }
 
@@ -165,7 +168,7 @@ class NoneTest extends TestCase
     public function testGet(): void
     {
         Assert::throws(
-            \LogicException::class,
+            LogicException::class,
             function (): void {
                 Option::none()->get();
             }
@@ -181,10 +184,10 @@ class NoneTest extends TestCase
     {
         $spy = self::spy();
         $f = function () use ($spy) {
-            return call_user_func_array([$spy, "spy"], func_get_args());
+            return call_user_func_array([$spy, 'spy'], func_get_args());
         };
-        $spy->shouldReceive("spy")->andReturn("abc");
-        Assert::same("abc", Option::none()->getOrElse($f));
+        $spy->shouldReceive('spy')->andReturn('abc');
+        Assert::same('abc', Option::none()->getOrElse($f));
     }
 
     /**
@@ -195,7 +198,7 @@ class NoneTest extends TestCase
     public function testGetOrElseValue(): void
     {
         Assert::same(0, Option::none()->getOrElseValue(0));
-        Assert::same("xyz", Option::none()->getOrElseValue("xyz"));
+        Assert::same('xyz', Option::none()->getOrElseValue('xyz'));
     }
 
     /**
@@ -205,7 +208,7 @@ class NoneTest extends TestCase
      */
     public function testGroupBy(): void
     {
-        $key = "abc";
+        $key = 'abc';
         $none = Option::none();
         $closure = function (array $x) use ($key): string {
             return $x[$key];
@@ -222,7 +225,7 @@ class NoneTest extends TestCase
     public function testHead(): void
     {
         Assert::throws(
-            \LogicException::class,
+            LogicException::class,
             function (): void {
                 Option::none()->head();
             }
@@ -267,7 +270,7 @@ class NoneTest extends TestCase
     public function testLast(): void
     {
         Assert::throws(
-            \LogicException::class,
+            LogicException::class,
             function (): void {
                 Option::none()->last();
             }
@@ -305,7 +308,7 @@ class NoneTest extends TestCase
     public function testMax(): void
     {
         Assert::throws(
-            \LogicException::class,
+            LogicException::class,
             function (): void {
                 Option::none()->max();
             }
@@ -320,10 +323,10 @@ class NoneTest extends TestCase
     public function testMaxBy(): void
     {
         Assert::throws(
-            \LogicException::class,
+            LogicException::class,
             function (): void {
                 $f = function ($x): string {
-                    return strval($x);
+                    return (string) $x;
                 };
                 Option::none()->maxBy($f);
             }
@@ -338,7 +341,7 @@ class NoneTest extends TestCase
     public function testMin(): void
     {
         Assert::throws(
-            \LogicException::class,
+            LogicException::class,
             function (): void {
                 Option::none()->min();
             }
@@ -353,10 +356,10 @@ class NoneTest extends TestCase
     public function testMinBy(): void
     {
         Assert::throws(
-            \LogicException::class,
+            LogicException::class,
             function (): void {
                 $f = function ($x): string {
-                    return strval($x);
+                    return (string) $x;
                 };
                 Option::none()->minBy($f);
             }
@@ -370,7 +373,7 @@ class NoneTest extends TestCase
      */
     public function testMkString(): void
     {
-        Assert::same("", Option::none()->mkString(""));
+        Assert::same('', Option::none()->mkString(''));
     }
 
     /**
@@ -391,9 +394,9 @@ class NoneTest extends TestCase
     public function testOrElse(): void
     {
         $f = function (): Option {
-            return Option::from("xyz");
+            return Option::from('xyz');
         };
-        Assert::some("xyz", Option::none()->orElse($f));
+        Assert::some('xyz', Option::none()->orElse($f));
     }
 
     /**
@@ -413,7 +416,7 @@ class NoneTest extends TestCase
      */
     public function testPick(): void
     {
-        Assert::none(Option::none()->pick("abc"));
+        Assert::none(Option::none()->pick('abc'));
     }
 
     /**
@@ -443,7 +446,7 @@ class NoneTest extends TestCase
      */
     public function testSumBy(): void
     {
-        $f = function(int $z, int $value): int {
+        $f = function (int $z, int $value): int {
             return $z + $value;
         };
         Assert::same(0, Option::none()->sumBy($f));
@@ -495,5 +498,4 @@ class NoneTest extends TestCase
         Assert::instanceOf(Seq::class, Option::none()->toSeq());
         Assert::same([], Option::none()->toSeq()->toArray());
     }
-
 }

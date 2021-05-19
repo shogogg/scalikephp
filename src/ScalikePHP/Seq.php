@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2017 shogogg <shogo@studiofly.net>
+ * Copyright (c) 2017 shogogg <shogo@studiofly.net>.
  *
  * This software is released under the MIT License.
  * http://opensource.org/licenses/mit-license.php
@@ -9,14 +9,20 @@ declare(strict_types=1);
 
 namespace ScalikePHP;
 
+use Closure;
+use Exception;
+use Generator;
+use InvalidArgumentException;
+use LogicException;
+use RuntimeException;
 use ScalikePHP\Support\ClosureIterator;
+use Traversable;
 
 /**
  * Scala like Seq.
  */
 abstract class Seq extends ScalikeTraversable
 {
-
     /**
      * 空の Seq.
      *
@@ -27,10 +33,11 @@ abstract class Seq extends ScalikeTraversable
     /**
      * Create an instance from generator function.
      *
-     * @param \Closure $f
+     * @param Closure $f
+     *
      * @return \ScalikePHP\Seq
      */
-    final public static function create(\Closure $f): Seq
+    final public static function create(Closure $f): self
     {
         return self::fromTraversable(new ClosureIterator($f));
     }
@@ -40,7 +47,7 @@ abstract class Seq extends ScalikeTraversable
      *
      * @return Seq
      */
-    final public static function emptySeq(): Seq
+    final public static function emptySeq(): self
     {
         if (self::$empty === null) {
             self::$empty = new ArraySeq([]);
@@ -52,9 +59,10 @@ abstract class Seq extends ScalikeTraversable
      * Create a Seq instance from arguments.
      *
      * @param array $items
+     *
      * @return Seq
      */
-    final public static function from(...$items): Seq
+    final public static function from(...$items): self
     {
         return new ArraySeq($items);
     }
@@ -62,30 +70,33 @@ abstract class Seq extends ScalikeTraversable
     /**
      * Create an instance from an iterable.
      *
-     * @param iterable|null $iterable
+     * @param null|iterable $iterable
+     *
+     * @throws InvalidArgumentException
+     *
      * @return Seq
-     * @throws \InvalidArgumentException
      */
-    final public static function fromArray(?iterable $iterable): Seq
+    final public static function fromArray(?iterable $iterable): self
     {
         if ($iterable === null) {
             return self::emptySeq();
         } elseif (is_array($iterable)) {
             return empty($iterable) ? static::emptySeq() : new ArraySeq($iterable);
-        } elseif ($iterable instanceof \Traversable) {
+        } elseif ($iterable instanceof Traversable) {
             return self::fromTraversable($iterable);
         } else {
-            throw new \InvalidArgumentException("Seq::fromArray() needs to iterable");
+            throw new InvalidArgumentException('Seq::fromArray() needs to iterable');
         }
     }
 
     /**
      * Create an instance from an iterator.
      *
-     * @param \Traversable $traversable
+     * @param Traversable $traversable
+     *
      * @return \ScalikePHP\Seq
      */
-    final public static function fromTraversable(\Traversable $traversable): Seq
+    final public static function fromTraversable(Traversable $traversable): self
     {
         return new TraversableSeq($traversable);
     }
@@ -95,9 +106,10 @@ abstract class Seq extends ScalikeTraversable
      *
      * @param iterable $a
      * @param iterable $b
+     *
      * @return \ScalikePHP\Seq
      */
-    final public static function merge(iterable $a, iterable $b): Seq
+    final public static function merge(iterable $a, iterable $b): self
     {
         return self::create(function () use ($a, $b) {
             $i = 0;
@@ -114,11 +126,12 @@ abstract class Seq extends ScalikeTraversable
      * 末尾に要素を追加する.
      *
      * @param iterable $that
-     * @return Seq
      *
-     * @throws \Exception
+     * @throws Exception
+     *
+     * @return Seq
      */
-    public function append(iterable $that): Seq
+    public function append(iterable $that): self
     {
         return self::merge($this->getRawIterable(), $that);
     }
@@ -127,6 +140,7 @@ abstract class Seq extends ScalikeTraversable
      * 指定された値が含まれているかどうかを判定する.
      *
      * @param mixed $elem
+     *
      * @return bool
      */
     public function contains($elem): bool
@@ -139,7 +153,7 @@ abstract class Seq extends ScalikeTraversable
      *
      * @return Seq
      */
-    public function distinct(): Seq
+    public function distinct(): self
     {
         // `array_keys(array_count_values(...))` is faster than `array_unique(...)`
         return new ArraySeq(array_keys(array_count_values($this->toArray())));
@@ -148,16 +162,17 @@ abstract class Seq extends ScalikeTraversable
     /**
      * 指定された関数の戻り値を用いて重複を排除した Seq を返す.
      *
-     * @param \Closure $f
+     * @param Closure $f
+     *
      * @return Seq
      */
-    public function distinctBy(\Closure $f): Seq
+    public function distinctBy(Closure $f): self
     {
         return self::create(function () use ($f) {
             $keys = [];
             foreach ($this->getRawIterable() as $value) {
                 $key = $f($value);
-                if (!in_array($key, $keys, true)) {
+                if (! in_array($key, $keys, true)) {
                     $keys[] = $key;
                     yield $value;
                 }
@@ -166,9 +181,9 @@ abstract class Seq extends ScalikeTraversable
     }
 
     /** {@inheritdoc} */
-    public function filter(\Closure $p): Seq
+    public function filter(Closure $p): self
     {
-        return static::create(function () use ($p): \Traversable {
+        return static::create(function () use ($p): Traversable {
             $index = 0;
             foreach ($this->getRawIterable() as $value) {
                 if ($p($value)) {
@@ -179,14 +194,14 @@ abstract class Seq extends ScalikeTraversable
     }
 
     /** {@inheritdoc} */
-    public function flatMap(\Closure $f): Seq
+    public function flatMap(Closure $f): self
     {
-        return self::create(function () use ($f): \Generator {
+        return self::create(function () use ($f): Generator {
             $index = 0;
             foreach ($this->getRawIterable() as $value) {
                 $xs = $f($value);
                 if (is_iterable($xs) === false) {
-                    throw new \LogicException("Closure should returns an iterable");
+                    throw new LogicException('Closure should returns an iterable');
                 }
                 foreach ($xs as $x) {
                     yield $index++ => $x;
@@ -196,13 +211,13 @@ abstract class Seq extends ScalikeTraversable
     }
 
     /** {@inheritdoc} */
-    public function flatten(): Seq
+    public function flatten(): self
     {
-        return self::create(function (): \Generator {
+        return self::create(function (): Generator {
             $index = 0;
             foreach ($this->getRawIterable() as $value) {
                 if (is_iterable($value) === false) {
-                    throw new \LogicException("Closure should returns an iterable");
+                    throw new LogicException('Closure should returns an iterable');
                 }
                 foreach ($value as $x) {
                     yield $index++ => $x;
@@ -215,10 +230,11 @@ abstract class Seq extends ScalikeTraversable
      * 要素を順番に処理してたたみ込む
      *
      * @param mixed $z
-     * @param \Closure $f
+     * @param Closure $f
+     *
      * @return mixed
      */
-    public function fold($z, \Closure $f)
+    public function fold($z, Closure $f)
     {
         foreach ($this->getRawIterable() as $value) {
             $z = $f($z, $value);
@@ -249,9 +265,9 @@ abstract class Seq extends ScalikeTraversable
     }
 
     /** {@inheritdoc} */
-    public function map(\Closure $f): Seq
+    public function map(Closure $f): self
     {
-        return self::create(function () use ($f): \Generator {
+        return self::create(function () use ($f): Generator {
             $index = 0;
             foreach ($this->getRawIterable() as $value) {
                 yield $index++ => $f($value);
@@ -262,12 +278,12 @@ abstract class Seq extends ScalikeTraversable
     /**
      * {@inheritdoc}
      *
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     public function max()
     {
         if ($this->isEmpty()) {
-            throw new \RuntimeException("empty.max");
+            throw new RuntimeException('empty.max');
         }
         return max($this->toArray());
     }
@@ -275,10 +291,10 @@ abstract class Seq extends ScalikeTraversable
     /**
      * {@inheritdoc}
      *
-     * @throws \Exception
-     * @throws \RuntimeException
+     * @throws Exception
+     * @throws RuntimeException
      */
-    public function maxBy(\Closure $f)
+    public function maxBy(Closure $f)
     {
         $maxValue = null;
         $maxElement = null;
@@ -296,13 +312,13 @@ abstract class Seq extends ScalikeTraversable
     public function min()
     {
         if ($this->isEmpty()) {
-            throw new \RuntimeException("empty.min");
+            throw new RuntimeException('empty.min');
         }
         return min($this->toArray());
     }
 
     /** {@inheritdoc} */
-    public function minBy(\Closure $f)
+    public function minBy(Closure $f)
     {
         $minValue = null;
         $minElement = null;
@@ -317,12 +333,13 @@ abstract class Seq extends ScalikeTraversable
     }
 
     /**
-     * 先頭に要素を追加する
+     * 先頭に要素を追加する.
      *
      * @param iterable $that
+     *
      * @return Seq
      */
-    public function prepend(iterable $that): Seq
+    public function prepend(iterable $that): self
     {
         return self::merge($that, $this->getRawIterable());
     }
@@ -332,7 +349,7 @@ abstract class Seq extends ScalikeTraversable
      *
      * @return Seq
      */
-    public function reverse(): Seq
+    public function reverse(): self
     {
         return new ArraySeq(array_reverse($this->toArray()));
     }
@@ -340,23 +357,24 @@ abstract class Seq extends ScalikeTraversable
     /**
      * 指定された関数の戻り値（または指定されたキーの値）を用いてソートされた Seq を返す.
      *
-     * @param string|\Closure $f
+     * @param Closure|string $f
+     *
      * @return Seq
      */
-    public function sortBy($f): Seq
+    public function sortBy($f): self
     {
         $sortValues = [];
         if (is_string($f)) {
             foreach ($this->toArray() as $value) {
                 $sortValues[] = Option::fromArray($value, $f)->orNull();
             }
-        } elseif ($f instanceof \Closure) {
+        } elseif ($f instanceof Closure) {
             foreach ($this->toArray() as $value) {
                 $sortValues[] = $f($value);
             }
         } else {
             $type = gettype($f);
-            throw new \InvalidArgumentException("Seq::sortWith() needs a string or \\Closure. {$type} given.");
+            throw new InvalidArgumentException("Seq::sortWith() needs a string or \\Closure. {$type} given.");
         }
         $array = $this->toArray();
         array_multisort($sortValues, SORT_ASC, SORT_REGULAR, $array);
@@ -364,32 +382,34 @@ abstract class Seq extends ScalikeTraversable
     }
 
     /** {@inheritdoc} */
-    public function sumBy(\Closure $f)
+    public function sumBy(Closure $f)
     {
         return $this->fold(0, $f);
     }
 
     /** {@inheritdoc} */
-    public function takeRight(int $n): Seq
+    public function takeRight(int $n): self
     {
         return new ArraySeq(array_slice($this->toArray(), 0 - $n, $n));
     }
 
     /** {@inheritdoc} */
-    public function toGenerator(): \Generator
+    public function toGenerator(): Generator
     {
         yield from $this->getRawIterable();
     }
 
     /**
-     * Map に変換する
+     * Map に変換する.
      *
      * $key に string が渡された場合は各要素から $key に該当する要素|プロパティを探し、それをキーとする
      * $key に \Closure が渡された場合は各要素を引数として $key を実行し、それをキーとする
      *
-     * @param string|\Closure $key
+     * @param Closure|string $key
+     *
+     * @throws Exception
+     *
      * @return Map
-     * @throws \Exception
      */
     public function toMap($key): Map
     {
@@ -397,25 +417,24 @@ abstract class Seq extends ScalikeTraversable
         if (is_string($key)) {
             foreach ($this->getRawIterable() as $value) {
                 $k = Option::from($value)->pick($key)->getOrElse(function () use ($key): void {
-                    throw new \RuntimeException("Undefined index {$key}");
+                    throw new RuntimeException("Undefined index {$key}");
                 });
                 $assoc[$k] = $value;
             }
-        } elseif ($key instanceof \Closure) {
+        } elseif ($key instanceof Closure) {
             foreach ($this->getRawIterable() as $value) {
                 $assoc[$key($value)] = $value;
             }
         } else {
             $type = gettype($key);
-            throw new \InvalidArgumentException("Seq::toMap() needs a string or \\Closure. {$type} given.");
+            throw new InvalidArgumentException("Seq::toMap() needs a string or \\Closure. {$type} given.");
         }
         return new ArrayMap($assoc);
     }
 
     /** {@inheritdoc} */
-    public function toSeq(): Seq
+    public function toSeq(): self
     {
         return $this;
     }
-
 }

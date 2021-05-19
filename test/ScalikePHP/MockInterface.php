@@ -1,25 +1,27 @@
 <?php
+declare(strict_types=1);
 /**
- * Copyright (c) 2017 shogogg <shogo@studiofly.net>
+ * Copyright (c) 2017 shogogg <shogo@studiofly.net>.
  *
  * This software is released under the MIT License.
  * http://opensource.org/licenses/mit-license.php
  */
+
 namespace Test\ScalikePHP;
 
 interface MockInterface extends \Mockery\MockInterface
 {
-
     /**
-     * @inheritdoc
+     * {@inheritdoc}
+     *
      * @param array ...$methods
      */
-    public function shouldReceive(... $methods);
+    public function shouldReceive(...$methods);
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
+     *
      * @param array ...$methods
      */
-    public function shouldNotReceive(... $methods);
-
+    public function shouldNotReceive(...$methods);
 }

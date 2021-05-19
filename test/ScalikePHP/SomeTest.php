@@ -1,14 +1,15 @@
 <?php
 /**
- * Copyright (c) 2017 shogogg <shogo@studiofly.net>
+ * Copyright (c) 2017 shogogg <shogo@studiofly.net>.
  *
  * This software is released under the MIT License.
  * http://opensource.org/licenses/mit-license.php
  */
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Test\ScalikePHP;
 
+use LogicException;
 use ScalikePHP\Option;
 use ScalikePHP\Seq;
 use ScalikePHP\Some;
@@ -17,10 +18,12 @@ use ScalikePHP\Some;
  * Tests for Some.
  *
  * @see \ScalikePHP\Some
+ *
+ * @internal
+ * @coversNothing
  */
-class SomeTest extends TestCase
+final class SomeTest extends TestCase
 {
-
     /**
      * Tests for Some::count().
      *
@@ -30,8 +33,8 @@ class SomeTest extends TestCase
     {
         Assert::same(1, Some::create(1)->count());
         Assert::same(1, Some::create(2)->count());
-        Assert::same(1, Some::create("abc")->count());
-        Assert::same(1, Some::create("xyz")->count());
+        Assert::same(1, Some::create('abc')->count());
+        Assert::same(1, Some::create('xyz')->count());
     }
 
     /**
@@ -42,10 +45,10 @@ class SomeTest extends TestCase
     public function testCreate(): void
     {
         Assert::instanceOf(Some::class, Some::create(1));
-        Assert::instanceOf(Some::class, Some::create("abc"));
+        Assert::instanceOf(Some::class, Some::create('abc'));
         Assert::instanceOf(Some::class, Some::create(null));
         Assert::same(1, Some::create(1)->get());
-        Assert::same("abc", Some::create("abc")->get());
+        Assert::same('abc', Some::create('abc')->get());
         Assert::same(null, Some::create(null)->get());
     }
 
@@ -78,9 +81,9 @@ class SomeTest extends TestCase
     {
         $spy = self::spy();
         $f = function () use ($spy): void {
-            call_user_func_array([$spy, "spy"], func_get_args());
+            call_user_func_array([$spy, 'spy'], func_get_args());
         };
-        $spy->shouldReceive("spy")->with(1)->once();
+        $spy->shouldReceive('spy')->with(1)->once();
         Some::create(1)->each($f);
     }
 
@@ -159,7 +162,7 @@ class SomeTest extends TestCase
         Assert::some(2, Some::create(1)->flatMap($returnsSome));
         Assert::none(Some::create(1)->flatMap($returnsNone));
         Assert::throws(
-            \LogicException::class,
+            LogicException::class,
             function () use ($returnsArray): void {
                 Some::create(1)->flatMap($returnsArray);
             }
@@ -173,7 +176,7 @@ class SomeTest extends TestCase
      */
     public function testFlatten(): void
     {
-        Assert::some("abc", Some::create(Some::create("abc"))->flatten());
+        Assert::some('abc', Some::create(Some::create('abc'))->flatten());
         Assert::none(Some::create(Option::none())->flatten());
     }
 
@@ -199,7 +202,7 @@ class SomeTest extends TestCase
     public function testGet(): void
     {
         Assert::same(1, Some::create(1)->get());
-        Assert::same("abc", Some::create("abc")->get());
+        Assert::same('abc', Some::create('abc')->get());
     }
 
     /**
@@ -211,11 +214,11 @@ class SomeTest extends TestCase
     {
         $spy = self::spy();
         $f = function () use ($spy) {
-            return call_user_func_array([$spy, "spy"], func_get_args());
+            return call_user_func_array([$spy, 'spy'], func_get_args());
         };
-        $spy->shouldNotReceive("spy")->andReturn("abc");
+        $spy->shouldNotReceive('spy')->andReturn('abc');
         Assert::same(1, Some::create(1)->getOrElse($f));
-        Assert::same("abc", Some::create("abc")->getOrElse($f));
+        Assert::same('abc', Some::create('abc')->getOrElse($f));
     }
 
     /**
@@ -226,7 +229,7 @@ class SomeTest extends TestCase
     public function testGetOrElseValue(): void
     {
         Assert::same(1, Some::create(1)->getOrElseValue(0));
-        Assert::same("abc", Some::create("abc")->getOrElseValue("xyz"));
+        Assert::same('abc', Some::create('abc')->getOrElseValue('xyz'));
     }
 
     /**
@@ -236,8 +239,8 @@ class SomeTest extends TestCase
      */
     public function testGroupBy(): void
     {
-        $key = "abc";
-        $value = "xyz";
+        $key = 'abc';
+        $value = 'xyz';
         $array = [$key => $value];
         $some = Some::create($array);
         $closure = function (array $x) use ($key): string {
@@ -259,7 +262,7 @@ class SomeTest extends TestCase
     public function testHead(): void
     {
         Assert::same(1, Some::create(1)->head());
-        Assert::same("abc", Some::create("abc")->head());
+        Assert::same('abc', Some::create('abc')->head());
     }
 
     /**
@@ -270,7 +273,7 @@ class SomeTest extends TestCase
     public function testHeadOption(): void
     {
         Assert::some(1, Some::create(1)->headOption());
-        Assert::some("abc", Some::create("abc")->headOption());
+        Assert::some('abc', Some::create('abc')->headOption());
     }
 
     /**
@@ -281,7 +284,7 @@ class SomeTest extends TestCase
     public function testIsDefined(): void
     {
         Assert::true(Some::create(1)->isDefined());
-        Assert::true(Some::create("abc")->isDefined());
+        Assert::true(Some::create('abc')->isDefined());
     }
 
     /**
@@ -292,7 +295,7 @@ class SomeTest extends TestCase
     public function testIsEmpty(): void
     {
         Assert::false(Some::create(1)->isEmpty());
-        Assert::false(Some::create("abc")->isEmpty());
+        Assert::false(Some::create('abc')->isEmpty());
     }
 
     /**
@@ -303,7 +306,7 @@ class SomeTest extends TestCase
     public function testLast(): void
     {
         Assert::same(1, Some::create(1)->last());
-        Assert::same("abc", Some::create("abc")->last());
+        Assert::same('abc', Some::create('abc')->last());
     }
 
     /**
@@ -314,7 +317,7 @@ class SomeTest extends TestCase
     public function testLastOption(): void
     {
         Assert::some(1, Some::create(1)->lastOption());
-        Assert::some("abc", Some::create("abc")->lastOption());
+        Assert::some('abc', Some::create('abc')->lastOption());
     }
 
     /**
@@ -340,7 +343,7 @@ class SomeTest extends TestCase
     public function testMax(): void
     {
         Assert::same(1, Some::create(1)->max());
-        Assert::same("abc", Some::create("abc")->max());
+        Assert::same('abc', Some::create('abc')->max());
     }
 
     /**
@@ -351,10 +354,10 @@ class SomeTest extends TestCase
     public function testMaxBy(): void
     {
         $f = function ($x): string {
-            return strval($x);
+            return (string) $x;
         };
         Assert::same(1, Some::create(1)->maxBy($f));
-        Assert::same("abc", Some::create("abc")->maxBy($f));
+        Assert::same('abc', Some::create('abc')->maxBy($f));
     }
 
     /**
@@ -365,7 +368,7 @@ class SomeTest extends TestCase
     public function testMin(): void
     {
         Assert::same(1, Some::create(1)->min());
-        Assert::same("abc", Some::create("abc")->min());
+        Assert::same('abc', Some::create('abc')->min());
     }
 
     /**
@@ -376,10 +379,10 @@ class SomeTest extends TestCase
     public function testMinBy(): void
     {
         $f = function ($x): string {
-            return strval($x);
+            return (string) $x;
         };
         Assert::same(1, Some::create(1)->minBy($f));
-        Assert::same("abc", Some::create("abc")->minBy($f));
+        Assert::same('abc', Some::create('abc')->minBy($f));
     }
 
     /**
@@ -389,8 +392,8 @@ class SomeTest extends TestCase
      */
     public function testMkString(): void
     {
-        Assert::same("1", Some::create(1)->mkString());
-        Assert::same("abc", Some::create("abc")->mkString());
+        Assert::same('1', Some::create(1)->mkString());
+        Assert::same('abc', Some::create('abc')->mkString());
     }
 
     /**
@@ -401,7 +404,7 @@ class SomeTest extends TestCase
     public function testNonEmpty(): void
     {
         Assert::true(Some::create(1)->nonEmpty());
-        Assert::true(Some::create("abc")->nonEmpty());
+        Assert::true(Some::create('abc')->nonEmpty());
     }
 
     /**
@@ -412,9 +415,9 @@ class SomeTest extends TestCase
     public function testOrElse(): void
     {
         $a = Some::create(1);
-        $b = Some::create("abc");
+        $b = Some::create('abc');
         $f = function (): string {
-            return "xyz";
+            return 'xyz';
         };
         Assert::same($a, $a->orElse($f));
         Assert::same($b, $b->orElse($f));
@@ -428,7 +431,7 @@ class SomeTest extends TestCase
     public function testOrNull(): void
     {
         Assert::same(1, Some::create(1)->orNull());
-        Assert::same("abc", Some::create("abc")->orNull());
+        Assert::same('abc', Some::create('abc')->orNull());
     }
 
     /**
@@ -438,7 +441,7 @@ class SomeTest extends TestCase
      */
     public function testPick(): void
     {
-        Assert::some("xyz", Some::create(["abc" => "xyz"])->pick("abc"));
+        Assert::some('xyz', Some::create(['abc' => 'xyz'])->pick('abc'));
     }
 
     /**
@@ -450,8 +453,8 @@ class SomeTest extends TestCase
     {
         Assert::same(1, Some::create(1)->size());
         Assert::same(1, Some::create(2)->size());
-        Assert::same(1, Some::create("abc")->size());
-        Assert::same(1, Some::create("xyz")->size());
+        Assert::same(1, Some::create('abc')->size());
+        Assert::same(1, Some::create('xyz')->size());
     }
 
     /**
@@ -463,8 +466,8 @@ class SomeTest extends TestCase
     {
         Assert::same(1, Some::create(1)->sum());
         Assert::same(2, Some::create(2)->sum());
-        Assert::same("abc", Some::create("abc")->sum());
-        Assert::same("xyz", Some::create("xyz")->sum());
+        Assert::same('abc', Some::create('abc')->sum());
+        Assert::same('xyz', Some::create('xyz')->sum());
     }
 
     /**
@@ -474,13 +477,13 @@ class SomeTest extends TestCase
      */
     public function testSumBy(): void
     {
-        $f = function(int $z, int $value): int {
+        $f = function (int $z, int $value): int {
             return $z + $value;
         };
         Assert::same(1, Some::create(1)->sumBy($f));
         Assert::same(2, Some::create(2)->sumBy($f));
-        Assert::same("abc", Some::create("abc")->sumBy($f));
-        Assert::same("xyz", Some::create("xyz")->sumBy($f));
+        Assert::same('abc', Some::create('abc')->sumBy($f));
+        Assert::same('xyz', Some::create('xyz')->sumBy($f));
     }
 
     /**
@@ -491,11 +494,11 @@ class SomeTest extends TestCase
     public function testTake(): void
     {
         Assert::instanceOf(Some::class, Some::create(1)->take(1));
-        Assert::instanceOf(Some::class, Some::create("abc")->take(1));
+        Assert::instanceOf(Some::class, Some::create('abc')->take(1));
         Assert::same([1], Some::create(1)->take(1)->toArray());
         Assert::same([1], Some::create(1)->take(2)->toArray());
-        Assert::same(["abc"], Some::create("abc")->take(1)->toArray());
-        Assert::same(["abc"], Some::create("abc")->take(2)->toArray());
+        Assert::same(['abc'], Some::create('abc')->take(1)->toArray());
+        Assert::same(['abc'], Some::create('abc')->take(2)->toArray());
     }
 
     /**
@@ -506,11 +509,11 @@ class SomeTest extends TestCase
     public function testTakeRight(): void
     {
         Assert::instanceOf(Some::class, Some::create(1)->takeRight(1));
-        Assert::instanceOf(Some::class, Some::create("abc")->takeRight(1));
+        Assert::instanceOf(Some::class, Some::create('abc')->takeRight(1));
         Assert::same([1], Some::create(1)->takeRight(1)->toArray());
         Assert::same([1], Some::create(1)->takeRight(2)->toArray());
-        Assert::same(["abc"], Some::create("abc")->takeRight(1)->toArray());
-        Assert::same(["abc"], Some::create("abc")->takeRight(2)->toArray());
+        Assert::same(['abc'], Some::create('abc')->takeRight(1)->toArray());
+        Assert::same(['abc'], Some::create('abc')->takeRight(2)->toArray());
     }
 
     /**
@@ -521,7 +524,7 @@ class SomeTest extends TestCase
     public function testToArray(): void
     {
         Assert::same([1], Some::create(1)->toArray());
-        Assert::same(["abc"], Some::create("abc")->toArray());
+        Assert::same(['abc'], Some::create('abc')->toArray());
     }
 
     /**
@@ -532,9 +535,8 @@ class SomeTest extends TestCase
     public function testToSeq(): void
     {
         Assert::instanceOf(Seq::class, Some::create(1)->toSeq());
-        Assert::instanceOf(Seq::class, Some::create("abc")->toSeq());
+        Assert::instanceOf(Seq::class, Some::create('abc')->toSeq());
         Assert::same([1], Some::create(1)->toSeq()->toArray());
-        Assert::same(["abc"], Some::create("abc")->toSeq()->toArray());
+        Assert::same(['abc'], Some::create('abc')->toSeq()->toArray());
     }
-
 }

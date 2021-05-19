@@ -1,20 +1,28 @@
 <?php
+declare(strict_types=1);
 /**
- * Copyright (c) 2017 shogogg <shogo@studiofly.net>
+ * Copyright (c) 2017 shogogg <shogo@studiofly.net>.
  *
  * This software is released under the MIT License.
  * http://opensource.org/licenses/mit-license.php
  */
+
 namespace ScalikePHP;
+
+use BadMethodCallException;
+use Closure;
+use Generator;
+use InvalidArgumentException;
+use LogicException;
+use RuntimeException;
 
 /**
  * Scala like Traversable Implementation.
  */
 abstract class ScalikeTraversable implements ScalikeTraversableInterface
 {
-
     /** {@inheritdoc} */
-    public function each(\Closure $f): void
+    public function each(Closure $f): void
     {
         foreach ($this->getRawIterable() as $key => $value) {
             $f($value);
@@ -22,7 +30,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
     }
 
     /** {@inheritdoc} */
-    public function exists(\Closure $p): bool
+    public function exists(Closure $p): bool
     {
         foreach ($this->getRawIterable() as $value) {
             if ($p($value)) {
@@ -33,15 +41,15 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
     }
 
     /** {@inheritdoc} */
-    public function filterNot(\Closure $p)
+    public function filterNot(Closure $p)
     {
         return $this->filter(function ($value) use ($p) {
-            return !$p($value);
+            return ! $p($value);
         });
     }
 
     /** {@inheritdoc} */
-    public function find(\Closure $p): Option
+    public function find(Closure $p): Option
     {
         foreach ($this->getRawIterable() as $value) {
             if ($p($value)) {
@@ -52,10 +60,10 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
     }
 
     /** {@inheritdoc} */
-    public function forAll(\Closure $p): bool
+    public function forAll(Closure $p): bool
     {
         foreach ($this->getRawIterable() as $value) {
-            if (!$p($value)) {
+            if (! $p($value)) {
                 return false;
             }
         }
@@ -63,7 +71,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
     }
 
     /** {@inheritdoc} */
-    public function generate(\Closure $f): \Generator
+    public function generate(Closure $f): Generator
     {
         foreach ($this->getRawIterable() as $k => $v) {
             foreach ($f($v, $k) as $gk => $gv) {
@@ -82,22 +90,23 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
     /**
      * Generate a Closure for `groupBy`.
      *
-     * @param string|\Closure $f
-     * @return \Closure
+     * @param Closure|string $f
+     *
+     * @return Closure
      */
-    protected function groupByClosure($f): \Closure
+    protected function groupByClosure($f): Closure
     {
         if (is_string($f)) {
             return function ($value) use ($f) {
                 return Option::from($value)->pick($f)->getOrElse(function () use ($f): void {
-                    throw new \RuntimeException("Undefined index {$f}");
+                    throw new RuntimeException("Undefined index {$f}");
                 });
             };
-        } elseif ($f instanceof \Closure) {
+        } elseif ($f instanceof Closure) {
             return $f;
         } else {
             $type = gettype($f);
-            throw new \InvalidArgumentException("`groupBy` needs a string or \\Closure. {$type} given.");
+            throw new InvalidArgumentException("`groupBy` needs a string or \\Closure. {$type} given.");
         }
     }
 
@@ -107,7 +116,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
         foreach ($this->getRawIterable() as $value) {
             return $value;
         }
-        throw new \LogicException("There is no value");
+        throw new LogicException('There is no value');
     }
 
     /** {@inheritdoc} */
@@ -132,7 +141,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
     }
 
     /** {@inheritdoc} */
-    public function mkString(string $sep = ""): string
+    public function mkString(string $sep = ''): string
     {
         return implode($sep, $this->toArray());
     }
@@ -140,19 +149,19 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
     /** {@inheritdoc} */
     public function nonEmpty(): bool
     {
-        return !$this->isEmpty();
+        return ! $this->isEmpty();
     }
 
     /** {@inheritdoc} */
     public function offsetSet($offset, $value): void
     {
-        throw new \BadMethodCallException;
+        throw new BadMethodCallException();
     }
 
     /** {@inheritdoc} */
     public function offsetUnset($offset): void
     {
-        throw new \BadMethodCallException;
+        throw new BadMethodCallException();
     }
 
     /** {@inheritdoc} */
@@ -160,5 +169,4 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
     {
         return array_sum($this->toArray());
     }
-
 }

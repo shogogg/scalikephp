@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2017 shogogg <shogo@studiofly.net>
+ * Copyright (c) 2017 shogogg <shogo@studiofly.net>.
  *
  * This software is released under the MIT License.
  * http://opensource.org/licenses/mit-license.php
@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace ScalikePHP;
 
+use Exception;
 use ScalikePHP\Support\ArraySupport;
 
 /**
@@ -16,7 +17,6 @@ use ScalikePHP\Support\ArraySupport;
  */
 class ArraySeq extends Seq
 {
-
     use ArraySupport;
 
     /**
@@ -32,18 +32,18 @@ class ArraySeq extends Seq
     /**
      * {@inheritdoc}
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function drop(int $n): Seq
     {
-        return $n <= 0 ? $this : new ArraySeq(array_slice($this->array, $n));
+        return $n <= 0 ? $this : new self(array_slice($this->array, $n));
     }
 
     /** {@inheritdoc} */
     public function take(int $n): Seq
     {
         if ($n > 0) {
-            return new ArraySeq(array_slice($this->array, 0, $n));
+            return new self(array_slice($this->array, 0, $n));
         } elseif ($n === 0) {
             return Seq::emptySeq();
         } else {
@@ -56,5 +56,4 @@ class ArraySeq extends Seq
     {
         return $this->array;
     }
-
 }

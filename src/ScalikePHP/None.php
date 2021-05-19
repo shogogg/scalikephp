@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2017 shogogg <shogo@studiofly.net>
+ * Copyright (c) 2017 shogogg <shogo@studiofly.net>.
  *
  * This software is released under the MIT License.
  * http://opensource.org/licenses/mit-license.php
@@ -9,12 +9,19 @@ declare(strict_types=1);
 
 namespace ScalikePHP;
 
+use BadMethodCallException;
+use Closure;
+use EmptyIterator;
+use Exception;
+use LogicException;
+use OutOfBoundsException;
+use Traversable;
+
 /**
  * Scala like None.
  */
 final class None extends Option
 {
-
     /**
      * Singleton instance.
      *
@@ -27,10 +34,10 @@ final class None extends Option
      *
      * @return None
      */
-    public static function getInstance(): None
+    public static function getInstance(): self
     {
         if (static::$instance === null) {
-            static::$instance = new static;
+            static::$instance = new static();
         }
         return static::$instance;
     }
@@ -48,49 +55,49 @@ final class None extends Option
     }
 
     /** {@inheritdoc} */
-    public function each(\Closure $f): void
+    public function each(Closure $f): void
     {
         // nothing to do.
     }
 
     /** {@inheritdoc} */
-    public function exists(\Closure $p): bool
+    public function exists(Closure $p): bool
     {
         return false;
     }
 
     /** {@inheritdoc} */
-    public function filter(\Closure $callback): None
+    public function filter(Closure $callback): self
     {
         return $this;
     }
 
     /** {@inheritdoc} */
-    public function filterNot(\Closure $p)
+    public function filterNot(Closure $p)
     {
         return $this;
     }
 
     /** {@inheritdoc} */
-    public function find(\Closure $p): Option
+    public function find(Closure $p): Option
     {
         return $this;
     }
 
     /** {@inheritdoc} */
-    public function flatMap(\Closure $callback): None
+    public function flatMap(Closure $callback): self
     {
         return $this;
     }
 
     /** {@inheritdoc} */
-    public function flatten(): None
+    public function flatten(): self
     {
         return $this;
     }
 
     /** {@inheritdoc} */
-    public function forAll(\Closure $p): bool
+    public function forAll(Closure $p): bool
     {
         return true;
     }
@@ -98,23 +105,23 @@ final class None extends Option
     /** {@inheritdoc} */
     public function get()
     {
-        throw new \LogicException("None has no value.");
+        throw new LogicException('None has no value.');
     }
 
     /** {@inheritdoc} */
-    public function getIterator(): \Traversable
+    public function getIterator(): Traversable
     {
-        return new \EmptyIterator();
+        return new EmptyIterator();
     }
 
     /** {@inheritdoc} */
-    public function getOrCall(\Closure $f)
+    public function getOrCall(Closure $f)
     {
         return $this->getOrElse($f);
     }
 
     /** {@inheritdoc} */
-    public function getOrElse(\Closure $default)
+    public function getOrElse(Closure $default)
     {
         return $default();
     }
@@ -126,7 +133,7 @@ final class None extends Option
     }
 
     /** {@inheritdoc} */
-    public function getOrThrow(\Exception $exception)
+    public function getOrThrow(Exception $exception)
     {
         throw $exception;
     }
@@ -146,7 +153,7 @@ final class None extends Option
     /** {@inheritdoc} */
     public function head()
     {
-        throw new \LogicException("There is no value");
+        throw new LogicException('There is no value');
     }
 
     /** {@inheritdoc} */
@@ -176,7 +183,7 @@ final class None extends Option
     /** {@inheritdoc} */
     public function last()
     {
-        throw new \LogicException("There is no value");
+        throw new LogicException('There is no value');
     }
 
     /** {@inheritdoc} */
@@ -186,7 +193,7 @@ final class None extends Option
     }
 
     /** {@inheritdoc} */
-    public function map(\Closure $callback): None
+    public function map(Closure $callback): self
     {
         return $this;
     }
@@ -194,31 +201,31 @@ final class None extends Option
     /** {@inheritdoc} */
     public function max()
     {
-        throw new \LogicException("empty.max");
+        throw new LogicException('empty.max');
     }
 
     /** {@inheritdoc} */
-    public function maxBy(\Closure $f)
+    public function maxBy(Closure $f)
     {
-        throw new \LogicException("empty.max");
+        throw new LogicException('empty.max');
     }
 
     /** {@inheritdoc} */
     public function min()
     {
-        throw new \LogicException("empty.min");
+        throw new LogicException('empty.min');
     }
 
     /** {@inheritdoc} */
-    public function minBy(\Closure $f)
+    public function minBy(Closure $f)
     {
-        throw new \LogicException("empty.min");
+        throw new LogicException('empty.min');
     }
 
     /** {@inheritdoc} */
-    public function mkString(string $sep = ""): string
+    public function mkString(string $sep = ''): string
     {
-        return "";
+        return '';
     }
 
     /** {@inheritdoc} */
@@ -236,29 +243,29 @@ final class None extends Option
     /** {@inheritdoc} */
     public function offsetGet($offset)
     {
-        throw new \OutOfBoundsException("Undefined offset: {$offset}");
+        throw new OutOfBoundsException("Undefined offset: {$offset}");
     }
 
     /** {@inheritdoc} */
     public function offsetSet($offset, $value): void
     {
-        throw new \BadMethodCallException;
+        throw new BadMethodCallException();
     }
 
     /** {@inheritdoc} */
     public function offsetUnset($offset): void
     {
-        throw new \BadMethodCallException;
+        throw new BadMethodCallException();
     }
 
     /** {@inheritdoc} */
-    public function orElse(\Closure $b): Option
+    public function orElse(Closure $b): Option
     {
         $option = $b();
         if ($option instanceof Option) {
             return $option;
         } else {
-            throw new \LogicException("Closure should returns an Option");
+            throw new LogicException('Closure should returns an Option');
         }
     }
 
@@ -269,7 +276,7 @@ final class None extends Option
     }
 
     /** {@inheritdoc} */
-    public function orElseCall(\Closure $f): Option
+    public function orElseCall(Closure $f): Option
     {
         return $f();
     }
@@ -287,7 +294,7 @@ final class None extends Option
     }
 
     /** {@inheritdoc} */
-    public function sumBy(\Closure $f): int
+    public function sumBy(Closure $f): int
     {
         return 0;
     }
@@ -315,5 +322,4 @@ final class None extends Option
     {
         return Seq::emptySeq();
     }
-
 }

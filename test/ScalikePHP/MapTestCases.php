@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2017 shogogg <shogo@studiofly.net>
+ * Copyright (c) 2017 shogogg <shogo@studiofly.net>.
  *
  * This software is released under the MIT License.
  * http://opensource.org/licenses/mit-license.php
@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace Test\ScalikePHP;
 
+use BadMethodCallException;
+use LogicException;
 use ScalikePHP\Map;
 
 /**
@@ -16,11 +18,11 @@ use ScalikePHP\Map;
  */
 trait MapTestCases
 {
-
     /**
      * Create a Map for testing.
      *
      * @param array $values
+     *
      * @return \ScalikePHP\Map
      */
     abstract protected function map(array $values = []): Map;
@@ -33,14 +35,14 @@ trait MapTestCases
      */
     public function testAppend(): void
     {
-        $map = $this->map(["Civic" => "Honda"]);
+        $map = $this->map(['Civic' => 'Honda']);
         Assert::same(
-            ["Civic" => "Honda", "Levorg" => "Subaru"],
-            $map->append("Levorg", "Subaru")->toAssoc()
+            ['Civic' => 'Honda', 'Levorg' => 'Subaru'],
+            $map->append('Levorg', 'Subaru')->toAssoc()
         );
         Assert::same(
-            ["Civic" => "Honda", "Levorg" => "Subaru", "Prius" => "Toyota"],
-            $map->append(["Levorg" => "Subaru", "Prius" => "Toyota"])->toAssoc()
+            ['Civic' => 'Honda', 'Levorg' => 'Subaru', 'Prius' => 'Toyota'],
+            $map->append(['Levorg' => 'Subaru', 'Prius' => 'Toyota'])->toAssoc()
         );
     }
 
@@ -52,10 +54,10 @@ trait MapTestCases
      */
     public function testContains(): void
     {
-        $map = $this->map(["Civic" => "Honda", "Levorg" => "Subaru"]);
-        Assert::true($map->contains("Civic"));
-        Assert::true($map->contains("Levorg"));
-        Assert::false($map->contains("Prius"));
+        $map = $this->map(['Civic' => 'Honda', 'Levorg' => 'Subaru']);
+        Assert::true($map->contains('Civic'));
+        Assert::true($map->contains('Levorg'));
+        Assert::false($map->contains('Prius'));
     }
 
     /**
@@ -67,9 +69,9 @@ trait MapTestCases
     public function testCount(): void
     {
         Assert::same(0, $this->map()->count());
-        Assert::same(1, $this->map(["a" => 1])->count());
-        Assert::same(2, $this->map(["a" => 1, "b" => 2])->count());
-        Assert::same(3, $this->map(["a" => 1, "b" => 2, "c" => 3])->count());
+        Assert::same(1, $this->map(['a' => 1])->count());
+        Assert::same(2, $this->map(['a' => 1, 'b' => 2])->count());
+        Assert::same(3, $this->map(['a' => 1, 'b' => 2, 'c' => 3])->count());
     }
 
     /**
@@ -79,19 +81,19 @@ trait MapTestCases
      */
     public function testDrop(): void
     {
-        $map = $this->map(["one" => 1, "two" => 2, "three" => 3, "four" => 4, "five" => 5]);
+        $map = $this->map(['one' => 1, 'two' => 2, 'three' => 3, 'four' => 4, 'five' => 5]);
         Assert::instanceOf(Map::class, $map->drop(3));
-        Assert::same(["four" => 4, "five" => 5], $map->drop(3)->toAssoc());
+        Assert::same(['four' => 4, 'five' => 5], $map->drop(3)->toAssoc());
         Assert::instanceOf(Map::class, $map->drop(2));
-        Assert::same(["three" => 3, "four" => 4, "five" => 5], $map->drop(2)->toAssoc());
+        Assert::same(['three' => 3, 'four' => 4, 'five' => 5], $map->drop(2)->toAssoc());
         Assert::instanceOf(Map::class, $map->drop(1));
-        Assert::same(["two" => 2, "three" => 3, "four" => 4, "five" => 5], $map->drop(1)->toAssoc());
+        Assert::same(['two' => 2, 'three' => 3, 'four' => 4, 'five' => 5], $map->drop(1)->toAssoc());
         Assert::instanceOf(Map::class, $map->drop(0));
-        Assert::same(["one" => 1, "two" => 2, "three" => 3, "four" => 4, "five" => 5], $map->drop(0)->toAssoc());
+        Assert::same(['one' => 1, 'two' => 2, 'three' => 3, 'four' => 4, 'five' => 5], $map->drop(0)->toAssoc());
         Assert::instanceOf(Map::class, $map->drop(-1));
-        Assert::same(["one" => 1, "two" => 2, "three" => 3, "four" => 4, "five" => 5], $map->drop(-1)->toAssoc());
+        Assert::same(['one' => 1, 'two' => 2, 'three' => 3, 'four' => 4, 'five' => 5], $map->drop(-1)->toAssoc());
         Assert::instanceOf(Map::class, $map->drop(-2));
-        Assert::same(["one" => 1, "two" => 2, "three" => 3, "four" => 4, "five" => 5], $map->drop(-2)->toAssoc());
+        Assert::same(['one' => 1, 'two' => 2, 'three' => 3, 'four' => 4, 'five' => 5], $map->drop(-2)->toAssoc());
     }
 
     /**
@@ -104,12 +106,12 @@ trait MapTestCases
     {
         $spy = self::spy();
         $f = function () use ($spy): void {
-            call_user_func_array([$spy, "spy"], func_get_args());
+            call_user_func_array([$spy, 'spy'], func_get_args());
         };
-        $spy->shouldReceive("spy")->with("Honda", "Civic")->once();
-        $spy->shouldReceive("spy")->with("Subaru", "Levorg")->once();
-        $spy->shouldReceive("spy")->with("Toyota", "Prius")->once();
-        $this->map(["Civic" => "Honda", "Levorg" => "Subaru", "Prius" => "Toyota"])->each($f);
+        $spy->shouldReceive('spy')->with('Honda', 'Civic')->once();
+        $spy->shouldReceive('spy')->with('Subaru', 'Levorg')->once();
+        $spy->shouldReceive('spy')->with('Toyota', 'Prius')->once();
+        $this->map(['Civic' => 'Honda', 'Levorg' => 'Subaru', 'Prius' => 'Toyota'])->each($f);
     }
 
     /**
@@ -120,7 +122,7 @@ trait MapTestCases
      */
     public function testExists(): void
     {
-        $map = $this->map(["Civic" => "Honda", "Levorg" => "Subaru", "Prius" => "Toyota"]);
+        $map = $this->map(['Civic' => 'Honda', 'Levorg' => 'Subaru', 'Prius' => 'Toyota']);
         $f = function (string $x): bool {
             return strlen($x) === 5;
         };
@@ -139,15 +141,15 @@ trait MapTestCases
      */
     public function testFilter(): void
     {
-        $map = $this->map(["Civic" => "Honda", "Levorg" => "Subaru", "Prius" => "Toyota"]);
+        $map = $this->map(['Civic' => 'Honda', 'Levorg' => 'Subaru', 'Prius' => 'Toyota']);
         $f = function (string $x): bool {
-            return $x !== "Honda";
+            return $x !== 'Honda';
         };
         $g = function (string $x): bool {
-            return $x !== "Toyota";
+            return $x !== 'Toyota';
         };
-        Assert::same(["Levorg" => "Subaru", "Prius" => "Toyota"], $map->filter($f)->toAssoc());
-        Assert::same(["Civic" => "Honda", "Levorg" => "Subaru"], $map->filter($g)->toAssoc());
+        Assert::same(['Levorg' => 'Subaru', 'Prius' => 'Toyota'], $map->filter($f)->toAssoc());
+        Assert::same(['Civic' => 'Honda', 'Levorg' => 'Subaru'], $map->filter($g)->toAssoc());
     }
 
     /**
@@ -158,15 +160,15 @@ trait MapTestCases
      */
     public function testFilterNot(): void
     {
-        $map = $this->map(["Civic" => "Honda", "Levorg" => "Subaru", "Prius" => "Toyota"]);
+        $map = $this->map(['Civic' => 'Honda', 'Levorg' => 'Subaru', 'Prius' => 'Toyota']);
         $f = function (string $x): bool {
-            return $x === "Honda";
+            return $x === 'Honda';
         };
         $g = function (string $x): bool {
-            return $x === "Toyota";
+            return $x === 'Toyota';
         };
-        Assert::same(["Levorg" => "Subaru", "Prius" => "Toyota"], $map->filterNot($f)->toAssoc());
-        Assert::same(["Civic" => "Honda", "Levorg" => "Subaru"], $map->filterNot($g)->toAssoc());
+        Assert::same(['Levorg' => 'Subaru', 'Prius' => 'Toyota'], $map->filterNot($f)->toAssoc());
+        Assert::same(['Civic' => 'Honda', 'Levorg' => 'Subaru'], $map->filterNot($g)->toAssoc());
     }
 
     /**
@@ -177,14 +179,14 @@ trait MapTestCases
      */
     public function testFind(): void
     {
-        $map = $this->map(["Civic" => "Honda", "Levorg" => "Subaru", "Prius" => "Toyota"]);
+        $map = $this->map(['Civic' => 'Honda', 'Levorg' => 'Subaru', 'Prius' => 'Toyota']);
         $f = function (string $x): bool {
-            return $x !== "Honda";
+            return $x !== 'Honda';
         };
         $g = function (string $x): bool {
-            return $x === "Ferrari";
+            return $x === 'Ferrari';
         };
-        Assert::some(["Levorg", "Subaru"], $map->find($f));
+        Assert::some(['Levorg', 'Subaru'], $map->find($f));
         Assert::none($map->find($g));
     }
 
@@ -196,7 +198,7 @@ trait MapTestCases
      */
     public function testFlatMap(): void
     {
-        $map = $this->map(["Civic" => "Honda", "Levorg" => "Subaru", "Prius" => "Toyota"]);
+        $map = $this->map(['Civic' => 'Honda', 'Levorg' => 'Subaru', 'Prius' => 'Toyota']);
         $f = function (string $value, string $key): array {
             return [
                 $key => $value,
@@ -211,23 +213,23 @@ trait MapTestCases
         };
         Assert::same(
             [
-                "Civic" => "Honda",
-                "CIVIC" => "HONDA",
-                "Levorg" => "Subaru",
-                "LEVORG" => "SUBARU",
-                "Prius" => "Toyota",
-                "PRIUS" => "TOYOTA",
+                'Civic' => 'Honda',
+                'CIVIC' => 'HONDA',
+                'Levorg' => 'Subaru',
+                'LEVORG' => 'SUBARU',
+                'Prius' => 'Toyota',
+                'PRIUS' => 'TOYOTA',
             ],
             $map->flatMap($f)->toAssoc()
         );
         Assert::same(
             [
-                "Civic" => "Honda",
-                "civic" => "honda",
-                "Levorg" => "Subaru",
-                "levorg" => "subaru",
-                "Prius" => "Toyota",
-                "prius" => "toyota",
+                'Civic' => 'Honda',
+                'civic' => 'honda',
+                'Levorg' => 'Subaru',
+                'levorg' => 'subaru',
+                'Prius' => 'Toyota',
+                'prius' => 'toyota',
             ],
             $map->flatMap($g)->toAssoc()
         );
@@ -241,9 +243,9 @@ trait MapTestCases
      */
     public function testFlatten(): void
     {
-        $map = $this->map(["Civic" => "Honda", "Levorg" => "Subaru", "Prius" => "Toyota"]);
+        $map = $this->map(['Civic' => 'Honda', 'Levorg' => 'Subaru', 'Prius' => 'Toyota']);
         Assert::throws(
-            \LogicException::class,
+            LogicException::class,
             function () use ($map): void {
                 $map->flatten();
             }
@@ -258,15 +260,15 @@ trait MapTestCases
      */
     public function testFold(): void
     {
-        $map = $this->map(["Civic" => "Honda", "Levorg" => "Subaru", "Prius" => "Toyota"]);
+        $map = $this->map(['Civic' => 'Honda', 'Levorg' => 'Subaru', 'Prius' => 'Toyota']);
         $f = function (string $z, string $x): string {
-            return $z . "/" . $x;
+            return $z . '/' . $x;
         };
         $g = function (string $z, string $x): string {
-            return $x . "/" . $z;
+            return $x . '/' . $z;
         };
-        Assert::same("//Honda/Subaru/Toyota", $map->fold("/", $f));
-        Assert::same("Toyota/Subaru/Honda//", $map->fold("/", $g));
+        Assert::same('//Honda/Subaru/Toyota', $map->fold('/', $f));
+        Assert::same('Toyota/Subaru/Honda//', $map->fold('/', $g));
     }
 
     /**
@@ -277,7 +279,7 @@ trait MapTestCases
      */
     public function testForAll(): void
     {
-        $map = $this->map(["Civic" => "Honda", "Levorg" => "Subaru", "Prius" => "Toyota"]);
+        $map = $this->map(['Civic' => 'Honda', 'Levorg' => 'Subaru', 'Prius' => 'Toyota']);
         $f = function (string $x): bool {
             return strlen($x) > 4;
         };
@@ -296,11 +298,11 @@ trait MapTestCases
      */
     public function testGet(): void
     {
-        $map = $this->map(["Civic" => "Honda", "Levorg" => "Subaru", "Prius" => "Toyota"]);
-        Assert::some("Honda", $map->get("Civic"));
-        Assert::some("Subaru", $map->get("Levorg"));
-        Assert::some("Toyota", $map->get("Prius"));
-        Assert::none($map->get("Fit"));
+        $map = $this->map(['Civic' => 'Honda', 'Levorg' => 'Subaru', 'Prius' => 'Toyota']);
+        Assert::some('Honda', $map->get('Civic'));
+        Assert::some('Subaru', $map->get('Levorg'));
+        Assert::some('Toyota', $map->get('Prius'));
+        Assert::none($map->get('Fit'));
     }
 
     /**
@@ -311,14 +313,14 @@ trait MapTestCases
      */
     public function testGetOrElse(): void
     {
-        $map = $this->map(["Civic" => "Honda", "Levorg" => "Subaru", "Prius" => "Toyota"]);
+        $map = $this->map(['Civic' => 'Honda', 'Levorg' => 'Subaru', 'Prius' => 'Toyota']);
         $default = function (): string {
-            return "Undefined";
+            return 'Undefined';
         };
-        Assert::same("Honda", $map->getOrElse("Civic", $default));
-        Assert::same("Subaru", $map->getOrElse("Levorg", $default));
-        Assert::same("Toyota", $map->getOrElse("Prius", $default));
-        Assert::same("Undefined", $map->getOrElse("Fit", $default));
+        Assert::same('Honda', $map->getOrElse('Civic', $default));
+        Assert::same('Subaru', $map->getOrElse('Levorg', $default));
+        Assert::same('Toyota', $map->getOrElse('Prius', $default));
+        Assert::same('Undefined', $map->getOrElse('Fit', $default));
     }
 
     /**
@@ -330,33 +332,33 @@ trait MapTestCases
     public function testGroupBy(): void
     {
         $map = $this->map([
-            "php" => ["name" => "php", "type" => "language"],
-            "python" => ["name" => "python", "type" => "language"],
-            "scala" => ["name" => "scala", "type" => "language"],
-            "symfony" => ["name" => "symfony", "type" => "framework"],
-            "django" => ["name" => "django", "type" => "framework"],
-            "playframework" => ["name" => "playframework", "type" => "framework"],
+            'php' => ['name' => 'php', 'type' => 'language'],
+            'python' => ['name' => 'python', 'type' => 'language'],
+            'scala' => ['name' => 'scala', 'type' => 'language'],
+            'symfony' => ['name' => 'symfony', 'type' => 'framework'],
+            'django' => ['name' => 'django', 'type' => 'framework'],
+            'playframework' => ['name' => 'playframework', 'type' => 'framework'],
         ]);
         $f = function (array $item): string {
-            return $item["type"];
+            return $item['type'];
         };
         $g = function (Map $items): array {
             return $items->toAssoc();
         };
         $expected = [
-            "language" => [
-                "php" => ["name" => "php", "type" => "language"],
-                "python" => ["name" => "python", "type" => "language"],
-                "scala" => ["name" => "scala", "type" => "language"],
+            'language' => [
+                'php' => ['name' => 'php', 'type' => 'language'],
+                'python' => ['name' => 'python', 'type' => 'language'],
+                'scala' => ['name' => 'scala', 'type' => 'language'],
             ],
-            "framework" => [
-                "symfony" => ["name" => "symfony", "type" => "framework"],
-                "django" => ["name" => "django", "type" => "framework"],
-                "playframework" => ["name" => "playframework", "type" => "framework"],
+            'framework' => [
+                'symfony' => ['name' => 'symfony', 'type' => 'framework'],
+                'django' => ['name' => 'django', 'type' => 'framework'],
+                'playframework' => ['name' => 'playframework', 'type' => 'framework'],
             ],
         ];
         Assert::same($expected, $map->groupBy($f)->mapValues($g)->toAssoc());
-        Assert::same($expected, $map->groupBy("type")->mapValues($g)->toAssoc());
+        Assert::same($expected, $map->groupBy('type')->mapValues($g)->toAssoc());
     }
 
     /**
@@ -367,10 +369,10 @@ trait MapTestCases
      */
     public function testHead(): void
     {
-        $map = $this->map(["Civic" => "Honda", "Levorg" => "Subaru", "Prius" => "Toyota"]);
-        Assert::same(["Civic", "Honda"], $map->head());
+        $map = $this->map(['Civic' => 'Honda', 'Levorg' => 'Subaru', 'Prius' => 'Toyota']);
+        Assert::same(['Civic', 'Honda'], $map->head());
         Assert::throws(
-            \LogicException::class,
+            LogicException::class,
             function (): void {
                 $this->map()->head();
             }
@@ -385,8 +387,8 @@ trait MapTestCases
      */
     public function testHeadOption(): void
     {
-        $map = $this->map(["Civic" => "Honda", "Levorg" => "Subaru", "Prius" => "Toyota"]);
-        Assert::some(["Civic", "Honda"], $map->headOption());
+        $map = $this->map(['Civic' => 'Honda', 'Levorg' => 'Subaru', 'Prius' => 'Toyota']);
+        Assert::some(['Civic', 'Honda'], $map->headOption());
         Assert::none($this->map()->headOption());
     }
 
@@ -399,7 +401,7 @@ trait MapTestCases
     public function testIsEmpty(): void
     {
         Assert::true($this->map()->isEmpty());
-        Assert::false($this->map(["a" => 1])->isEmpty());
+        Assert::false($this->map(['a' => 1])->isEmpty());
     }
 
     /**
@@ -411,8 +413,8 @@ trait MapTestCases
     public function testJsonSerialize(): void
     {
         Assert::same(
-            json_encode(["Civic" => "Honda", "Levorg" => "Subaru", "Prius" => "Toyota"]),
-            json_encode($this->map(["Civic" => "Honda", "Levorg" => "Subaru", "Prius" => "Toyota"]))
+            json_encode(['Civic' => 'Honda', 'Levorg' => 'Subaru', 'Prius' => 'Toyota']),
+            json_encode($this->map(['Civic' => 'Honda', 'Levorg' => 'Subaru', 'Prius' => 'Toyota']))
         );
     }
 
@@ -424,10 +426,10 @@ trait MapTestCases
      */
     public function testLast(): void
     {
-        $map = $this->map(["Civic" => "Honda", "Levorg" => "Subaru", "Prius" => "Toyota"]);
-        Assert::same(["Prius", "Toyota"], $map->last());
+        $map = $this->map(['Civic' => 'Honda', 'Levorg' => 'Subaru', 'Prius' => 'Toyota']);
+        Assert::same(['Prius', 'Toyota'], $map->last());
         Assert::throws(
-            \LogicException::class,
+            LogicException::class,
             function (): void {
                 $this->map()->last();
             }
@@ -442,8 +444,8 @@ trait MapTestCases
      */
     public function testLastOption(): void
     {
-        $map = $this->map(["Civic" => "Honda", "Levorg" => "Subaru", "Prius" => "Toyota"]);
-        Assert::some(["Prius", "Toyota"], $map->lastOption());
+        $map = $this->map(['Civic' => 'Honda', 'Levorg' => 'Subaru', 'Prius' => 'Toyota']);
+        Assert::some(['Prius', 'Toyota'], $map->lastOption());
         Assert::none($this->map()->lastOption());
     }
 
@@ -455,15 +457,15 @@ trait MapTestCases
      */
     public function testMap(): void
     {
-        $map = $this->map(["Civic" => "Honda", "Levorg" => "Subaru", "Prius" => "Toyota"]);
+        $map = $this->map(['Civic' => 'Honda', 'Levorg' => 'Subaru', 'Prius' => 'Toyota']);
         $f = function (string $value, string $key): array {
             return [strtoupper($value), strtoupper($key)];
         };
         $g = function (string $value, string $key): array {
             return [strtolower($key), strtolower($value)];
         };
-        Assert::same(["HONDA" => "CIVIC", "SUBARU" => "LEVORG", "TOYOTA" => "PRIUS"], $map->map($f)->toAssoc());
-        Assert::same(["civic" => "honda", "levorg" => "subaru", "prius" => "toyota"], $map->map($g)->toAssoc());
+        Assert::same(['HONDA' => 'CIVIC', 'SUBARU' => 'LEVORG', 'TOYOTA' => 'PRIUS'], $map->map($f)->toAssoc());
+        Assert::same(['civic' => 'honda', 'levorg' => 'subaru', 'prius' => 'toyota'], $map->map($g)->toAssoc());
     }
 
     /**
@@ -474,8 +476,8 @@ trait MapTestCases
      */
     public function testMax(): void
     {
-        Assert::same(["Z", 1], $this->map(["A" => 9, "Z" => 1])->max());
-        Assert::same([9, "A"], $this->map([9 => "A", 1 => "Z"])->max());
+        Assert::same(['Z', 1], $this->map(['A' => 9, 'Z' => 1])->max());
+        Assert::same([9, 'A'], $this->map([9 => 'A', 1 => 'Z'])->max());
     }
 
     /**
@@ -505,8 +507,8 @@ trait MapTestCases
      */
     public function testMin(): void
     {
-        Assert::same(["A", 9], $this->map(["A" => 9, "Z" => 1])->min());
-        Assert::same([1, "Z"], $this->map([9 => "A", 1 => "Z"])->min());
+        Assert::same(['A', 9], $this->map(['A' => 9, 'Z' => 1])->min());
+        Assert::same([1, 'Z'], $this->map([9 => 'A', 1 => 'Z'])->min());
     }
 
     /**
@@ -536,10 +538,10 @@ trait MapTestCases
      */
     public function testMkString(): void
     {
-        $map = $this->map(["Civic" => "Honda", "Levorg" => "Subaru", "Prius" => "Toyota"]);
-        Assert::same("Civic => HondaLevorg => SubaruPrius => Toyota", $map->mkString());
-        Assert::same("Civic => Honda,Levorg => Subaru,Prius => Toyota", $map->mkString(","));
-        Assert::same("Civic => Honda, Levorg => Subaru, Prius => Toyota", $map->mkString(", "));
+        $map = $this->map(['Civic' => 'Honda', 'Levorg' => 'Subaru', 'Prius' => 'Toyota']);
+        Assert::same('Civic => HondaLevorg => SubaruPrius => Toyota', $map->mkString());
+        Assert::same('Civic => Honda,Levorg => Subaru,Prius => Toyota', $map->mkString(','));
+        Assert::same('Civic => Honda, Levorg => Subaru, Prius => Toyota', $map->mkString(', '));
     }
 
     /**
@@ -550,7 +552,7 @@ trait MapTestCases
      */
     public function testNonEmpty(): void
     {
-        Assert::true($this->map(["a" => 1])->nonEmpty());
+        Assert::true($this->map(['a' => 1])->nonEmpty());
         Assert::false($this->map()->nonEmpty());
     }
 
@@ -562,11 +564,11 @@ trait MapTestCases
      */
     public function testOffsetExists(): void
     {
-        $map = $this->map(["Civic" => "Honda", "Levorg" => "Subaru", "Prius" => "Toyota"]);
-        Assert::true(isset($map["Civic"]));
-        Assert::true(isset($map["Levorg"]));
-        Assert::true(isset($map["Prius"]));
-        Assert::false(isset($map["Fit"]));
+        $map = $this->map(['Civic' => 'Honda', 'Levorg' => 'Subaru', 'Prius' => 'Toyota']);
+        Assert::true(isset($map['Civic']));
+        Assert::true(isset($map['Levorg']));
+        Assert::true(isset($map['Prius']));
+        Assert::false(isset($map['Fit']));
     }
 
     /**
@@ -577,10 +579,10 @@ trait MapTestCases
      */
     public function testOffsetGet(): void
     {
-        $map = $this->map(["Civic" => "Honda", "Levorg" => "Subaru", "Prius" => "Toyota"]);
-        Assert::same("Honda", $map["Civic"]);
-        Assert::same("Subaru", $map["Levorg"]);
-        Assert::same("Toyota", $map["Prius"]);
+        $map = $this->map(['Civic' => 'Honda', 'Levorg' => 'Subaru', 'Prius' => 'Toyota']);
+        Assert::same('Honda', $map['Civic']);
+        Assert::same('Subaru', $map['Levorg']);
+        Assert::same('Toyota', $map['Prius']);
     }
 
     /**
@@ -591,15 +593,15 @@ trait MapTestCases
      */
     public function testOffsetSet(): void
     {
-        $map = $this->map(["Civic" => "Honda", "Levorg" => "Subaru", "Prius" => "Toyota"]);
+        $map = $this->map(['Civic' => 'Honda', 'Levorg' => 'Subaru', 'Prius' => 'Toyota']);
         $f = function () use ($map): void {
-            $map["Civic"] = "HONDA";
+            $map['Civic'] = 'HONDA';
         };
         $g = function () use ($map): void {
-            $map["Fit"] = "Honda";
+            $map['Fit'] = 'Honda';
         };
-        Assert::throws(\BadMethodCallException::class, $f);
-        Assert::throws(\BadMethodCallException::class, $g);
+        Assert::throws(BadMethodCallException::class, $f);
+        Assert::throws(BadMethodCallException::class, $g);
     }
 
     /**
@@ -610,15 +612,15 @@ trait MapTestCases
      */
     public function testOffsetUnset(): void
     {
-        $map = $this->map(["Civic" => "Honda", "Levorg" => "Subaru", "Prius" => "Toyota"]);
+        $map = $this->map(['Civic' => 'Honda', 'Levorg' => 'Subaru', 'Prius' => 'Toyota']);
         $f = function () use ($map): void {
-            unset($map["Civic"]);
+            unset($map['Civic']);
         };
         $g = function () use ($map): void {
-            unset($map["Fit"]);
+            unset($map['Fit']);
         };
-        Assert::throws(\BadMethodCallException::class, $f);
-        Assert::throws(\BadMethodCallException::class, $g);
+        Assert::throws(BadMethodCallException::class, $f);
+        Assert::throws(BadMethodCallException::class, $g);
     }
 
     /**
@@ -630,9 +632,9 @@ trait MapTestCases
     public function testSize(): void
     {
         Assert::same(0, $this->map()->size());
-        Assert::same(1, $this->map(["a" => 1])->size());
-        Assert::same(2, $this->map(["a" => 1, "b" => 2])->size());
-        Assert::same(3, $this->map(["a" => 1, "b" => 2, "c" => 3])->size());
+        Assert::same(1, $this->map(['a' => 1])->size());
+        Assert::same(2, $this->map(['a' => 1, 'b' => 2])->size());
+        Assert::same(3, $this->map(['a' => 1, 'b' => 2, 'c' => 3])->size());
     }
 
     /**
@@ -647,10 +649,10 @@ trait MapTestCases
             $this->map()->sum();
         };
         $g = function (): void {
-            $this->map(["a" => 1, "b" => 2, "c" => 3])->sum();
+            $this->map(['a' => 1, 'b' => 2, 'c' => 3])->sum();
         };
-        Assert::throws(\LogicException::class, $f);
-        Assert::throws(\LogicException::class, $g);
+        Assert::throws(LogicException::class, $f);
+        Assert::throws(LogicException::class, $g);
     }
 
     /**
@@ -665,7 +667,7 @@ trait MapTestCases
             return $z + $value;
         };
         Assert::same(0, $this->map()->sumBy($f));
-        Assert::same(6, $this->map(["a" => 1, "b" => 2, "c" => 3])->sumBy($f));
+        Assert::same(6, $this->map(['a' => 1, 'b' => 2, 'c' => 3])->sumBy($f));
     }
 
     /**
@@ -676,13 +678,13 @@ trait MapTestCases
      */
     public function testTake(): void
     {
-        $map = $this->map(["Civic" => "Honda", "Levorg" => "Subaru", "Prius" => "Toyota"]);
+        $map = $this->map(['Civic' => 'Honda', 'Levorg' => 'Subaru', 'Prius' => 'Toyota']);
         Assert::same([], $map->take(0)->toAssoc());
-        Assert::same(["Civic" => "Honda"], $map->take(1)->toAssoc());
-        Assert::same(["Civic" => "Honda", "Levorg" => "Subaru"], $map->take(2)->toAssoc());
-        Assert::same(["Civic" => "Honda", "Levorg" => "Subaru", "Prius" => "Toyota"], $map->take(3)->toAssoc());
-        Assert::same(["Civic" => "Honda", "Levorg" => "Subaru", "Prius" => "Toyota"], $map->take(4)->toAssoc());
-        Assert::same(["Civic" => "Honda", "Levorg" => "Subaru", "Prius" => "Toyota"], $map->take(100)->toAssoc());
+        Assert::same(['Civic' => 'Honda'], $map->take(1)->toAssoc());
+        Assert::same(['Civic' => 'Honda', 'Levorg' => 'Subaru'], $map->take(2)->toAssoc());
+        Assert::same(['Civic' => 'Honda', 'Levorg' => 'Subaru', 'Prius' => 'Toyota'], $map->take(3)->toAssoc());
+        Assert::same(['Civic' => 'Honda', 'Levorg' => 'Subaru', 'Prius' => 'Toyota'], $map->take(4)->toAssoc());
+        Assert::same(['Civic' => 'Honda', 'Levorg' => 'Subaru', 'Prius' => 'Toyota'], $map->take(100)->toAssoc());
     }
 
     /**
@@ -693,13 +695,13 @@ trait MapTestCases
      */
     public function testTakeRight(): void
     {
-        $map = $this->map(["Civic" => "Honda", "Levorg" => "Subaru", "Prius" => "Toyota"]);
+        $map = $this->map(['Civic' => 'Honda', 'Levorg' => 'Subaru', 'Prius' => 'Toyota']);
         Assert::same([], $map->takeRight(0)->toAssoc());
-        Assert::same(["Prius" => "Toyota"], $map->takeRight(1)->toAssoc());
-        Assert::same(["Levorg" => "Subaru", "Prius" => "Toyota"], $map->takeRight(2)->toAssoc());
-        Assert::same(["Civic" => "Honda", "Levorg" => "Subaru", "Prius" => "Toyota"], $map->takeRight(3)->toAssoc());
-        Assert::same(["Civic" => "Honda", "Levorg" => "Subaru", "Prius" => "Toyota"], $map->takeRight(4)->toAssoc());
-        Assert::same(["Civic" => "Honda", "Levorg" => "Subaru", "Prius" => "Toyota"], $map->takeRight(100)->toAssoc());
+        Assert::same(['Prius' => 'Toyota'], $map->takeRight(1)->toAssoc());
+        Assert::same(['Levorg' => 'Subaru', 'Prius' => 'Toyota'], $map->takeRight(2)->toAssoc());
+        Assert::same(['Civic' => 'Honda', 'Levorg' => 'Subaru', 'Prius' => 'Toyota'], $map->takeRight(3)->toAssoc());
+        Assert::same(['Civic' => 'Honda', 'Levorg' => 'Subaru', 'Prius' => 'Toyota'], $map->takeRight(4)->toAssoc());
+        Assert::same(['Civic' => 'Honda', 'Levorg' => 'Subaru', 'Prius' => 'Toyota'], $map->takeRight(100)->toAssoc());
     }
 
     /**
@@ -710,8 +712,8 @@ trait MapTestCases
      */
     public function testToArray(): void
     {
-        $map = $this->map(["Civic" => "Honda", "Levorg" => "Subaru", "Prius" => "Toyota"]);
-        Assert::same([["Civic", "Honda"], ["Levorg", "Subaru"], ["Prius", "Toyota"]], $map->toArray());
+        $map = $this->map(['Civic' => 'Honda', 'Levorg' => 'Subaru', 'Prius' => 'Toyota']);
+        Assert::same([['Civic', 'Honda'], ['Levorg', 'Subaru'], ['Prius', 'Toyota']], $map->toArray());
     }
 
     /**
@@ -722,8 +724,7 @@ trait MapTestCases
      */
     public function testToSeq(): void
     {
-        $map = $this->map(["Civic" => "Honda", "Levorg" => "Subaru", "Prius" => "Toyota"]);
-        Assert::same([["Civic", "Honda"], ["Levorg", "Subaru"], ["Prius", "Toyota"]], $map->toSeq()->toArray());
+        $map = $this->map(['Civic' => 'Honda', 'Levorg' => 'Subaru', 'Prius' => 'Toyota']);
+        Assert::same([['Civic', 'Honda'], ['Levorg', 'Subaru'], ['Prius', 'Toyota']], $map->toSeq()->toArray());
     }
-
 }

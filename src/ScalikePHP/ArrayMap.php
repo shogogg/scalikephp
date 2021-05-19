@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2017 shogogg <shogo@studiofly.net>
+ * Copyright (c) 2017 shogogg <shogo@studiofly.net>.
  *
  * This software is released under the MIT License.
  * http://opensource.org/licenses/mit-license.php
@@ -16,7 +16,6 @@ use ScalikePHP\Support\ArraySupport;
  */
 class ArrayMap extends Map
 {
-
     use ArraySupport;
 
     /**
@@ -36,7 +35,7 @@ class ArrayMap extends Map
             $this->array,
             is_array($keyOrArray) ? $keyOrArray : [$keyOrArray => $value]
         );
-        return new ArrayMap($assoc);
+        return new self($assoc);
     }
 
     /** {@inheritdoc} */
@@ -48,7 +47,7 @@ class ArrayMap extends Map
     /** {@inheritdoc} */
     public function drop(int $n): Map
     {
-        return $n <= 0 ? $this : new ArrayMap(array_slice($this->array, $n));
+        return $n <= 0 ? $this : new self(array_slice($this->array, $n));
     }
 
     /** {@inheritdoc} */
@@ -67,7 +66,7 @@ class ArrayMap extends Map
     public function take(int $n): Map
     {
         if ($n > 0) {
-            return new ArrayMap(array_slice($this->array, 0, $n));
+            return new self(array_slice($this->array, 0, $n));
         } elseif ($n === 0) {
             return Map::emptyMap();
         } else {
@@ -86,5 +85,4 @@ class ArrayMap extends Map
     {
         return new ArraySeq(array_values($this->array));
     }
-
 }
