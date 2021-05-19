@@ -50,7 +50,7 @@ final class None extends Option
      */
     public function drop(int $n): Seq
     {
-        return Seq::emptySeq();
+        return Seq::empty();
     }
 
     /**
@@ -407,6 +407,6 @@ final class None extends Option
      */
     public function toSeq(): Seq
     {
-        return Seq::emptySeq();
+        return Seq::empty();
     }
 }

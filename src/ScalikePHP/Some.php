@@ -51,7 +51,7 @@ final class Some extends Option
      */
     public function drop(int $n): Seq
     {
-        return $n <= 0 ? $this->toSeq() : Seq::emptySeq();
+        return $n <= 0 ? $this->toSeq() : Seq::empty();
     }
 
     /**

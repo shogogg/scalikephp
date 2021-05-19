@@ -47,7 +47,7 @@ class ArraySeq extends Seq
         if ($n > 0) {
             return new self(array_slice($this->array, 0, $n));
         } elseif ($n === 0) {
-            return Seq::emptySeq();
+            return Seq::empty();
         } else {
             return $this;
         }

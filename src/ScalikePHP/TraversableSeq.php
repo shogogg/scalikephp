@@ -65,7 +65,7 @@ class TraversableSeq extends Seq
                 }
             });
         } elseif ($n === 0) {
-            return Seq::emptySeq();
+            return Seq::empty();
         } else {
             return $this;
         }

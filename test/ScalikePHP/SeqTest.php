@@ -26,6 +26,17 @@ use ScalikePHP\TraversableSeq;
 final class SeqTest extends TestCase
 {
     /**
+     * Tests for Seq::empty().
+     *
+     * @see \ScalikePHP\Seq::empty()
+     */
+    public function testEmpty(): void
+    {
+        Assert::true(Seq::empty()->isEmpty());
+        Assert::same(Seq::empty(), Seq::empty());
+    }
+
+    /**
      * Tests for Seq::emptySeq().
      *
      * @see \ScalikePHP\Seq::emptySeq()
@@ -33,7 +44,7 @@ final class SeqTest extends TestCase
     public function testEmptySeq(): void
     {
         Assert::true(Seq::emptySeq()->isEmpty());
-        Assert::same(Seq::emptySeq(), Seq::emptySeq());
+        Assert::same(Seq::emptySeq(), Seq::empty());
     }
 
     /**
