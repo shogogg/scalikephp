@@ -340,14 +340,6 @@ final class None extends Option
     /**
      * {@inheritdoc}
      */
-    public function orElseCall(Closure $f): Option
-    {
-        return $f();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function pick($name): Option
     {
         return $this;

@@ -216,14 +216,6 @@ final class Some extends Option
     /**
      * {@inheritdoc}
      */
-    public function orElseCall(Closure $f): Option
-    {
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function sum()
     {
         return $this->array[0];
