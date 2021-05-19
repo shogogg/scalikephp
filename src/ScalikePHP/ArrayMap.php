@@ -80,7 +80,7 @@ class ArrayMap extends Map
         if ($n > 0) {
             return new self(array_slice($this->array, 0, $n));
         } elseif ($n === 0) {
-            return Map::emptyMap();
+            return Map::empty();
         } else {
             return $this;
         }

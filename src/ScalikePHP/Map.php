@@ -41,12 +41,23 @@ abstract class Map extends ScalikeTraversable
      *
      * @return Map
      */
+    final public static function empty(): self
+    {
+        if (self::$empty === null) {
+            self::$empty = new ArrayMap([]);
+        }
+        return self::$empty;
+    }
+
+    /**
+     * Get an empty Map instance.
+     *
+     * @return Map
+     * @deprecated
+     */
     public static function emptyMap(): self
     {
-        if (static::$empty === null) {
-            static::$empty = new ArrayMap([]);
-        }
-        return static::$empty;
+        return self::empty();
     }
 
     /**
@@ -59,9 +70,9 @@ abstract class Map extends ScalikeTraversable
     final public static function from(?iterable $iterable): self
     {
         if ($iterable === null) {
-            return static::emptyMap();
+            return self::empty();
         } elseif (is_array($iterable)) {
-            return empty($iterable) ? static::emptyMap() : new ArrayMap((array)$iterable);
+            return empty($iterable) ? self::empty() : new ArrayMap((array)$iterable);
         } elseif ($iterable instanceof Traversable) {
             return self::fromTraversable($iterable);
         } else {
@@ -400,7 +411,7 @@ abstract class Map extends ScalikeTraversable
         if ($n > 0) {
             return new ArrayMap(array_slice($this->toAssoc(), 0 - $n, $n));
         } elseif ($n === 0) {
-            return self::emptyMap();
+            return self::empty();
         } else {
             return $this;
         }

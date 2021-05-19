@@ -98,7 +98,7 @@ class TraversableMap extends Map
                 }
             });
         } elseif ($n === 0) {
-            return Map::emptyMap();
+            return Map::empty();
         } else {
             return $this;
         }

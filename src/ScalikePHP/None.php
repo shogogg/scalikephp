@@ -178,7 +178,7 @@ final class None extends Option
      */
     public function groupBy($f): Map
     {
-        return Map::emptyMap();
+        return Map::empty();
     }
 
     /**
