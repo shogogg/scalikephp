@@ -422,6 +422,21 @@ final class NoneTest extends TestCase
     }
 
     /**
+     * Tests for None::tail().
+     *
+     * @see \ScalikePHP\None::tail()
+     */
+    public function testTail(): void
+    {
+        Assert::throws(
+            LogicException::class,
+            function (): void {
+                Option::none()->tail();
+            }
+        );
+    }
+
+    /**
      * Tests for None::take().
      *
      * @see \ScalikePHP\None::take()

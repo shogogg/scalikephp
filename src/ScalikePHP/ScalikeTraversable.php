@@ -195,4 +195,15 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
     {
         return array_sum($this->toArray());
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function tail(): self
+    {
+        if ($this->isEmpty()) {
+            throw new LogicException('Unsupported operation: tail of empty list');
+        }
+        return $this->drop(1);
+    }
 }

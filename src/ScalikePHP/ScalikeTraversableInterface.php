@@ -12,6 +12,7 @@ namespace ScalikePHP;
 use ArrayAccess;
 use Closure;
 use Generator;
+use LogicException;
 
 /**
  * Scala like Traversable Interface.
@@ -111,6 +112,7 @@ interface ScalikeTraversableInterface extends ArrayAccess, \Countable, \Iterator
     /**
      * 値の先頭要素を返す, 要素がない場合は例外を投げる.
      *
+     * @throws LogicException
      * @return mixed 先頭の要素
      */
     public function head();
@@ -217,6 +219,13 @@ interface ScalikeTraversableInterface extends ArrayAccess, \Countable, \Iterator
      * @return mixed
      */
     public function sumBy(Closure $f);
+
+    /**
+     * 先頭の要素を除いた残りを返す.
+     *
+     * @return static
+     */
+    public function tail(): self;
 
     /**
      * Returns first `$n` elements.

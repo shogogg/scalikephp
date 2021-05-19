@@ -12,6 +12,7 @@ namespace Test\ScalikePHP;
 use BadMethodCallException;
 use LogicException;
 use ScalikePHP\Map;
+use ScalikePHP\Seq;
 
 /**
  * Tests for Map.
@@ -661,6 +662,26 @@ trait MapTestCases
         $f = fn (int $z, int $value): int => $z + $value;
         Assert::same(0, $this->map()->sumBy($f));
         Assert::same(6, $this->map(['a' => 1, 'b' => 2, 'c' => 3])->sumBy($f));
+    }
+
+    /**
+     * Tests for Map::tail().
+     *
+     * @see \ScalikePHP\Map::tail()
+     * @noinspection PhpUnused
+     */
+    public function testTail(): void
+    {
+        $map = $this->map(['one' => 1, 'two' => 2, 'three' => 3, 'four' => 4, 'five' => 5]);
+        Assert::instanceOf(Map::class, $map->drop(3));
+        Assert::same(['two' => 2, 'three' => 3, 'four' => 4, 'five' => 5], $map->tail()->toAssoc());
+        Assert::same(['three' => 3, 'four' => 4, 'five' => 5], $map->tail()->tail()->toAssoc());
+        Assert::throws(
+            LogicException::class,
+            function (): void {
+                Seq::empty()->tail();
+            }
+        );
     }
 
     /**

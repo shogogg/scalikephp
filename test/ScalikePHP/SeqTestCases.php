@@ -663,6 +663,26 @@ trait SeqTestCases
     }
 
     /**
+     * Tests for Seq::tail().
+     *
+     * @see \ScalikePHP\Seq::tail()
+     * @noinspection PhpUnused
+     */
+    public function testTail(): void
+    {
+        $seq = $this->seq('one', 'two', 'three', 'four', 'five');
+        Assert::instanceOf(Seq::class, $seq->tail());
+        Assert::same(['two', 'three', 'four', 'five'], $seq->tail()->toArray());
+        Assert::same(['three', 'four', 'five'], $seq->tail()->tail()->toArray());
+        Assert::throws(
+            LogicException::class,
+            function (): void {
+                Seq::empty()->tail();
+            }
+        );
+    }
+
+    /**
      * Tests for Seq::take().
      *
      * @see \ScalikePHP\ArraySeq::take()

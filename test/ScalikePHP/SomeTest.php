@@ -457,6 +457,17 @@ final class SomeTest extends TestCase
     }
 
     /**
+     * Tests for Some::tail().
+     *
+     * @see \ScalikePHP\Some::tail()
+     */
+    public function testTail(): void
+    {
+        Assert::instanceOf(Seq::class, Some::create(1)->tail());
+        Assert::same([], Some::create(1)->tail()->toArray());
+    }
+
+    /**
      * Tests for Some::take().
      *
      * @see \ScalikePHP\Some::take()
