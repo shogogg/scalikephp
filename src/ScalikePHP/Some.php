@@ -105,14 +105,6 @@ final class Some extends Option
     /**
      * {@inheritdoc}
      */
-    public function getOrCall(Closure $f)
-    {
-        return $this->getOrElse($f);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getOrElse(Closure $default)
     {
         return $this->array[0];

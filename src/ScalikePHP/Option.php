@@ -78,18 +78,6 @@ abstract class Option extends ScalikeTraversable
     abstract public function get();
 
     /**
-     * 値を返す, 値を持たない場合は関数を実行し、その戻り値を返す.
-     *
-     * @param Closure $f デフォルト値を返す関数
-     *
-     * @return mixed
-     *
-     * @deprecated
-     * @see Option::getOrElse()
-     */
-    abstract public function getOrCall(Closure $f);
-
-    /**
      * 値を返す, 値を持たない場合は $default の戻り値を返す.
      *
      * @param Closure $default デフォルト値を返す関数

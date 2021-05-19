@@ -135,14 +135,6 @@ final class None extends Option
     /**
      * {@inheritdoc}
      */
-    public function getOrCall(Closure $f)
-    {
-        return $this->getOrElse($f);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getOrElse(Closure $default)
     {
         return $default();
