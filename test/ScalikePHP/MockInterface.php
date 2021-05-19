@@ -14,14 +14,14 @@ interface MockInterface extends \Mockery\MockInterface
     /**
      * {@inheritdoc}
      *
-     * @param array ...$methods
+     * @param string ...$methods
      */
     public function shouldReceive(...$methods);
 
     /**
      * {@inheritdoc}
      *
-     * @param array ...$methods
+     * @param string ...$methods
      */
     public function shouldNotReceive(...$methods);
 }

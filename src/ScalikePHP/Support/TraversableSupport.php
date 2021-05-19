@@ -23,20 +23,9 @@ use Traversable;
  */
 trait TraversableSupport
 {
-    /**
-     * @var array
-     */
-    protected $array;
-
-    /**
-     * @var Traversable
-     */
-    protected $traversable;
-
-    /**
-     * @var bool
-     */
-    protected $computed = false;
+    protected array $array;
+    protected Traversable $traversable;
+    protected bool $computed = false;
 
     /**
      * Set the traversable.
@@ -60,13 +49,17 @@ trait TraversableSupport
         return count($this->toArray());
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function getIterator(): Traversable
     {
         return $this->computed ? new ArrayIterator($this->array) : $this->traversable;
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     protected function getRawIterable(): iterable
     {
         return $this->computed ? $this->array : $this->traversable;
@@ -119,9 +112,7 @@ trait TraversableSupport
     }
 
     /**
-     * {@inheritdoc}
-     *
-     * @throws Exception
+     * 遅延されている計算を行う.
      */
     abstract protected function compute(): void;
 }

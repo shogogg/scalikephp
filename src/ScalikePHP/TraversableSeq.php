@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace ScalikePHP;
 
-use Exception;
+use Generator;
 use ScalikePHP\Support\TraversableSupport;
 use Traversable;
 
@@ -32,12 +32,10 @@ class TraversableSeq extends Seq
 
     /**
      * {@inheritdoc}
-     *
-     * @throws Exception
      */
     public function drop(int $n): Seq
     {
-        return $n <= 0 ? $this : Seq::create(function () use ($n): Traversable {
+        return $n <= 0 ? $this : Seq::create(function () use ($n): Generator {
             $i = $n;
             $index = 0;
             foreach ($this->getRawIterable() as $value) {
@@ -50,11 +48,13 @@ class TraversableSeq extends Seq
         });
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function take(int $n): Seq
     {
         if ($n > 0) {
-            return Seq::create(function () use ($n): Traversable {
+            return Seq::create(function () use ($n): Generator {
                 $i = $n;
                 $index = 0;
                 foreach ($this->getRawIterable() as $value) {
@@ -73,8 +73,6 @@ class TraversableSeq extends Seq
 
     /**
      * {@inheritdoc}
-     *
-     * @throws Exception
      */
     public function toArray(): array
     {
@@ -82,7 +80,9 @@ class TraversableSeq extends Seq
         return $this->array;
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     protected function compute(): void
     {
         if ($this->computed === false) {

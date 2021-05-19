@@ -30,8 +30,10 @@ class TraversableMap extends Map
         $this->setTraversable($traversable);
     }
 
-    /** {@inheritdoc} */
-    public function append($keyOrArray, $value = null)
+    /**
+     * {@inheritdoc}
+     */
+    public function append($keyOrArray, $value = null): Map
     {
         return Map::create(function () use ($keyOrArray, $value): Generator {
             yield from $this->traversable;
@@ -39,13 +41,17 @@ class TraversableMap extends Map
         });
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function contains($key): bool
     {
         return array_key_exists($key, $this->toAssoc());
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function drop(int $n): Map
     {
         return $n <= 0 ? $this : Map::create(function () use ($n): Traversable {
@@ -60,19 +66,25 @@ class TraversableMap extends Map
         });
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function get($key): Option
     {
         return Option::fromArray($this->toAssoc(), $key);
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function keys(): Seq
     {
         return new ArraySeq(array_keys($this->toAssoc()));
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function take(int $n): Map
     {
         if ($n > 0) {
@@ -92,20 +104,26 @@ class TraversableMap extends Map
         }
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function toAssoc(): array
     {
         $this->compute();
         return $this->array;
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function values(): Seq
     {
         return new ArraySeq(array_values($this->toAssoc()));
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     protected function compute(): void
     {
         if ($this->computed === false) {

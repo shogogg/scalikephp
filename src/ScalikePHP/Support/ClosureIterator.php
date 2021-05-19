@@ -18,10 +18,7 @@ use IteratorAggregate;
  */
 final class ClosureIterator implements IteratorAggregate
 {
-    /**
-     * @var Closure
-     */
-    private $closure;
+    private Closure $closure;
 
     /**
      * CachingIterator constructor.
@@ -33,7 +30,9 @@ final class ClosureIterator implements IteratorAggregate
         $this->closure = $closure;
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function getIterator(): Iterator
     {
         $g = call_user_func($this->closure);

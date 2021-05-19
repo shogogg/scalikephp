@@ -71,9 +71,7 @@ final class NoneTest extends TestCase
      */
     public function testExists(): void
     {
-        $p = function (int $x): bool {
-            return $x === 1;
-        };
+        $p = fn (int $x): bool => $x === 1;
         Assert::false(Option::none()->exists($p));
     }
 
@@ -84,9 +82,7 @@ final class NoneTest extends TestCase
      */
     public function testFilter(): void
     {
-        $p = function (int $x): bool {
-            return $x === 1;
-        };
+        $p = fn (int $x): bool => $x === 1;
         Assert::none(Option::none()->filter($p));
     }
 
@@ -97,9 +93,7 @@ final class NoneTest extends TestCase
      */
     public function testFilterNot(): void
     {
-        $p = function (int $x): bool {
-            return $x !== 1;
-        };
+        $p = fn (int $x): bool => $x !== 1;
         Assert::none(Option::none()->filterNot($p));
     }
 
@@ -110,9 +104,7 @@ final class NoneTest extends TestCase
      */
     public function testFind(): void
     {
-        $p = function (int $x): bool {
-            return $x === 1;
-        };
+        $p = fn (int $x): bool => $x === 1;
         Assert::none(Option::none()->filter($p));
     }
 
@@ -123,15 +115,9 @@ final class NoneTest extends TestCase
      */
     public function testFlatMap(): void
     {
-        $returnsSome = function ($x): Option {
-            return Option::from($x * 2);
-        };
-        $returnsNone = function (): Option {
-            return Option::none();
-        };
-        $returnsArray = function ($x): array {
-            return [$x * 2];
-        };
+        $returnsSome = fn ($x): Option => Option::from($x * 2);
+        $returnsNone = fn (): Option => Option::none();
+        $returnsArray = fn ($x): array => [$x * 2];
         Assert::none(Option::none()->flatMap($returnsSome));
         Assert::none(Option::none()->flatMap($returnsNone));
         Assert::none(Option::none()->flatMap($returnsArray));
@@ -154,9 +140,7 @@ final class NoneTest extends TestCase
      */
     public function testForAll(): void
     {
-        $p = function (int $x): bool {
-            return $x === 1;
-        };
+        $p = fn (int $x): bool => $x === 1;
         Assert::true(Option::none()->forAll($p));
     }
 
@@ -183,9 +167,7 @@ final class NoneTest extends TestCase
     public function testGetOrElse(): void
     {
         $spy = self::spy();
-        $f = function () use ($spy) {
-            return call_user_func_array([$spy, 'spy'], func_get_args());
-        };
+        $f = fn () => call_user_func_array([$spy, 'spy'], func_get_args());
         $spy->shouldReceive('spy')->andReturn('abc');
         Assert::same('abc', Option::none()->getOrElse($f));
     }
@@ -210,9 +192,7 @@ final class NoneTest extends TestCase
     {
         $key = 'abc';
         $none = Option::none();
-        $closure = function (array $x) use ($key): string {
-            return $x[$key];
-        };
+        $closure = fn (array $x): string => $x[$key];
         Assert::same(0, $none->groupBy($key)->size());
         Assert::same(0, $none->groupBy($closure)->size());
     }
@@ -294,9 +274,7 @@ final class NoneTest extends TestCase
      */
     public function testMap(): void
     {
-        $f = function (int $x): int {
-            return $x * 2;
-        };
+        $f = fn (int $x): int => $x * 2;
         Assert::none(Option::none()->map($f));
     }
 
@@ -325,10 +303,7 @@ final class NoneTest extends TestCase
         Assert::throws(
             LogicException::class,
             function (): void {
-                $f = function ($x): string {
-                    return (string) $x;
-                };
-                Option::none()->maxBy($f);
+                Option::none()->maxBy(fn ($x): string => (string)$x);
             }
         );
     }
@@ -358,10 +333,7 @@ final class NoneTest extends TestCase
         Assert::throws(
             LogicException::class,
             function (): void {
-                $f = function ($x): string {
-                    return (string) $x;
-                };
-                Option::none()->minBy($f);
+                Option::none()->minBy(fn ($x): string => (string)$x);
             }
         );
     }
@@ -373,7 +345,8 @@ final class NoneTest extends TestCase
      */
     public function testMkString(): void
     {
-        Assert::same('', Option::none()->mkString(''));
+        Assert::same('', Option::none()->mkString());
+        Assert::same('', Option::none()->mkString('-'));
     }
 
     /**
@@ -393,9 +366,7 @@ final class NoneTest extends TestCase
      */
     public function testOrElse(): void
     {
-        $f = function (): Option {
-            return Option::from('xyz');
-        };
+        $f = fn (): Option => Option::from('xyz');
         Assert::some('xyz', Option::none()->orElse($f));
     }
 
@@ -446,9 +417,7 @@ final class NoneTest extends TestCase
      */
     public function testSumBy(): void
     {
-        $f = function (int $z, int $value): int {
-            return $z + $value;
-        };
+        $f = fn (int $z, int $value): int => $z + $value;
         Assert::same(0, Option::none()->sumBy($f));
     }
 

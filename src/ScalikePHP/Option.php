@@ -149,9 +149,7 @@ abstract class Option extends ScalikeTraversable
      * Some の場合は自身を返し, None の場合は引数の関数を実行してその戻り値を返す.
      *
      * @param Closure $f
-     *
      * @return Option
-     *
      * @deprecated
      * @see Option::getOrElse()
      */
@@ -163,10 +161,9 @@ abstract class Option extends ScalikeTraversable
      * 値を持たないか、与えられたキーに対応する要素・プロパティが存在しない場合は None を返す
      *
      * @param string $name
-     *
      * @return Option
      */
-    abstract public function pick($name): self;
+    abstract public function pick(string $name): self;
 
     /** {@inheritdoc} */
     public function take(int $n): self

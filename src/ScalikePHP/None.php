@@ -22,243 +22,312 @@ use Traversable;
  */
 final class None extends Option
 {
-    /**
-     * Singleton instance.
-     *
-     * @var None
-     */
-    private static $instance = null;
+    private static ?self $instance = null;
 
     /**
      * Get a None instance.
      *
-     * @return None
+     * @return self
      */
     public static function getInstance(): self
     {
-        if (static::$instance === null) {
-            static::$instance = new static();
+        if (self::$instance === null) {
+            self::$instance = new self();
         }
-        return static::$instance;
+        return self::$instance;
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function count(): int
     {
         return 0;
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function drop(int $n): Seq
     {
         return Seq::emptySeq();
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function each(Closure $f): void
     {
         // nothing to do.
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function exists(Closure $p): bool
     {
         return false;
     }
 
-    /** {@inheritdoc} */
-    public function filter(Closure $callback): self
+    /**
+     * {@inheritdoc}
+     */
+    public function filter(Closure $p): self
     {
         return $this;
     }
 
-    /** {@inheritdoc} */
-    public function filterNot(Closure $p)
+    /**
+     * {@inheritdoc}
+     */
+    public function filterNot(Closure $p): self
     {
         return $this;
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function find(Closure $p): Option
     {
         return $this;
     }
 
-    /** {@inheritdoc} */
-    public function flatMap(Closure $callback): self
+    /**
+     * {@inheritdoc}
+     */
+    public function flatMap(Closure $f): self
     {
         return $this;
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function flatten(): self
     {
         return $this;
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function forAll(Closure $p): bool
     {
         return true;
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function get()
     {
         throw new LogicException('None has no value.');
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function getIterator(): Traversable
     {
         return new EmptyIterator();
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function getOrCall(Closure $f)
     {
         return $this->getOrElse($f);
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function getOrElse(Closure $default)
     {
         return $default();
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function getOrElseValue($default)
     {
         return $default;
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function getOrThrow(Exception $exception)
     {
         throw $exception;
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     protected function getRawIterable(): iterable
     {
         return [];
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function groupBy($f): Map
     {
         return Map::emptyMap();
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function head()
     {
         throw new LogicException('There is no value');
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function headOption(): Option
     {
         return $this;
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function isDefined(): bool
     {
         return false;
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function isEmpty(): bool
     {
         return true;
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function jsonSerialize()
     {
         return null;
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function last()
     {
         throw new LogicException('There is no value');
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function lastOption(): Option
     {
         return $this;
     }
 
-    /** {@inheritdoc} */
-    public function map(Closure $callback): self
+    /**
+     * {@inheritdoc}
+     */
+    public function map(Closure $f): self
     {
         return $this;
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function max()
     {
         throw new LogicException('empty.max');
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function maxBy(Closure $f)
     {
         throw new LogicException('empty.max');
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function min()
     {
         throw new LogicException('empty.min');
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function minBy(Closure $f)
     {
         throw new LogicException('empty.min');
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function mkString(string $sep = ''): string
     {
         return '';
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function nonEmpty(): bool
     {
         return false;
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function offsetExists($offset): bool
     {
         return false;
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function offsetGet($offset)
     {
         throw new OutOfBoundsException("Undefined offset: {$offset}");
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function offsetSet($offset, $value): void
     {
         throw new BadMethodCallException();
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function offsetUnset($offset): void
     {
         throw new BadMethodCallException();
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function orElse(Closure $b): Option
     {
         $option = $b();
@@ -269,55 +338,73 @@ final class None extends Option
         }
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function orNull()
     {
         return null;
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function orElseCall(Closure $f): Option
     {
         return $f();
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function pick($name): Option
     {
         return $this;
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function size(): int
     {
         return 0;
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function sumBy(Closure $f): int
     {
         return 0;
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function take(int $n): Option
     {
         return $this;
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function takeRight(int $n): Option
     {
         return $this;
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function toArray(): array
     {
         return [];
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function toSeq(): Seq
     {
         return Seq::emptySeq();

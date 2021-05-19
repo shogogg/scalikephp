@@ -20,8 +20,7 @@ use Traversable;
  */
 trait ArraySupport
 {
-    /** @var array */
-    private $array;
+    private array $array;
 
     /**
      * Set the array.
@@ -33,37 +32,49 @@ trait ArraySupport
         $this->array = $array;
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function count(): int
     {
         return count($this->array);
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function getIterator(): Traversable
     {
         return new ArrayIterator($this->array);
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     protected function getRawIterable(): iterable
     {
         return $this->array;
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function isEmpty(): bool
     {
         return empty($this->array);
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function offsetExists($offset): bool
     {
         return isset($this->array[$offset]);
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function offsetGet($offset)
     {
         if (isset($this->array[$offset])) {
@@ -73,7 +84,9 @@ trait ArraySupport
         }
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function size(): int
     {
         return count($this->array);

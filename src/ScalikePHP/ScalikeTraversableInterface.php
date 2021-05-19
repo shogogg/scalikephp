@@ -22,10 +22,9 @@ interface ScalikeTraversableInterface extends ArrayAccess, \Countable, \Iterator
      * Drop file $n elements.
      *
      * @param int $n
-     *
      * @return static
      */
-    public function drop(int $n);
+    public function drop(int $n): self;
 
     /**
      * 値の全要素に対して関数 $f を適用する.
@@ -47,25 +46,22 @@ interface ScalikeTraversableInterface extends ArrayAccess, \Countable, \Iterator
      * 条件にマッチする（関数が true を返す）要素のみを抽出する.
      *
      * @param Closure $p 真偽値を返す関数
-     *
      * @return static
      */
-    public function filter(Closure $p);
+    public function filter(Closure $p): self;
 
     /**
      * 条件にマッチしない（関数が false を返す）要素のみを抽出する.
      *
      * @param Closure $p 真偽値を返す関数
-     *
      * @return static
      */
-    public function filterNot(Closure $p);
+    public function filterNot(Closure $p): self;
 
     /**
      * 条件にマッチする（関数が true を返す）最初の要素を返す.
      *
      * @param Closure $p 真偽値を返す関数
-     *
      * @return Option 最初に見つかった要素, 見つからなかった場合は None
      */
     public function find(Closure $p): Option;
@@ -75,22 +71,20 @@ interface ScalikeTraversableInterface extends ArrayAccess, \Countable, \Iterator
      *
      * @return static
      */
-    public function flatten();
+    public function flatten(): self;
 
     /**
      * 値の全要素に対して関数を適用し、その戻り値を平坦化して返す.
      *
      * @param Closure $f 値を返す関数
-     *
      * @return static
      */
-    public function flatMap(Closure $f);
+    public function flatMap(Closure $f): self;
 
     /**
      * 全ての要素が条件にマッチする（関数が true を返す）かどうかを判定する.
      *
      * @param Closure $p 真偽値を返す関数
-     *
      * @return bool 全ての要素が条件を満たす場合に true, そうでない場合は false
      */
     public function forAll(Closure $p): bool;
@@ -99,7 +93,6 @@ interface ScalikeTraversableInterface extends ArrayAccess, \Countable, \Iterator
      * 要素を用いてジェネレータを生成する.
      *
      * @param Closure $f 各要素を受け取りジェネレータを返す関数
-     *
      * @return Generator
      */
     public function generate(Closure $f): Generator;
@@ -111,7 +104,6 @@ interface ScalikeTraversableInterface extends ArrayAccess, \Countable, \Iterator
      * - $f に \Closure が渡された場合は各要素を引数として $f を実行し、それをキーとする
      *
      * @param Closure|string $f
-     *
      * @return Map
      */
     public function groupBy($f): Map;
@@ -155,10 +147,9 @@ interface ScalikeTraversableInterface extends ArrayAccess, \Countable, \Iterator
      * 値の全要素に対して関数を適用し, その戻り値を返す.
      *
      * @param Closure $f 値を返す関数
-     *
      * @return static
      */
-    public function map(Closure $f);
+    public function map(Closure $f): self;
 
     /**
      * 最大の要素を返す.
@@ -171,7 +162,6 @@ interface ScalikeTraversableInterface extends ArrayAccess, \Countable, \Iterator
      * 関数を適用した結果が最大となる要素を返す.
      *
      * @param Closure $f
-     *
      * @return mixed 最大の要素
      */
     public function maxBy(Closure $f);
@@ -187,7 +177,6 @@ interface ScalikeTraversableInterface extends ArrayAccess, \Countable, \Iterator
      * 関数を適用した結果が最小となる要素を返す.
      *
      * @param Closure $f
-     *
      * @return mixed 最小の要素
      */
     public function minBy(Closure $f);
@@ -196,7 +185,6 @@ interface ScalikeTraversableInterface extends ArrayAccess, \Countable, \Iterator
      * 要素を文字列化して結合する.
      *
      * @param string $sep
-     *
      * @return string
      */
     public function mkString(string $sep = ''): string;
@@ -226,7 +214,6 @@ interface ScalikeTraversableInterface extends ArrayAccess, \Countable, \Iterator
      * Returns sum of elements, using custom function.
      *
      * @param Closure $f
-     *
      * @return mixed
      */
     public function sumBy(Closure $f);
@@ -235,19 +222,17 @@ interface ScalikeTraversableInterface extends ArrayAccess, \Countable, \Iterator
      * Returns first `$n` elements.
      *
      * @param int $n
-     *
      * @return static
      */
-    public function take(int $n);
+    public function take(int $n): self;
 
     /**
      * Returns last `$n` elements.
      *
      * @param int $n
-     *
      * @return static
      */
-    public function takeRight(int $n);
+    public function takeRight(int $n): self;
 
     /**
      * Convert to an array.

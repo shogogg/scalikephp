@@ -22,7 +22,6 @@ final class Assert
      *
      * @param bool $condition
      * @param string $message
-     *
      * @see TestCase::assertFalse()
      */
     public static function false(bool $condition, string $message = ''): void
@@ -36,7 +35,6 @@ final class Assert
      * @param string $expected
      * @param mixed $actual
      * @param string $message
-     *
      * @see TestCase::assertInstanceOf()
      */
     public static function instanceOf(string $expected, $actual, string $message = ''): void
@@ -61,7 +59,6 @@ final class Assert
      * @param $expected
      * @param $actual
      * @param string $message
-     *
      * @see TestCase::assertSame()
      */
     public static function same($expected, $actual, string $message = ''): void
@@ -104,7 +101,6 @@ final class Assert
      *
      * @param bool $condition
      * @param string $message
-     *
      * @see TestCase::assertTrue()
      */
     public static function true(bool $condition, string $message = ''): void

@@ -30,7 +30,9 @@ class MutableMap extends ArrayMap
         parent::__construct($iterable instanceof Traversable ? iterator_to_array($iterable) : $iterable);
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function append($keyOrArray, $value = null): self
     {
         if (is_iterable($keyOrArray)) {
@@ -43,13 +45,17 @@ class MutableMap extends ArrayMap
         return $this;
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function filter(Closure $p): self
     {
         return new self($this->filterGenerator($p));
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function flatMap(Closure $f): self
     {
         return new self($this->flatMapGenerator($f));
@@ -60,8 +66,8 @@ class MutableMap extends ArrayMap
      *
      * @param mixed $key
      * @param Closure $op
-     *
      * @return mixed
+     * @noinspection PhpUnused
      */
     public function getOrElseUpdate($key, Closure $op)
     {
@@ -72,25 +78,33 @@ class MutableMap extends ArrayMap
         });
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function map(Closure $f): self
     {
-        return new self($this->mapAssoc($this->array, $f));
+        return new self($this->mapGenerator($f));
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function mapValues(Closure $f): self
     {
         return new self($this->mapValuesGenerator($f));
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function offsetSet($offset, $value): void
     {
         $this->update($offset, $value);
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function offsetUnset($offset): void
     {
         unset($this->array[$offset]);
@@ -99,8 +113,7 @@ class MutableMap extends ArrayMap
     /**
      * 指定したキーに該当する要素を削除し、その値を返す.
      *
-     * @param string $key
-     *
+     * @param int|string $key
      * @return Option 該当する要素がある場合に Some, ない場合は None
      */
     public function remove($key): Option
@@ -114,7 +127,9 @@ class MutableMap extends ArrayMap
         }
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     protected function getRawIterable(): iterable
     {
         return $this->array;
@@ -123,7 +138,7 @@ class MutableMap extends ArrayMap
     /**
      * 新しい値を追加する.
      *
-     * @param string $key
+     * @param int|string $key
      * @param mixed $value
      */
     public function update($key, $value): void

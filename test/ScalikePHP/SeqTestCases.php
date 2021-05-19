@@ -32,6 +32,7 @@ trait SeqTestCases
      *
      * @see \ScalikePHP\ArraySeq::append()
      * @see \ScalikePHP\TraversableSeq::append()
+     * @noinspection PhpUnused
      */
     public function testAppend(): void
     {
@@ -46,6 +47,7 @@ trait SeqTestCases
      *
      * @see \ScalikePHP\ArraySeq::contains()
      * @see \ScalikePHP\TraversableSeq::contains()
+     * @noinspection PhpUnused
      */
     public function testContains(): void
     {
@@ -60,6 +62,7 @@ trait SeqTestCases
      *
      * @see \ScalikePHP\ArraySeq::count()
      * @see \ScalikePHP\TraversableSeq::count()
+     * @noinspection PhpUnused
      */
     public function testCount(): void
     {
@@ -74,6 +77,7 @@ trait SeqTestCases
      *
      * @see \ScalikePHP\ArraySeq::distinct()
      * @see \ScalikePHP\TraversableSeq::distinct()
+     * @noinspection PhpUnused
      */
     public function testDistinct(): void
     {
@@ -85,6 +89,7 @@ trait SeqTestCases
      * Tests for Seq::distinctBy().
      *
      * @see \ScalikePHP\Seq::distinctBy()
+     * @noinspection PhpUnused
      */
     public function testDistinctBy(): void
     {
@@ -97,9 +102,7 @@ trait SeqTestCases
             ['name' => 'foo'],
             ['name' => 'baz']
         );
-        $f = function (array $x) {
-            return $x['name'];
-        };
+        $f = fn (array $x) => $x['name'];
         Assert::same(
             [['name' => 'foo'], ['name' => 'bar'], ['name' => 'baz']],
             $seq->distinctBy($f)->toArray()
@@ -110,6 +113,7 @@ trait SeqTestCases
      * Tests for Seq::drop().
      *
      * @see \ScalikePHP\Seq::drop()
+     * @noinspection PhpUnused
      */
     public function testDrop(): void
     {
@@ -133,6 +137,7 @@ trait SeqTestCases
      *
      * @see \ScalikePHP\ArraySeq::each()
      * @see \ScalikePHP\TraversableSeq::each()
+     * @noinspection PhpUnused
      */
     public function testEach(): void
     {
@@ -151,16 +156,13 @@ trait SeqTestCases
      *
      * @see \ScalikePHP\ArraySeq::exists()
      * @see \ScalikePHP\TraversableSeq::exists()
+     * @noinspection PhpUnused
      */
     public function testExists(): void
     {
         $seq = $this->seq('foo', 'bar', 'baz');
-        $f = function (string $x): bool {
-            return strlen($x) === 3;
-        };
-        $g = function (string $x): bool {
-            return strlen($x) === 4;
-        };
+        $f = fn (string $x): bool => strlen($x) === 3;
+        $g = fn (string $x): bool => strlen($x) === 4;
         Assert::true($seq->exists($f));
         Assert::false($seq->exists($g));
     }
@@ -170,16 +172,13 @@ trait SeqTestCases
      *
      * @see \ScalikePHP\ArraySeq::filter()
      * @see \ScalikePHP\TraversableSeq::filter()
+     * @noinspection PhpUnused
      */
     public function testFilter(): void
     {
         $seq = $this->seq('foo', 'bar', 'baz');
-        $f = function (string $x): bool {
-            return $x !== 'foo';
-        };
-        $g = function (string $x): bool {
-            return $x !== 'baz';
-        };
+        $f = fn (string $x): bool => $x !== 'foo';
+        $g = fn (string $x): bool => $x !== 'baz';
         Assert::same(['bar', 'baz'], $seq->filter($f)->toArray());
         Assert::same(['foo', 'bar'], $seq->filter($g)->toArray());
     }
@@ -189,16 +188,13 @@ trait SeqTestCases
      *
      * @see \ScalikePHP\ArraySeq::filterNot()
      * @see \ScalikePHP\TraversableSeq::filterNot()
+     * @noinspection PhpUnused
      */
     public function testFilterNot(): void
     {
         $seq = $this->seq('foo', 'bar', 'baz');
-        $f = function (string $x): bool {
-            return $x === 'foo';
-        };
-        $g = function (string $x): bool {
-            return $x === 'baz';
-        };
+        $f = fn (string $x): bool => $x === 'foo';
+        $g = fn (string $x): bool => $x === 'baz';
         Assert::same(['bar', 'baz'], $seq->filterNot($f)->toArray());
         Assert::same(['foo', 'bar'], $seq->filterNot($g)->toArray());
     }
@@ -208,16 +204,13 @@ trait SeqTestCases
      *
      * @see \ScalikePHP\ArraySeq::find()
      * @see \ScalikePHP\TraversableSeq::find()
+     * @noinspection PhpUnused
      */
     public function testFind(): void
     {
         $seq = $this->seq('foo', 'bar', 'baz');
-        $f = function (string $x): bool {
-            return $x !== 'foo';
-        };
-        $g = function (string $x): bool {
-            return $x === 'FizzBuzz';
-        };
+        $f = fn (string $x): bool => $x !== 'foo';
+        $g = fn (string $x): bool => $x === 'FizzBuzz';
         Assert::some('bar', $seq->find($f));
         Assert::none($seq->find($g));
     }
@@ -227,16 +220,13 @@ trait SeqTestCases
      *
      * @see \ScalikePHP\ArraySeq::flatMap()
      * @see \ScalikePHP\TraversableSeq::flatMap()
+     * @noinspection PhpUnused
      */
     public function testFlatMap(): void
     {
         $seq = $this->seq('foo', 'bar', 'baz');
-        $f = function (string $x): array {
-            return [$x, strtoupper($x)];
-        };
-        $g = function (string $x): Seq {
-            return $this->seq($x, ucfirst($x));
-        };
+        $f = fn (string $x): array => [$x, strtoupper($x)];
+        $g = fn (string $x): Seq => $this->seq($x, ucfirst($x));
         Assert::same(['foo', 'FOO', 'bar', 'BAR', 'baz', 'BAZ'], $seq->flatMap($f)->toArray());
         Assert::same(['foo', 'Foo', 'bar', 'Bar', 'baz', 'Baz'], $seq->flatMap($g)->toArray());
     }
@@ -246,6 +236,7 @@ trait SeqTestCases
      *
      * @see \ScalikePHP\ArraySeq::flatten()
      * @see \ScalikePHP\TraversableSeq::flatten()
+     * @noinspection PhpUnused
      */
     public function testFlatten(): void
     {
@@ -258,16 +249,13 @@ trait SeqTestCases
      *
      * @see \ScalikePHP\ArraySeq::fold()
      * @see \ScalikePHP\TraversableSeq::fold()
+     * @noinspection PhpUnused
      */
     public function testFold(): void
     {
         $seq = $this->seq('Fizz', 'Buzz', 'FizzBuzz');
-        $f = function (string $z, string $x): string {
-            return $z . $x;
-        };
-        $g = function (string $z, string $x): string {
-            return $x . $z;
-        };
+        $f = fn (string $z, string $x): string => $z . $x;
+        $g = fn (string $z, string $x): string => $x . $z;
         Assert::same('FizzBuzzFizzBuzz', $seq->fold('', $f));
         Assert::same('FizzBuzzBuzzFizz', $seq->fold('', $g));
     }
@@ -277,16 +265,13 @@ trait SeqTestCases
      *
      * @see \ScalikePHP\ArraySeq::forAll()
      * @see \ScalikePHP\TraversableSeq::forAll()
+     * @noinspection PhpUnused
      */
     public function testForAll(): void
     {
         $seq = $this->seq('Foo', 'Bar', 'Baz');
-        $f = function (string $x): bool {
-            return strlen($x) === 3;
-        };
-        $g = function (string $x): bool {
-            return preg_match('/\ABa[rz]\z/', $x) !== 0;
-        };
+        $f = fn (string $x): bool => strlen($x) === 3;
+        $g = fn (string $x): bool => preg_match('/\ABa[rz]\z/', $x) !== 0;
         Assert::true($seq->forAll($f));
         Assert::false($seq->forAll($g));
     }
@@ -296,6 +281,7 @@ trait SeqTestCases
      *
      * @see \ScalikePHP\ArraySeq::groupBy()
      * @see \ScalikePHP\TraversableSeq::groupBy()
+     * @noinspection PhpUnused
      */
     public function testGroupBy(): void
     {
@@ -307,17 +293,8 @@ trait SeqTestCases
             ['name' => 'django', 'type' => 'framework'],
             ['name' => 'playframework', 'type' => 'framework']
         );
-        $f = function (array $item): string {
-            return $item['type'];
-        };
-        $g = function (Seq $items): array {
-            return $items
-                ->map(function (array $item): string {
-                    return $item['name'];
-                })
-                ->toArray()
-            ;
-        };
+        $f = fn (array $item): string => $item['type'];
+        $g = fn (Seq $items): array => $items->map(fn (array $item): string => $item['name'])->toArray();
         $expected = [
             'language' => ['php', 'python', 'scala'],
             'framework' => ['symfony', 'django', 'playframework'],
@@ -331,6 +308,7 @@ trait SeqTestCases
      *
      * @see \ScalikePHP\ArraySeq::head()
      * @see \ScalikePHP\TraversableSeq::head()
+     * @noinspection PhpUnused
      */
     public function testHead(): void
     {
@@ -348,6 +326,7 @@ trait SeqTestCases
      *
      * @see \ScalikePHP\ArraySeq::headOption()
      * @see \ScalikePHP\TraversableSeq::headOption()
+     * @noinspection PhpUnused
      */
     public function testHeadOption(): void
     {
@@ -360,6 +339,7 @@ trait SeqTestCases
      *
      * @see \ScalikePHP\ArraySeq::isEmpty()
      * @see \ScalikePHP\TraversableSeq::isEmpty()
+     * @noinspection PhpUnused
      */
     public function testIsEmpty(): void
     {
@@ -372,6 +352,7 @@ trait SeqTestCases
      *
      * @see \ScalikePHP\ArraySeq::jsonSerialize()
      * @see \ScalikePHP\TraversableSeq::jsonSerialize()
+     * @noinspection PhpUnused
      */
     public function testJsonSerialize(): void
     {
@@ -386,6 +367,7 @@ trait SeqTestCases
      *
      * @see \ScalikePHP\ArraySeq::last()
      * @see \ScalikePHP\TraversableSeq::last()
+     * @noinspection PhpUnused
      */
     public function testLast(): void
     {
@@ -403,6 +385,7 @@ trait SeqTestCases
      *
      * @see \ScalikePHP\ArraySeq::lastOption()
      * @see \ScalikePHP\TraversableSeq::lastOption()
+     * @noinspection PhpUnused
      */
     public function testLastOption(): void
     {
@@ -415,16 +398,13 @@ trait SeqTestCases
      *
      * @see \ScalikePHP\ArraySeq::map()
      * @see \ScalikePHP\TraversableSeq::map()
+     * @noinspection PhpUnused
      */
     public function testMap(): void
     {
         $seq = $this->seq('Fizz', 'Buzz', 'FizzBuzz');
-        $f = function (string $x): string {
-            return strtoupper($x);
-        };
-        $g = function (string $x): int {
-            return strlen($x);
-        };
+        $f = fn (string $x): string => strtoupper($x);
+        $g = fn (string $x): int => strlen($x);
         Assert::same(['FIZZ', 'BUZZ', 'FIZZBUZZ'], $seq->map($f)->toArray());
         Assert::same([4, 4, 8], $seq->map($g)->toArray());
     }
@@ -434,6 +414,7 @@ trait SeqTestCases
      *
      * @see \ScalikePHP\ArraySeq::max()
      * @see \ScalikePHP\TraversableSeq::max()
+     * @noinspection PhpUnused
      */
     public function testMax(): void
     {
@@ -446,16 +427,13 @@ trait SeqTestCases
      *
      * @see \ScalikePHP\ArraySeq::maxBy()
      * @see \ScalikePHP\TraversableSeq::maxBy()
+     * @noinspection PhpUnused
      */
     public function testMaxBy(): void
     {
         $seq = $this->seq('alpaca', 'zebra', 'buffalo', 'yak', 'camel', 'wolf', 'dog', 'viper', 'eagle');
-        $f = function (string $x): int {
-            return strlen($x);
-        };
-        $g = function (string $x): string {
-            return substr($x, 0, 1);
-        };
+        $f = fn (string $x): int => strlen($x);
+        $g = fn (string $x): string => substr($x, 0, 1);
         Assert::same('buffalo', $seq->maxBy($f));
         Assert::same('zebra', $seq->maxBy($g));
     }
@@ -465,6 +443,7 @@ trait SeqTestCases
      *
      * @see \ScalikePHP\ArraySeq::min()
      * @see \ScalikePHP\TraversableSeq::min()
+     * @noinspection PhpUnused
      */
     public function testMin(): void
     {
@@ -477,16 +456,13 @@ trait SeqTestCases
      *
      * @see \ScalikePHP\ArraySeq::minBy()
      * @see \ScalikePHP\TraversableSeq::minBy()
+     * @noinspection PhpUnused
      */
     public function testMinBy(): void
     {
         $seq = $this->seq('alpaca', 'zebra', 'buffalo', 'yak', 'camel', 'wolf', 'dog', 'viper', 'eagle');
-        $f = function (string $x): int {
-            return strlen($x);
-        };
-        $g = function (string $x): string {
-            return substr($x, 0, 1);
-        };
+        $f = fn (string $x): int => strlen($x);
+        $g = fn (string $x): string => substr($x, 0, 1);
         Assert::same('yak', $seq->minBy($f));
         Assert::same('alpaca', $seq->minBy($g));
     }
@@ -496,6 +472,7 @@ trait SeqTestCases
      *
      * @see \ScalikePHP\ArraySeq::mkString()
      * @see \ScalikePHP\TraversableSeq::mkString()
+     * @noinspection PhpUnused
      */
     public function testMkString(): void
     {
@@ -510,6 +487,7 @@ trait SeqTestCases
      *
      * @see \ScalikePHP\ArraySeq::nonEmpty()
      * @see \ScalikePHP\TraversableSeq::nonEmpty()
+     * @noinspection PhpUnused
      */
     public function testNonEmpty(): void
     {
@@ -522,6 +500,7 @@ trait SeqTestCases
      *
      * @see \ScalikePHP\ArraySeq::offsetExists()
      * @see \ScalikePHP\TraversableSeq::offsetExists()
+     * @noinspection PhpUnused
      */
     public function testOffsetExists(): void
     {
@@ -538,6 +517,7 @@ trait SeqTestCases
      *
      * @see \ScalikePHP\ArraySeq::offsetGet()
      * @see \ScalikePHP\TraversableSeq::offsetGet()
+     * @noinspection PhpUnused
      */
     public function testOffsetGet(): void
     {
@@ -555,6 +535,7 @@ trait SeqTestCases
      *
      * @see \ScalikePHP\ArraySeq::offsetSet()
      * @see \ScalikePHP\TraversableSeq::offsetSet()
+     * @noinspection PhpUnused
      */
     public function testOffsetSet(): void
     {
@@ -574,6 +555,7 @@ trait SeqTestCases
      *
      * @see \ScalikePHP\ArraySeq::offsetUnset()
      * @see \ScalikePHP\TraversableSeq::offsetUnset()
+     * @noinspection PhpUnused
      */
     public function testOffsetUnset(): void
     {
@@ -593,6 +575,7 @@ trait SeqTestCases
      *
      * @see \ScalikePHP\ArraySeq::prepend()
      * @see \ScalikePHP\TraversableSeq::prepend()
+     * @noinspection PhpUnused
      */
     public function testPrepend(): void
     {
@@ -607,6 +590,7 @@ trait SeqTestCases
      *
      * @see \ScalikePHP\ArraySeq::reverse()
      * @see \ScalikePHP\TraversableSeq::reverse()
+     * @noinspection PhpUnused
      */
     public function testReverse(): void
     {
@@ -619,6 +603,7 @@ trait SeqTestCases
      *
      * @see \ScalikePHP\ArraySeq::size()
      * @see \ScalikePHP\TraversableSeq::size()
+     * @noinspection PhpUnused
      */
     public function testSize(): void
     {
@@ -633,6 +618,7 @@ trait SeqTestCases
      *
      * @see \ScalikePHP\ArraySeq::sortBy()
      * @see \ScalikePHP\TraversableSeq::sortBy()
+     * @noinspection PhpUnused
      */
     public function testSortBy(): void
     {
@@ -643,9 +629,7 @@ trait SeqTestCases
             ['name' => 'Bob'],
             ['name' => 'Ellen']
         );
-        $f = function (array $item): string {
-            return $item['name'];
-        };
+        $f = fn (array $item): string => $item['name'];
         Assert::same(['Alice', 'Bob', 'Carol', 'Ellen', 'Frank'], $seq->sortBy($f)->map($f)->toArray());
         Assert::same(['Alice', 'Bob', 'Carol', 'Ellen', 'Frank'], $seq->sortBy('name')->map($f)->toArray());
     }
@@ -655,6 +639,7 @@ trait SeqTestCases
      *
      * @see \ScalikePHP\ArraySeq::sum()
      * @see \ScalikePHP\TraversableSeq::sum()
+     * @noinspection PhpUnused
      */
     public function testSum(): void
     {
@@ -668,12 +653,11 @@ trait SeqTestCases
      *
      * @see \ScalikePHP\ArraySeq::sumBy()
      * @see \ScalikePHP\TraversableSeq::sumBy()
+     * @noinspection PhpUnused
      */
     public function testSumBy(): void
     {
-        $f = function (int $z, string $value): int {
-            return $z + strlen($value);
-        };
+        $f = fn (int $z, string $value): int => $z + strlen($value);
         Assert::same(0, $this->seq()->sumBy($f));
         Assert::same(10, $this->seq('a', 'pi', 'dog', 'beer')->sumBy($f));
     }
@@ -683,6 +667,7 @@ trait SeqTestCases
      *
      * @see \ScalikePHP\ArraySeq::take()
      * @see \ScalikePHP\TraversableSeq::take()
+     * @noinspection PhpUnused
      */
     public function testTake(): void
     {
@@ -700,6 +685,7 @@ trait SeqTestCases
      *
      * @see \ScalikePHP\ArraySeq::takeRight()
      * @see \ScalikePHP\TraversableSeq::takeRight()
+     * @noinspection PhpUnused
      */
     public function testTakeRight(): void
     {
@@ -717,6 +703,7 @@ trait SeqTestCases
      *
      * @see \ScalikePHP\ArraySeq::toArray()
      * @see \ScalikePHP\TraversableSeq::toArray()
+     * @noinspection PhpUnused
      */
     public function testToArray(): void
     {
@@ -730,6 +717,7 @@ trait SeqTestCases
      *
      * @see \ScalikePHP\ArraySeq::toMap()
      * @see \ScalikePHP\TraversableSeq::toMap()
+     * @noinspection PhpUnused
      */
     public function testToMap(): void
     {
@@ -741,9 +729,7 @@ trait SeqTestCases
             ['name' => 'django', 'type' => 'framework'],
             ['name' => 'playframework', 'type' => 'framework']
         );
-        $f = function (array $item): string {
-            return $item['name'];
-        };
+        $f = fn (array $item): string => $item['name'];
         $expected = [
             'php' => ['name' => 'php', 'type' => 'language'],
             'python' => ['name' => 'python', 'type' => 'language'],
@@ -761,6 +747,7 @@ trait SeqTestCases
      *
      * @see \ScalikePHP\ArraySeq::toSeq()
      * @see \ScalikePHP\TraversableSeq::toSeq()
+     * @noinspection PhpUnused
      */
     public function testToSeq(): void
     {

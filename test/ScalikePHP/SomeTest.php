@@ -94,9 +94,7 @@ final class SomeTest extends TestCase
      */
     public function testExists(): void
     {
-        $p = function (int $x): bool {
-            return $x === 1;
-        };
+        $p = fn (int $x): bool => $x === 1;
         Assert::true(Some::create(1)->exists($p));
         Assert::false(Some::create(2)->exists($p));
     }
@@ -108,9 +106,7 @@ final class SomeTest extends TestCase
      */
     public function testFilter(): void
     {
-        $p = function (int $x): bool {
-            return $x === 1;
-        };
+        $p = fn (int $x): bool => $x === 1;
         Assert::some(1, Some::create(1)->filter($p));
         Assert::none(Some::create(2)->filter($p));
     }
@@ -122,9 +118,7 @@ final class SomeTest extends TestCase
      */
     public function testFilterNot(): void
     {
-        $p = function (int $x): bool {
-            return $x !== 1;
-        };
+        $p = fn (int $x): bool => $x !== 1;
         Assert::some(1, Some::create(1)->filterNot($p));
         Assert::none(Some::create(2)->filterNot($p));
     }
@@ -136,9 +130,7 @@ final class SomeTest extends TestCase
      */
     public function testFind(): void
     {
-        $p = function (int $x): bool {
-            return $x === 1;
-        };
+        $p = fn (int $x): bool => $x === 1;
         Assert::some(1, Some::create(1)->filter($p));
         Assert::none(Some::create(2)->filter($p));
     }
@@ -150,15 +142,9 @@ final class SomeTest extends TestCase
      */
     public function testFlatMap(): void
     {
-        $returnsSome = function ($x): Option {
-            return Option::from($x * 2);
-        };
-        $returnsNone = function (): Option {
-            return Option::none();
-        };
-        $returnsArray = function ($x): array {
-            return [$x * 2];
-        };
+        $returnsSome = fn ($x): Option => Option::from($x * 2);
+        $returnsNone = fn (): Option => Option::none();
+        $returnsArray = fn ($x): array => [$x * 2];
         Assert::some(2, Some::create(1)->flatMap($returnsSome));
         Assert::none(Some::create(1)->flatMap($returnsNone));
         Assert::throws(
@@ -187,9 +173,7 @@ final class SomeTest extends TestCase
      */
     public function testForAll(): void
     {
-        $p = function (int $x): bool {
-            return $x === 1;
-        };
+        $p = fn (int $x): bool => $x === 1;
         Assert::true(Some::create(1)->forAll($p));
         Assert::false(Some::create(2)->forAll($p));
     }
@@ -213,9 +197,7 @@ final class SomeTest extends TestCase
     public function testGetOrElse(): void
     {
         $spy = self::spy();
-        $f = function () use ($spy) {
-            return call_user_func_array([$spy, 'spy'], func_get_args());
-        };
+        $f = fn () => call_user_func_array([$spy, 'spy'], func_get_args());
         $spy->shouldNotReceive('spy')->andReturn('abc');
         Assert::same(1, Some::create(1)->getOrElse($f));
         Assert::same('abc', Some::create('abc')->getOrElse($f));
@@ -243,9 +225,7 @@ final class SomeTest extends TestCase
         $value = 'xyz';
         $array = [$key => $value];
         $some = Some::create($array);
-        $closure = function (array $x) use ($key): string {
-            return $x[$key];
-        };
+        $closure = fn (array $x): string => $x[$key];
         Assert::same(1, $some->groupBy($key)->size());
         Assert::same(1, $some->groupBy($closure)->size());
         Assert::same([$value], $some->groupBy($key)->keys()->toArray());
@@ -327,9 +307,7 @@ final class SomeTest extends TestCase
      */
     public function testMap(): void
     {
-        $f = function (int $x): int {
-            return $x * 2;
-        };
+        $f = fn (int $x): int => $x * 2;
         Assert::some(2, Some::create(1)->map($f));
         Assert::some(4, Some::create(2)->map($f));
         Assert::some(6, Some::create(3)->map($f));
@@ -353,9 +331,7 @@ final class SomeTest extends TestCase
      */
     public function testMaxBy(): void
     {
-        $f = function ($x): string {
-            return (string) $x;
-        };
+        $f = fn ($x): string => (string)$x;
         Assert::same(1, Some::create(1)->maxBy($f));
         Assert::same('abc', Some::create('abc')->maxBy($f));
     }
@@ -378,9 +354,7 @@ final class SomeTest extends TestCase
      */
     public function testMinBy(): void
     {
-        $f = function ($x): string {
-            return (string) $x;
-        };
+        $f = fn ($x): string => (string)$x;
         Assert::same(1, Some::create(1)->minBy($f));
         Assert::same('abc', Some::create('abc')->minBy($f));
     }
@@ -416,9 +390,7 @@ final class SomeTest extends TestCase
     {
         $a = Some::create(1);
         $b = Some::create('abc');
-        $f = function (): string {
-            return 'xyz';
-        };
+        $f = fn (): string => 'xyz';
         Assert::same($a, $a->orElse($f));
         Assert::same($b, $b->orElse($f));
     }
@@ -477,9 +449,7 @@ final class SomeTest extends TestCase
      */
     public function testSumBy(): void
     {
-        $f = function (int $z, int $value): int {
-            return $z + $value;
-        };
+        $f = fn (int $z, int $value): int => $z + $value;
         Assert::same(1, Some::create(1)->sumBy($f));
         Assert::same(2, Some::create(2)->sumBy($f));
         Assert::same('abc', Some::create('abc')->sumBy($f));

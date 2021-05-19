@@ -22,7 +22,6 @@ trait MapTestCases
      * Create a Map for testing.
      *
      * @param array $values
-     *
      * @return \ScalikePHP\Map
      */
     abstract protected function map(array $values = []): Map;
@@ -32,6 +31,7 @@ trait MapTestCases
      *
      * @see \ScalikePHP\ArrayMap::append()
      * @see \ScalikePHP\TraversableMap::append()
+     * @noinspection PhpUnused
      */
     public function testAppend(): void
     {
@@ -51,6 +51,7 @@ trait MapTestCases
      *
      * @see \ScalikePHP\ArrayMap::contains()
      * @see \ScalikePHP\TraversableMap::contains()
+     * @noinspection PhpUnused
      */
     public function testContains(): void
     {
@@ -65,6 +66,7 @@ trait MapTestCases
      *
      * @see \ScalikePHP\ArrayMap::count()
      * @see \ScalikePHP\TraversableMap::count()
+     * @noinspection PhpUnused
      */
     public function testCount(): void
     {
@@ -78,6 +80,7 @@ trait MapTestCases
      * Tests for Map::drop().
      *
      * @see \ScalikePHP\Map::drop()
+     * @noinspection PhpUnused
      */
     public function testDrop(): void
     {
@@ -101,6 +104,7 @@ trait MapTestCases
      *
      * @see \ScalikePHP\ArrayMap::each()
      * @see \ScalikePHP\TraversableMap::each()
+     * @noinspection PhpUnused
      */
     public function testEach(): void
     {
@@ -119,16 +123,13 @@ trait MapTestCases
      *
      * @see \ScalikePHP\ArrayMap::exists()
      * @see \ScalikePHP\TraversableMap::exists()
+     * @noinspection PhpUnused
      */
     public function testExists(): void
     {
         $map = $this->map(['Civic' => 'Honda', 'Levorg' => 'Subaru', 'Prius' => 'Toyota']);
-        $f = function (string $x): bool {
-            return strlen($x) === 5;
-        };
-        $g = function (string $x): bool {
-            return strlen($x) === 4;
-        };
+        $f = fn (string $x): bool => strlen($x) === 5;
+        $g = fn (string $x): bool => strlen($x) === 4;
         Assert::true($map->exists($f));
         Assert::false($map->exists($g));
     }
@@ -138,16 +139,13 @@ trait MapTestCases
      *
      * @see \ScalikePHP\ArrayMap::filter()
      * @see \ScalikePHP\TraversableMap::filter()
+     * @noinspection PhpUnused
      */
     public function testFilter(): void
     {
         $map = $this->map(['Civic' => 'Honda', 'Levorg' => 'Subaru', 'Prius' => 'Toyota']);
-        $f = function (string $x): bool {
-            return $x !== 'Honda';
-        };
-        $g = function (string $x): bool {
-            return $x !== 'Toyota';
-        };
+        $f = fn (string $x): bool => $x !== 'Honda';
+        $g = fn (string $x): bool => $x !== 'Toyota';
         Assert::same(['Levorg' => 'Subaru', 'Prius' => 'Toyota'], $map->filter($f)->toAssoc());
         Assert::same(['Civic' => 'Honda', 'Levorg' => 'Subaru'], $map->filter($g)->toAssoc());
     }
@@ -157,16 +155,13 @@ trait MapTestCases
      *
      * @see \ScalikePHP\ArrayMap::filterNot()
      * @see \ScalikePHP\TraversableMap::filterNot()
+     * @noinspection PhpUnused
      */
     public function testFilterNot(): void
     {
         $map = $this->map(['Civic' => 'Honda', 'Levorg' => 'Subaru', 'Prius' => 'Toyota']);
-        $f = function (string $x): bool {
-            return $x === 'Honda';
-        };
-        $g = function (string $x): bool {
-            return $x === 'Toyota';
-        };
+        $f = fn (string $x): bool => $x === 'Honda';
+        $g = fn (string $x): bool => $x === 'Toyota';
         Assert::same(['Levorg' => 'Subaru', 'Prius' => 'Toyota'], $map->filterNot($f)->toAssoc());
         Assert::same(['Civic' => 'Honda', 'Levorg' => 'Subaru'], $map->filterNot($g)->toAssoc());
     }
@@ -176,16 +171,13 @@ trait MapTestCases
      *
      * @see \ScalikePHP\ArrayMap::find()
      * @see \ScalikePHP\TraversableMap::find()
+     * @noinspection PhpUnused
      */
     public function testFind(): void
     {
         $map = $this->map(['Civic' => 'Honda', 'Levorg' => 'Subaru', 'Prius' => 'Toyota']);
-        $f = function (string $x): bool {
-            return $x !== 'Honda';
-        };
-        $g = function (string $x): bool {
-            return $x === 'Ferrari';
-        };
+        $f = fn (string $x): bool => $x !== 'Honda';
+        $g = fn (string $x): bool => $x === 'Ferrari';
         Assert::some(['Levorg', 'Subaru'], $map->find($f));
         Assert::none($map->find($g));
     }
@@ -195,22 +187,19 @@ trait MapTestCases
      *
      * @see \ScalikePHP\ArrayMap::flatMap()
      * @see \ScalikePHP\TraversableMap::flatMap()
+     * @noinspection PhpUnused
      */
     public function testFlatMap(): void
     {
         $map = $this->map(['Civic' => 'Honda', 'Levorg' => 'Subaru', 'Prius' => 'Toyota']);
-        $f = function (string $value, string $key): array {
-            return [
-                $key => $value,
-                strtoupper($key) => strtoupper($value),
-            ];
-        };
-        $g = function (string $value, string $key): array {
-            return [
-                $key => $value,
-                strtolower($key) => strtolower($value),
-            ];
-        };
+        $f = fn (string $value, string $key): array => [
+            $key => $value,
+            strtoupper($key) => strtoupper($value),
+        ];
+        $g = fn (string $value, string $key): array => [
+            $key => $value,
+            strtolower($key) => strtolower($value),
+        ];
         Assert::same(
             [
                 'Civic' => 'Honda',
@@ -240,6 +229,7 @@ trait MapTestCases
      *
      * @see \ScalikePHP\ArrayMap::flatten()
      * @see \ScalikePHP\TraversableMap::flatten()
+     * @noinspection PhpUnused
      */
     public function testFlatten(): void
     {
@@ -257,16 +247,13 @@ trait MapTestCases
      *
      * @see \ScalikePHP\ArrayMap::fold()
      * @see \ScalikePHP\TraversableMap::fold()
+     * @noinspection PhpUnused
      */
     public function testFold(): void
     {
         $map = $this->map(['Civic' => 'Honda', 'Levorg' => 'Subaru', 'Prius' => 'Toyota']);
-        $f = function (string $z, string $x): string {
-            return $z . '/' . $x;
-        };
-        $g = function (string $z, string $x): string {
-            return $x . '/' . $z;
-        };
+        $f = fn (string $z, string $x): string => $z . '/' . $x;
+        $g = fn (string $z, string $x): string => $x . '/' . $z;
         Assert::same('//Honda/Subaru/Toyota', $map->fold('/', $f));
         Assert::same('Toyota/Subaru/Honda//', $map->fold('/', $g));
     }
@@ -276,16 +263,13 @@ trait MapTestCases
      *
      * @see \ScalikePHP\ArrayMap::forAll()
      * @see \ScalikePHP\TraversableMap::forAll()
+     * @noinspection PhpUnused
      */
     public function testForAll(): void
     {
         $map = $this->map(['Civic' => 'Honda', 'Levorg' => 'Subaru', 'Prius' => 'Toyota']);
-        $f = function (string $x): bool {
-            return strlen($x) > 4;
-        };
-        $g = function (string $x): bool {
-            return strlen($x) === 5;
-        };
+        $f = fn (string $x): bool => strlen($x) > 4;
+        $g = fn (string $x): bool => strlen($x) === 5;
         Assert::true($map->forAll($f));
         Assert::false($map->forAll($g));
     }
@@ -295,6 +279,7 @@ trait MapTestCases
      *
      * @see \ScalikePHP\ArrayMap::get()
      * @see \ScalikePHP\TraversableMap::get()
+     * @noinspection PhpUnused
      */
     public function testGet(): void
     {
@@ -310,13 +295,12 @@ trait MapTestCases
      *
      * @see \ScalikePHP\ArrayMap::getOrElse()
      * @see \ScalikePHP\TraversableMap::getOrElse()
+     * @noinspection PhpUnused
      */
     public function testGetOrElse(): void
     {
         $map = $this->map(['Civic' => 'Honda', 'Levorg' => 'Subaru', 'Prius' => 'Toyota']);
-        $default = function (): string {
-            return 'Undefined';
-        };
+        $default = fn (): string => 'Undefined';
         Assert::same('Honda', $map->getOrElse('Civic', $default));
         Assert::same('Subaru', $map->getOrElse('Levorg', $default));
         Assert::same('Toyota', $map->getOrElse('Prius', $default));
@@ -328,6 +312,7 @@ trait MapTestCases
      *
      * @see \ScalikePHP\ArrayMap::groupBy()
      * @see \ScalikePHP\TraversableMap::groupBy()
+     * @noinspection PhpUnused
      */
     public function testGroupBy(): void
     {
@@ -339,12 +324,8 @@ trait MapTestCases
             'django' => ['name' => 'django', 'type' => 'framework'],
             'playframework' => ['name' => 'playframework', 'type' => 'framework'],
         ]);
-        $f = function (array $item): string {
-            return $item['type'];
-        };
-        $g = function (Map $items): array {
-            return $items->toAssoc();
-        };
+        $f = fn (array $item): string => $item['type'];
+        $g = fn (Map $items): array => $items->toAssoc();
         $expected = [
             'language' => [
                 'php' => ['name' => 'php', 'type' => 'language'],
@@ -366,6 +347,7 @@ trait MapTestCases
      *
      * @see \ScalikePHP\ArrayMap::head()
      * @see \ScalikePHP\TraversableMap::head()
+     * @noinspection PhpUnused
      */
     public function testHead(): void
     {
@@ -384,6 +366,7 @@ trait MapTestCases
      *
      * @see \ScalikePHP\ArrayMap::headOption()
      * @see \ScalikePHP\TraversableMap::headOption()
+     * @noinspection PhpUnused
      */
     public function testHeadOption(): void
     {
@@ -397,6 +380,7 @@ trait MapTestCases
      *
      * @see \ScalikePHP\ArrayMap::isEmpty()
      * @see \ScalikePHP\TraversableMap::isEmpty()
+     * @noinspection PhpUnused
      */
     public function testIsEmpty(): void
     {
@@ -409,6 +393,7 @@ trait MapTestCases
      *
      * @see \ScalikePHP\ArrayMap::jsonSerialize()
      * @see \ScalikePHP\TraversableMap::jsonSerialize()
+     * @noinspection PhpUnused
      */
     public function testJsonSerialize(): void
     {
@@ -423,6 +408,7 @@ trait MapTestCases
      *
      * @see \ScalikePHP\ArrayMap::last()
      * @see \ScalikePHP\TraversableMap::last()
+     * @noinspection PhpUnused
      */
     public function testLast(): void
     {
@@ -441,6 +427,7 @@ trait MapTestCases
      *
      * @see \ScalikePHP\ArrayMap::lastOption()
      * @see \ScalikePHP\TraversableMap::lastOption()
+     * @noinspection PhpUnused
      */
     public function testLastOption(): void
     {
@@ -454,16 +441,19 @@ trait MapTestCases
      *
      * @see \ScalikePHP\ArrayMap::map()
      * @see \ScalikePHP\TraversableMap::map()
+     * @noinspection PhpUnused
      */
     public function testMap(): void
     {
         $map = $this->map(['Civic' => 'Honda', 'Levorg' => 'Subaru', 'Prius' => 'Toyota']);
-        $f = function (string $value, string $key): array {
-            return [strtoupper($value), strtoupper($key)];
-        };
-        $g = function (string $value, string $key): array {
-            return [strtolower($key), strtolower($value)];
-        };
+        $f = fn (string $value, string $key): array => [
+            strtoupper($value),
+            strtoupper($key),
+        ];
+        $g = fn (string $value, string $key): array => [
+            strtolower($key),
+            strtolower($value),
+        ];
         Assert::same(['HONDA' => 'CIVIC', 'SUBARU' => 'LEVORG', 'TOYOTA' => 'PRIUS'], $map->map($f)->toAssoc());
         Assert::same(['civic' => 'honda', 'levorg' => 'subaru', 'prius' => 'toyota'], $map->map($g)->toAssoc());
     }
@@ -473,6 +463,7 @@ trait MapTestCases
      *
      * @see \ScalikePHP\ArrayMap::max()
      * @see \ScalikePHP\TraversableMap::max()
+     * @noinspection PhpUnused
      */
     public function testMax(): void
     {
@@ -485,16 +476,13 @@ trait MapTestCases
      *
      * @see \ScalikePHP\ArrayMap::maxBy()
      * @see \ScalikePHP\TraversableMap::maxBy()
+     * @noinspection PhpUnused
      */
     public function testMaxBy(): void
     {
         $map = $this->map([1 => 9, 2 => 8, 3 => 7, 4 => 6, 5 => 5, 6 => 4, 7 => 3, 8 => 2, 9 => 1]);
-        $f = function (int $value, int $key): int {
-            return $value;
-        };
-        $g = function (int $value, int $key): int {
-            return $key;
-        };
+        $f = fn (int $value): int => $value;
+        $g = fn (int $value, int $key): int => $key;
         Assert::same([1, 9], $map->maxBy($f));
         Assert::same([9, 1], $map->maxBy($g));
     }
@@ -504,6 +492,7 @@ trait MapTestCases
      *
      * @see \ScalikePHP\ArrayMap::min()
      * @see \ScalikePHP\TraversableMap::min()
+     * @noinspection PhpUnused
      */
     public function testMin(): void
     {
@@ -516,16 +505,13 @@ trait MapTestCases
      *
      * @see \ScalikePHP\ArrayMap::minBy()
      * @see \ScalikePHP\TraversableMap::minBy()
+     * @noinspection PhpUnused
      */
     public function testMinBy(): void
     {
         $map = $this->map([1 => 9, 2 => 8, 3 => 7, 4 => 6, 5 => 5, 6 => 4, 7 => 3, 8 => 2, 9 => 1]);
-        $f = function (int $value, int $key): int {
-            return $value;
-        };
-        $g = function (int $value, int $key): int {
-            return $key;
-        };
+        $f = fn (int $value): int => $value;
+        $g = fn (int $value, int $key): int => $key;
         Assert::same([9, 1], $map->minBy($f));
         Assert::same([1, 9], $map->minBy($g));
     }
@@ -535,6 +521,7 @@ trait MapTestCases
      *
      * @see \ScalikePHP\ArrayMap::mkString()
      * @see \ScalikePHP\TraversableMap::mkString()
+     * @noinspection PhpUnused
      */
     public function testMkString(): void
     {
@@ -549,6 +536,7 @@ trait MapTestCases
      *
      * @see \ScalikePHP\ArrayMap::nonEmpty()
      * @see \ScalikePHP\TraversableMap::nonEmpty()
+     * @noinspection PhpUnused
      */
     public function testNonEmpty(): void
     {
@@ -561,6 +549,7 @@ trait MapTestCases
      *
      * @see \ScalikePHP\ArrayMap::offsetExists()
      * @see \ScalikePHP\TraversableMap::offsetExists()
+     * @noinspection PhpUnused
      */
     public function testOffsetExists(): void
     {
@@ -576,6 +565,7 @@ trait MapTestCases
      *
      * @see \ScalikePHP\ArrayMap::offsetGet()
      * @see \ScalikePHP\TraversableMap::offsetGet()
+     * @noinspection PhpUnused
      */
     public function testOffsetGet(): void
     {
@@ -590,6 +580,7 @@ trait MapTestCases
      *
      * @see \ScalikePHP\ArrayMap::offsetSet()
      * @see \ScalikePHP\TraversableMap::offsetSet()
+     * @noinspection PhpUnused
      */
     public function testOffsetSet(): void
     {
@@ -609,6 +600,7 @@ trait MapTestCases
      *
      * @see \ScalikePHP\ArrayMap::offsetUnset()
      * @see \ScalikePHP\TraversableMap::offsetUnset()
+     * @noinspection PhpUnused
      */
     public function testOffsetUnset(): void
     {
@@ -628,6 +620,7 @@ trait MapTestCases
      *
      * @see \ScalikePHP\ArrayMap::size()
      * @see \ScalikePHP\TraversableMap::size()
+     * @noinspection PhpUnused
      */
     public function testSize(): void
     {
@@ -642,6 +635,7 @@ trait MapTestCases
      *
      * @see \ScalikePHP\ArrayMap::sum()
      * @see \ScalikePHP\TraversableMap::sum()
+     * @noinspection PhpUnused
      */
     public function testSum(): void
     {
@@ -660,12 +654,11 @@ trait MapTestCases
      *
      * @see \ScalikePHP\ArrayMap::sumBy()
      * @see \ScalikePHP\TraversableMap::sumBy()
+     * @noinspection PhpUnused
      */
     public function testSumBy(): void
     {
-        $f = function (int $z, int $value, string $key): int {
-            return $z + $value;
-        };
+        $f = fn (int $z, int $value): int => $z + $value;
         Assert::same(0, $this->map()->sumBy($f));
         Assert::same(6, $this->map(['a' => 1, 'b' => 2, 'c' => 3])->sumBy($f));
     }
@@ -675,6 +668,7 @@ trait MapTestCases
      *
      * @see \ScalikePHP\ArrayMap::take()
      * @see \ScalikePHP\TraversableMap::take()
+     * @noinspection PhpUnused
      */
     public function testTake(): void
     {
@@ -692,6 +686,7 @@ trait MapTestCases
      *
      * @see \ScalikePHP\ArrayMap::takeRight()
      * @see \ScalikePHP\TraversableMap::takeRight()
+     * @noinspection PhpUnused
      */
     public function testTakeRight(): void
     {
@@ -709,6 +704,7 @@ trait MapTestCases
      *
      * @see \ScalikePHP\ArrayMap::toArray()
      * @see \ScalikePHP\TraversableMap::toArray()
+     * @noinspection PhpUnused
      */
     public function testToArray(): void
     {
@@ -721,6 +717,7 @@ trait MapTestCases
      *
      * @see \ScalikePHP\ArrayMap::toSeq()
      * @see \ScalikePHP\TraversableMap::toSeq()
+     * @noinspection PhpUnused
      */
     public function testToSeq(): void
     {

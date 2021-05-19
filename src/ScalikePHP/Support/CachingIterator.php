@@ -17,15 +17,8 @@ use IteratorAggregate;
  */
 final class CachingIterator implements IteratorAggregate
 {
-    /**
-     * @var Iterator
-     */
-    private $iterator;
-
-    /**
-     * @var array
-     */
-    private $cache = [];
+    private Iterator $iterator;
+    private array $cache = [];
 
     /**
      * CachingIterator constructor.
@@ -38,7 +31,9 @@ final class CachingIterator implements IteratorAggregate
         $this->iterator->rewind();
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function getIterator(): Iterator
     {
         foreach ($this->cache as $key => $value) {

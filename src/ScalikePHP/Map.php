@@ -53,17 +53,15 @@ abstract class Map extends ScalikeTraversable
      * Create a Map instance from an iterable.
      *
      * @param null|iterable $iterable
-     *
      * @throws InvalidArgumentException
-     *
      * @return Map
      */
-    public static function from(?iterable $iterable): self
+    final public static function from(?iterable $iterable): self
     {
         if ($iterable === null) {
             return static::emptyMap();
         } elseif (is_array($iterable)) {
-            return empty($iterable) ? static::emptyMap() : new ArrayMap($iterable);
+            return empty($iterable) ? static::emptyMap() : new ArrayMap((array)$iterable);
         } elseif ($iterable instanceof Traversable) {
             return self::fromTraversable($iterable);
         } else {
@@ -83,7 +81,9 @@ abstract class Map extends ScalikeTraversable
         return new TraversableMap($traversable);
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function each(Closure $f): void
     {
         foreach ($this->getRawIterable() as $key => $value) {
@@ -91,7 +91,9 @@ abstract class Map extends ScalikeTraversable
         }
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function exists(Closure $p): bool
     {
         foreach ($this->getRawIterable() as $key => $value) {
@@ -102,10 +104,12 @@ abstract class Map extends ScalikeTraversable
         return false;
     }
 
-    /** {@inheritdoc} */
-    public function filter(Closure $p)
+    /**
+     * {@inheritdoc}
+     */
+    public function filter(Closure $p): self
     {
-        return static::create(function () use ($p): Traversable {
+        return self::create(function () use ($p): Generator {
             foreach ($this->getRawIterable() as $key => $value) {
                 if ($p($value, $key)) {
                     yield $key => $value;
@@ -114,7 +118,9 @@ abstract class Map extends ScalikeTraversable
         });
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function find(Closure $p): Option
     {
         foreach ($this->getRawIterable() as $key => $value) {
@@ -125,22 +131,24 @@ abstract class Map extends ScalikeTraversable
         return Option::none();
     }
 
-    /** {@inheritdoc} */
-    public function flatMap(Closure $f)
+    /**
+     * {@inheritdoc}
+     */
+    public function flatMap(Closure $f): self
     {
-        return self::create(function () use ($f): Generator {
-            return $this->flatMapGenerator($f);
-        });
+        return self::create(fn (): Generator => $this->flatMapGenerator($f));
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function groupBy($f): self
     {
         $g = $this->groupByClosure($f);
         $assoc = [];
         foreach ($this->getRawIterable() as $key => $value) {
             $x = $g($value);
-            $assoc[$x] = isset($assoc[$x]) ? $assoc[$x] : [];
+            $assoc[$x] ??= [];
             $assoc[$x][$key] = $value;
         }
         foreach ($assoc as $key => $xs) {
@@ -153,10 +161,9 @@ abstract class Map extends ScalikeTraversable
      * Create a MutableMap instance from an iterable.
      *
      * @param null|iterable $iterable
-     *
      * @throws InvalidArgumentException
-     *
      * @return MutableMap
+     * @noinspection PhpUnused
      */
     public static function mutable(?iterable $iterable): MutableMap
     {
@@ -174,22 +181,22 @@ abstract class Map extends ScalikeTraversable
      *
      * @param array|Map|string $keyOrArray
      * @param mixed $value
-     *
-     * @return Map
+     * @return static
      */
-    abstract public function append($keyOrArray, $value = null);
+    abstract public function append($keyOrArray, $value = null): self;
 
     /**
      * 指定されたキーが存在するかどうかを判定する.
      *
-     * @param string $key
-     *
+     * @param int|string $key
      * @return bool
      */
     abstract public function contains($key): bool;
 
-    /** {@inheritdoc} */
-    public function flatten()
+    /**
+     * {@inheritdoc}
+     */
+    public function flatten(): self
     {
         throw new LogicException('Map::flatten() has not supported');
     }
@@ -199,7 +206,6 @@ abstract class Map extends ScalikeTraversable
      *
      * @param mixed $z
      * @param Closure $f
-     *
      * @return mixed
      */
     public function fold($z, Closure $f)
@@ -210,18 +216,22 @@ abstract class Map extends ScalikeTraversable
         return $z;
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function forAll(Closure $p): bool
     {
         foreach ($this->getRawIterable() as $key => $value) {
-            if (! $p($value, $key)) {
+            if (!$p($value, $key)) {
                 return false;
             }
         }
         return true;
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function head()
     {
         foreach ($this->getRawIterable() as $key => $value) {
@@ -230,7 +240,9 @@ abstract class Map extends ScalikeTraversable
         throw new LogicException('There is no value');
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function headOption(): Option
     {
         foreach ($this->getRawIterable() as $key => $value) {
@@ -243,7 +255,6 @@ abstract class Map extends ScalikeTraversable
      * 要素を取得する.
      *
      * @param mixed $key
-     *
      * @return Option
      */
     abstract public function get($key): Option;
@@ -253,7 +264,6 @@ abstract class Map extends ScalikeTraversable
      *
      * @param mixed $key
      * @param Closure $default
-     *
      * @return mixed
      */
     public function getOrElse($key, Closure $default)
@@ -261,7 +271,9 @@ abstract class Map extends ScalikeTraversable
         return $this->get($key)->getOrElse($default);
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function jsonSerialize(): array
     {
         return $this->toAssoc();
@@ -274,32 +286,37 @@ abstract class Map extends ScalikeTraversable
      */
     abstract public function keys(): Seq;
 
-    /** {@inheritdoc} */
-    public function map(Closure $f)
+    /**
+     * {@inheritdoc}
+     */
+    public function map(Closure $f): self
     {
-        return self::create(function () use ($f): Generator {
-            return $this->mapGenerator($f);
-        });
+        return self::fromTraversable($this->mapGenerator($f));
     }
 
-    /** {@inheritdoc} */
-    public function mapValues(Closure $f)
+    /**
+     * 値を変換した新しいインスタンスを返す.
+     *
+     * @param Closure $f
+     * @return self
+     */
+    public function mapValues(Closure $f): self
     {
-        return self::create(function () use ($f): Generator {
-            return $this->mapValuesGenerator($f);
-        });
+        return self::fromTraversable($this->mapValuesGenerator($f));
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function mkString(string $sep = ''): string
     {
-        $f = function (array $x): string {
-            return "{$x[0]} => {$x[1]}";
-        };
+        $f = fn (array $x): string => "{$x[0]} => {$x[1]}";
         return $this->toSeq()->map($f)->mkString($sep);
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function max(): array
     {
         if ($this->isEmpty()) {
@@ -308,7 +325,9 @@ abstract class Map extends ScalikeTraversable
         return [$key = $this->keys()->max(), $this->get($key)->get()];
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function maxBy(Closure $f): array
     {
         if ($this->isEmpty()) {
@@ -326,7 +345,9 @@ abstract class Map extends ScalikeTraversable
         return $res;
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function min(): array
     {
         if ($this->isEmpty()) {
@@ -335,7 +356,9 @@ abstract class Map extends ScalikeTraversable
         return [$key = $this->keys()->min(), $this->get($key)->get()];
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function minBy(Closure $f): array
     {
         if ($this->isEmpty()) {
@@ -353,19 +376,25 @@ abstract class Map extends ScalikeTraversable
         return $res;
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function sum()
     {
         throw new LogicException('`Map::sum()` has not supported: Use `Map::sumBy()` instead');
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function sumBy(Closure $f)
     {
         return $this->fold(0, $f);
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function takeRight(int $n): self
     {
         if ($n > 0) {
@@ -377,7 +406,9 @@ abstract class Map extends ScalikeTraversable
         }
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function toArray(): array
     {
         return $this->toSeq()->toArray();
@@ -390,7 +421,9 @@ abstract class Map extends ScalikeTraversable
      */
     abstract public function toAssoc(): array;
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function toGenerator(): Generator
     {
         foreach ($this->getRawIterable() as $key => $value) {
@@ -398,7 +431,9 @@ abstract class Map extends ScalikeTraversable
         }
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function toSeq(): Seq
     {
         return Seq::create(function (): Generator {
@@ -420,9 +455,7 @@ abstract class Map extends ScalikeTraversable
      * Create a Generator from iterable with flatMap.
      *
      * @param Closure $f
-     *
      * @throws LogicException
-     *
      * @return Generator
      */
     protected function flatMapGenerator(Closure $f): Generator
@@ -442,7 +475,6 @@ abstract class Map extends ScalikeTraversable
      * Create a Generator from iterable with map function.
      *
      * @param Closure $f
-     *
      * @return Generator
      */
     protected function mapGenerator(Closure $f): Generator
@@ -457,7 +489,6 @@ abstract class Map extends ScalikeTraversable
      * Create a Generator from iterable with map function.
      *
      * @param Closure $f
-     *
      * @return Generator
      */
     protected function mapValuesGenerator(Closure $f): Generator

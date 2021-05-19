@@ -39,7 +39,9 @@ class ArraySeq extends Seq
         return $n <= 0 ? $this : new self(array_slice($this->array, $n));
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function take(int $n): Seq
     {
         if ($n > 0) {
@@ -51,7 +53,9 @@ class ArraySeq extends Seq
         }
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function toArray(): array
     {
         return $this->array;

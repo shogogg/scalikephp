@@ -22,6 +22,9 @@ return $config
         '@PSR12' => true,
         'blank_line_after_opening_tag' => false,
         'blank_line_before_statement' => false,
+        'cast_spaces' => [
+            'space' => 'none',
+        ],
         'concat_space' => [
             'spacing' => 'one',
         ],
@@ -32,11 +35,11 @@ return $config
         'no_superfluous_elseif' => false,
         'no_superfluous_phpdoc_tags' => false,
         'no_useless_else' => false,
-        'not_operator_with_successor_space' => true,
         'ordered_imports' => true,
         'phpdoc_align' => [
             'align' => 'left',
         ],
+        'phpdoc_separation' => false,
         'phpdoc_types_order' => [
             'null_adjustment' => 'always_first',
             'sort_algorithm' => 'alpha',

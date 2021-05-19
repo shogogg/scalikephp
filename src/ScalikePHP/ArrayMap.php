@@ -28,8 +28,10 @@ class ArrayMap extends Map
         $this->setArray($assoc);
     }
 
-    /** {@inheritdoc} */
-    public function append($keyOrArray, $value = null)
+    /**
+     * {@inheritdoc}
+     */
+    public function append($keyOrArray, $value = null): Map
     {
         $assoc = array_merge(
             $this->array,
@@ -38,31 +40,41 @@ class ArrayMap extends Map
         return new self($assoc);
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function contains($key): bool
     {
         return isset($this->array[$key]);
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function drop(int $n): Map
     {
         return $n <= 0 ? $this : new self(array_slice($this->array, $n));
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function get($key): Option
     {
         return Option::fromArray($this->array, $key);
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function keys(): Seq
     {
         return new ArraySeq(array_keys($this->array));
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function take(int $n): Map
     {
         if ($n > 0) {
@@ -74,13 +86,17 @@ class ArrayMap extends Map
         }
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function toAssoc(): array
     {
         return $this->array;
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function values(): Seq
     {
         return new ArraySeq(array_values($this->array));
