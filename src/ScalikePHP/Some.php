@@ -12,7 +12,6 @@ namespace ScalikePHP;
 use ArrayAccess;
 use ArrayIterator;
 use Closure;
-use Exception;
 use JsonSerializable;
 use LogicException;
 use ScalikePHP\Support\ArraySupport;
@@ -123,14 +122,6 @@ final class Some extends Option
      * {@inheritdoc}
      */
     public function getOrElseValue($default)
-    {
-        return $this->array[0];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getOrThrow(Exception $exception)
     {
         return $this->array[0];
     }

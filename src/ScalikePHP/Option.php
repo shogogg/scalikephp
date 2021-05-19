@@ -11,7 +11,6 @@ namespace ScalikePHP;
 
 use ArrayAccess;
 use Closure;
-use Exception;
 use Generator;
 use RuntimeException;
 
@@ -107,20 +106,6 @@ abstract class Option extends ScalikeTraversable
      * @return mixed
      */
     abstract public function getOrElseValue($default);
-
-    /**
-     * 値を返す, 値を持たない場合は $exception を投げる.
-     *
-     * @param Exception $exception
-     *
-     * @throws Exception
-     *
-     * @return mixed
-     *
-     * @deprecated
-     * @see Option::getOrElse()
-     */
-    abstract public function getOrThrow(Exception $exception);
 
     /**
      * 値を持っているかどうかを判定する.

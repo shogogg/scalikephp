@@ -12,7 +12,6 @@ namespace ScalikePHP;
 use BadMethodCallException;
 use Closure;
 use EmptyIterator;
-use Exception;
 use LogicException;
 use OutOfBoundsException;
 use Traversable;
@@ -155,14 +154,6 @@ final class None extends Option
     public function getOrElseValue($default)
     {
         return $default;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getOrThrow(Exception $exception)
-    {
-        throw $exception;
     }
 
     /**
