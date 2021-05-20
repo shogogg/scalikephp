@@ -88,6 +88,8 @@ class MutableMap extends ArrayMap
 
     /**
      * {@inheritdoc}
+     *
+     * @return self
      */
     public function mapValues(Closure $f): self
     {

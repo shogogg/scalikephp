@@ -14,7 +14,7 @@ use Generator;
 use InvalidArgumentException;
 use LogicException;
 use RuntimeException;
-use ScalikePHP\Support\ClosureIterator;
+use ScalikePHP\Support\SeqBuilder;
 use Traversable;
 
 /**
@@ -22,104 +22,7 @@ use Traversable;
  */
 abstract class Seq extends ScalikeTraversable
 {
-    private static ?self $empty = null;
-
-    /**
-     * Create an instance from generator function.
-     *
-     * @param Closure $f
-     * @return \ScalikePHP\Seq
-     */
-    final public static function create(Closure $f): self
-    {
-        return self::fromTraversable(new ClosureIterator($f));
-    }
-
-    /**
-     * Get an empty Seq instance.
-     *
-     * @return \ScalikePHP\Seq
-     */
-    final public static function empty(): self
-    {
-        if (self::$empty === null) {
-            self::$empty = new ArraySeq([]);
-        }
-        return self::$empty;
-    }
-
-    /**
-     * Get an empty Seq instance.
-     *
-     * @return \ScalikePHP\Seq
-     * @deprecated
-     */
-    final public static function emptySeq(): self
-    {
-        return self::empty();
-    }
-
-    /**
-     * Create a Seq instance from arguments.
-     *
-     * @param array $items
-     * @return \ScalikePHP\Seq
-     */
-    final public static function from(...$items): self
-    {
-        return new ArraySeq($items);
-    }
-
-    /**
-     * Create an instance from an iterable.
-     *
-     * @param null|iterable $iterable
-     * @throws InvalidArgumentException
-     * @return \ScalikePHP\Seq
-     */
-    final public static function fromArray(?iterable $iterable): self
-    {
-        if ($iterable === null) {
-            return self::empty();
-        } elseif (is_array($iterable)) {
-            return empty($iterable) ? static::empty() : new ArraySeq((array)$iterable);
-        } elseif ($iterable instanceof Traversable) {
-            return self::fromTraversable($iterable);
-        } else {
-            throw new InvalidArgumentException('Seq::fromArray() needs to iterable');
-        }
-    }
-
-    /**
-     * Create an instance from an iterator.
-     *
-     * @param Traversable $traversable
-     * @return \ScalikePHP\Seq
-     */
-    final public static function fromTraversable(Traversable $traversable): self
-    {
-        return new TraversableSeq($traversable);
-    }
-
-    /**
-     * Create an instance from two iterables.
-     *
-     * @param iterable $a
-     * @param iterable $b
-     * @return \ScalikePHP\Seq
-     */
-    final public static function merge(iterable $a, iterable $b): self
-    {
-        return self::create(function () use ($a, $b) {
-            $i = 0;
-            foreach ($a as $x) {
-                yield $i++ => $x;
-            }
-            foreach ($b as $x) {
-                yield $i++ => $x;
-            }
-        });
-    }
+    use SeqBuilder;
 
     /**
      * 末尾に要素を追加する.

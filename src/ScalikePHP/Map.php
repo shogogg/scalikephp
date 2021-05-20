@@ -14,83 +14,14 @@ use Generator;
 use InvalidArgumentException;
 use LogicException;
 use RuntimeException;
-use ScalikePHP\Support\ClosureIterator;
-use Traversable;
+use ScalikePHP\Support\MapBuilder;
 
 /**
  * Scala like Map.
  */
 abstract class Map extends ScalikeTraversable
 {
-    private static ?self $empty = null;
-
-    /**
-     * Create an instance from generator function.
-     *
-     * @param Closure $f
-     *
-     * @return \ScalikePHP\Map
-     */
-    final public static function create(Closure $f): self
-    {
-        return self::fromTraversable(new ClosureIterator($f));
-    }
-
-    /**
-     * Get an empty Map instance.
-     *
-     * @return \ScalikePHP\Map
-     */
-    final public static function empty(): self
-    {
-        if (self::$empty === null) {
-            self::$empty = new ArrayMap([]);
-        }
-        return self::$empty;
-    }
-
-    /**
-     * Get an empty Map instance.
-     *
-     * @return \ScalikePHP\Map
-     * @deprecated
-     */
-    public static function emptyMap(): self
-    {
-        return self::empty();
-    }
-
-    /**
-     * Create a Map instance from an iterable.
-     *
-     * @param null|iterable $iterable
-     * @throws InvalidArgumentException
-     * @return \ScalikePHP\Map
-     */
-    final public static function from(?iterable $iterable): self
-    {
-        if ($iterable === null) {
-            return self::empty();
-        } elseif (is_array($iterable)) {
-            return empty($iterable) ? self::empty() : new ArrayMap((array)$iterable);
-        } elseif ($iterable instanceof Traversable) {
-            return self::fromTraversable($iterable);
-        } else {
-            throw new InvalidArgumentException('Map::from() needs to array or \Traversable.');
-        }
-    }
-
-    /**
-     * Create an instance from an iterator.
-     *
-     * @param Traversable $traversable
-     *
-     * @return \ScalikePHP\Map
-     */
-    final public static function fromTraversable(Traversable $traversable): self
-    {
-        return new TraversableMap($traversable);
-    }
+    use MapBuilder;
 
     /**
      * {@inheritdoc}
@@ -110,13 +41,7 @@ abstract class Map extends ScalikeTraversable
      */
     public function filter(Closure $p): self
     {
-        return self::create(function () use ($p): Generator {
-            foreach ($this->getRawIterable() as $key => $value) {
-                if ($p($value, $key)) {
-                    yield $key => $value;
-                }
-            }
-        });
+        return self::from($this->filterGenerator($p));
     }
 
     /**
@@ -137,7 +62,7 @@ abstract class Map extends ScalikeTraversable
      */
     public function flatMap(Closure $f): self
     {
-        return self::create(fn (): Generator => $this->flatMapGenerator($f));
+        return self::from($this->flatMapGenerator($f));
     }
 
     /**
@@ -299,7 +224,7 @@ abstract class Map extends ScalikeTraversable
      * 値を変換した新しいインスタンスを返す.
      *
      * @param Closure $f
-     * @return self
+     * @return \ScalikePHP\Map
      */
     public function mapValues(Closure $f): self
     {
@@ -470,6 +395,21 @@ abstract class Map extends ScalikeTraversable
      * @return \ScalikePHP\Seq
      */
     abstract public function values(): Seq;
+
+    /**
+     * Create a Generator from iterable with flatMap.
+     *
+     * @param Closure $p
+     * @return Generator
+     */
+    protected function filterGenerator(Closure $p): Generator
+    {
+        foreach ($this->getRawIterable() as $key => $value) {
+            if ($p($value, $key)) {
+                yield $key => $value;
+            }
+        }
+    }
 
     /**
      * Create a Generator from iterable with flatMap.
