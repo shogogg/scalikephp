@@ -1,19 +1,19 @@
 <?php
 /**
- * Copyright (c) 2017 shogogg <shogo@studiofly.net>.
+ * Copyright (c) 2021 shogogg <shogo@studiofly.net>.
  *
  * This software is released under the MIT License.
  * http://opensource.org/licenses/mit-license.php
  */
 declare(strict_types=1);
 
-namespace ScalikePHP\Support;
+namespace ScalikePHP\Implementations;
 
 use ArrayIterator;
-use Exception;
 use Generator;
 use NoRewindIterator;
 use OutOfBoundsException;
+use ScalikePHP\Support\CachingIterator;
 use Traversable;
 
 /**
@@ -39,46 +39,35 @@ trait TraversableSupport
             : $traversable;
     }
 
-    /**
-     * {@inheritdoc}
-     *
-     * @throws Exception
-     */
+    // overrides
     public function count(): int
     {
         return count($this->toArray());
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function getIterator(): Traversable
     {
         return $this->computed ? new ArrayIterator($this->array) : $this->traversable;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     protected function getRawIterable(): iterable
     {
         return $this->computed ? $this->array : $this->traversable;
     }
 
-    /**
-     * {@inheritdoc}
-     *
-     * @throws Exception
-     */
+    // overrides
     public function isEmpty(): bool
     {
         return empty($this->toArray());
     }
 
     /**
-     * {@inheritdoc}
+     * PHP magic method: offsetExists.
      *
-     * @throws Exception
+     * @param $offset
+     * @return bool
      */
     public function offsetExists($offset): bool
     {
@@ -87,9 +76,10 @@ trait TraversableSupport
     }
 
     /**
-     * {@inheritdoc}
+     * PHP magic method: offsetGet.
      *
-     * @throws Exception
+     * @param $offset
+     * @return mixed
      */
     public function offsetGet($offset)
     {
@@ -101,11 +91,7 @@ trait TraversableSupport
         }
     }
 
-    /**
-     * {@inheritdoc}
-     *
-     * @throws Exception
-     */
+    // overrides
     public function size(): int
     {
         return count($this->toArray());

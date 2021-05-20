@@ -40,7 +40,7 @@ abstract class Map extends ScalikeTraversable
      * Optionally returns the value associated with a key.
      *
      * @param int|string $key the key value.
-     * @return \ScalikePHP\Option an option value containing the value associated with key in this map,
+     * @return \ScalikePHP\Option an Option containing the value associated with key in this map,
      *                            or None if none exists.
      */
     abstract public function get($key): Option;

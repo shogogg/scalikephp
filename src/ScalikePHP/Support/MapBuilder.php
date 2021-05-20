@@ -11,9 +11,9 @@ namespace ScalikePHP\Support;
 
 use Closure;
 use InvalidArgumentException;
-use ScalikePHP\ArrayMap;
+use ScalikePHP\Implementations\ArrayMap;
+use ScalikePHP\Implementations\TraversableMap;
 use ScalikePHP\Map;
-use ScalikePHP\TraversableMap;
 use Traversable;
 
 /**
@@ -52,7 +52,7 @@ trait MapBuilder
      * Get an empty Map instance.
      *
      * @return \ScalikePHP\Map
-     * @deprecated
+     * @deprecated Use `Map::empty()` instead.
      */
     public static function emptyMap(): Map
     {

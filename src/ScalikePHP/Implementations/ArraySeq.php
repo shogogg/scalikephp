@@ -1,16 +1,15 @@
 <?php
 /**
- * Copyright (c) 2017 shogogg <shogo@studiofly.net>.
+ * Copyright (c) 2021 shogogg <shogo@studiofly.net>.
  *
  * This software is released under the MIT License.
  * http://opensource.org/licenses/mit-license.php
  */
 declare(strict_types=1);
 
-namespace ScalikePHP;
+namespace ScalikePHP\Implementations;
 
-use ScalikePHP\Support\ArraySupport;
-use ScalikePHP\Support\SeqOps;
+use ScalikePHP\Seq;
 
 /**
  * A Seq implementation using array.
@@ -21,7 +20,9 @@ class ArraySeq extends Seq
     use SeqOps;
 
     /**
-     * {@link \ScalikePHP\ArraySeq} Constructor.
+     * Constructor.
+     *
+     * The constructor of {@see \ScalikePHP\ArraySeq}.
      *
      * @param array $values
      */
@@ -30,34 +31,26 @@ class ArraySeq extends Seq
         $this->setArray(array_values($values));
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function computed(): Seq
     {
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function drop(int $n): Seq
     {
         return $n <= 0 ? $this : new self(array_slice($this->array, $n));
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function indexOf($elem): int
     {
         $index = array_search($elem, $this->array, true);
         return $index === false ? -1 : $index;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function take(int $n): Seq
     {
         if ($n > 0) {
@@ -69,9 +62,7 @@ class ArraySeq extends Seq
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function toArray(): array
     {
         return $this->array;

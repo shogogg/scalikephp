@@ -29,8 +29,8 @@ trait SeqTestCases
 
     /**
      * @test
-     * @covers \ScalikePHP\ArraySeq::append()
-     * @covers \ScalikePHP\TraversableSeq::append()
+     * @covers \ScalikePHP\Implementations\ArraySeq::append()
+     * @covers \ScalikePHP\Implementations\TraversableSeq::append()
      * @noinspection PhpUnused
      */
     public function testAppend(): void
@@ -43,8 +43,8 @@ trait SeqTestCases
 
     /**
      * @test
-     * @covers \ScalikePHP\ArraySeq::contains()
-     * @covers \ScalikePHP\TraversableSeq::contains()
+     * @covers \ScalikePHP\Implementations\ArraySeq::contains()
+     * @covers \ScalikePHP\Implementations\TraversableSeq::contains()
      * @noinspection PhpUnused
      */
     public function testContains(): void
@@ -57,8 +57,8 @@ trait SeqTestCases
 
     /**
      * @test
-     * @covers \ScalikePHP\ArraySeq::count()
-     * @covers \ScalikePHP\TraversableSeq::count()
+     * @covers \ScalikePHP\Implementations\ArraySeq::count()
+     * @covers \ScalikePHP\Implementations\TraversableSeq::count()
      * @noinspection PhpUnused
      */
     public function testCount(): void
@@ -71,8 +71,8 @@ trait SeqTestCases
 
     /**
      * @test
-     * @covers \ScalikePHP\ArraySeq::distinct()
-     * @covers \ScalikePHP\TraversableSeq::distinct()
+     * @covers \ScalikePHP\Implementations\ArraySeq::distinct()
+     * @covers \ScalikePHP\Implementations\TraversableSeq::distinct()
      * @noinspection PhpUnused
      */
     public function testDistinct(): void
@@ -83,8 +83,8 @@ trait SeqTestCases
 
     /**
      * @test
-     * @covers \ScalikePHP\ArraySeq::distinctBy()
-     * @covers \ScalikePHP\TraversableSeq::distinctBy()
+     * @covers \ScalikePHP\Implementations\ArraySeq::distinctBy()
+     * @covers \ScalikePHP\Implementations\TraversableSeq::distinctBy()
      * @noinspection PhpUnused
      */
     public function testDistinctBy(): void
@@ -107,8 +107,8 @@ trait SeqTestCases
 
     /**
      * @test
-     * @covers \ScalikePHP\ArraySeq::drop()
-     * @covers \ScalikePHP\TraversableSeq::drop()
+     * @covers \ScalikePHP\Implementations\ArraySeq::drop()
+     * @covers \ScalikePHP\Implementations\TraversableSeq::drop()
      * @noinspection PhpUnused
      */
     public function testDrop(): void
@@ -130,8 +130,8 @@ trait SeqTestCases
 
     /**
      * @test
-     * @covers \ScalikePHP\ArraySeq::each()
-     * @covers \ScalikePHP\TraversableSeq::each()
+     * @covers \ScalikePHP\Implementations\ArraySeq::each()
+     * @covers \ScalikePHP\Implementations\TraversableSeq::each()
      * @noinspection PhpUnused
      */
     public function testEach(): void
@@ -148,8 +148,8 @@ trait SeqTestCases
 
     /**
      * @test
-     * @covers \ScalikePHP\ArraySeq::exists()
-     * @covers \ScalikePHP\TraversableSeq::exists()
+     * @covers \ScalikePHP\Implementations\ArraySeq::exists()
+     * @covers \ScalikePHP\Implementations\TraversableSeq::exists()
      * @noinspection PhpUnused
      */
     public function testExists(): void
@@ -163,8 +163,8 @@ trait SeqTestCases
 
     /**
      * @test
-     * @covers \ScalikePHP\ArraySeq::filter()
-     * @covers \ScalikePHP\TraversableSeq::filter()
+     * @covers \ScalikePHP\Implementations\ArraySeq::filter()
+     * @covers \ScalikePHP\Implementations\TraversableSeq::filter()
      * @noinspection PhpUnused
      */
     public function testFilter(): void
@@ -178,8 +178,8 @@ trait SeqTestCases
 
     /**
      * @test
-     * @covers \ScalikePHP\ArraySeq::filterNot()
-     * @covers \ScalikePHP\TraversableSeq::filterNot()
+     * @covers \ScalikePHP\Implementations\ArraySeq::filterNot()
+     * @covers \ScalikePHP\Implementations\TraversableSeq::filterNot()
      * @noinspection PhpUnused
      */
     public function testFilterNot(): void
@@ -193,8 +193,8 @@ trait SeqTestCases
 
     /**
      * @test
-     * @covers \ScalikePHP\ArraySeq::find()
-     * @covers \ScalikePHP\TraversableSeq::find()
+     * @covers \ScalikePHP\Implementations\ArraySeq::find()
+     * @covers \ScalikePHP\Implementations\TraversableSeq::find()
      * @noinspection PhpUnused
      */
     public function testFind(): void
@@ -208,8 +208,8 @@ trait SeqTestCases
 
     /**
      * @test
-     * @covers \ScalikePHP\ArraySeq::flatMap()
-     * @covers \ScalikePHP\TraversableSeq::flatMap()
+     * @covers \ScalikePHP\Implementations\ArraySeq::flatMap()
+     * @covers \ScalikePHP\Implementations\TraversableSeq::flatMap()
      * @noinspection PhpUnused
      */
     public function testFlatMap(): void
@@ -235,8 +235,8 @@ trait SeqTestCases
 
     /**
      * @test
-     * @covers \ScalikePHP\ArraySeq::flatten()
-     * @covers \ScalikePHP\TraversableSeq::flatten()
+     * @covers \ScalikePHP\Implementations\ArraySeq::flatten()
+     * @covers \ScalikePHP\Implementations\TraversableSeq::flatten()
      * @noinspection PhpUnused
      */
     public function testFlatten(): void
@@ -247,8 +247,8 @@ trait SeqTestCases
 
     /**
      * @test
-     * @covers \ScalikePHP\ArraySeq::fold()
-     * @covers \ScalikePHP\TraversableSeq::fold()
+     * @covers \ScalikePHP\Implementations\ArraySeq::fold()
+     * @covers \ScalikePHP\Implementations\TraversableSeq::fold()
      * @noinspection PhpUnused
      */
     public function testFold(): void
@@ -262,8 +262,8 @@ trait SeqTestCases
 
     /**
      * @test
-     * @covers \ScalikePHP\ArraySeq::forAll()
-     * @covers \ScalikePHP\TraversableSeq::forAll()
+     * @covers \ScalikePHP\Implementations\ArraySeq::forAll()
+     * @covers \ScalikePHP\Implementations\TraversableSeq::forAll()
      * @noinspection PhpUnused
      */
     public function testForAll(): void
@@ -277,8 +277,8 @@ trait SeqTestCases
 
     /**
      * @test
-     * @covers \ScalikePHP\ArraySeq::groupBy()
-     * @covers \ScalikePHP\TraversableSeq::groupBy()
+     * @covers \ScalikePHP\Implementations\ArraySeq::groupBy()
+     * @covers \ScalikePHP\Implementations\TraversableSeq::groupBy()
      * @noinspection PhpUnused
      */
     public function testGroupBy(): void
@@ -303,8 +303,8 @@ trait SeqTestCases
 
     /**
      * @test
-     * @covers \ScalikePHP\ArraySeq::head()
-     * @covers \ScalikePHP\TraversableSeq::head()
+     * @covers \ScalikePHP\Implementations\ArraySeq::head()
+     * @covers \ScalikePHP\Implementations\TraversableSeq::head()
      * @noinspection PhpUnused
      */
     public function testHead(): void
@@ -320,8 +320,8 @@ trait SeqTestCases
 
     /**
      * @test
-     * @covers \ScalikePHP\ArraySeq::headOption()
-     * @covers \ScalikePHP\TraversableSeq::headOption()
+     * @covers \ScalikePHP\Implementations\ArraySeq::headOption()
+     * @covers \ScalikePHP\Implementations\TraversableSeq::headOption()
      * @noinspection PhpUnused
      */
     public function testHeadOption(): void
@@ -332,8 +332,8 @@ trait SeqTestCases
 
     /**
      * @test
-     * @covers \ScalikePHP\ArraySeq::indexOf()
-     * @covers \ScalikePHP\TraversableSeq::indexOf()
+     * @covers \ScalikePHP\Implementations\ArraySeq::indexOf()
+     * @covers \ScalikePHP\Implementations\TraversableSeq::indexOf()
      * @noinspection PhpUnused
      */
     public function testIndexOf(): void
@@ -347,8 +347,8 @@ trait SeqTestCases
 
     /**
      * @test
-     * @covers \ScalikePHP\ArraySeq::isEmpty()
-     * @covers \ScalikePHP\TraversableSeq::isEmpty()
+     * @covers \ScalikePHP\Implementations\ArraySeq::isEmpty()
+     * @covers \ScalikePHP\Implementations\TraversableSeq::isEmpty()
      * @noinspection PhpUnused
      */
     public function testIsEmpty(): void
@@ -359,8 +359,8 @@ trait SeqTestCases
 
     /**
      * @test
-     * @covers \ScalikePHP\ArraySeq::jsonSerialize()
-     * @covers \ScalikePHP\TraversableSeq::jsonSerialize()
+     * @covers \ScalikePHP\Implementations\ArraySeq::jsonSerialize()
+     * @covers \ScalikePHP\Implementations\TraversableSeq::jsonSerialize()
      * @noinspection PhpUnused
      */
     public function testJsonSerialize(): void
@@ -373,8 +373,8 @@ trait SeqTestCases
 
     /**
      * @test
-     * @covers \ScalikePHP\ArraySeq::last()
-     * @covers \ScalikePHP\TraversableSeq::last()
+     * @covers \ScalikePHP\Implementations\ArraySeq::last()
+     * @covers \ScalikePHP\Implementations\TraversableSeq::last()
      * @noinspection PhpUnused
      */
     public function testLast(): void
@@ -390,8 +390,8 @@ trait SeqTestCases
 
     /**
      * @test
-     * @covers \ScalikePHP\ArraySeq::lastOption()
-     * @covers \ScalikePHP\TraversableSeq::lastOption()
+     * @covers \ScalikePHP\Implementations\ArraySeq::lastOption()
+     * @covers \ScalikePHP\Implementations\TraversableSeq::lastOption()
      * @noinspection PhpUnused
      */
     public function testLastOption(): void
@@ -402,8 +402,8 @@ trait SeqTestCases
 
     /**
      * @test
-     * @covers \ScalikePHP\ArraySeq::map()
-     * @covers \ScalikePHP\TraversableSeq::map()
+     * @covers \ScalikePHP\Implementations\ArraySeq::map()
+     * @covers \ScalikePHP\Implementations\TraversableSeq::map()
      * @noinspection PhpUnused
      */
     public function testMap(): void
@@ -429,8 +429,8 @@ trait SeqTestCases
 
     /**
      * @test
-     * @covers \ScalikePHP\ArraySeq::max()
-     * @covers \ScalikePHP\TraversableSeq::max()
+     * @covers \ScalikePHP\Implementations\ArraySeq::max()
+     * @covers \ScalikePHP\Implementations\TraversableSeq::max()
      * @noinspection PhpUnused
      */
     public function testMax(): void
@@ -441,8 +441,8 @@ trait SeqTestCases
 
     /**
      * @test
-     * @covers \ScalikePHP\ArraySeq::maxBy()
-     * @covers \ScalikePHP\TraversableSeq::maxBy()
+     * @covers \ScalikePHP\Implementations\ArraySeq::maxBy()
+     * @covers \ScalikePHP\Implementations\TraversableSeq::maxBy()
      * @noinspection PhpUnused
      */
     public function testMaxBy(): void
@@ -456,8 +456,8 @@ trait SeqTestCases
 
     /**
      * @test
-     * @covers \ScalikePHP\ArraySeq::min()
-     * @covers \ScalikePHP\TraversableSeq::min()
+     * @covers \ScalikePHP\Implementations\ArraySeq::min()
+     * @covers \ScalikePHP\Implementations\TraversableSeq::min()
      * @noinspection PhpUnused
      */
     public function testMin(): void
@@ -468,8 +468,8 @@ trait SeqTestCases
 
     /**
      * @test
-     * @covers \ScalikePHP\ArraySeq::minBy()
-     * @covers \ScalikePHP\TraversableSeq::minBy()
+     * @covers \ScalikePHP\Implementations\ArraySeq::minBy()
+     * @covers \ScalikePHP\Implementations\TraversableSeq::minBy()
      * @noinspection PhpUnused
      */
     public function testMinBy(): void
@@ -483,8 +483,8 @@ trait SeqTestCases
 
     /**
      * @test
-     * @covers \ScalikePHP\ArraySeq::mkString()
-     * @covers \ScalikePHP\TraversableSeq::mkString()
+     * @covers \ScalikePHP\Implementations\ArraySeq::mkString()
+     * @covers \ScalikePHP\Implementations\TraversableSeq::mkString()
      * @noinspection PhpUnused
      */
     public function testMkString(): void
@@ -497,8 +497,8 @@ trait SeqTestCases
 
     /**
      * @test
-     * @covers \ScalikePHP\ArraySeq::nonEmpty()
-     * @covers \ScalikePHP\TraversableSeq::nonEmpty()
+     * @covers \ScalikePHP\Implementations\ArraySeq::nonEmpty()
+     * @covers \ScalikePHP\Implementations\TraversableSeq::nonEmpty()
      * @noinspection PhpUnused
      */
     public function testNonEmpty(): void
@@ -509,8 +509,8 @@ trait SeqTestCases
 
     /**
      * @test
-     * @covers \ScalikePHP\ArraySeq::offsetExists()
-     * @covers \ScalikePHP\TraversableSeq::offsetExists()
+     * @covers \ScalikePHP\Implementations\ArraySeq::offsetExists()
+     * @covers \ScalikePHP\Implementations\TraversableSeq::offsetExists()
      * @noinspection PhpUnused
      */
     public function testOffsetExists(): void
@@ -525,8 +525,8 @@ trait SeqTestCases
 
     /**
      * @test
-     * @covers \ScalikePHP\ArraySeq::offsetGet()
-     * @covers \ScalikePHP\TraversableSeq::offsetGet()
+     * @covers \ScalikePHP\Implementations\ArraySeq::offsetGet()
+     * @covers \ScalikePHP\Implementations\TraversableSeq::offsetGet()
      * @noinspection PhpUnused
      */
     public function testOffsetGet(): void
@@ -542,8 +542,8 @@ trait SeqTestCases
 
     /**
      * @test
-     * @covers \ScalikePHP\ArraySeq::offsetSet()
-     * @covers \ScalikePHP\TraversableSeq::offsetSet()
+     * @covers \ScalikePHP\Implementations\ArraySeq::offsetSet()
+     * @covers \ScalikePHP\Implementations\TraversableSeq::offsetSet()
      * @noinspection PhpUnused
      */
     public function testOffsetSet(): void
@@ -561,8 +561,8 @@ trait SeqTestCases
 
     /**
      * @test
-     * @covers \ScalikePHP\ArraySeq::offsetUnset()
-     * @covers \ScalikePHP\TraversableSeq::offsetUnset()
+     * @covers \ScalikePHP\Implementations\ArraySeq::offsetUnset()
+     * @covers \ScalikePHP\Implementations\TraversableSeq::offsetUnset()
      * @noinspection PhpUnused
      */
     public function testOffsetUnset(): void
@@ -580,8 +580,8 @@ trait SeqTestCases
 
     /**
      * @test
-     * @covers \ScalikePHP\ArraySeq::partition()
-     * @covers \ScalikePHP\TraversableSeq::partition()
+     * @covers \ScalikePHP\Implementations\ArraySeq::partition()
+     * @covers \ScalikePHP\Implementations\TraversableSeq::partition()
      * @noinspection PhpUnused
      */
     public function testPartition(): void
@@ -607,8 +607,8 @@ trait SeqTestCases
 
     /**
      * @test
-     * @covers \ScalikePHP\ArraySeq::prepend()
-     * @covers \ScalikePHP\TraversableSeq::prepend()
+     * @covers \ScalikePHP\Implementations\ArraySeq::prepend()
+     * @covers \ScalikePHP\Implementations\TraversableSeq::prepend()
      * @noinspection PhpUnused
      */
     public function testPrepend(): void
@@ -621,8 +621,8 @@ trait SeqTestCases
 
     /**
      * @test
-     * @covers \ScalikePHP\ArraySeq::reverse()
-     * @covers \ScalikePHP\TraversableSeq::reverse()
+     * @covers \ScalikePHP\Implementations\ArraySeq::reverse()
+     * @covers \ScalikePHP\Implementations\TraversableSeq::reverse()
      * @noinspection PhpUnused
      */
     public function testReverse(): void
@@ -633,8 +633,8 @@ trait SeqTestCases
 
     /**
      * @test
-     * @covers \ScalikePHP\ArraySeq::size()
-     * @covers \ScalikePHP\TraversableSeq::size()
+     * @covers \ScalikePHP\Implementations\ArraySeq::size()
+     * @covers \ScalikePHP\Implementations\TraversableSeq::size()
      * @noinspection PhpUnused
      */
     public function testSize(): void
@@ -647,8 +647,8 @@ trait SeqTestCases
 
     /**
      * @test
-     * @covers \ScalikePHP\ArraySeq::sortBy()
-     * @covers \ScalikePHP\TraversableSeq::sortBy()
+     * @covers \ScalikePHP\Implementations\ArraySeq::sortBy()
+     * @covers \ScalikePHP\Implementations\TraversableSeq::sortBy()
      * @noinspection PhpUnused
      */
     public function testSortBy(): void
@@ -667,8 +667,8 @@ trait SeqTestCases
 
     /**
      * @test
-     * @covers \ScalikePHP\ArraySeq::sum()
-     * @covers \ScalikePHP\TraversableSeq::sum()
+     * @covers \ScalikePHP\Implementations\ArraySeq::sum()
+     * @covers \ScalikePHP\Implementations\TraversableSeq::sum()
      * @noinspection PhpUnused
      */
     public function testSum(): void
@@ -680,8 +680,8 @@ trait SeqTestCases
 
     /**
      * @test
-     * @covers \ScalikePHP\ArraySeq::sumBy()
-     * @covers \ScalikePHP\TraversableSeq::sumBy()
+     * @covers \ScalikePHP\Implementations\ArraySeq::sumBy()
+     * @covers \ScalikePHP\Implementations\TraversableSeq::sumBy()
      * @noinspection PhpUnused
      */
     public function testSumBy(): void
@@ -712,8 +712,8 @@ trait SeqTestCases
 
     /**
      * @test
-     * @covers \ScalikePHP\ArraySeq::take()
-     * @covers \ScalikePHP\TraversableSeq::take()
+     * @covers \ScalikePHP\Implementations\ArraySeq::take()
+     * @covers \ScalikePHP\Implementations\TraversableSeq::take()
      * @noinspection PhpUnused
      */
     public function testTake(): void
@@ -729,8 +729,8 @@ trait SeqTestCases
 
     /**
      * @test
-     * @covers \ScalikePHP\ArraySeq::takeRight()
-     * @covers \ScalikePHP\TraversableSeq::takeRight()
+     * @covers \ScalikePHP\Implementations\ArraySeq::takeRight()
+     * @covers \ScalikePHP\Implementations\TraversableSeq::takeRight()
      * @noinspection PhpUnused
      */
     public function testTakeRight(): void
@@ -746,8 +746,8 @@ trait SeqTestCases
 
     /**
      * @test
-     * @covers \ScalikePHP\ArraySeq::toArray()
-     * @covers \ScalikePHP\TraversableSeq::toArray()
+     * @covers \ScalikePHP\Implementations\ArraySeq::toArray()
+     * @covers \ScalikePHP\Implementations\TraversableSeq::toArray()
      * @noinspection PhpUnused
      */
     public function testToArray(): void
@@ -759,8 +759,8 @@ trait SeqTestCases
 
     /**
      * @test
-     * @covers \ScalikePHP\ArraySeq::toMap()
-     * @covers \ScalikePHP\TraversableSeq::toMap()
+     * @covers \ScalikePHP\Implementations\ArraySeq::toMap()
+     * @covers \ScalikePHP\Implementations\TraversableSeq::toMap()
      * @noinspection PhpUnused
      */
     public function testToMap(): void
@@ -788,8 +788,8 @@ trait SeqTestCases
 
     /**
      * @test
-     * @covers \ScalikePHP\ArraySeq::toSeq()
-     * @covers \ScalikePHP\TraversableSeq::toSeq()
+     * @covers \ScalikePHP\Implementations\ArraySeq::toSeq()
+     * @covers \ScalikePHP\Implementations\TraversableSeq::toSeq()
      * @noinspection PhpUnused
      */
     public function testToSeq(): void

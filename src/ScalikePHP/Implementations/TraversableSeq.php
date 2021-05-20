@@ -1,17 +1,16 @@
 <?php
 /**
- * Copyright (c) 2017 shogogg <shogo@studiofly.net>.
+ * Copyright (c) 2021 shogogg <shogo@studiofly.net>.
  *
  * This software is released under the MIT License.
  * http://opensource.org/licenses/mit-license.php
  */
 declare(strict_types=1);
 
-namespace ScalikePHP;
+namespace ScalikePHP\Implementations;
 
 use Generator;
-use ScalikePHP\Support\SeqOps;
-use ScalikePHP\Support\TraversableSupport;
+use ScalikePHP\Seq;
 use Traversable;
 
 /**
@@ -23,7 +22,9 @@ class TraversableSeq extends Seq
     use TraversableSupport;
 
     /**
-     * {@link \ScalikePHP\TraversableSeq} Constructor.
+     * Constructor.
+     *
+     * The constructor of {@see \ScalikePHP\TraversableSeq}.
      *
      * @param Traversable $traversable
      */
@@ -32,17 +33,13 @@ class TraversableSeq extends Seq
         $this->setTraversable($traversable);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function computed(): Seq
     {
         return new ArraySeq($this->toArray());
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function drop(int $n): Seq
     {
         return $n <= 0 ? $this : Seq::create(function () use ($n): Generator {
@@ -58,18 +55,14 @@ class TraversableSeq extends Seq
         });
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function indexOf($elem): int
     {
         $index = array_search($elem, $this->toArray(), true);
         return $index === false ? -1 : $index;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function take(int $n): Seq
     {
         if ($n > 0) {
@@ -90,18 +83,14 @@ class TraversableSeq extends Seq
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function toArray(): array
     {
         $this->compute();
         return $this->array;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     protected function compute(): void
     {
         if ($this->computed === false) {

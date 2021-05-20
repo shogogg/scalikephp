@@ -11,9 +11,9 @@ namespace Test\ScalikePHP;
 
 use ArrayIterator;
 use Generator;
-use ScalikePHP\ArraySeq;
+use ScalikePHP\Implementations\ArraySeq;
+use ScalikePHP\Implementations\TraversableSeq;
 use ScalikePHP\Seq;
-use ScalikePHP\TraversableSeq;
 
 /**
  * Tests for {@link \ScalikePHP\Seq}.

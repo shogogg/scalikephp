@@ -10,12 +10,12 @@ declare(strict_types=1);
 namespace Test\ScalikePHP;
 
 use ArrayIterator;
-use ScalikePHP\ArraySeq;
+use ScalikePHP\Implementations\ArraySeq;
+use ScalikePHP\Implementations\TraversableSeq;
 use ScalikePHP\Seq;
-use ScalikePHP\TraversableSeq;
 
 /**
- * Tests for {@link \ScalikePHP\TraversableSeq}.
+ * Tests for {@link \ScalikePHP\Implementations\TraversableSeq}.
  *
  * @internal
  */
@@ -33,7 +33,7 @@ final class TraversableSeqTest extends TestCase
 
     /**
      * @test
-     * @covers \ScalikePHP\TraversableSeq::computed()
+     * @covers \ScalikePHP\Implementations\TraversableSeq::computed()
      */
     public function testComputed(): void
     {

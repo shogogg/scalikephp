@@ -21,7 +21,9 @@ final class ClosureIterator implements IteratorAggregate
     private Closure $closure;
 
     /**
-     * {@link \ScalikePHP\Support\ClosureIterator} constructor.
+     * Constructor.
+     *
+     * The constructor of {@see \ScalikePHP\Support\ClosureIterator}.
      *
      * @param Closure $closure
      */
@@ -30,9 +32,7 @@ final class ClosureIterator implements IteratorAggregate
         $this->closure = $closure;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function getIterator(): Iterator
     {
         $g = call_user_func($this->closure);
