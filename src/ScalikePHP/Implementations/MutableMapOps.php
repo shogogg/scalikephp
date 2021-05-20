@@ -7,7 +7,7 @@
  */
 declare(strict_types=1);
 
-namespace ScalikePHP\Support;
+namespace ScalikePHP\Implementations;
 
 use Closure;
 use ScalikePHP\Option;
@@ -38,7 +38,10 @@ trait MutableMapOps
     }
 
     /**
-     * {@inheritdoc}
+     * PHP magic method: offsetSet.
+     *
+     * @param $offset
+     * @param $value
      */
     public function offsetSet($offset, $value): void
     {
@@ -46,7 +49,9 @@ trait MutableMapOps
     }
 
     /**
-     * {@inheritdoc}
+     * PHP magic method: offsetUnset.
+     *
+     * @param $offset
      */
     public function offsetUnset($offset): void
     {
@@ -54,10 +59,10 @@ trait MutableMapOps
     }
 
     /**
-     * Removes a key from this map, returning the value associated previously with that key as an option.
+     * Removes a key from this map, returning the value associated previously with that key as an Option.
      *
      * @param int|string $key the key to be removed.
-     * @return \ScalikePHP\Option an option value containing the value associated previously with key,
+     * @return \ScalikePHP\Option an Option value containing the value associated previously with key,
      *                            or None if key was not defined in the map before.
      */
     public function remove($key): Option

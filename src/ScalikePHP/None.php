@@ -14,7 +14,7 @@ use Closure;
 use EmptyIterator;
 use LogicException;
 use OutOfBoundsException;
-use ScalikePHP\Support\OptionOps;
+use ScalikePHP\Implementations\OptionOps;
 use Traversable;
 
 /**
@@ -39,256 +39,197 @@ final class None extends Option
         return self::$instance;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function count(): int
     {
         return 0;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function drop(int $n): Seq
     {
         return Seq::empty();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function each(Closure $f): void
     {
         // nothing to do.
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function exists(Closure $p): bool
     {
         return false;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function filter(Closure $p): self
     {
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function filterNot(Closure $p): self
     {
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function find(Closure $p): Option
     {
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function flatMap(Closure $f): self
     {
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function flatten(): self
     {
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function fold($z, Closure $op)
     {
         return $z;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function forAll(Closure $p): bool
     {
         return true;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function get()
     {
         throw new LogicException('None has no value.');
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function getIterator(): Traversable
     {
         return new EmptyIterator();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function getOrElse(Closure $default)
     {
         return $default();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function getOrElseValue($default)
     {
         return $default;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     protected function getRawIterable(): iterable
     {
         return [];
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function groupBy($f): Map
     {
         return Map::empty();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function head()
     {
         throw new LogicException('There is no value');
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function headOption(): Option
     {
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function isDefined(): bool
     {
         return false;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function isEmpty(): bool
     {
         return true;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function jsonSerialize()
     {
         return null;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function last()
     {
         throw new LogicException('There is no value');
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function lastOption(): Option
     {
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function map(Closure $f): self
     {
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function max()
     {
         throw new LogicException('empty.max');
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function maxBy(Closure $f)
     {
         throw new LogicException('empty.max');
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function min()
     {
         throw new LogicException('empty.min');
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function minBy(Closure $f)
     {
         throw new LogicException('empty.min');
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function mkString(string $sep = ''): string
     {
         return '';
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function nonEmpty(): bool
     {
         return false;
     }
 
     /**
-     * {@inheritdoc}
+     * PHP magic method: offsetExists.
+     *
+     * @param mixed $offset
+     * @return bool
      */
     public function offsetExists($offset): bool
     {
@@ -296,7 +237,10 @@ final class None extends Option
     }
 
     /**
-     * {@inheritdoc}
+     * PHP magic method: offsetGet.
+     *
+     * @param mixed $offset
+     * @return mixed|void
      */
     public function offsetGet($offset)
     {
@@ -304,7 +248,10 @@ final class None extends Option
     }
 
     /**
-     * {@inheritdoc}
+     * PHP magic method: offsetSet.
+     *
+     * @param mixed $offset
+     * @param mixed $value
      */
     public function offsetSet($offset, $value): void
     {
@@ -312,16 +259,16 @@ final class None extends Option
     }
 
     /**
-     * {@inheritdoc}
+     * PHP magic method: offsetUnset.
+     *
+     * @param mixed $offset
      */
     public function offsetUnset($offset): void
     {
         throw new BadMethodCallException();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function orElse(Closure $alternative): Option
     {
         $option = $alternative();
@@ -332,17 +279,13 @@ final class None extends Option
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function orNull()
     {
         return null;
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return array|\ScalikePHP\Seq[]
      */
     public function partition(Closure $p): array
@@ -350,57 +293,43 @@ final class None extends Option
         return [Seq::empty(), Seq::empty()];
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function pick($name): Option
     {
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function size(): int
     {
         return 0;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function sumBy(Closure $f): int
     {
         return 0;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function take(int $n): Option
     {
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function takeRight(int $n): Option
     {
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function toArray(): array
     {
         return [];
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function toSeq(): Seq
     {
         return Seq::empty();

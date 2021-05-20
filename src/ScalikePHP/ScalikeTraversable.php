@@ -21,9 +21,7 @@ use RuntimeException;
  */
 abstract class ScalikeTraversable implements ScalikeTraversableInterface
 {
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function each(Closure $f): void
     {
         foreach ($this->getRawIterable() as $key => $value) {
@@ -31,9 +29,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function exists(Closure $p): bool
     {
         foreach ($this->getRawIterable() as $value) {
@@ -44,17 +40,13 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
         return false;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function filterNot(Closure $p): self
     {
         return $this->filter(fn ($value): bool => !$p($value));
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function find(Closure $p): Option
     {
         foreach ($this->getRawIterable() as $value) {
@@ -65,9 +57,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
         return Option::none();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function forAll(Closure $p): bool
     {
         foreach ($this->getRawIterable() as $value) {
@@ -78,9 +68,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
         return true;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function generate(Closure $f): Generator
     {
         foreach ($this->getRawIterable() as $k => $v) {
@@ -111,9 +99,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function head()
     {
         foreach ($this->getRawIterable() as $value) {
@@ -122,9 +108,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
         throw new LogicException('There is no value');
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function headOption(): Option
     {
         foreach ($this->getRawIterable() as $value) {
@@ -133,40 +117,35 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
         return Option::none();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function last()
     {
         return $this->takeRight(1)->toSeq()->head();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function lastOption(): Option
     {
         return $this->takeRight(1)->toSeq()->headOption();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function mkString(string $sep = ''): string
     {
         return implode($sep, $this->toArray());
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function nonEmpty(): bool
     {
         return !$this->isEmpty();
     }
 
     /**
-     * {@inheritdoc}
+     * PHP magic method: offsetSet.
+     *
+     * @param mixed $offset
+     * @param mixed $value
      */
     public function offsetSet($offset, $value): void
     {
@@ -174,24 +153,22 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
     }
 
     /**
-     * {@inheritdoc}
+     * PHP magic method: offsetUnset.
+     *
+     * @param mixed $offset
      */
     public function offsetUnset($offset): void
     {
         throw new BadMethodCallException();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function sum()
     {
         return array_sum($this->toArray());
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function tail(): self
     {
         if ($this->isEmpty()) {

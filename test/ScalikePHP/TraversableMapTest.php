@@ -10,11 +10,11 @@ declare(strict_types=1);
 namespace Test\ScalikePHP;
 
 use ArrayIterator;
+use ScalikePHP\Implementations\TraversableMap;
 use ScalikePHP\Map;
-use ScalikePHP\TraversableMap;
 
 /**
- * Tests for {@link \ScalikePHP\TraversableMap}.
+ * Tests for {@link \ScalikePHP\Implementations\TraversableMap}.
  *
  * @internal
  */

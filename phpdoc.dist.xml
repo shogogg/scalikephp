@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<phpdocumentor configVersion="3.0">
+    <title>scalikephp</title>
+    <paths>
+        <output>docs</output>
+    </paths>
+    <version number="3.0.0">
+        <folder>latest</folder>
+        <api format="php">
+            <source dsn=".">
+                <path>src</path>
+            </source>
+            <output>api</output>
+            <visibility>public</visibility>
+            <include-source>false</include-source>
+            <ignore-tags>
+                <ignore-tag>mixin</ignore-tag>
+                <ignore-tag>noinspection</ignore-tag>
+            </ignore-tags>
+        </api>
+    </version>
+    <template name="default" />
+</phpdocumentor>

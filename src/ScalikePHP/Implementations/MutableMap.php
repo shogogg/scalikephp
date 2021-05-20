@@ -1,17 +1,15 @@
 <?php
 /**
- * Copyright (c) 2017 shogogg <shogo@studiofly.net>.
+ * Copyright (c) 2021 shogogg <shogo@studiofly.net>.
  *
  * This software is released under the MIT License.
  * http://opensource.org/licenses/mit-license.php
  */
 declare(strict_types=1);
 
-namespace ScalikePHP;
+namespace ScalikePHP\Implementations;
 
 use Closure;
-use ScalikePHP\Support\ArraySupport;
-use ScalikePHP\Support\MutableMapOps;
 use Traversable;
 
 /**
@@ -23,7 +21,9 @@ class MutableMap extends ArrayMap
     use MutableMapOps;
 
     /**
-     * {@link \ScalikePHP\MutableMap} Constructor.
+     * Constructor.
+     *
+     * The constructor of {@see \ScalikePHP\MutableMap}.
      *
      * @param iterable $iterable 値
      */
@@ -32,11 +32,7 @@ class MutableMap extends ArrayMap
         parent::__construct($iterable instanceof Traversable ? iterator_to_array($iterable) : $iterable);
     }
 
-    /**
-     * {@inheritdoc}
-     *
-     * @return self
-     */
+    // overrides
     public function append($keyOrArray, $value = null): self
     {
         if (is_iterable($keyOrArray)) {
@@ -49,41 +45,25 @@ class MutableMap extends ArrayMap
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     *
-     * @return self
-     */
+    // overrides
     public function filter(Closure $p): self
     {
         return new self($this->filterGenerator($p));
     }
 
-    /**
-     * {@inheritdoc}
-     *
-     * @return self
-     */
+    // overrides
     public function flatMap(Closure $f): self
     {
         return new self($this->flatMapGenerator($f));
     }
 
-    /**
-     * {@inheritdoc}
-     *
-     * @return self
-     */
+    // overrides
     public function map(Closure $f): self
     {
         return new self($this->mapGenerator($f));
     }
 
-    /**
-     * {@inheritdoc}
-     *
-     * @return self
-     */
+    // overrides
     public function mapValues(Closure $f): self
     {
         return new self($this->mapValuesGenerator($f));

@@ -7,15 +7,13 @@
  */
 declare(strict_types=1);
 
-namespace ScalikePHP\Support;
+namespace ScalikePHP\Implementations;
 
 use Closure;
 use Generator;
 use InvalidArgumentException;
 use LogicException;
 use RuntimeException;
-use ScalikePHP\ArrayMap;
-use ScalikePHP\ArraySeq;
 use ScalikePHP\Map;
 use ScalikePHP\Option;
 use ScalikePHP\Seq;
@@ -27,34 +25,26 @@ use ScalikePHP\Seq;
  */
 trait SeqOps
 {
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function append(iterable $that): Seq
     {
         return self::merge($this->getRawIterable(), $that);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function contains($elem): bool
     {
         return in_array($elem, $this->toArray(), true);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function distinct(): Seq
     {
         // `array_keys(array_count_values(...))` is faster than `array_unique(...)`
         return new ArraySeq(array_keys(array_count_values($this->toArray())));
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function distinctBy(Closure $f): Seq
     {
         return self::create(function () use ($f) {
@@ -69,9 +59,7 @@ trait SeqOps
         });
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function filter(Closure $p): Seq
     {
         return self::create(function () use ($p): Generator {
@@ -84,9 +72,7 @@ trait SeqOps
         });
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function flatMap(Closure $f): Seq
     {
         return self::create(function () use ($f): Generator {
@@ -103,9 +89,7 @@ trait SeqOps
         });
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function flatten(): Seq
     {
         return self::create(function (): Generator {
@@ -121,9 +105,7 @@ trait SeqOps
         });
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function fold($z, Closure $op)
     {
         foreach ($this->getRawIterable() as $value) {
@@ -132,9 +114,7 @@ trait SeqOps
         return $z;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function groupBy($f): Map
     {
         $g = $this->groupByClosure($f);
@@ -150,17 +130,13 @@ trait SeqOps
         return new ArrayMap($assoc);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function jsonSerialize(): array
     {
         return $this->toArray();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function map(Closure $f): Seq
     {
         return self::create(function () use ($f): Generator {
@@ -171,22 +147,16 @@ trait SeqOps
         });
     }
 
-    /**
-     * {@inheritdoc}
-     *
-     * @throws RuntimeException
-     */
+    // overrides
     public function max()
     {
         if ($this->isEmpty()) {
-            throw new RuntimeException('empty.max');
+            throw new LogicException('empty.max');
         }
         return max($this->toArray());
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function maxBy(Closure $f)
     {
         $maxValue = null;
@@ -201,9 +171,7 @@ trait SeqOps
         return $maxElement;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function min()
     {
         if ($this->isEmpty()) {
@@ -212,9 +180,7 @@ trait SeqOps
         return min($this->toArray());
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function minBy(Closure $f)
     {
         $minValue = null;
@@ -230,8 +196,6 @@ trait SeqOps
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return array|\ScalikePHP\Seq[]
      */
     public function partition(Closure $p): array
@@ -248,25 +212,19 @@ trait SeqOps
         return [new ArraySeq($a), new ArraySeq($b)];
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function prepend(iterable $that): Seq
     {
         return self::merge($that, $this->getRawIterable());
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function reverse(): Seq
     {
         return new ArraySeq(array_reverse($this->toArray()));
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function sortBy($f): Seq
     {
         $sortValues = [];
@@ -287,34 +245,25 @@ trait SeqOps
         return new ArraySeq($array);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function sumBy(Closure $f)
     {
         return $this->fold(0, $f);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function takeRight(int $n): Seq
     {
         return new ArraySeq(array_slice($this->toArray(), 0 - $n, $n));
     }
 
-    /**
-     * {@inheritdoc}
-     * @noinspection PhpUnused
-     */
+    // overrides
     public function toGenerator(): Generator
     {
         yield from $this->getRawIterable();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function toMap($key): Map
     {
         $assoc = [];
@@ -336,10 +285,7 @@ trait SeqOps
         return new ArrayMap($assoc);
     }
 
-    /**
-     * {@inheritdoc}
-     * @noinspection PhpIncompatibleReturnTypeInspection
-     */
+    // overrides
     public function toSeq(): Seq
     {
         return $this;

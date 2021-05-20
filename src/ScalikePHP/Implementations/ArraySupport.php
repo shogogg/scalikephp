@@ -1,13 +1,13 @@
 <?php
 /**
- * Copyright (c) 2017 shogogg <shogo@studiofly.net>.
+ * Copyright (c) 2021 shogogg <shogo@studiofly.net>.
  *
  * This software is released under the MIT License.
  * http://opensource.org/licenses/mit-license.php
  */
 declare(strict_types=1);
 
-namespace ScalikePHP\Support;
+namespace ScalikePHP\Implementations;
 
 use ArrayIterator;
 use OutOfBoundsException;
@@ -23,8 +23,6 @@ trait ArraySupport
     private array $array;
 
     /**
-     * Set the array.
-     *
      * @param mixed $array
      */
     protected function setArray(array $array): void
@@ -32,40 +30,35 @@ trait ArraySupport
         $this->array = $array;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function count(): int
     {
         return count($this->array);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function getIterator(): Traversable
     {
         return new ArrayIterator($this->array);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     protected function getRawIterable(): iterable
     {
         return $this->array;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function isEmpty(): bool
     {
         return empty($this->array);
     }
 
     /**
-     * {@inheritdoc}
+     * PHP magic method: offsetExists.
+     *
+     * @param $offset
+     * @return bool
      */
     public function offsetExists($offset): bool
     {
@@ -73,7 +66,10 @@ trait ArraySupport
     }
 
     /**
-     * {@inheritdoc}
+     * PHP magic method: offsetGet.
+     *
+     * @param $offset
+     * @return mixed
      */
     public function offsetGet($offset)
     {
@@ -84,9 +80,7 @@ trait ArraySupport
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function size(): int
     {
         return count($this->array);

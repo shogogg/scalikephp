@@ -21,7 +21,9 @@ final class CachingIterator implements IteratorAggregate
     private array $cache = [];
 
     /**
-     * {@link \ScalikePHP\Support\CachingIterator} constructor.
+     * Constructor.
+     *
+     * The constructor of {@see \ScalikePHP\Support\CachingIterator}.
      *
      * @param Iterator $iterator
      */
@@ -31,9 +33,7 @@ final class CachingIterator implements IteratorAggregate
         $this->iterator->rewind();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function getIterator(): Iterator
     {
         foreach ($this->cache as $key => $value) {

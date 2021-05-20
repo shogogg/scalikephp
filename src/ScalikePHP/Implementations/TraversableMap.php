@@ -1,17 +1,18 @@
 <?php
 /**
- * Copyright (c) 2017 shogogg <shogo@studiofly.net>.
+ * Copyright (c) 2021 shogogg <shogo@studiofly.net>.
  *
  * This software is released under the MIT License.
  * http://opensource.org/licenses/mit-license.php
  */
 declare(strict_types=1);
 
-namespace ScalikePHP;
+namespace ScalikePHP\Implementations;
 
 use Generator;
-use ScalikePHP\Support\MapOps;
-use ScalikePHP\Support\TraversableSupport;
+use ScalikePHP\Map;
+use ScalikePHP\Option;
+use ScalikePHP\Seq;
 use Traversable;
 
 /**
@@ -23,7 +24,9 @@ class TraversableMap extends Map
     use TraversableSupport;
 
     /**
-     * {@link \ScalikePHP\TraversableMap} Constructor.
+     * Constructor.
+     *
+     * The constructor of {@see \ScalikePHP\TraversableMap}.
      *
      * @param Traversable $traversable
      */
@@ -32,9 +35,7 @@ class TraversableMap extends Map
         $this->setTraversable($traversable);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function append($keyOrArray, $value = null): Map
     {
         return Map::create(function () use ($keyOrArray, $value): Generator {
@@ -43,17 +44,13 @@ class TraversableMap extends Map
         });
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function contains($key): bool
     {
         return array_key_exists($key, $this->toAssoc());
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function drop(int $n): Map
     {
         return $n <= 0 ? $this : Map::create(function () use ($n): Traversable {
@@ -68,25 +65,19 @@ class TraversableMap extends Map
         });
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function get($key): Option
     {
         return Option::fromArray($this->toAssoc(), $key);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function keys(): Seq
     {
         return new ArraySeq(array_keys($this->toAssoc()));
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function take(int $n): Map
     {
         if ($n > 0) {
@@ -106,26 +97,20 @@ class TraversableMap extends Map
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function toAssoc(): array
     {
         $this->compute();
         return $this->array;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function values(): Seq
     {
         return new ArraySeq(array_values($this->toAssoc()));
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     protected function compute(): void
     {
         if ($this->computed === false) {

@@ -65,7 +65,7 @@ interface ScalikeTraversableInterface extends ArrayAccess, \Countable, \Iterator
      * Finds the first element of this collection satisfying a predicate, if any.
      *
      * @param Closure $p the predicate used to test elements.
-     * @return \ScalikePHP\Option an option value containing the first element in this collection that satisfies p,
+     * @return \ScalikePHP\Option an Option containing the first element in this collection that satisfies `$p`,
      *                            or None if none exists.
      */
     public function find(Closure $p): Option;
@@ -131,7 +131,7 @@ interface ScalikeTraversableInterface extends ArrayAccess, \Countable, \Iterator
     /**
      * Optionally selects the first element.
      *
-     * @return \ScalikePHP\Option the first element of this collection if it is nonempty, None if it is empty.
+     * @return \ScalikePHP\Option the first element of this collection if it is non-empty, None if it is empty.
      */
     public function headOption(): Option;
 
@@ -153,7 +153,7 @@ interface ScalikeTraversableInterface extends ArrayAccess, \Countable, \Iterator
     /**
      * Optionally selects the last element.
      *
-     * @return \ScalikePHP\Option the last element of this collection if it is nonempty, None if it is empty.
+     * @return \ScalikePHP\Option the last element of this collection if it is non-empty, None if it is empty.
      */
     public function lastOption(): Option;
 
@@ -280,14 +280,14 @@ interface ScalikeTraversableInterface extends ArrayAccess, \Countable, \Iterator
     public function toArray(): array;
 
     /**
-     * Converts this collection to a {@link Generator}.
+     * Converts this collection to a Generator.
      *
      * @return Generator
      */
     public function toGenerator(): Generator;
 
     /**
-     * Converts this collection to a {@link \ScalikePHP\Seq}.
+     * Converts this collection to a Seq.
      *
      * @return \ScalikePHP\Seq
      */

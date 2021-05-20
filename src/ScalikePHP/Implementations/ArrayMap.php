@@ -1,16 +1,17 @@
 <?php
 /**
- * Copyright (c) 2017 shogogg <shogo@studiofly.net>.
+ * Copyright (c) 2021 shogogg <shogo@studiofly.net>.
  *
  * This software is released under the MIT License.
  * http://opensource.org/licenses/mit-license.php
  */
 declare(strict_types=1);
 
-namespace ScalikePHP;
+namespace ScalikePHP\Implementations;
 
-use ScalikePHP\Support\ArraySupport;
-use ScalikePHP\Support\MapOps;
+use ScalikePHP\Map;
+use ScalikePHP\Option;
+use ScalikePHP\Seq;
 
 /**
  * A Seq implementation using array.
@@ -21,7 +22,9 @@ class ArrayMap extends Map
     use MapOps;
 
     /**
-     * {@link \ScalikePHP\ArrayMap} Constructor.
+     * Constructor.
+     *
+     * The constructor of {@see \ScalikePHP\ArrayMap}.
      *
      * @param array $assoc
      */
@@ -30,53 +33,42 @@ class ArrayMap extends Map
         $this->setArray($assoc);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function append($keyOrArray, $value = null): Map
     {
         $assoc = array_merge(
+            $this->array,
             $this->array,
             is_array($keyOrArray) ? $keyOrArray : [$keyOrArray => $value]
         );
         return new self($assoc);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function contains($key): bool
     {
         return isset($this->array[$key]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function drop(int $n): Map
     {
         return $n <= 0 ? $this : new self(array_slice($this->array, $n));
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function get($key): Option
     {
         return Option::fromArray($this->array, $key);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function keys(): Seq
     {
         return new ArraySeq(array_keys($this->array));
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function take(int $n): Map
     {
         if ($n > 0) {
@@ -88,17 +80,13 @@ class ArrayMap extends Map
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function toAssoc(): array
     {
         return $this->array;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function values(): Seq
     {
         return new ArraySeq(array_values($this->array));

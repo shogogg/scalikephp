@@ -7,13 +7,12 @@
  */
 declare(strict_types=1);
 
-namespace ScalikePHP\Support;
+namespace ScalikePHP\Implementations;
 
 use Closure;
 use Generator;
 use LogicException;
 use RuntimeException;
-use ScalikePHP\ArrayMap;
 use ScalikePHP\Map;
 use ScalikePHP\Option;
 use ScalikePHP\Seq;
@@ -25,9 +24,7 @@ use ScalikePHP\Seq;
  */
 trait MapOps
 {
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function exists(Closure $p): bool
     {
         foreach ($this->getRawIterable() as $key => $value) {
@@ -38,17 +35,13 @@ trait MapOps
         return false;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function filter(Closure $p): Map
     {
         return self::from($this->filterGenerator($p));
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function find(Closure $p): Option
     {
         foreach ($this->getRawIterable() as $key => $value) {
@@ -59,18 +52,13 @@ trait MapOps
         return Option::none();
     }
 
-    /**
-     * {@inheritdoc}
-     * @noinspection PhpUnused
-     */
+    // overrides
     public function flatMap(Closure $f): Map
     {
         return self::from($this->flatMapGenerator($f));
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function groupBy($f): Map
     {
         $g = $this->groupByClosure($f);
@@ -86,17 +74,13 @@ trait MapOps
         return new ArrayMap($assoc);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function flatten(): Map
     {
         throw new LogicException('Map::flatten() has not supported');
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function fold($z, Closure $op)
     {
         foreach ($this->getRawIterable() as $key => $value) {
@@ -105,10 +89,7 @@ trait MapOps
         return $z;
     }
 
-    /**
-     * {@inheritdoc}
-     * @noinspection PhpUnused
-     */
+    // overrides
     public function forAll(Closure $p): bool
     {
         foreach ($this->getRawIterable() as $key => $value) {
@@ -119,19 +100,14 @@ trait MapOps
         return true;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function getOrElse($key, Closure $default)
     {
         return $this->get($key)->getOrElse($default);
     }
 
-    /**
-     * {@inheritdoc}
-     * @noinspection PhpMissingReturnTypeInspection
-     */
-    public function head()
+    // overrides
+    public function head(): array
     {
         foreach ($this->getRawIterable() as $key => $value) {
             return [$key, $value];
@@ -139,10 +115,7 @@ trait MapOps
         throw new LogicException('There is no value');
     }
 
-    /**
-     * {@inheritdoc}
-     * @noinspection PhpUnused
-     */
+    // overrides
     public function headOption(): Option
     {
         foreach ($this->getRawIterable() as $key => $value) {
@@ -151,44 +124,32 @@ trait MapOps
         return Option::none();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function jsonSerialize(): array
     {
         return $this->toAssoc();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function map(Closure $f): Map
     {
         return self::fromTraversable($this->mapGenerator($f));
     }
 
-    /**
-     * {@inheritdoc}
-     * @noinspection PhpUnused
-     */
+    // overrides
     public function mapValues(Closure $f): Map
     {
         return self::fromTraversable($this->mapValuesGenerator($f));
     }
 
-    /**
-     * {@inheritdoc}
-     * @noinspection PhpUnused
-     */
+    // overrides
     public function mkString(string $sep = ''): string
     {
         $f = fn (array $x): string => "{$x[0]} => {$x[1]}";
         return $this->toSeq()->map($f)->mkString($sep);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function max(): array
     {
         if ($this->isEmpty()) {
@@ -197,10 +158,7 @@ trait MapOps
         return [$key = $this->keys()->max(), $this->get($key)->get()];
     }
 
-    /**
-     * {@inheritdoc}
-     * @noinspection PhpUnused
-     */
+    // overrides
     public function maxBy(Closure $f): array
     {
         if ($this->isEmpty()) {
@@ -218,9 +176,7 @@ trait MapOps
         return $res;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function min(): array
     {
         if ($this->isEmpty()) {
@@ -229,10 +185,7 @@ trait MapOps
         return [$key = $this->keys()->min(), $this->get($key)->get()];
     }
 
-    /**
-     * {@inheritdoc}
-     * @noinspection PhpUnused
-     */
+    // overrides
     public function minBy(Closure $f): array
     {
         if ($this->isEmpty()) {
@@ -251,9 +204,7 @@ trait MapOps
     }
 
     /**
-     * {@inheritdoc}
-     *
-     * @return \ScalikePHP\Map[]
+     * @return array|\ScalikePHP\Map[]
      */
     public function partition(Closure $p): array
     {
@@ -269,27 +220,19 @@ trait MapOps
         return [new ArrayMap($a), new ArrayMap($b)];
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function sum()
     {
         throw new LogicException('`Map::sum()` has not supported: Use `Map::sumBy()` instead');
     }
 
-    /**
-     * {@inheritdoc}
-     * @noinspection PhpUnused
-     */
+    // overrides
     public function sumBy(Closure $f)
     {
         return $this->fold(0, $f);
     }
 
-    /**
-     * {@inheritdoc}
-     * @noinspection PhpIncompatibleReturnTypeInspection
-     */
+    // overrides
     public function takeRight(int $n): Map
     {
         if ($n > 0) {
@@ -301,18 +244,13 @@ trait MapOps
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function toArray(): array
     {
         return $this->toSeq()->toArray();
     }
 
-    /**
-     * {@inheritdoc}
-     * @noinspection PhpUnused
-     */
+    // overrides
     public function toGenerator(): Generator
     {
         foreach ($this->getRawIterable() as $key => $value) {
@@ -320,9 +258,7 @@ trait MapOps
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function toSeq(): Seq
     {
         return Seq::create(function (): Generator {

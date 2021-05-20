@@ -9,11 +9,11 @@ declare(strict_types=1);
 
 namespace Test\ScalikePHP;
 
-use ScalikePHP\ArrayMap;
+use ScalikePHP\Implementations\ArrayMap;
 use ScalikePHP\Map;
 
 /**
- * Tests for {@link \ScalikePHP\ArrayMap}.
+ * Tests for {@link \ScalikePHP\Implementations\ArrayMap}.
  *
  * @internal
  */

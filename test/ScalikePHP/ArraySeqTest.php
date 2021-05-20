@@ -9,11 +9,11 @@ declare(strict_types=1);
 
 namespace Test\ScalikePHP;
 
-use ScalikePHP\ArraySeq;
+use ScalikePHP\Implementations\ArraySeq;
 use ScalikePHP\Seq;
 
 /**
- * Tests for {@link \ScalikePHP\ArraySeq}.
+ * Tests for {@link \ScalikePHP\Implementations\ArraySeq}.
  *
  * @internal
  */
@@ -31,7 +31,7 @@ final class ArraySeqTest extends TestCase
 
     /**
      * @test
-     * @covers \ScalikePHP\ArraySeq::computed()
+     * @covers \ScalikePHP\Implementations\ArraySeq::computed()
      */
     public function testComputed(): void
     {

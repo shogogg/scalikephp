@@ -14,8 +14,10 @@ use ArrayIterator;
 use Closure;
 use JsonSerializable;
 use LogicException;
-use ScalikePHP\Support\ArraySupport;
-use ScalikePHP\Support\OptionOps;
+use ScalikePHP\Implementations\ArrayMap;
+use ScalikePHP\Implementations\ArraySeq;
+use ScalikePHP\Implementations\ArraySupport;
+use ScalikePHP\Implementations\OptionOps;
 use Traversable;
 
 /**
@@ -38,7 +40,9 @@ final class Some extends Option
     }
 
     /**
-     * {@link \ScalikePHP\Some} Constructor.
+     * Constructor.
+     *
+     * The constructor of {@see \ScalikePHP\Some}.
      *
      * @param mixed $value 値
      */
@@ -47,25 +51,19 @@ final class Some extends Option
         $this->setArray([$value]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function drop(int $n): Seq
     {
         return $n <= 0 ? $this->toSeq() : Seq::empty();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function filter(Closure $p): Option
     {
         return $p($this->array[0]) ? $this : Option::none();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function flatMap(Closure $f): Option
     {
         $option = $f($this->array[0]);
@@ -76,9 +74,7 @@ final class Some extends Option
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function flatten(): Option
     {
         if ($this->array[0] instanceof Option) {
@@ -88,49 +84,37 @@ final class Some extends Option
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function fold($z, Closure $op)
     {
         return $op($z, $this->array[0]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function get()
     {
         return $this->array[0];
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function getIterator(): Traversable
     {
         return new ArrayIterator($this->array);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function getOrElse(Closure $default)
     {
         return $this->array[0];
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function getOrElseValue($default)
     {
         return $this->array[0];
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function groupBy($f): Map
     {
         $g = $this->groupByClosure($f);
@@ -142,82 +126,62 @@ final class Some extends Option
         return new ArrayMap($assoc);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function isDefined(): bool
     {
         return true;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function jsonSerialize()
     {
         $value = $this->array[0];
         return $value instanceof JsonSerializable ? $value->jsonSerialize() : $value;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function map(Closure $f): self
     {
         return new self($f($this->array[0]));
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function max()
     {
         return $this->array[0];
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function maxBy(Closure $f)
     {
         return $this->array[0];
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function min()
     {
         return $this->array[0];
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function minBy(Closure $f)
     {
         return $this->array[0];
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function orElse(Closure $alternative): Option
     {
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function orNull()
     {
         return $this->array[0];
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return array|\ScalikePHP\Seq[]
      */
     public function partition(Closure $p): array
@@ -228,25 +192,19 @@ final class Some extends Option
             : [Seq::empty(), Seq::from($value)];
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function sum()
     {
         return $this->array[0];
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function sumBy(Closure $f)
     {
         return $this->array[0];
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function pick($name): Option
     {
         $value = $this->array[0];
@@ -259,17 +217,13 @@ final class Some extends Option
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function toArray(): array
     {
         return $this->array;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function toSeq(): Seq
     {
         return new ArraySeq($this->array);

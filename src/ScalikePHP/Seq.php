@@ -92,7 +92,7 @@ abstract class Seq extends ScalikeTraversable
     abstract public function sortBy($f): self;
 
     /**
-     * Converts this sequence to a {@link \ScalikePHP\Map}.
+     * Converts this sequence to a Map.
      *
      * @param Closure|string $key
      * @throws InvalidArgumentException

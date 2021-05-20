@@ -7,7 +7,7 @@
  */
 declare(strict_types=1);
 
-namespace ScalikePHP\Support;
+namespace ScalikePHP\Implementations;
 
 use Generator;
 use ScalikePHP\Option;
@@ -19,27 +19,19 @@ use ScalikePHP\Option;
  */
 trait OptionOps
 {
-    /**
-     * {@inheritdoc}
-     * @noinspection PhpIncompatibleReturnTypeInspection
-     */
+    // overrides
     public function take(int $n): Option
     {
         return $n <= 0 ? self::none() : $this;
     }
 
-    /**
-     * {@inheritdoc}
-     * @noinspection PhpIncompatibleReturnTypeInspection
-     */
+    // overrides
     public function takeRight(int $n): Option
     {
         return $n <= 0 ? self::none() : $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // overrides
     public function toGenerator(): Generator
     {
         foreach ($this->toArray() as $index => $value) {

@@ -20,7 +20,7 @@ use ScalikePHP\Some;
 trait OptionBuilder
 {
     /**
-     * Returns an {@link \ScalikePHP\Option} of the value.
+     * Returns an Option of the value.
      *
      * @param mixed $value
      * @param mixed $none
@@ -32,7 +32,7 @@ trait OptionBuilder
     }
 
     /**
-     * Returns an {@link \ScalikePHP\Option} of the array element.
+     * Returns an Option of the array element.
      *
      * @param array|ArrayAccess $array
      * @param int|string $key
@@ -45,7 +45,7 @@ trait OptionBuilder
     }
 
     /**
-     * Returns a {@link \ScalikePHP\Some} of the value.
+     * Returns a Some of the value.
      *
      * @param mixed $value
      * @return \ScalikePHP\Some
@@ -56,7 +56,7 @@ trait OptionBuilder
     }
 
     /**
-     * Returns the {@link \ScalikePHP\None} instance.
+     * Returns the None instance.
      *
      * @return \ScalikePHP\None
      */
