@@ -1,30 +1,30 @@
 <?php
 /**
- * Copyright (c) 2017 shogogg <shogo@studiofly.net>
+ * Copyright (c) 2017 shogogg <shogo@studiofly.net>.
  *
  * This software is released under the MIT License.
  * http://opensource.org/licenses/mit-license.php
  */
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Test\ScalikePHP;
 
+use Closure;
+use Exception;
 use ScalikePHP\None;
 use ScalikePHP\Option;
 use ScalikePHP\Some;
 
 final class Assert
 {
-
     /**
      * Asserts that a condition is false.
      *
      * @param bool $condition
      * @param string $message
-     * @return void
      * @see TestCase::assertFalse()
      */
-    public static function false(bool $condition, string $message = ""): void
+    public static function false(bool $condition, string $message = ''): void
     {
         TestCase::assertFalse($condition, $message);
     }
@@ -35,7 +35,6 @@ final class Assert
      * @param string $expected
      * @param mixed $actual
      * @param string $message
-     * @return void
      * @see TestCase::assertInstanceOf()
      */
     public static function instanceOf(string $expected, $actual, string $message = ''): void
@@ -48,9 +47,8 @@ final class Assert
      *
      * @param Option $actual
      * @param string $message
-     * @return void
      */
-    public static function none(Option $actual, string $message = ""): void
+    public static function none(Option $actual, string $message = ''): void
     {
         TestCase::assertInstanceOf(None::class, $actual, $message);
     }
@@ -61,10 +59,9 @@ final class Assert
      * @param $expected
      * @param $actual
      * @param string $message
-     * @return void
      * @see TestCase::assertSame()
      */
-    public static function same($expected, $actual, string $message = ""): void
+    public static function same($expected, $actual, string $message = ''): void
     {
         TestCase::assertSame($expected, $actual, $message);
     }
@@ -75,9 +72,8 @@ final class Assert
      * @param mixed $expected
      * @param Option $actual
      * @param string $message
-     * @return void
      */
-    public static function some($expected, Option $actual, string $message = ""): void
+    public static function some($expected, Option $actual, string $message = ''): void
     {
         TestCase::assertInstanceOf(Some::class, $actual, $message);
         TestCase::assertSame($expected, $actual->get(), $message);
@@ -87,16 +83,15 @@ final class Assert
      * Asserts that an exception throws in block.
      *
      * @param string $expected
-     * @param \Closure $block
+     * @param Closure $block
      * @param string $message
-     * @return void
      */
-    public static function throws(string $expected, \Closure $block, string $message = ""): void
+    public static function throws(string $expected, Closure $block, string $message = ''): void
     {
         try {
             $block();
             TestCase::fail($message);
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             TestCase::assertInstanceOf($expected, $exception, $message);
         }
     }
@@ -106,12 +101,10 @@ final class Assert
      *
      * @param bool $condition
      * @param string $message
-     * @return void
      * @see TestCase::assertTrue()
      */
-    public static function true(bool $condition, string $message = ""): void
+    public static function true(bool $condition, string $message = ''): void
     {
         TestCase::assertTrue($condition, $message);
     }
-
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2017 shogogg <shogo@studiofly.net>
+ * Copyright (c) 2017 shogogg <shogo@studiofly.net>.
  *
  * This software is released under the MIT License.
  * http://opensource.org/licenses/mit-license.php
@@ -9,413 +9,94 @@ declare(strict_types=1);
 
 namespace ScalikePHP;
 
-use ScalikePHP\Support\ClosureIterator;
+use Closure;
+use InvalidArgumentException;
+use ScalikePHP\Support\SeqBuilder;
 
 /**
  * Scala like Seq.
  */
 abstract class Seq extends ScalikeTraversable
 {
+    use SeqBuilder;
 
     /**
-     * 空の Seq.
+     * Returns a new sequence containing the elements from this sequence followed by the elements from `$that`.
      *
-     * @var Seq
-     */
-    private static $empty = null;
-
-    /**
-     * Create an instance from generator function.
-     *
-     * @param \Closure $f
+     * @param iterable $that the iterable to append.
      * @return \ScalikePHP\Seq
      */
-    final public static function create(\Closure $f): Seq
-    {
-        return self::fromTraversable(new ClosureIterator($f));
-    }
+    abstract public function append(iterable $that): self;
 
     /**
-     * Get an empty Seq instance.
+     * Returns the evaluated sequence.
      *
-     * @return Seq
-     */
-    final public static function emptySeq(): Seq
-    {
-        if (self::$empty === null) {
-            self::$empty = new ArraySeq([]);
-        }
-        return self::$empty;
-    }
-
-    /**
-     * Create a Seq instance from arguments.
-     *
-     * @param array $items
-     * @return Seq
-     */
-    final public static function from(...$items): Seq
-    {
-        return new ArraySeq($items);
-    }
-
-    /**
-     * Create an instance from an iterable.
-     *
-     * @param iterable|null $iterable
-     * @return Seq
-     * @throws \InvalidArgumentException
-     */
-    final public static function fromArray(?iterable $iterable): Seq
-    {
-        if ($iterable === null) {
-            return self::emptySeq();
-        } elseif (is_array($iterable)) {
-            return empty($iterable) ? static::emptySeq() : new ArraySeq($iterable);
-        } elseif ($iterable instanceof \Traversable) {
-            return self::fromTraversable($iterable);
-        } else {
-            throw new \InvalidArgumentException("Seq::fromArray() needs to iterable");
-        }
-    }
-
-    /**
-     * Create an instance from an iterator.
-     *
-     * @param \Traversable $traversable
      * @return \ScalikePHP\Seq
      */
-    final public static function fromTraversable(\Traversable $traversable): Seq
-    {
-        return new TraversableSeq($traversable);
-    }
+    abstract public function computed(): self;
 
     /**
-     * Create an instance from two iterables.
+     * Tests whether this sequence contains a given value as an element.
      *
-     * @param iterable $a
-     * @param iterable $b
+     * @param mixed $elem the element to test.
+     * @return bool true if this sequence has an element that is equal (as determined by `===`) to `$elem`, false otherwise.
+     */
+    abstract public function contains($elem): bool;
+
+    /**
+     * Selects all the elements of this sequence ignoring the duplicates.
+     *
+     * @return \ScalikePHP\Seq a new sequence consisting of all the elements of this sequence without duplicates.
+     */
+    abstract public function distinct(): self;
+
+    /**
+     * Selects all the elements of this sequence ignoring the duplicates
+     * as determined by `===` after applying the transforming function `$f`.
+     *
+     * @param Closure $f the transforming function whose result is used to determine the uniqueness of each element.
+     * @return \ScalikePHP\Seq a new sequence consisting of all the elements of this sequence without duplicates.
+     */
+    abstract public function distinctBy(Closure $f): self;
+
+    /**
+     * Finds index of first occurrence of some value in this sequence.
+     *
+     * @param mixed $elem the element value to search for.
+     * @return int the index >= 0 of the first element of this sequence that is equal (as determined by `===`) to elem,
+     *             or -1, if none exists.
+     */
+    abstract public function indexOf($elem): int;
+
+    /**
+     * Returns a new sequence containing the elements from `$that` followed by the elements from this sequence.
+     *
+     * @param iterable $that the iterable to prepend.
      * @return \ScalikePHP\Seq
      */
-    final public static function merge(iterable $a, iterable $b): Seq
-    {
-        return self::create(function () use ($a, $b) {
-            $i = 0;
-            foreach ($a as $x) {
-                yield $i++ => $x;
-            }
-            foreach ($b as $x) {
-                yield $i++ => $x;
-            }
-        });
-    }
+    abstract public function prepend(iterable $that): self;
 
     /**
-     * 末尾に要素を追加する.
+     * Returns new sequence with elements in reversed order.
      *
-     * @param iterable $that
-     * @return Seq
-     *
-     * @throws \Exception
+     * @return \ScalikePHP\Seq
      */
-    public function append(iterable $that): Seq
-    {
-        return self::merge($this->getRawIterable(), $that);
-    }
+    abstract public function reverse(): self;
 
     /**
-     * 指定された値が含まれているかどうかを判定する.
+     * Sorts this sequence according to the ordering with a transformation function.
      *
-     * @param mixed $elem
-     * @return bool
+     * @param Closure|string $f the transformation function or key of each element.
+     * @return \ScalikePHP\Seq a sequence consisting of the elements of this sequence sorted.
      */
-    public function contains($elem): bool
-    {
-        return in_array($elem, $this->toArray(), true);
-    }
+    abstract public function sortBy($f): self;
 
     /**
-     * 重複を排除した Seq を返す.
+     * Converts this sequence to a {@link \ScalikePHP\Map}.
      *
-     * @return Seq
+     * @param Closure|string $key
+     * @throws InvalidArgumentException
+     * @return \ScalikePHP\Map
      */
-    public function distinct(): Seq
-    {
-        // `array_keys(array_count_values(...))` is faster than `array_unique(...)`
-        return new ArraySeq(array_keys(array_count_values($this->toArray())));
-    }
-
-    /**
-     * 指定された関数の戻り値を用いて重複を排除した Seq を返す.
-     *
-     * @param \Closure $f
-     * @return Seq
-     */
-    public function distinctBy(\Closure $f): Seq
-    {
-        return self::create(function () use ($f) {
-            $keys = [];
-            foreach ($this->getRawIterable() as $value) {
-                $key = $f($value);
-                if (!in_array($key, $keys, true)) {
-                    $keys[] = $key;
-                    yield $value;
-                }
-            }
-        });
-    }
-
-    /** {@inheritdoc} */
-    public function filter(\Closure $p): Seq
-    {
-        return static::create(function () use ($p): \Traversable {
-            $index = 0;
-            foreach ($this->getRawIterable() as $value) {
-                if ($p($value)) {
-                    yield $index++ => $value;
-                }
-            }
-        });
-    }
-
-    /** {@inheritdoc} */
-    public function flatMap(\Closure $f): Seq
-    {
-        return self::create(function () use ($f): \Generator {
-            $index = 0;
-            foreach ($this->getRawIterable() as $value) {
-                $xs = $f($value);
-                if (is_iterable($xs) === false) {
-                    throw new \LogicException("Closure should returns an iterable");
-                }
-                foreach ($xs as $x) {
-                    yield $index++ => $x;
-                }
-            }
-        });
-    }
-
-    /** {@inheritdoc} */
-    public function flatten(): Seq
-    {
-        return self::create(function (): \Generator {
-            $index = 0;
-            foreach ($this->getRawIterable() as $value) {
-                if (is_iterable($value) === false) {
-                    throw new \LogicException("Closure should returns an iterable");
-                }
-                foreach ($value as $x) {
-                    yield $index++ => $x;
-                }
-            }
-        });
-    }
-
-    /**
-     * 要素を順番に処理してたたみ込む
-     *
-     * @param mixed $z
-     * @param \Closure $f
-     * @return mixed
-     */
-    public function fold($z, \Closure $f)
-    {
-        foreach ($this->getRawIterable() as $value) {
-            $z = $f($z, $value);
-        }
-        return $z;
-    }
-
-    /** {@inheritdoc} */
-    public function groupBy($f): Map
-    {
-        $g = $this->groupByClosure($f);
-        $assoc = [];
-        foreach ($this->getRawIterable() as $key => $value) {
-            $x = $g($value);
-            $assoc[$x] = isset($assoc[$x]) ? $assoc[$x] : [];
-            $assoc[$x][] = $value;
-        }
-        foreach ($assoc as $key => $xs) {
-            $assoc[$key] = new ArraySeq($xs);
-        }
-        return new ArrayMap($assoc);
-    }
-
-    /** {@inheritdoc} */
-    public function jsonSerialize(): array
-    {
-        return $this->toArray();
-    }
-
-    /** {@inheritdoc} */
-    public function map(\Closure $f): Seq
-    {
-        return self::create(function () use ($f): \Generator {
-            $index = 0;
-            foreach ($this->getRawIterable() as $value) {
-                yield $index++ => $f($value);
-            }
-        });
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @throws \RuntimeException
-     */
-    public function max()
-    {
-        if ($this->isEmpty()) {
-            throw new \RuntimeException("empty.max");
-        }
-        return max($this->toArray());
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @throws \Exception
-     * @throws \RuntimeException
-     */
-    public function maxBy(\Closure $f)
-    {
-        $maxValue = null;
-        $maxElement = null;
-        foreach ($this->getRawIterable() as $element) {
-            $value = $f($element);
-            if ($maxValue === null || $maxValue < $value) {
-                $maxValue = $value;
-                $maxElement = $element;
-            }
-        }
-        return $maxElement;
-    }
-
-    /** {@inheritdoc} */
-    public function min()
-    {
-        if ($this->isEmpty()) {
-            throw new \RuntimeException("empty.min");
-        }
-        return min($this->toArray());
-    }
-
-    /** {@inheritdoc} */
-    public function minBy(\Closure $f)
-    {
-        $minValue = null;
-        $minElement = null;
-        foreach ($this->getRawIterable() as $element) {
-            $value = $f($element);
-            if ($minValue === null || $minValue > $value) {
-                $minValue = $value;
-                $minElement = $element;
-            }
-        }
-        return $minElement;
-    }
-
-    /**
-     * 先頭に要素を追加する
-     *
-     * @param iterable $that
-     * @return Seq
-     */
-    public function prepend(iterable $that): Seq
-    {
-        return self::merge($that, $this->getRawIterable());
-    }
-
-    /**
-     * 逆順にした Seq を返す.
-     *
-     * @return Seq
-     */
-    public function reverse(): Seq
-    {
-        return new ArraySeq(array_reverse($this->toArray()));
-    }
-
-    /**
-     * 指定された関数の戻り値（または指定されたキーの値）を用いてソートされた Seq を返す.
-     *
-     * @param string|\Closure $f
-     * @return Seq
-     */
-    public function sortBy($f): Seq
-    {
-        $sortValues = [];
-        if (is_string($f)) {
-            foreach ($this->toArray() as $value) {
-                $sortValues[] = Option::fromArray($value, $f)->orNull();
-            }
-        } elseif ($f instanceof \Closure) {
-            foreach ($this->toArray() as $value) {
-                $sortValues[] = $f($value);
-            }
-        } else {
-            $type = gettype($f);
-            throw new \InvalidArgumentException("Seq::sortWith() needs a string or \\Closure. {$type} given.");
-        }
-        $array = $this->toArray();
-        array_multisort($sortValues, SORT_ASC, SORT_REGULAR, $array);
-        return new ArraySeq($array);
-    }
-
-    /** {@inheritdoc} */
-    public function sumBy(\Closure $f)
-    {
-        return $this->fold(0, $f);
-    }
-
-    /** {@inheritdoc} */
-    public function takeRight(int $n): Seq
-    {
-        return new ArraySeq(array_slice($this->toArray(), 0 - $n, $n));
-    }
-
-    /** {@inheritdoc} */
-    public function toGenerator(): \Generator
-    {
-        yield from $this->getRawIterable();
-    }
-
-    /**
-     * Map に変換する
-     *
-     * $key に string が渡された場合は各要素から $key に該当する要素|プロパティを探し、それをキーとする
-     * $key に \Closure が渡された場合は各要素を引数として $key を実行し、それをキーとする
-     *
-     * @param string|\Closure $key
-     * @return Map
-     * @throws \Exception
-     */
-    public function toMap($key): Map
-    {
-        $assoc = [];
-        if (is_string($key)) {
-            foreach ($this->getRawIterable() as $value) {
-                $k = Option::from($value)->pick($key)->getOrElse(function () use ($key): void {
-                    throw new \RuntimeException("Undefined index {$key}");
-                });
-                $assoc[$k] = $value;
-            }
-        } elseif ($key instanceof \Closure) {
-            foreach ($this->getRawIterable() as $value) {
-                $assoc[$key($value)] = $value;
-            }
-        } else {
-            $type = gettype($key);
-            throw new \InvalidArgumentException("Seq::toMap() needs a string or \\Closure. {$type} given.");
-        }
-        return new ArrayMap($assoc);
-    }
-
-    /** {@inheritdoc} */
-    public function toSeq(): Seq
-    {
-        return $this;
-    }
-
+    abstract public function toMap($key): Map;
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2017 shogogg <shogo@studiofly.net>
+ * Copyright (c) 2017 shogogg <shogo@studiofly.net>.
  *
  * This software is released under the MIT License.
  * http://opensource.org/licenses/mit-license.php
@@ -9,6 +9,13 @@ declare(strict_types=1);
 
 namespace ScalikePHP\Support;
 
+use ArrayIterator;
+use Exception;
+use Generator;
+use NoRewindIterator;
+use OutOfBoundsException;
+use Traversable;
+
 /**
  * ScalikeTraversable implementation using an iterator(\Traversable).
  *
@@ -16,31 +23,18 @@ namespace ScalikePHP\Support;
  */
 trait TraversableSupport
 {
-
-    /**
-     * @var array
-     */
-    protected $array;
-
-    /**
-     * @var \Traversable
-     */
-    protected $traversable;
-
-    /**
-     * @var bool
-     */
-    protected $computed = false;
+    protected array $array;
+    protected Traversable $traversable;
+    protected bool $computed = false;
 
     /**
      * Set the traversable.
      *
-     * @param \Traversable $traversable
-     * @return void
+     * @param Traversable $traversable
      */
-    protected function setTraversable(\Traversable $traversable): void
+    protected function setTraversable(Traversable $traversable): void
     {
-        $this->traversable = $traversable instanceof \Generator || $traversable instanceof \NoRewindIterator
+        $this->traversable = $traversable instanceof Generator || $traversable instanceof NoRewindIterator
             ? new CachingIterator($traversable)
             : $traversable;
     }
@@ -48,20 +42,24 @@ trait TraversableSupport
     /**
      * {@inheritdoc}
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function count(): int
     {
         return count($this->toArray());
     }
 
-    /** {@inheritdoc} */
-    public function getIterator(): \Traversable
+    /**
+     * {@inheritdoc}
+     */
+    public function getIterator(): Traversable
     {
-        return $this->computed ? new \ArrayIterator($this->array) : $this->traversable;
+        return $this->computed ? new ArrayIterator($this->array) : $this->traversable;
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     protected function getRawIterable(): iterable
     {
         return $this->computed ? $this->array : $this->traversable;
@@ -70,7 +68,7 @@ trait TraversableSupport
     /**
      * {@inheritdoc}
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function isEmpty(): bool
     {
@@ -80,7 +78,7 @@ trait TraversableSupport
     /**
      * {@inheritdoc}
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function offsetExists($offset): bool
     {
@@ -91,7 +89,7 @@ trait TraversableSupport
     /**
      * {@inheritdoc}
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function offsetGet($offset)
     {
@@ -99,14 +97,14 @@ trait TraversableSupport
         if (isset($this->array[$offset])) {
             return $this->array[$offset];
         } else {
-            throw new \OutOfBoundsException("Undefined offset: {$offset}");
+            throw new OutOfBoundsException("Undefined offset: {$offset}");
         }
     }
 
     /**
      * {@inheritdoc}
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function size(): int
     {
@@ -114,10 +112,7 @@ trait TraversableSupport
     }
 
     /**
-     * {@inheritdoc}
-     *
-     * @throws \Exception
+     * 遅延されている計算を行う.
      */
     abstract protected function compute(): void;
-
 }

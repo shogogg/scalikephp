@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2017 shogogg <shogo@studiofly.net>
+ * Copyright (c) 2017 shogogg <shogo@studiofly.net>.
  *
  * This software is released under the MIT License.
  * http://opensource.org/licenses/mit-license.php
@@ -9,247 +9,287 @@ declare(strict_types=1);
 
 namespace ScalikePHP;
 
+use ArrayAccess;
+use Closure;
+use Generator;
+use LogicException;
+
 /**
  * Scala like Traversable Interface.
  */
-interface ScalikeTraversableInterface extends \ArrayAccess, \Countable, \IteratorAggregate, \JsonSerializable
+interface ScalikeTraversableInterface extends ArrayAccess, \Countable, \IteratorAggregate, \JsonSerializable
 {
-
     /**
-     * Drop file $n elements.
+     * Selects all elements except first `$n` ones.
      *
-     * @param int $n
-     * @return static
+     * @param int $n the number of elements to drop from this collection.
+     * @return static a collection consisting of all elements of this collection except the first n ones,
+     *                or else the empty collection, if this collection has less than n elements.
+     *                If n is negative, don't drop any elements.
      */
-    public function drop(int $n);
+    public function drop(int $n): self;
 
     /**
-     * 値の全要素に対して関数 $f を適用する.
+     * Apply `$f` to each element for its side effects.
      *
-     * @param \Closure $f
-     * @return void
+     * @param Closure $f the function to apply to each element.
      */
-    public function each(\Closure $f): void;
+    public function each(Closure $f): void;
 
     /**
-     * 条件にマッチする（関数が true を返す）要素の有無を判定する.
+     * Tests whether a predicate holds for at least one element of this collection.
      *
-     * @param \Closure $p 真偽値を返す関数
-     * @return bool 条件を満たす要素がある場合に true, そうでない場合は false
+     * @param Closure $p the predicate used to test elements.
+     * @return bool true if the given predicate `$p` is satisfied by at least one element of this collection,
+     *              otherwise false.
      */
-    public function exists(\Closure $p): bool;
+    public function exists(Closure $p): bool;
 
     /**
-     * 条件にマッチする（関数が true を返す）要素のみを抽出する.
+     * Selects all elements of this collection which satisfy a predicate.
      *
-     * @param \Closure $p 真偽値を返す関数
-     * @return static
+     * @param Closure $p the predicate used to test elements.
+     * @return static a new collection consisting of all elements of this collection that do not satisfy the given predicate `$p`.
      */
-    public function filter(\Closure $p);
+    public function filter(Closure $p): self;
 
     /**
-     * 条件にマッチしない（関数が false を返す）要素のみを抽出する.
+     * Selects all elements of this collection which do not satisfy a predicate.
      *
-     * @param \Closure $p 真偽値を返す関数
-     * @return static
+     * @param Closure $p the predicate used to test elements.
+     * @return static a new collection consisting of all elements of this collection that satisfy the given predicate `$p`.
      */
-    public function filterNot(\Closure $p);
+    public function filterNot(Closure $p): self;
 
     /**
-     * 条件にマッチする（関数が true を返す）最初の要素を返す.
+     * Finds the first element of this collection satisfying a predicate, if any.
      *
-     * @param \Closure $p 真偽値を返す関数
-     * @return Option 最初に見つかった要素, 見つからなかった場合は None
+     * @param Closure $p the predicate used to test elements.
+     * @return \ScalikePHP\Option an option value containing the first element in this collection that satisfies p,
+     *                            or None if none exists.
      */
-    public function find(\Closure $p): Option;
+    public function find(Closure $p): Option;
 
     /**
-     * 要素を平坦化して返す.
+     * Converts this collection of traversable collections into a collection formed by the elements of these collections.
      *
-     * @return static
+     * @return static a new collection resulting from concatenating all element collections.
      */
-    public function flatten();
+    public function flatten(): self;
 
     /**
-     * 値の全要素に対して関数を適用し、その戻り値を平坦化して返す.
+     * Builds a new collection by applying a function to all elements of this collection and using the elements of the resulting collections.
      *
-     * @param \Closure $f 値を返す関数
-     * @return static
+     * @param Closure $f the function to apply to each element.
+     * @return static a new collection resulting from concatenating all element collections.
      */
-    public function flatMap(\Closure $f);
+    public function flatMap(Closure $f): self;
 
     /**
-     * 全ての要素が条件にマッチする（関数が true を返す）かどうかを判定する.
+     * Folds the elements of this collection using the specified associative binary operator.
      *
-     * @param \Closure $p 真偽値を返す関数
-     * @return bool 全ての要素が条件を満たす場合に true, そうでない場合は false
+     * @param mixed $z a neutral element for the fold operation; may be added to the result an arbitrary number of times,
+     *                 and must not change the result (e.g., Nil for list concatenation, 0 for addition, or 1 for multiplication).
+     * @param Closure $op a binary operator that must be associative.
+     * @return mixed the result of applying the fold operator op between all the elements and z, or z if this collection is empty.
      */
-    public function forAll(\Closure $p): bool;
+    public function fold($z, Closure $op);
 
     /**
-     * 要素を用いてジェネレータを生成する.
+     * Tests whether a predicate holds for all elements of this collection.
      *
-     * @param \Closure $f 各要素を受け取りジェネレータを返す関数
-     * @return \Generator
+     * @param Closure $p the predicate used to test elements.
+     * @return bool true if this collection is empty or the given predicate p holds for all elements of this collection,
+     *              otherwise false.
      */
-    public function generate(\Closure $f): \Generator;
+    public function forAll(Closure $p): bool;
 
     /**
-     * 要素を指定された関数の戻り値でグループ化して返す.
+     * Creates a new {@link Generator} from this collection.
      *
-     * - $f に string が渡された場合は各要素から $f に該当する要素|プロパティを探し、それをキーとする
-     * - $f に \Closure が渡された場合は各要素を引数として $f を実行し、それをキーとする
+     * @param Closure $f the function to apply to each element. it should returns a {@link Generator}.
+     * @return Generator
+     */
+    public function generate(Closure $f): Generator;
+
+    /**
+     * Partitions this collection into a map of collections according to some discriminator function.
      *
-     * @param string|\Closure $f
-     * @return Map
+     * @param Closure|string $f the discriminator function or key of element.
+     * @return \ScalikePHP\Map|\ScalikePHP\Seq[] A map from keys to collections.
      */
     public function groupBy($f): Map;
 
     /**
-     * 値の先頭要素を返す, 要素がない場合は例外を投げる.
+     * Selects the first element of this collection.
      *
-     * @return mixed 先頭の要素
+     * @throws LogicException if this collection is empty.
+     * @return mixed the first element of this collection.
      */
     public function head();
 
     /**
-     * 値の先頭要素を返す.
+     * Optionally selects the first element.
      *
-     * @return Option 先頭の要素, 要素がない場合は None
+     * @return \ScalikePHP\Option the first element of this collection if it is nonempty, None if it is empty.
      */
     public function headOption(): Option;
 
     /**
-     * 値が空かどうかを判定する.
+     * Tests whether this collection is empty.
      *
-     * @return bool 値が空の場合に true, そうでない場合に false
+     * @return bool true if this collection contains no elements, false otherwise.
      */
     public function isEmpty(): bool;
 
     /**
-     * 値の末尾(最終)要素を返し, 要素がない場合は例外を投げる.
+     * Selects the last element of this collection.
      *
-     * @return mixed 末尾の要素
+     * @throws LogicException if this collection is empty.
+     * @return mixed the last element of this collection.
      */
     public function last();
 
     /**
-     * 値の末尾(最終)要素を返す.
+     * Optionally selects the last element.
      *
-     * @return Option 末尾の要素, 要素がない場合は None
+     * @return \ScalikePHP\Option the last element of this collection if it is nonempty, None if it is empty.
      */
     public function lastOption(): Option;
 
     /**
-     * 値の全要素に対して関数を適用し, その戻り値を返す.
+     * Builds a new collection by applying a function to all elements of this collection.
      *
-     * @param \Closure $f 値を返す関数
+     * @param Closure $f the function to apply to each element.
      * @return static
      */
-    public function map(\Closure $f);
+    public function map(Closure $f): self;
 
     /**
-     * 最大の要素を返す.
+     * Finds the largest element.
      *
-     * @return mixed 最大の要素
+     * @throws LogicException if this collection is empty.
+     * @return mixed the largest element of this collection.
      */
     public function max();
 
     /**
-     * 関数を適用した結果が最大となる要素を返す.
+     * Finds the first element which yields the largest value measured by function `$f`.
      *
-     * @param \Closure $f
-     * @return mixed 最大の要素
+     * @param Closure $f the measuring function.
+     * @return mixed the first element of this collection with the largest value measured by function `$f`.
      */
-    public function maxBy(\Closure $f);
+    public function maxBy(Closure $f);
 
     /**
-     * 最小の要素を返す.
+     * Finds the smallest element.
      *
-     * @return mixed 最小の要素
+     * @throws LogicException if this collection is empty.
+     * @return mixed the smallest element of this collection.
      */
     public function min();
 
     /**
-     * 関数を適用した結果が最小となる要素を返す.
+     * Finds the first element which yields the smallest value measured by function `$f`.
      *
-     * @param \Closure $f
-     * @return mixed 最小の要素
+     * @param Closure $f the measuring function.
+     * @return mixed the first element of this collection with the smallest value measured by function `$f`.
      */
-    public function minBy(\Closure $f);
+    public function minBy(Closure $f);
 
     /**
-     * 要素を文字列化して結合する.
+     * Returns all elements of this collection in a string using a separator string.
      *
-     * @param string $sep
-     * @return string
+     * @param string $sep the separator string.
+     * @return string a string representation of this collection.
+     *                In the resulting string the string representations (w.r.t. the method __toString) of all elements
+     *                of this collection are separated by the string sep.
      */
-    public function mkString(string $sep = ""): string;
+    public function mkString(string $sep = ''): string;
 
     /**
-     * 値が空でないかどうかを判定する.
+     * Tests whether this collection is not empty.
      *
-     * @return bool 値が空でない場合に true, そうでない場合に false
+     * @return bool true if this collection does not contain any elements, false otherwise.
      */
     public function nonEmpty(): bool;
 
     /**
-     * Returns a number of elements.
+     * Splits this collection in two: all elements that satisfy predicate `$p` and all elements that do not.
+     *
+     * @return array|self[] an array of, first, all elements that satisfy predicate p and,
+     *                      second, all elements that do not.
+     */
+    public function partition(Closure $p): array;
+
+    /**
+     * Returns the size of this collection.
      *
      * @return int
      */
     public function size(): int;
 
     /**
-     * Returns sum of elements.
+     * Sums up the elements of this collection.
      *
-     * @return mixed
+     * @see https://www.php.net/manual/en/function.array-sum.php
+     * @return float|int the sum of all elements of this collection.
      */
     public function sum();
 
     /**
-     * Returns sum of elements, using custom function.
+     * Sums up the elements of this collection.
      *
-     * @param \Closure $f
-     * @return mixed
+     * @param Closure $f the measuring function.
+     * @return float|int the sum of all elements of this collection.
      */
-    public function sumBy(\Closure $f);
+    public function sumBy(Closure $f);
 
     /**
-     * Returns first `$n` elements.
+     * Returns rest of this collection without its first element.
      *
-     * @param int $n
      * @return static
      */
-    public function take(int $n);
+    public function tail(): self;
 
     /**
-     * Returns last `$n` elements.
+     * Selects the first `$n` elements.
      *
-     * @param int $n
-     * @return static
+     * @param int $n the number of elements to take from this collection.
+     * @return static a collection consisting only of the first `$n` elements of this collection,
+     *                or else the whole collection, if it has less than `$n` elements.
+     *                If `$n` is negative, returns an empty collection.
      */
-    public function takeRight(int $n);
+    public function take(int $n): self;
 
     /**
-     * Convert to an array.
+     * Selects the last `$n` elements.
+     *
+     * @param int $n the number of elements to take from this collection.
+     * @return static a collection consisting only of the last `$n` elements of this collection,
+     *                or else the whole collection, if it has less than `$n` elements.
+     *                If `$n` is negative, returns an empty collection.
+     */
+    public function takeRight(int $n): self;
+
+    /**
+     * Converts this collection to an array.
      *
      * @return array
      */
     public function toArray(): array;
 
     /**
-     * Convert to a Generator.
+     * Converts this collection to a {@link Generator}.
      *
-     * @return \Generator
+     * @return Generator
      */
-    public function toGenerator(): \Generator;
+    public function toGenerator(): Generator;
 
     /**
-     * Convert to a Seq.
+     * Converts this collection to a {@link \ScalikePHP\Seq}.
      *
-     * @return Seq
+     * @return \ScalikePHP\Seq
      */
     public function toSeq(): Seq;
-
 }

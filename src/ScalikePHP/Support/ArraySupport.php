@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2017 shogogg <shogo@studiofly.net>
+ * Copyright (c) 2017 shogogg <shogo@studiofly.net>.
  *
  * This software is released under the MIT License.
  * http://opensource.org/licenses/mit-license.php
@@ -9,6 +9,10 @@ declare(strict_types=1);
 
 namespace ScalikePHP\Support;
 
+use ArrayIterator;
+use OutOfBoundsException;
+use Traversable;
+
 /**
  * ScalikeTraversable implementation using an array.
  *
@@ -16,65 +20,75 @@ namespace ScalikePHP\Support;
  */
 trait ArraySupport
 {
-
-    /** @var array */
-    private $array;
+    private array $array;
 
     /**
      * Set the array.
      *
      * @param mixed $array
-     * @return void
      */
     protected function setArray(array $array): void
     {
         $this->array = $array;
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function count(): int
     {
         return count($this->array);
     }
 
-    /** {@inheritdoc} */
-    public function getIterator(): \Traversable
+    /**
+     * {@inheritdoc}
+     */
+    public function getIterator(): Traversable
     {
-        return new \ArrayIterator($this->array);
+        return new ArrayIterator($this->array);
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     protected function getRawIterable(): iterable
     {
         return $this->array;
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function isEmpty(): bool
     {
         return empty($this->array);
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function offsetExists($offset): bool
     {
         return isset($this->array[$offset]);
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function offsetGet($offset)
     {
         if (isset($this->array[$offset])) {
             return $this->array[$offset];
         } else {
-            throw new \OutOfBoundsException("Undefined offset: {$offset}");
+            throw new OutOfBoundsException("Undefined offset: {$offset}");
         }
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function size(): int
     {
         return count($this->array);
     }
-
 }

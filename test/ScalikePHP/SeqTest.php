@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2017 shogogg <shogo@studiofly.net>
+ * Copyright (c) 2017 shogogg <shogo@studiofly.net>.
  *
  * This software is released under the MIT License.
  * http://opensource.org/licenses/mit-license.php
@@ -9,33 +9,42 @@ declare(strict_types=1);
 
 namespace Test\ScalikePHP;
 
+use ArrayIterator;
+use Generator;
 use ScalikePHP\ArraySeq;
 use ScalikePHP\Seq;
 use ScalikePHP\TraversableSeq;
 
 /**
- * Tests for Seq.
+ * Tests for {@link \ScalikePHP\Seq}.
  *
- * @see \ScalikePHP\Seq
+ * @internal
  */
-class SeqTest extends TestCase
+final class SeqTest extends TestCase
 {
+    /**
+     * @test
+     * @covers \ScalikePHP\Seq::empty()
+     */
+    public function testEmpty(): void
+    {
+        Assert::true(Seq::empty()->isEmpty());
+        Assert::same(Seq::empty(), Seq::empty());
+    }
 
     /**
-     * Tests for Seq::emptySeq()
-     *
-     * @see \ScalikePHP\Seq::emptySeq()
+     * @test
+     * @covers \ScalikePHP\Seq::emptySeq()
      */
     public function testEmptySeq(): void
     {
         Assert::true(Seq::emptySeq()->isEmpty());
-        Assert::same(Seq::emptySeq(), Seq::emptySeq());
+        Assert::same(Seq::emptySeq(), Seq::empty());
     }
 
     /**
-     * Tests for Seq::from().
-     *
-     * @see \ScalikePHP\Seq::from()
+     * @test
+     * @covers \ScalikePHP\Seq::from()
      */
     public function testFrom(): void
     {
@@ -44,19 +53,18 @@ class SeqTest extends TestCase
     }
 
     /**
-     * Tests for Seq::fromArray().
-     *
-     * @see \ScalikePHP\Seq::fromArray()
+     * @test
+     * @covers \ScalikePHP\Seq::fromArray()
      */
     public function testFromArray(): void
     {
         $array = [1, 2, 3];
-        $generator = (function (): \Generator {
+        $generator = (function (): Generator {
             for ($i = 1; $i <= 3; ++$i) {
                 yield $i;
             }
         })();
-        $iterator = new \ArrayIterator($array);
+        $iterator = new ArrayIterator($array);
         Assert::instanceOf(ArraySeq::class, Seq::fromArray($array));
         Assert::instanceOf(TraversableSeq::class, Seq::fromArray($generator));
         Assert::instanceOf(TraversableSeq::class, Seq::fromArray($iterator));
@@ -64,5 +72,4 @@ class SeqTest extends TestCase
         Assert::same([1, 2, 3], Seq::fromArray($generator)->toArray());
         Assert::same([1, 2, 3], Seq::fromArray($iterator)->toArray());
     }
-
 }

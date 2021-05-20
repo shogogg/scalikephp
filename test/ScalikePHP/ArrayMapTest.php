@@ -1,11 +1,11 @@
 <?php
 /**
- * Copyright (c) 2017 shogogg <shogo@studiofly.net>
+ * Copyright (c) 2017 shogogg <shogo@studiofly.net>.
  *
  * This software is released under the MIT License.
  * http://opensource.org/licenses/mit-license.php
  */
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Test\ScalikePHP;
 
@@ -13,21 +13,19 @@ use ScalikePHP\ArrayMap;
 use ScalikePHP\Map;
 
 /**
- * Tests for ArrayMap.
+ * Tests for {@link \ScalikePHP\ArrayMap}.
  *
- * @see \ScalikePHP\ArrayMap
+ * @internal
  */
-class ArrayMapTest extends TestCase
+final class ArrayMapTest extends TestCase
 {
-
     use MapTestCases;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function map(array $values = []): Map
     {
         return new ArrayMap($values);
     }
-
 }

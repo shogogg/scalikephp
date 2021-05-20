@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2017 shogogg <shogo@studiofly.net>
+ * Copyright (c) 2017 shogogg <shogo@studiofly.net>.
  *
  * This software is released under the MIT License.
  * http://opensource.org/licenses/mit-license.php
@@ -15,19 +15,17 @@ use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 /**
  * Base TestCase.
  */
-class TestCase extends \PHPUnit\Framework\TestCase
+abstract class TestCase extends \PHPUnit\Framework\TestCase
 {
-
     use MockeryPHPUnitIntegration;
 
     /**
      * Create a spy.
      *
-     * @return MockInterface|\Mockery\MockInterface
+     * @return \Mockery\MockInterface|MockInterface
      */
-    public static function spy(): Mockery\MockInterface
+    protected static function spy(): Mockery\MockInterface
     {
         return Mockery::spy();
     }
-
 }

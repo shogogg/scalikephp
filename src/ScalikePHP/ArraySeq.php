@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2017 shogogg <shogo@studiofly.net>
+ * Copyright (c) 2017 shogogg <shogo@studiofly.net>.
  *
  * This software is released under the MIT License.
  * http://opensource.org/licenses/mit-license.php
@@ -10,17 +10,18 @@ declare(strict_types=1);
 namespace ScalikePHP;
 
 use ScalikePHP\Support\ArraySupport;
+use ScalikePHP\Support\SeqOps;
 
 /**
  * A Seq implementation using array.
  */
 class ArraySeq extends Seq
 {
-
     use ArraySupport;
+    use SeqOps;
 
     /**
-     * Constructor.
+     * {@link \ScalikePHP\ArraySeq} Constructor.
      *
      * @param array $values
      */
@@ -31,30 +32,48 @@ class ArraySeq extends Seq
 
     /**
      * {@inheritdoc}
-     *
-     * @throws \Exception
+     */
+    public function computed(): Seq
+    {
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
      */
     public function drop(int $n): Seq
     {
-        return $n <= 0 ? $this : new ArraySeq(array_slice($this->array, $n));
+        return $n <= 0 ? $this : new self(array_slice($this->array, $n));
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
+    public function indexOf($elem): int
+    {
+        $index = array_search($elem, $this->array, true);
+        return $index === false ? -1 : $index;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function take(int $n): Seq
     {
         if ($n > 0) {
-            return new ArraySeq(array_slice($this->array, 0, $n));
+            return new self(array_slice($this->array, 0, $n));
         } elseif ($n === 0) {
-            return Seq::emptySeq();
+            return Seq::empty();
         } else {
             return $this;
         }
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function toArray(): array
     {
         return $this->array;
     }
-
 }

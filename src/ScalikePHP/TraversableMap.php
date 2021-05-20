@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2017 shogogg <shogo@studiofly.net>
+ * Copyright (c) 2017 shogogg <shogo@studiofly.net>.
  *
  * This software is released under the MIT License.
  * http://opensource.org/licenses/mit-license.php
@@ -9,45 +9,54 @@ declare(strict_types=1);
 
 namespace ScalikePHP;
 
+use Generator;
+use ScalikePHP\Support\MapOps;
 use ScalikePHP\Support\TraversableSupport;
+use Traversable;
 
 /**
  * A Map Implementation using \Traversable.
  */
 class TraversableMap extends Map
 {
-
+    use MapOps;
     use TraversableSupport;
 
     /**
-     * Constructor.
+     * {@link \ScalikePHP\TraversableMap} Constructor.
      *
-     * @param \Traversable $traversable
+     * @param Traversable $traversable
      */
-    public function __construct(\Traversable $traversable)
+    public function __construct(Traversable $traversable)
     {
         $this->setTraversable($traversable);
     }
 
-    /** {@inheritdoc} */
-    public function append($keyOrArray, $value = null)
+    /**
+     * {@inheritdoc}
+     */
+    public function append($keyOrArray, $value = null): Map
     {
-        return Map::create(function () use ($keyOrArray, $value): \Generator {
+        return Map::create(function () use ($keyOrArray, $value): Generator {
             yield from $this->traversable;
             yield from is_array($keyOrArray) ? $keyOrArray : [$keyOrArray => $value];
         });
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function contains($key): bool
     {
         return array_key_exists($key, $this->toAssoc());
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function drop(int $n): Map
     {
-        return $n <= 0 ? $this : Map::create(function () use ($n): \Traversable {
+        return $n <= 0 ? $this : Map::create(function () use ($n): Traversable {
             $i = $n;
             foreach ($this->getRawIterable() as $key => $value) {
                 if ($i <= 0) {
@@ -59,23 +68,29 @@ class TraversableMap extends Map
         });
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function get($key): Option
     {
         return Option::fromArray($this->toAssoc(), $key);
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function keys(): Seq
     {
         return new ArraySeq(array_keys($this->toAssoc()));
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function take(int $n): Map
     {
         if ($n > 0) {
-            return Map::create(function () use ($n): \Traversable {
+            return Map::create(function () use ($n): Traversable {
                 $i = $n;
                 foreach ($this->getRawIterable() as $key => $value) {
                     yield $key => $value;
@@ -85,26 +100,32 @@ class TraversableMap extends Map
                 }
             });
         } elseif ($n === 0) {
-            return Map::emptyMap();
+            return Map::empty();
         } else {
             return $this;
         }
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function toAssoc(): array
     {
         $this->compute();
         return $this->array;
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     public function values(): Seq
     {
         return new ArraySeq(array_values($this->toAssoc()));
     }
 
-    /** {@inheritdoc} */
+    /**
+     * {@inheritdoc}
+     */
     protected function compute(): void
     {
         if ($this->computed === false) {
@@ -112,5 +133,4 @@ class TraversableMap extends Map
             $this->computed = true;
         }
     }
-
 }

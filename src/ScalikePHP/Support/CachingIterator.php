@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2017 shogogg <shogo@studiofly.net>
+ * Copyright (c) 2017 shogogg <shogo@studiofly.net>.
  *
  * This software is released under the MIT License.
  * http://opensource.org/licenses/mit-license.php
@@ -9,35 +9,32 @@ declare(strict_types=1);
 
 namespace ScalikePHP\Support;
 
+use Iterator;
+use IteratorAggregate;
+
 /**
  * CachingIterator - Rewindable iterator wrapping generator.
  */
-final class CachingIterator implements \IteratorAggregate
+final class CachingIterator implements IteratorAggregate
 {
+    private Iterator $iterator;
+    private array $cache = [];
 
     /**
-     * @var \Iterator
-     */
-    private $iterator;
-
-    /**
-     * @var array
-     */
-    private $cache = [];
-
-    /**
-     * CachingIterator constructor.
+     * {@link \ScalikePHP\Support\CachingIterator} constructor.
      *
-     * @param \Iterator $iterator
+     * @param Iterator $iterator
      */
-    public function __construct(\Iterator $iterator)
+    public function __construct(Iterator $iterator)
     {
         $this->iterator = $iterator;
         $this->iterator->rewind();
     }
 
-    /** {@inheritdoc} */
-    public function getIterator(): \Iterator
+    /**
+     * {@inheritdoc}
+     */
+    public function getIterator(): Iterator
     {
         foreach ($this->cache as $key => $value) {
             yield $key => $value;
@@ -50,5 +47,4 @@ final class CachingIterator implements \IteratorAggregate
             $this->iterator->next();
         }
     }
-
 }

@@ -1,31 +1,30 @@
 <?php
 /**
- * Copyright (c) 2017 shogogg <shogo@studiofly.net>
+ * Copyright (c) 2017 shogogg <shogo@studiofly.net>.
  *
  * This software is released under the MIT License.
  * http://opensource.org/licenses/mit-license.php
  */
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Test\ScalikePHP;
 
+use LogicException;
 use ScalikePHP\None;
 use ScalikePHP\Option;
 use ScalikePHP\Seq;
 use ScalikePHP\Some;
 
 /**
- * Tests for None.
+ * Tests for {@link \ScalikePHP\None}.
  *
- * @see \ScalikePHP\None
+ * @internal
  */
-class NoneTest extends TestCase
+final class NoneTest extends TestCase
 {
-
     /**
-     * Tests for None::count().
-     *
-     * @see \ScalikePHP\None::count()
+     * @test
+     * @covers \ScalikePHP\None::count()
      */
     public function testCount(): void
     {
@@ -33,9 +32,8 @@ class NoneTest extends TestCase
     }
 
     /**
-     * Tests for None::drop().
-     *
-     * @see \ScalikePHP\None::drop()
+     * @test
+     * @covers \ScalikePHP\None::drop()
      */
     public function testDrop(): void
     {
@@ -47,97 +45,76 @@ class NoneTest extends TestCase
     }
 
     /**
-     * Tests for None::each().
-     *
-     * @see \ScalikePHP\None::each()
+     * @test
+     * @covers \ScalikePHP\None::each()
      */
     public function testEach(): void
     {
         $spy = self::spy();
         $f = function () use ($spy): void {
-            call_user_func_array([$spy, "spy"], func_get_args());
+            call_user_func_array([$spy, 'spy'], func_get_args());
         };
-        $spy->shouldNotReceive("spy");
+        $spy->shouldNotReceive('spy');
         Option::none()->each($f);
     }
 
     /**
-     * Tests for Option::exists().
-     *
-     * @see \ScalikePHP\Option::exists()
+     * @test
+     * @covers \ScalikePHP\Option::exists()
      */
     public function testExists(): void
     {
-        $p = function (int $x): bool {
-            return $x === 1;
-        };
+        $p = fn (int $x): bool => $x === 1;
         Assert::false(Option::none()->exists($p));
     }
 
     /**
-     * Tests for Option::filter().
-     *
-     * @see \ScalikePHP\Option::filter()
+     * @test
+     * @covers \ScalikePHP\Option::filter()
      */
     public function testFilter(): void
     {
-        $p = function (int $x): bool {
-            return $x === 1;
-        };
+        $p = fn (int $x): bool => $x === 1;
         Assert::none(Option::none()->filter($p));
     }
 
     /**
-     * Tests for Option::filterNot().
-     *
-     * @see \ScalikePHP\Option::filterNot()
+     * @test
+     * @covers \ScalikePHP\Option::filterNot()
      */
     public function testFilterNot(): void
     {
-        $p = function (int $x): bool {
-            return $x !== 1;
-        };
+        $p = fn (int $x): bool => $x !== 1;
         Assert::none(Option::none()->filterNot($p));
     }
 
     /**
-     * Tests for None::find().
-     *
-     * @see \ScalikePHP\None::find()
+     * @test
+     * @covers \ScalikePHP\None::find()
      */
     public function testFind(): void
     {
-        $p = function (int $x): bool {
-            return $x === 1;
-        };
+        $p = fn (int $x): bool => $x === 1;
         Assert::none(Option::none()->filter($p));
     }
 
     /**
-     * Tests for None::flatMap().
-     *
-     * @see \ScalikePHP\None::flatMap()
+     * @test
+     * @covers \ScalikePHP\None::flatMap()
      */
     public function testFlatMap(): void
     {
-        $returnsSome = function ($x): Option {
-            return Option::from($x * 2);
-        };
-        $returnsNone = function (): Option {
-            return Option::none();
-        };
-        $returnsArray = function ($x): array {
-            return [$x * 2];
-        };
+        $returnsSome = fn ($x): Option => Option::from($x * 2);
+        $returnsNone = fn (): Option => Option::none();
+        $returnsArray = fn ($x): array => [$x * 2];
         Assert::none(Option::none()->flatMap($returnsSome));
         Assert::none(Option::none()->flatMap($returnsNone));
         Assert::none(Option::none()->flatMap($returnsArray));
     }
 
     /**
-     * Tests for None::flatten().
-     *
-     * @see \ScalikePHP\None::flatten()
+     * @test
+     * @covers \ScalikePHP\None::flatten()
      */
     public function testFlatten(): void
     {
@@ -145,27 +122,23 @@ class NoneTest extends TestCase
     }
 
     /**
-     * Tests for None::forAll().
-     *
-     * @see \ScalikePHP\None::forAll()
+     * @test
+     * @covers \ScalikePHP\None::forAll()
      */
     public function testForAll(): void
     {
-        $p = function (int $x): bool {
-            return $x === 1;
-        };
+        $p = fn (int $x): bool => $x === 1;
         Assert::true(Option::none()->forAll($p));
     }
 
     /**
-     * Tests for None::get().
-     *
-     * @see \ScalikePHP\None::get()
+     * @test
+     * @covers \ScalikePHP\None::get()
      */
     public function testGet(): void
     {
         Assert::throws(
-            \LogicException::class,
+            LogicException::class,
             function (): void {
                 Option::none()->get();
             }
@@ -173,56 +146,48 @@ class NoneTest extends TestCase
     }
 
     /**
-     * Tests for None::getOrElse().
-     *
-     * @see \ScalikePHP\None::getOrElse()
+     * @test
+     * @covers \ScalikePHP\None::getOrElse()
      */
     public function testGetOrElse(): void
     {
         $spy = self::spy();
-        $f = function () use ($spy) {
-            return call_user_func_array([$spy, "spy"], func_get_args());
-        };
-        $spy->shouldReceive("spy")->andReturn("abc");
-        Assert::same("abc", Option::none()->getOrElse($f));
+        $f = fn () => call_user_func_array([$spy, 'spy'], func_get_args());
+        $spy->shouldReceive('spy')->andReturn('abc');
+        Assert::same('abc', Option::none()->getOrElse($f));
     }
 
     /**
-     * Tests for Some::getOrElseValue().
-     *
-     * @see \ScalikePHP\Some::getOrElseValue()
+     * @test
+     * @covers \ScalikePHP\Some::getOrElseValue()
      */
     public function testGetOrElseValue(): void
     {
         Assert::same(0, Option::none()->getOrElseValue(0));
-        Assert::same("xyz", Option::none()->getOrElseValue("xyz"));
+        Assert::same('xyz', Option::none()->getOrElseValue('xyz'));
     }
 
     /**
-     * Tests for None::groupBy().
-     *
-     * @see \ScalikePHP\None::groupBy()
+     * @test
+     * @covers \ScalikePHP\None::groupBy()
      */
     public function testGroupBy(): void
     {
-        $key = "abc";
+        $key = 'abc';
         $none = Option::none();
-        $closure = function (array $x) use ($key): string {
-            return $x[$key];
-        };
+        $closure = fn (array $x): string => $x[$key];
         Assert::same(0, $none->groupBy($key)->size());
         Assert::same(0, $none->groupBy($closure)->size());
     }
 
     /**
-     * Tests for None::head().
-     *
-     * @see \ScalikePHP\None::head()
+     * @test
+     * @covers \ScalikePHP\None::head()
      */
     public function testHead(): void
     {
         Assert::throws(
-            \LogicException::class,
+            LogicException::class,
             function (): void {
                 Option::none()->head();
             }
@@ -230,9 +195,8 @@ class NoneTest extends TestCase
     }
 
     /**
-     * Tests for None::headOption().
-     *
-     * @see \ScalikePHP\None::headOption()
+     * @test
+     * @covers \ScalikePHP\None::headOption()
      */
     public function testHeadOption(): void
     {
@@ -240,9 +204,8 @@ class NoneTest extends TestCase
     }
 
     /**
-     * Tests for None::isDefined().
-     *
-     * @see \ScalikePHP\None::isDefined()
+     * @test
+     * @covers \ScalikePHP\None::isDefined()
      */
     public function testIsDefined(): void
     {
@@ -250,9 +213,8 @@ class NoneTest extends TestCase
     }
 
     /**
-     * Tests for None::isEmpty().
-     *
-     * @see \ScalikePHP\None::isEmpty()
+     * @test
+     * @covers \ScalikePHP\None::isEmpty()
      */
     public function testIsEmpty(): void
     {
@@ -260,14 +222,13 @@ class NoneTest extends TestCase
     }
 
     /**
-     * Tests for None::last().
-     *
-     * @see \ScalikePHP\None::last()
+     * @test
+     * @covers \ScalikePHP\None::last()
      */
     public function testLast(): void
     {
         Assert::throws(
-            \LogicException::class,
+            LogicException::class,
             function (): void {
                 Option::none()->last();
             }
@@ -275,9 +236,8 @@ class NoneTest extends TestCase
     }
 
     /**
-     * Tests for None::lastOption().
-     *
-     * @see \ScalikePHP\None::lastOption()
+     * @test
+     * @covers \ScalikePHP\None::lastOption()
      */
     public function testLastOption(): void
     {
@@ -285,27 +245,23 @@ class NoneTest extends TestCase
     }
 
     /**
-     * Tests for None::map().
-     *
-     * @see \ScalikePHP\None::map()
+     * @test
+     * @covers \ScalikePHP\None::map()
      */
     public function testMap(): void
     {
-        $f = function (int $x): int {
-            return $x * 2;
-        };
+        $f = fn (int $x): int => $x * 2;
         Assert::none(Option::none()->map($f));
     }
 
     /**
-     * Tests for None::max().
-     *
-     * @see \ScalikePHP\None::max()
+     * @test
+     * @covers \ScalikePHP\None::max()
      */
     public function testMax(): void
     {
         Assert::throws(
-            \LogicException::class,
+            LogicException::class,
             function (): void {
                 Option::none()->max();
             }
@@ -313,32 +269,27 @@ class NoneTest extends TestCase
     }
 
     /**
-     * Tests for None::maxBy().
-     *
-     * @see \ScalikePHP\None::maxBy()
+     * @test
+     * @covers \ScalikePHP\None::maxBy()
      */
     public function testMaxBy(): void
     {
         Assert::throws(
-            \LogicException::class,
+            LogicException::class,
             function (): void {
-                $f = function ($x): string {
-                    return strval($x);
-                };
-                Option::none()->maxBy($f);
+                Option::none()->maxBy(fn ($x): string => (string)$x);
             }
         );
     }
 
     /**
-     * Tests for None::min().
-     *
-     * @see \ScalikePHP\None::min()
+     * @test
+     * @covers \ScalikePHP\None::min()
      */
     public function testMin(): void
     {
         Assert::throws(
-            \LogicException::class,
+            LogicException::class,
             function (): void {
                 Option::none()->min();
             }
@@ -346,37 +297,32 @@ class NoneTest extends TestCase
     }
 
     /**
-     * Tests for None::minBy().
-     *
-     * @see \ScalikePHP\None::minBy()
+     * @test
+     * @covers \ScalikePHP\None::minBy()
      */
     public function testMinBy(): void
     {
         Assert::throws(
-            \LogicException::class,
+            LogicException::class,
             function (): void {
-                $f = function ($x): string {
-                    return strval($x);
-                };
-                Option::none()->minBy($f);
+                Option::none()->minBy(fn ($x): string => (string)$x);
             }
         );
     }
 
     /**
-     * Tests for None::mkString().
-     *
-     * @see \ScalikePHP\None::mkString()
+     * @test
+     * @covers \ScalikePHP\None::mkString()
      */
     public function testMkString(): void
     {
-        Assert::same("", Option::none()->mkString(""));
+        Assert::same('', Option::none()->mkString());
+        Assert::same('', Option::none()->mkString('-'));
     }
 
     /**
-     * Tests for None::nonEmpty().
-     *
-     * @see \ScalikePHP\None::nonEmpty()
+     * @test
+     * @covers \ScalikePHP\None::nonEmpty()
      */
     public function testNonEmpty(): void
     {
@@ -384,22 +330,18 @@ class NoneTest extends TestCase
     }
 
     /**
-     * Tests for None::orElse().
-     *
-     * @see \ScalikePHP\None::orElse()
+     * @test
+     * @covers \ScalikePHP\None::orElse()
      */
     public function testOrElse(): void
     {
-        $f = function (): Option {
-            return Option::from("xyz");
-        };
-        Assert::some("xyz", Option::none()->orElse($f));
+        $f = fn (): Option => Option::from('xyz');
+        Assert::some('xyz', Option::none()->orElse($f));
     }
 
     /**
-     * Tests for None::orNull().
-     *
-     * @see \ScalikePHP\None::orNull()
+     * @test
+     * @covers \ScalikePHP\None::orNull()
      */
     public function testOrNull(): void
     {
@@ -407,19 +349,41 @@ class NoneTest extends TestCase
     }
 
     /**
-     * Tests for None::pick().
-     *
-     * @see \ScalikePHP\None::pick()
+     * @test
+     * @covers \ScalikePHP\None::partition()
      */
-    public function testPick(): void
+    public function testPartition(): void
     {
-        Assert::none(Option::none()->pick("abc"));
+        $a = Option::none()->partition(fn (int $x): bool => $x === 1);
+        $b = Option::none()->partition(fn (int $x): bool => $x !== 1);
+
+        Assert::true(is_array($a));
+        Assert::same(2, count($a));
+        Assert::instanceOf(Seq::class, $a[0]);
+        Assert::instanceOf(Seq::class, $a[1]);
+        Assert::true($a[0]->isEmpty());
+        Assert::true($a[1]->isEmpty());
+
+        Assert::true(is_array($b));
+        Assert::same(2, count($b));
+        Assert::instanceOf(Seq::class, $b[0]);
+        Assert::instanceOf(Seq::class, $b[1]);
+        Assert::true($b[0]->isEmpty());
+        Assert::true($b[1]->isEmpty());
     }
 
     /**
-     * Tests for None::size().
-     *
-     * @see \ScalikePHP\None::size()
+     * @test
+     * @covers \ScalikePHP\None::pick()
+     */
+    public function testPick(): void
+    {
+        Assert::none(Option::none()->pick('abc'));
+    }
+
+    /**
+     * @test
+     * @covers \ScalikePHP\None::size()
      */
     public function testSize(): void
     {
@@ -427,9 +391,8 @@ class NoneTest extends TestCase
     }
 
     /**
-     * Tests for None::sum().
-     *
-     * @see \ScalikePHP\None::sum()
+     * @test
+     * @covers \ScalikePHP\None::sum()
      */
     public function testSum(): void
     {
@@ -437,22 +400,32 @@ class NoneTest extends TestCase
     }
 
     /**
-     * Tests for None::sumBy().
-     *
-     * @see \ScalikePHP\None::sumBy()
+     * @test
+     * @covers \ScalikePHP\None::sumBy()
      */
     public function testSumBy(): void
     {
-        $f = function(int $z, int $value): int {
-            return $z + $value;
-        };
+        $f = fn (int $z, int $value): int => $z + $value;
         Assert::same(0, Option::none()->sumBy($f));
     }
 
     /**
-     * Tests for None::take().
-     *
-     * @see \ScalikePHP\None::take()
+     * @test
+     * @covers \ScalikePHP\None::tail()
+     */
+    public function testTail(): void
+    {
+        Assert::throws(
+            LogicException::class,
+            function (): void {
+                Option::none()->tail();
+            }
+        );
+    }
+
+    /**
+     * @test
+     * @covers \ScalikePHP\None::take()
      */
     public function testTake(): void
     {
@@ -463,9 +436,8 @@ class NoneTest extends TestCase
     }
 
     /**
-     * Tests for None::takeRight().
-     *
-     * @see \ScalikePHP\None::takeRight()
+     * @test
+     * @covers \ScalikePHP\None::takeRight()
      */
     public function testTakeRight(): void
     {
@@ -476,9 +448,8 @@ class NoneTest extends TestCase
     }
 
     /**
-     * Tests for None::toArray().
-     *
-     * @see \ScalikePHP\None::toArray()
+     * @test
+     * @covers \ScalikePHP\None::toArray()
      */
     public function testToArray(): void
     {
@@ -486,14 +457,12 @@ class NoneTest extends TestCase
     }
 
     /**
-     * Tests for None::toSeq().
-     *
-     * @see \ScalikePHP\None::toSeq()
+     * @test
+     * @covers \ScalikePHP\None::toSeq()
      */
     public function testToSeq(): void
     {
         Assert::instanceOf(Seq::class, Option::none()->toSeq());
         Assert::same([], Option::none()->toSeq()->toArray());
     }
-
 }
