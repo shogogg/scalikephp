@@ -15,7 +15,7 @@ use ScalikePHP\Map;
 use ScalikePHP\Seq;
 
 /**
- * Tests for Map.
+ * Tests for Maps.
  */
 trait MapTestCases
 {
@@ -28,10 +28,9 @@ trait MapTestCases
     abstract protected function map(array $values = []): Map;
 
     /**
-     * Tests for Map::append().
-     *
-     * @see \ScalikePHP\ArrayMap::append()
-     * @see \ScalikePHP\TraversableMap::append()
+     * @test
+     * @covers \ScalikePHP\ArrayMap::append()
+     * @covers \ScalikePHP\TraversableMap::append()
      * @noinspection PhpUnused
      */
     public function testAppend(): void
@@ -48,10 +47,9 @@ trait MapTestCases
     }
 
     /**
-     * Tests for Map::contains().
-     *
-     * @see \ScalikePHP\ArrayMap::contains()
-     * @see \ScalikePHP\TraversableMap::contains()
+     * @test
+     * @covers \ScalikePHP\ArrayMap::contains()
+     * @covers \ScalikePHP\TraversableMap::contains()
      * @noinspection PhpUnused
      */
     public function testContains(): void
@@ -63,10 +61,9 @@ trait MapTestCases
     }
 
     /**
-     * Tests for Map::count().
-     *
-     * @see \ScalikePHP\ArrayMap::count()
-     * @see \ScalikePHP\TraversableMap::count()
+     * @test
+     * @covers \ScalikePHP\ArrayMap::count()
+     * @covers \ScalikePHP\TraversableMap::count()
      * @noinspection PhpUnused
      */
     public function testCount(): void
@@ -78,9 +75,9 @@ trait MapTestCases
     }
 
     /**
-     * Tests for Map::drop().
-     *
-     * @see \ScalikePHP\Map::drop()
+     * @test
+     * @covers \ScalikePHP\ArrayMap::drop()
+     * @covers \ScalikePHP\TraversableMap::drop()
      * @noinspection PhpUnused
      */
     public function testDrop(): void
@@ -101,10 +98,9 @@ trait MapTestCases
     }
 
     /**
-     * Tests for Map::each().
-     *
-     * @see \ScalikePHP\ArrayMap::each()
-     * @see \ScalikePHP\TraversableMap::each()
+     * @test
+     * @covers \ScalikePHP\ArrayMap::each()
+     * @covers \ScalikePHP\TraversableMap::each()
      * @noinspection PhpUnused
      */
     public function testEach(): void
@@ -120,10 +116,9 @@ trait MapTestCases
     }
 
     /**
-     * Tests for Map::exists().
-     *
-     * @see \ScalikePHP\ArrayMap::exists()
-     * @see \ScalikePHP\TraversableMap::exists()
+     * @test
+     * @covers \ScalikePHP\ArrayMap::exists()
+     * @covers \ScalikePHP\TraversableMap::exists()
      * @noinspection PhpUnused
      */
     public function testExists(): void
@@ -136,10 +131,9 @@ trait MapTestCases
     }
 
     /**
-     * Tests for Map::filter().
-     *
-     * @see \ScalikePHP\ArrayMap::filter()
-     * @see \ScalikePHP\TraversableMap::filter()
+     * @test
+     * @covers \ScalikePHP\ArrayMap::filter()
+     * @covers \ScalikePHP\TraversableMap::filter()
      * @noinspection PhpUnused
      */
     public function testFilter(): void
@@ -152,10 +146,9 @@ trait MapTestCases
     }
 
     /**
-     * Tests for Map::filterNot().
-     *
-     * @see \ScalikePHP\ArrayMap::filterNot()
-     * @see \ScalikePHP\TraversableMap::filterNot()
+     * @test
+     * @covers \ScalikePHP\ArrayMap::filterNot()
+     * @covers \ScalikePHP\TraversableMap::filterNot()
      * @noinspection PhpUnused
      */
     public function testFilterNot(): void
@@ -168,10 +161,9 @@ trait MapTestCases
     }
 
     /**
-     * Tests for Map::find().
-     *
-     * @see \ScalikePHP\ArrayMap::find()
-     * @see \ScalikePHP\TraversableMap::find()
+     * @test
+     * @covers \ScalikePHP\ArrayMap::find()
+     * @covers \ScalikePHP\TraversableMap::find()
      * @noinspection PhpUnused
      */
     public function testFind(): void
@@ -184,10 +176,9 @@ trait MapTestCases
     }
 
     /**
-     * Tests for Map::flatMap().
-     *
-     * @see \ScalikePHP\ArrayMap::flatMap()
-     * @see \ScalikePHP\TraversableMap::flatMap()
+     * @test
+     * @covers \ScalikePHP\ArrayMap::flatMap()
+     * @covers \ScalikePHP\TraversableMap::flatMap()
      * @noinspection PhpUnused
      */
     public function testFlatMap(): void
@@ -226,10 +217,9 @@ trait MapTestCases
     }
 
     /**
-     * Tests for Map::flatten().
-     *
-     * @see \ScalikePHP\ArrayMap::flatten()
-     * @see \ScalikePHP\TraversableMap::flatten()
+     * @test
+     * @covers \ScalikePHP\ArrayMap::flatten()
+     * @covers \ScalikePHP\TraversableMap::flatten()
      * @noinspection PhpUnused
      */
     public function testFlatten(): void
@@ -244,10 +234,9 @@ trait MapTestCases
     }
 
     /**
-     * Tests for Map::fold().
-     *
-     * @see \ScalikePHP\ArrayMap::fold()
-     * @see \ScalikePHP\TraversableMap::fold()
+     * @test
+     * @covers \ScalikePHP\ArrayMap::fold()
+     * @covers \ScalikePHP\TraversableMap::fold()
      * @noinspection PhpUnused
      */
     public function testFold(): void
@@ -260,10 +249,9 @@ trait MapTestCases
     }
 
     /**
-     * Tests for Map::forAll().
-     *
-     * @see \ScalikePHP\ArrayMap::forAll()
-     * @see \ScalikePHP\TraversableMap::forAll()
+     * @test
+     * @covers \ScalikePHP\ArrayMap::forAll()
+     * @covers \ScalikePHP\TraversableMap::forAll()
      * @noinspection PhpUnused
      */
     public function testForAll(): void
@@ -276,10 +264,9 @@ trait MapTestCases
     }
 
     /**
-     * Tests for Map::get().
-     *
-     * @see \ScalikePHP\ArrayMap::get()
-     * @see \ScalikePHP\TraversableMap::get()
+     * @test
+     * @covers \ScalikePHP\ArrayMap::get()
+     * @covers \ScalikePHP\TraversableMap::get()
      * @noinspection PhpUnused
      */
     public function testGet(): void
@@ -292,10 +279,9 @@ trait MapTestCases
     }
 
     /**
-     * Tests for Map::getOrElse().
-     *
-     * @see \ScalikePHP\ArrayMap::getOrElse()
-     * @see \ScalikePHP\TraversableMap::getOrElse()
+     * @test
+     * @covers \ScalikePHP\ArrayMap::getOrElse()
+     * @covers \ScalikePHP\TraversableMap::getOrElse()
      * @noinspection PhpUnused
      */
     public function testGetOrElse(): void
@@ -309,10 +295,9 @@ trait MapTestCases
     }
 
     /**
-     * Tests for Map::groupBy().
-     *
-     * @see \ScalikePHP\ArrayMap::groupBy()
-     * @see \ScalikePHP\TraversableMap::groupBy()
+     * @test
+     * @covers \ScalikePHP\ArrayMap::groupBy()
+     * @covers \ScalikePHP\TraversableMap::groupBy()
      * @noinspection PhpUnused
      */
     public function testGroupBy(): void
@@ -344,10 +329,9 @@ trait MapTestCases
     }
 
     /**
-     * Tests for Map::head().
-     *
-     * @see \ScalikePHP\ArrayMap::head()
-     * @see \ScalikePHP\TraversableMap::head()
+     * @test
+     * @covers \ScalikePHP\ArrayMap::head()
+     * @covers \ScalikePHP\TraversableMap::head()
      * @noinspection PhpUnused
      */
     public function testHead(): void
@@ -363,10 +347,9 @@ trait MapTestCases
     }
 
     /**
-     * Tests for Map::headOption().
-     *
-     * @see \ScalikePHP\ArrayMap::headOption()
-     * @see \ScalikePHP\TraversableMap::headOption()
+     * @test
+     * @covers \ScalikePHP\ArrayMap::headOption()
+     * @covers \ScalikePHP\TraversableMap::headOption()
      * @noinspection PhpUnused
      */
     public function testHeadOption(): void
@@ -377,10 +360,9 @@ trait MapTestCases
     }
 
     /**
-     * Tests for Map::isEmpty().
-     *
-     * @see \ScalikePHP\ArrayMap::isEmpty()
-     * @see \ScalikePHP\TraversableMap::isEmpty()
+     * @test
+     * @covers \ScalikePHP\ArrayMap::isEmpty()
+     * @covers \ScalikePHP\TraversableMap::isEmpty()
      * @noinspection PhpUnused
      */
     public function testIsEmpty(): void
@@ -390,10 +372,9 @@ trait MapTestCases
     }
 
     /**
-     * Tests for Map::jsonSerialize().
-     *
-     * @see \ScalikePHP\ArrayMap::jsonSerialize()
-     * @see \ScalikePHP\TraversableMap::jsonSerialize()
+     * @test
+     * @covers \ScalikePHP\ArrayMap::jsonSerialize()
+     * @covers \ScalikePHP\TraversableMap::jsonSerialize()
      * @noinspection PhpUnused
      */
     public function testJsonSerialize(): void
@@ -405,10 +386,9 @@ trait MapTestCases
     }
 
     /**
-     * Tests for Map::last().
-     *
-     * @see \ScalikePHP\ArrayMap::last()
-     * @see \ScalikePHP\TraversableMap::last()
+     * @test
+     * @covers \ScalikePHP\ArrayMap::last()
+     * @covers \ScalikePHP\TraversableMap::last()
      * @noinspection PhpUnused
      */
     public function testLast(): void
@@ -424,10 +404,9 @@ trait MapTestCases
     }
 
     /**
-     * Tests for Map::lastOption().
-     *
-     * @see \ScalikePHP\ArrayMap::lastOption()
-     * @see \ScalikePHP\TraversableMap::lastOption()
+     * @test
+     * @covers \ScalikePHP\ArrayMap::lastOption()
+     * @covers \ScalikePHP\TraversableMap::lastOption()
      * @noinspection PhpUnused
      */
     public function testLastOption(): void
@@ -438,10 +417,9 @@ trait MapTestCases
     }
 
     /**
-     * Tests for Map::map().
-     *
-     * @see \ScalikePHP\ArrayMap::map()
-     * @see \ScalikePHP\TraversableMap::map()
+     * @test
+     * @covers \ScalikePHP\ArrayMap::map()
+     * @covers \ScalikePHP\TraversableMap::map()
      * @noinspection PhpUnused
      */
     public function testMap(): void
@@ -460,10 +438,9 @@ trait MapTestCases
     }
 
     /**
-     * Tests for Map::max().
-     *
-     * @see \ScalikePHP\ArrayMap::max()
-     * @see \ScalikePHP\TraversableMap::max()
+     * @test
+     * @covers \ScalikePHP\ArrayMap::max()
+     * @covers \ScalikePHP\TraversableMap::max()
      * @noinspection PhpUnused
      */
     public function testMax(): void
@@ -473,10 +450,9 @@ trait MapTestCases
     }
 
     /**
-     * Tests for Map::maxBy().
-     *
-     * @see \ScalikePHP\ArrayMap::maxBy()
-     * @see \ScalikePHP\TraversableMap::maxBy()
+     * @test
+     * @covers \ScalikePHP\ArrayMap::maxBy()
+     * @covers \ScalikePHP\TraversableMap::maxBy()
      * @noinspection PhpUnused
      */
     public function testMaxBy(): void
@@ -489,10 +465,9 @@ trait MapTestCases
     }
 
     /**
-     * Tests for Map::min().
-     *
-     * @see \ScalikePHP\ArrayMap::min()
-     * @see \ScalikePHP\TraversableMap::min()
+     * @test
+     * @covers \ScalikePHP\ArrayMap::min()
+     * @covers \ScalikePHP\TraversableMap::min()
      * @noinspection PhpUnused
      */
     public function testMin(): void
@@ -502,10 +477,9 @@ trait MapTestCases
     }
 
     /**
-     * Tests for Map::minBy().
-     *
-     * @see \ScalikePHP\ArrayMap::minBy()
-     * @see \ScalikePHP\TraversableMap::minBy()
+     * @test
+     * @covers \ScalikePHP\ArrayMap::minBy()
+     * @covers \ScalikePHP\TraversableMap::minBy()
      * @noinspection PhpUnused
      */
     public function testMinBy(): void
@@ -518,10 +492,9 @@ trait MapTestCases
     }
 
     /**
-     * Tests for Map::mkString().
-     *
-     * @see \ScalikePHP\ArrayMap::mkString()
-     * @see \ScalikePHP\TraversableMap::mkString()
+     * @test
+     * @covers \ScalikePHP\ArrayMap::mkString()
+     * @covers \ScalikePHP\TraversableMap::mkString()
      * @noinspection PhpUnused
      */
     public function testMkString(): void
@@ -533,10 +506,9 @@ trait MapTestCases
     }
 
     /**
-     * Tests for Map::nonEmpty().
-     *
-     * @see \ScalikePHP\ArrayMap::nonEmpty()
-     * @see \ScalikePHP\TraversableMap::nonEmpty()
+     * @test
+     * @covers \ScalikePHP\ArrayMap::nonEmpty()
+     * @covers \ScalikePHP\TraversableMap::nonEmpty()
      * @noinspection PhpUnused
      */
     public function testNonEmpty(): void
@@ -546,10 +518,9 @@ trait MapTestCases
     }
 
     /**
-     * Tests for Map::offsetExists().
-     *
-     * @see \ScalikePHP\ArrayMap::offsetExists()
-     * @see \ScalikePHP\TraversableMap::offsetExists()
+     * @test
+     * @covers \ScalikePHP\ArrayMap::offsetExists()
+     * @covers \ScalikePHP\TraversableMap::offsetExists()
      * @noinspection PhpUnused
      */
     public function testOffsetExists(): void
@@ -562,10 +533,9 @@ trait MapTestCases
     }
 
     /**
-     * Tests for Map::offsetGet().
-     *
-     * @see \ScalikePHP\ArrayMap::offsetGet()
-     * @see \ScalikePHP\TraversableMap::offsetGet()
+     * @test
+     * @covers \ScalikePHP\ArrayMap::offsetGet()
+     * @covers \ScalikePHP\TraversableMap::offsetGet()
      * @noinspection PhpUnused
      */
     public function testOffsetGet(): void
@@ -577,10 +547,9 @@ trait MapTestCases
     }
 
     /**
-     * Tests for Map::offsetSet().
-     *
-     * @see \ScalikePHP\ArrayMap::offsetSet()
-     * @see \ScalikePHP\TraversableMap::offsetSet()
+     * @test
+     * @covers \ScalikePHP\ArrayMap::offsetSet()
+     * @covers \ScalikePHP\TraversableMap::offsetSet()
      * @noinspection PhpUnused
      */
     public function testOffsetSet(): void
@@ -597,10 +566,9 @@ trait MapTestCases
     }
 
     /**
-     * Tests for Map::offsetUnset().
-     *
-     * @see \ScalikePHP\ArrayMap::offsetUnset()
-     * @see \ScalikePHP\TraversableMap::offsetUnset()
+     * @test
+     * @covers \ScalikePHP\ArrayMap::offsetUnset()
+     * @covers \ScalikePHP\TraversableMap::offsetUnset()
      * @noinspection PhpUnused
      */
     public function testOffsetUnset(): void
@@ -617,9 +585,9 @@ trait MapTestCases
     }
 
     /**
-     * Tests for Map::partition().
-     *
-     * @see \ScalikePHP\Map::partition()
+     * @test
+     * @covers \ScalikePHP\ArrayMap::partition()
+     * @covers \ScalikePHP\TraversableMap::partition()
      * @noinspection PhpUnused
      */
     public function testPartition(): void
@@ -644,10 +612,9 @@ trait MapTestCases
     }
 
     /**
-     * Tests for Map::size().
-     *
-     * @see \ScalikePHP\ArrayMap::size()
-     * @see \ScalikePHP\TraversableMap::size()
+     * @test
+     * @covers \ScalikePHP\ArrayMap::size()
+     * @covers \ScalikePHP\TraversableMap::size()
      * @noinspection PhpUnused
      */
     public function testSize(): void
@@ -659,10 +626,9 @@ trait MapTestCases
     }
 
     /**
-     * Tests for Map::sum().
-     *
-     * @see \ScalikePHP\ArrayMap::sum()
-     * @see \ScalikePHP\TraversableMap::sum()
+     * @test
+     * @covers \ScalikePHP\ArrayMap::sum()
+     * @covers \ScalikePHP\TraversableMap::sum()
      * @noinspection PhpUnused
      */
     public function testSum(): void
@@ -678,10 +644,9 @@ trait MapTestCases
     }
 
     /**
-     * Tests for Map::sumBy().
-     *
-     * @see \ScalikePHP\ArrayMap::sumBy()
-     * @see \ScalikePHP\TraversableMap::sumBy()
+     * @test
+     * @covers \ScalikePHP\ArrayMap::sumBy()
+     * @covers \ScalikePHP\TraversableMap::sumBy()
      * @noinspection PhpUnused
      */
     public function testSumBy(): void
@@ -692,9 +657,9 @@ trait MapTestCases
     }
 
     /**
-     * Tests for Map::tail().
-     *
-     * @see \ScalikePHP\Map::tail()
+     * @test
+     * @covers \ScalikePHP\ArrayMap::tail()
+     * @covers \ScalikePHP\TraversableMap::tail()
      * @noinspection PhpUnused
      */
     public function testTail(): void
@@ -712,10 +677,9 @@ trait MapTestCases
     }
 
     /**
-     * Tests for Map::take().
-     *
-     * @see \ScalikePHP\ArrayMap::take()
-     * @see \ScalikePHP\TraversableMap::take()
+     * @test
+     * @covers \ScalikePHP\ArrayMap::take()
+     * @covers \ScalikePHP\TraversableMap::take()
      * @noinspection PhpUnused
      */
     public function testTake(): void
@@ -730,10 +694,9 @@ trait MapTestCases
     }
 
     /**
-     * Tests for Map::takeRight().
-     *
-     * @see \ScalikePHP\ArrayMap::takeRight()
-     * @see \ScalikePHP\TraversableMap::takeRight()
+     * @test
+     * @covers \ScalikePHP\ArrayMap::takeRight()
+     * @covers \ScalikePHP\TraversableMap::takeRight()
      * @noinspection PhpUnused
      */
     public function testTakeRight(): void
@@ -748,10 +711,9 @@ trait MapTestCases
     }
 
     /**
-     * Tests for Map::toArray().
-     *
-     * @see \ScalikePHP\ArrayMap::toArray()
-     * @see \ScalikePHP\TraversableMap::toArray()
+     * @test
+     * @covers \ScalikePHP\ArrayMap::toArray()
+     * @covers \ScalikePHP\TraversableMap::toArray()
      * @noinspection PhpUnused
      */
     public function testToArray(): void
@@ -761,10 +723,9 @@ trait MapTestCases
     }
 
     /**
-     * Tests for Map::toSeq().
-     *
-     * @see \ScalikePHP\ArrayMap::toSeq()
-     * @see \ScalikePHP\TraversableMap::toSeq()
+     * @test
+     * @covers \ScalikePHP\ArrayMap::toSeq()
+     * @covers \ScalikePHP\TraversableMap::toSeq()
      * @noinspection PhpUnused
      */
     public function testToSeq(): void

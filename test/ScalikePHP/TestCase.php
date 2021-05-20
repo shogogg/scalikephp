@@ -14,9 +14,6 @@ use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 
 /**
  * Base TestCase.
- *
- * @internal
- * @coversNothing
  */
 abstract class TestCase extends \PHPUnit\Framework\TestCase
 {
@@ -27,7 +24,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
      *
      * @return \Mockery\MockInterface|MockInterface
      */
-    public static function spy(): Mockery\MockInterface
+    protected static function spy(): Mockery\MockInterface
     {
         return Mockery::spy();
     }

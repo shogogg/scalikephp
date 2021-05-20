@@ -16,19 +16,15 @@ use ScalikePHP\Seq;
 use ScalikePHP\Some;
 
 /**
- * Tests for None.
- *
- * @see \ScalikePHP\None
+ * Tests for {@link \ScalikePHP\None}.
  *
  * @internal
- * @coversNothing
  */
 final class NoneTest extends TestCase
 {
     /**
-     * Tests for None::count().
-     *
-     * @see \ScalikePHP\None::count()
+     * @test
+     * @covers \ScalikePHP\None::count()
      */
     public function testCount(): void
     {
@@ -36,9 +32,8 @@ final class NoneTest extends TestCase
     }
 
     /**
-     * Tests for None::drop().
-     *
-     * @see \ScalikePHP\None::drop()
+     * @test
+     * @covers \ScalikePHP\None::drop()
      */
     public function testDrop(): void
     {
@@ -50,9 +45,8 @@ final class NoneTest extends TestCase
     }
 
     /**
-     * Tests for None::each().
-     *
-     * @see \ScalikePHP\None::each()
+     * @test
+     * @covers \ScalikePHP\None::each()
      */
     public function testEach(): void
     {
@@ -65,9 +59,8 @@ final class NoneTest extends TestCase
     }
 
     /**
-     * Tests for Option::exists().
-     *
-     * @see \ScalikePHP\Option::exists()
+     * @test
+     * @covers \ScalikePHP\Option::exists()
      */
     public function testExists(): void
     {
@@ -76,9 +69,8 @@ final class NoneTest extends TestCase
     }
 
     /**
-     * Tests for Option::filter().
-     *
-     * @see \ScalikePHP\Option::filter()
+     * @test
+     * @covers \ScalikePHP\Option::filter()
      */
     public function testFilter(): void
     {
@@ -87,9 +79,8 @@ final class NoneTest extends TestCase
     }
 
     /**
-     * Tests for Option::filterNot().
-     *
-     * @see \ScalikePHP\Option::filterNot()
+     * @test
+     * @covers \ScalikePHP\Option::filterNot()
      */
     public function testFilterNot(): void
     {
@@ -98,9 +89,8 @@ final class NoneTest extends TestCase
     }
 
     /**
-     * Tests for None::find().
-     *
-     * @see \ScalikePHP\None::find()
+     * @test
+     * @covers \ScalikePHP\None::find()
      */
     public function testFind(): void
     {
@@ -109,9 +99,8 @@ final class NoneTest extends TestCase
     }
 
     /**
-     * Tests for None::flatMap().
-     *
-     * @see \ScalikePHP\None::flatMap()
+     * @test
+     * @covers \ScalikePHP\None::flatMap()
      */
     public function testFlatMap(): void
     {
@@ -124,9 +113,8 @@ final class NoneTest extends TestCase
     }
 
     /**
-     * Tests for None::flatten().
-     *
-     * @see \ScalikePHP\None::flatten()
+     * @test
+     * @covers \ScalikePHP\None::flatten()
      */
     public function testFlatten(): void
     {
@@ -134,9 +122,8 @@ final class NoneTest extends TestCase
     }
 
     /**
-     * Tests for None::forAll().
-     *
-     * @see \ScalikePHP\None::forAll()
+     * @test
+     * @covers \ScalikePHP\None::forAll()
      */
     public function testForAll(): void
     {
@@ -145,9 +132,8 @@ final class NoneTest extends TestCase
     }
 
     /**
-     * Tests for None::get().
-     *
-     * @see \ScalikePHP\None::get()
+     * @test
+     * @covers \ScalikePHP\None::get()
      */
     public function testGet(): void
     {
@@ -160,9 +146,8 @@ final class NoneTest extends TestCase
     }
 
     /**
-     * Tests for None::getOrElse().
-     *
-     * @see \ScalikePHP\None::getOrElse()
+     * @test
+     * @covers \ScalikePHP\None::getOrElse()
      */
     public function testGetOrElse(): void
     {
@@ -173,9 +158,8 @@ final class NoneTest extends TestCase
     }
 
     /**
-     * Tests for Some::getOrElseValue().
-     *
-     * @see \ScalikePHP\Some::getOrElseValue()
+     * @test
+     * @covers \ScalikePHP\Some::getOrElseValue()
      */
     public function testGetOrElseValue(): void
     {
@@ -184,9 +168,8 @@ final class NoneTest extends TestCase
     }
 
     /**
-     * Tests for None::groupBy().
-     *
-     * @see \ScalikePHP\None::groupBy()
+     * @test
+     * @covers \ScalikePHP\None::groupBy()
      */
     public function testGroupBy(): void
     {
@@ -198,9 +181,8 @@ final class NoneTest extends TestCase
     }
 
     /**
-     * Tests for None::head().
-     *
-     * @see \ScalikePHP\None::head()
+     * @test
+     * @covers \ScalikePHP\None::head()
      */
     public function testHead(): void
     {
@@ -213,9 +195,8 @@ final class NoneTest extends TestCase
     }
 
     /**
-     * Tests for None::headOption().
-     *
-     * @see \ScalikePHP\None::headOption()
+     * @test
+     * @covers \ScalikePHP\None::headOption()
      */
     public function testHeadOption(): void
     {
@@ -223,9 +204,8 @@ final class NoneTest extends TestCase
     }
 
     /**
-     * Tests for None::isDefined().
-     *
-     * @see \ScalikePHP\None::isDefined()
+     * @test
+     * @covers \ScalikePHP\None::isDefined()
      */
     public function testIsDefined(): void
     {
@@ -233,9 +213,8 @@ final class NoneTest extends TestCase
     }
 
     /**
-     * Tests for None::isEmpty().
-     *
-     * @see \ScalikePHP\None::isEmpty()
+     * @test
+     * @covers \ScalikePHP\None::isEmpty()
      */
     public function testIsEmpty(): void
     {
@@ -243,9 +222,8 @@ final class NoneTest extends TestCase
     }
 
     /**
-     * Tests for None::last().
-     *
-     * @see \ScalikePHP\None::last()
+     * @test
+     * @covers \ScalikePHP\None::last()
      */
     public function testLast(): void
     {
@@ -258,9 +236,8 @@ final class NoneTest extends TestCase
     }
 
     /**
-     * Tests for None::lastOption().
-     *
-     * @see \ScalikePHP\None::lastOption()
+     * @test
+     * @covers \ScalikePHP\None::lastOption()
      */
     public function testLastOption(): void
     {
@@ -268,9 +245,8 @@ final class NoneTest extends TestCase
     }
 
     /**
-     * Tests for None::map().
-     *
-     * @see \ScalikePHP\None::map()
+     * @test
+     * @covers \ScalikePHP\None::map()
      */
     public function testMap(): void
     {
@@ -279,9 +255,8 @@ final class NoneTest extends TestCase
     }
 
     /**
-     * Tests for None::max().
-     *
-     * @see \ScalikePHP\None::max()
+     * @test
+     * @covers \ScalikePHP\None::max()
      */
     public function testMax(): void
     {
@@ -294,9 +269,8 @@ final class NoneTest extends TestCase
     }
 
     /**
-     * Tests for None::maxBy().
-     *
-     * @see \ScalikePHP\None::maxBy()
+     * @test
+     * @covers \ScalikePHP\None::maxBy()
      */
     public function testMaxBy(): void
     {
@@ -309,9 +283,8 @@ final class NoneTest extends TestCase
     }
 
     /**
-     * Tests for None::min().
-     *
-     * @see \ScalikePHP\None::min()
+     * @test
+     * @covers \ScalikePHP\None::min()
      */
     public function testMin(): void
     {
@@ -324,9 +297,8 @@ final class NoneTest extends TestCase
     }
 
     /**
-     * Tests for None::minBy().
-     *
-     * @see \ScalikePHP\None::minBy()
+     * @test
+     * @covers \ScalikePHP\None::minBy()
      */
     public function testMinBy(): void
     {
@@ -339,9 +311,8 @@ final class NoneTest extends TestCase
     }
 
     /**
-     * Tests for None::mkString().
-     *
-     * @see \ScalikePHP\None::mkString()
+     * @test
+     * @covers \ScalikePHP\None::mkString()
      */
     public function testMkString(): void
     {
@@ -350,9 +321,8 @@ final class NoneTest extends TestCase
     }
 
     /**
-     * Tests for None::nonEmpty().
-     *
-     * @see \ScalikePHP\None::nonEmpty()
+     * @test
+     * @covers \ScalikePHP\None::nonEmpty()
      */
     public function testNonEmpty(): void
     {
@@ -360,9 +330,8 @@ final class NoneTest extends TestCase
     }
 
     /**
-     * Tests for None::orElse().
-     *
-     * @see \ScalikePHP\None::orElse()
+     * @test
+     * @covers \ScalikePHP\None::orElse()
      */
     public function testOrElse(): void
     {
@@ -371,9 +340,8 @@ final class NoneTest extends TestCase
     }
 
     /**
-     * Tests for None::orNull().
-     *
-     * @see \ScalikePHP\None::orNull()
+     * @test
+     * @covers \ScalikePHP\None::orNull()
      */
     public function testOrNull(): void
     {
@@ -381,9 +349,8 @@ final class NoneTest extends TestCase
     }
 
     /**
-     * Tests for None::partition().
-     *
-     * @see \ScalikePHP\None::partition()
+     * @test
+     * @covers \ScalikePHP\None::partition()
      */
     public function testPartition(): void
     {
@@ -406,9 +373,8 @@ final class NoneTest extends TestCase
     }
 
     /**
-     * Tests for None::pick().
-     *
-     * @see \ScalikePHP\None::pick()
+     * @test
+     * @covers \ScalikePHP\None::pick()
      */
     public function testPick(): void
     {
@@ -416,9 +382,8 @@ final class NoneTest extends TestCase
     }
 
     /**
-     * Tests for None::size().
-     *
-     * @see \ScalikePHP\None::size()
+     * @test
+     * @covers \ScalikePHP\None::size()
      */
     public function testSize(): void
     {
@@ -426,9 +391,8 @@ final class NoneTest extends TestCase
     }
 
     /**
-     * Tests for None::sum().
-     *
-     * @see \ScalikePHP\None::sum()
+     * @test
+     * @covers \ScalikePHP\None::sum()
      */
     public function testSum(): void
     {
@@ -436,9 +400,8 @@ final class NoneTest extends TestCase
     }
 
     /**
-     * Tests for None::sumBy().
-     *
-     * @see \ScalikePHP\None::sumBy()
+     * @test
+     * @covers \ScalikePHP\None::sumBy()
      */
     public function testSumBy(): void
     {
@@ -447,9 +410,8 @@ final class NoneTest extends TestCase
     }
 
     /**
-     * Tests for None::tail().
-     *
-     * @see \ScalikePHP\None::tail()
+     * @test
+     * @covers \ScalikePHP\None::tail()
      */
     public function testTail(): void
     {
@@ -462,9 +424,8 @@ final class NoneTest extends TestCase
     }
 
     /**
-     * Tests for None::take().
-     *
-     * @see \ScalikePHP\None::take()
+     * @test
+     * @covers \ScalikePHP\None::take()
      */
     public function testTake(): void
     {
@@ -475,9 +436,8 @@ final class NoneTest extends TestCase
     }
 
     /**
-     * Tests for None::takeRight().
-     *
-     * @see \ScalikePHP\None::takeRight()
+     * @test
+     * @covers \ScalikePHP\None::takeRight()
      */
     public function testTakeRight(): void
     {
@@ -488,9 +448,8 @@ final class NoneTest extends TestCase
     }
 
     /**
-     * Tests for None::toArray().
-     *
-     * @see \ScalikePHP\None::toArray()
+     * @test
+     * @covers \ScalikePHP\None::toArray()
      */
     public function testToArray(): void
     {
@@ -498,9 +457,8 @@ final class NoneTest extends TestCase
     }
 
     /**
-     * Tests for None::toSeq().
-     *
-     * @see \ScalikePHP\None::toSeq()
+     * @test
+     * @covers \ScalikePHP\None::toSeq()
      */
     public function testToSeq(): void
     {

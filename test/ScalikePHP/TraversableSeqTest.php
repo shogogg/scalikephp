@@ -15,12 +15,9 @@ use ScalikePHP\Seq;
 use ScalikePHP\TraversableSeq;
 
 /**
- * Tests for TraversableSeq.
- *
- * @see \ScalikePHP\TraversableSeq
+ * Tests for {@link \ScalikePHP\TraversableSeq}.
  *
  * @internal
- * @coversNothing
  */
 final class TraversableSeqTest extends TestCase
 {
@@ -35,9 +32,8 @@ final class TraversableSeqTest extends TestCase
     }
 
     /**
-     * Tests for TraversableSeq::computed().
-     *
-     * @see \ScalikePHP\TraversableSeq::computed()
+     * @test
+     * @covers \ScalikePHP\TraversableSeq::computed()
      */
     public function testComputed(): void
     {

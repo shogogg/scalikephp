@@ -36,6 +36,8 @@ return $config
         'no_superfluous_phpdoc_tags' => false,
         'no_useless_else' => false,
         'ordered_imports' => true,
+        'php_unit_test_class_requires_covers' => false,
+        'php_unit_test_annotation' => false,
         'phpdoc_align' => [
             'align' => 'left',
         ],

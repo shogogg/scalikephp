@@ -12,19 +12,15 @@ namespace Test\ScalikePHP;
 use ScalikePHP\Map;
 
 /**
- * Tests for Map.
- *
- * @see \ScalikePHP\Map
+ * Tests for {@link \ScalikePHP\Map}.
  *
  * @internal
- * @coversNothing
  */
 final class MapTest extends TestCase
 {
     /**
-     * Tests for Map::empty().
-     *
-     * @see \ScalikePHP\Map::empty()
+     * @test
+     * @covers \ScalikePHP\Map::empty()
      */
     public function testEmpty(): void
     {
@@ -33,9 +29,8 @@ final class MapTest extends TestCase
     }
 
     /**
-     * Tests for Map::emptyMap().
-     *
-     * @see \ScalikePHP\Map::emptyMap()
+     * @test
+     * @covers \ScalikePHP\Map::emptyMap()
      */
     public function testEmptyMap(): void
     {

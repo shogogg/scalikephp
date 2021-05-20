@@ -16,19 +16,15 @@ use ScalikePHP\Seq;
 use ScalikePHP\TraversableSeq;
 
 /**
- * Tests for Seq.
- *
- * @see \ScalikePHP\Seq
+ * Tests for {@link \ScalikePHP\Seq}.
  *
  * @internal
- * @coversNothing
  */
 final class SeqTest extends TestCase
 {
     /**
-     * Tests for Seq::empty().
-     *
-     * @see \ScalikePHP\Seq::empty()
+     * @test
+     * @covers \ScalikePHP\Seq::empty()
      */
     public function testEmpty(): void
     {
@@ -37,9 +33,8 @@ final class SeqTest extends TestCase
     }
 
     /**
-     * Tests for Seq::emptySeq().
-     *
-     * @see \ScalikePHP\Seq::emptySeq()
+     * @test
+     * @covers \ScalikePHP\Seq::emptySeq()
      */
     public function testEmptySeq(): void
     {
@@ -48,9 +43,8 @@ final class SeqTest extends TestCase
     }
 
     /**
-     * Tests for Seq::from().
-     *
-     * @see \ScalikePHP\Seq::from()
+     * @test
+     * @covers \ScalikePHP\Seq::from()
      */
     public function testFrom(): void
     {
@@ -59,9 +53,8 @@ final class SeqTest extends TestCase
     }
 
     /**
-     * Tests for Seq::fromArray().
-     *
-     * @see \ScalikePHP\Seq::fromArray()
+     * @test
+     * @covers \ScalikePHP\Seq::fromArray()
      */
     public function testFromArray(): void
     {

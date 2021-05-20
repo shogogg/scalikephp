@@ -13,12 +13,9 @@ use ScalikePHP\ArraySeq;
 use ScalikePHP\Seq;
 
 /**
- * Tests for ArraySeq.
- *
- * @see \ScalikePHP\ArraySeq
+ * Tests for {@link \ScalikePHP\ArraySeq}.
  *
  * @internal
- * @coversNothing
  */
 final class ArraySeqTest extends TestCase
 {
@@ -33,9 +30,8 @@ final class ArraySeqTest extends TestCase
     }
 
     /**
-     * Tests for ArraySeq::computed().
-     *
-     * @see \ScalikePHP\ArraySeq::computed()
+     * @test
+     * @covers \ScalikePHP\ArraySeq::computed()
      */
     public function testComputed(): void
     {

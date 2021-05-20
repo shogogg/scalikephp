@@ -14,12 +14,9 @@ use ScalikePHP\Map;
 use ScalikePHP\TraversableMap;
 
 /**
- * Tests for TraversableMap.
- *
- * @see \ScalikePHP\TraversableMap
+ * Tests for {@link \ScalikePHP\TraversableMap}.
  *
  * @internal
- * @coversNothing
  */
 final class TraversableMapTest extends TestCase
 {

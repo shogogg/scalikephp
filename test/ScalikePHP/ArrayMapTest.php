@@ -13,12 +13,9 @@ use ScalikePHP\ArrayMap;
 use ScalikePHP\Map;
 
 /**
- * Tests for ArrayMap.
- *
- * @see \ScalikePHP\ArrayMap
+ * Tests for {@link \ScalikePHP\ArrayMap}.
  *
  * @internal
- * @coversNothing
  */
 final class ArrayMapTest extends TestCase
 {

@@ -14,19 +14,15 @@ use ScalikePHP\Option;
 use ScalikePHP\Some;
 
 /**
- * Tests for Option.
- *
- * @see \ScalikePHP\Option
+ * Tests for {@link \ScalikePHP\Option}.
  *
  * @internal
- * @coversNothing
  */
 final class OptionTest extends TestCase
 {
     /**
-     * Tests for Option::from().
-     *
-     * @see \ScalikePHP\Option::from()
+     * @test
+     * @covers \ScalikePHP\Option::from()
      */
     public function testFrom(): void
     {
@@ -38,9 +34,8 @@ final class OptionTest extends TestCase
     }
 
     /**
-     * Tests for Option::fromArray().
-     *
-     * @see \ScalikePHP\Option::fromArray()
+     * @test
+     * @covers \ScalikePHP\Option::fromArray()
      */
     public function testFromArray(): void
     {
@@ -51,9 +46,8 @@ final class OptionTest extends TestCase
     }
 
     /**
-     * Tests for Option::none().
-     *
-     * @see \ScalikePHP\Option::none()
+     * @test
+     * @covers \ScalikePHP\Option::none()
      */
     public function testNone(): void
     {
@@ -61,9 +55,8 @@ final class OptionTest extends TestCase
     }
 
     /**
-     * Tests for Option::some().
-     *
-     * @see \ScalikePHP\Option::some()
+     * @test
+     * @covers \ScalikePHP\Option::some()
      */
     public function testSome(): void
     {

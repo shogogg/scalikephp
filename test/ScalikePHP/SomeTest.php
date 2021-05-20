@@ -15,19 +15,15 @@ use ScalikePHP\Seq;
 use ScalikePHP\Some;
 
 /**
- * Tests for Some.
- *
- * @see \ScalikePHP\Some
+ * Tests for {@link \ScalikePHP\Some}.
  *
  * @internal
- * @coversNothing
  */
 final class SomeTest extends TestCase
 {
     /**
-     * Tests for Some::count().
-     *
-     * @see \ScalikePHP\Some::count()
+     * @test
+     * @covers \ScalikePHP\Some::count()
      */
     public function testCount(): void
     {
@@ -38,9 +34,8 @@ final class SomeTest extends TestCase
     }
 
     /**
-     * Tests for Some::create().
-     *
-     * @see \ScalikePHP\Some::create()
+     * @test
+     * @covers \ScalikePHP\Some::create()
      */
     public function testCreate(): void
     {
@@ -53,9 +48,8 @@ final class SomeTest extends TestCase
     }
 
     /**
-     * Tests for Some::drop().
-     *
-     * @see \ScalikePHP\Some::drop()
+     * @test
+     * @covers \ScalikePHP\Some::drop()
      */
     public function testDrop(): void
     {
@@ -73,9 +67,8 @@ final class SomeTest extends TestCase
     }
 
     /**
-     * Tests for Some::each().
-     *
-     * @see \ScalikePHP\Some::each()
+     * @test
+     * @covers \ScalikePHP\Some::each()
      */
     public function testEach(): void
     {
@@ -90,7 +83,7 @@ final class SomeTest extends TestCase
     /**
      * Tests for Option::exists().
      *
-     * @see \ScalikePHP\Option::exists()
+     * @covers \ScalikePHP\Option::exists()
      */
     public function testExists(): void
     {
@@ -102,7 +95,7 @@ final class SomeTest extends TestCase
     /**
      * Tests for Option::filter().
      *
-     * @see \ScalikePHP\Option::filter()
+     * @covers \ScalikePHP\Option::filter()
      */
     public function testFilter(): void
     {
@@ -114,7 +107,7 @@ final class SomeTest extends TestCase
     /**
      * Tests for Option::filterNot().
      *
-     * @see \ScalikePHP\Option::filterNot()
+     * @covers \ScalikePHP\Option::filterNot()
      */
     public function testFilterNot(): void
     {
@@ -124,9 +117,8 @@ final class SomeTest extends TestCase
     }
 
     /**
-     * Tests for Some::find().
-     *
-     * @see \ScalikePHP\Some::find()
+     * @test
+     * @covers \ScalikePHP\Some::find()
      */
     public function testFind(): void
     {
@@ -136,9 +128,8 @@ final class SomeTest extends TestCase
     }
 
     /**
-     * Tests for Some::flatMap().
-     *
-     * @see \ScalikePHP\Some::flatMap()
+     * @test
+     * @covers \ScalikePHP\Some::flatMap()
      */
     public function testFlatMap(): void
     {
@@ -156,9 +147,8 @@ final class SomeTest extends TestCase
     }
 
     /**
-     * Tests for Some::flatten().
-     *
-     * @see \ScalikePHP\Some::flatten()
+     * @test
+     * @covers \ScalikePHP\Some::flatten()
      */
     public function testFlatten(): void
     {
@@ -167,9 +157,8 @@ final class SomeTest extends TestCase
     }
 
     /**
-     * Tests for Some::forAll().
-     *
-     * @see \ScalikePHP\Some::forAll()
+     * @test
+     * @covers \ScalikePHP\Some::forAll()
      */
     public function testForAll(): void
     {
@@ -179,9 +168,8 @@ final class SomeTest extends TestCase
     }
 
     /**
-     * Tests for Some::get().
-     *
-     * @see \ScalikePHP\Some::get()
+     * @test
+     * @covers \ScalikePHP\Some::get()
      */
     public function testGet(): void
     {
@@ -190,9 +178,8 @@ final class SomeTest extends TestCase
     }
 
     /**
-     * Tests for Some::getOrElse().
-     *
-     * @see \ScalikePHP\Some::getOrElse()
+     * @test
+     * @covers \ScalikePHP\Some::getOrElse()
      */
     public function testGetOrElse(): void
     {
@@ -204,9 +191,8 @@ final class SomeTest extends TestCase
     }
 
     /**
-     * Tests for Some::getOrElseValue().
-     *
-     * @see \ScalikePHP\Some::getOrElseValue()
+     * @test
+     * @covers \ScalikePHP\Some::getOrElseValue()
      */
     public function testGetOrElseValue(): void
     {
@@ -215,9 +201,8 @@ final class SomeTest extends TestCase
     }
 
     /**
-     * Tests for Some::groupBy().
-     *
-     * @see \ScalikePHP\Some::groupBy()
+     * @test
+     * @covers \ScalikePHP\Some::groupBy()
      */
     public function testGroupBy(): void
     {
@@ -235,9 +220,8 @@ final class SomeTest extends TestCase
     }
 
     /**
-     * Tests for Some::head().
-     *
-     * @see \ScalikePHP\Some::head()
+     * @test
+     * @covers \ScalikePHP\Some::head()
      */
     public function testHead(): void
     {
@@ -246,9 +230,8 @@ final class SomeTest extends TestCase
     }
 
     /**
-     * Tests for Some::headOption().
-     *
-     * @see \ScalikePHP\Some::headOption()
+     * @test
+     * @covers \ScalikePHP\Some::headOption()
      */
     public function testHeadOption(): void
     {
@@ -257,9 +240,8 @@ final class SomeTest extends TestCase
     }
 
     /**
-     * Tests for Some::isDefined().
-     *
-     * @see \ScalikePHP\Some::isDefined()
+     * @test
+     * @covers \ScalikePHP\Some::isDefined()
      */
     public function testIsDefined(): void
     {
@@ -268,9 +250,8 @@ final class SomeTest extends TestCase
     }
 
     /**
-     * Tests for Some::isEmpty().
-     *
-     * @see \ScalikePHP\Some::isEmpty()
+     * @test
+     * @covers \ScalikePHP\Some::isEmpty()
      */
     public function testIsEmpty(): void
     {
@@ -279,9 +260,8 @@ final class SomeTest extends TestCase
     }
 
     /**
-     * Tests for Some::last().
-     *
-     * @see \ScalikePHP\Some::last()
+     * @test
+     * @covers \ScalikePHP\Some::last()
      */
     public function testLast(): void
     {
@@ -290,9 +270,8 @@ final class SomeTest extends TestCase
     }
 
     /**
-     * Tests for Some::lastOption().
-     *
-     * @see \ScalikePHP\Some::lastOption()
+     * @test
+     * @covers \ScalikePHP\Some::lastOption()
      */
     public function testLastOption(): void
     {
@@ -301,9 +280,8 @@ final class SomeTest extends TestCase
     }
 
     /**
-     * Tests for Some::map().
-     *
-     * @see \ScalikePHP\Some::map()
+     * @test
+     * @covers \ScalikePHP\Some::map()
      */
     public function testMap(): void
     {
@@ -314,9 +292,8 @@ final class SomeTest extends TestCase
     }
 
     /**
-     * Tests for Some::max().
-     *
-     * @see \ScalikePHP\Some::max()
+     * @test
+     * @covers \ScalikePHP\Some::max()
      */
     public function testMax(): void
     {
@@ -325,9 +302,8 @@ final class SomeTest extends TestCase
     }
 
     /**
-     * Tests for Some::maxBy().
-     *
-     * @see \ScalikePHP\Some::maxBy()
+     * @test
+     * @covers \ScalikePHP\Some::maxBy()
      */
     public function testMaxBy(): void
     {
@@ -337,9 +313,8 @@ final class SomeTest extends TestCase
     }
 
     /**
-     * Tests for Some::min().
-     *
-     * @see \ScalikePHP\Some::min()
+     * @test
+     * @covers \ScalikePHP\Some::min()
      */
     public function testMin(): void
     {
@@ -348,9 +323,8 @@ final class SomeTest extends TestCase
     }
 
     /**
-     * Tests for Some::minBy().
-     *
-     * @see \ScalikePHP\Some::minBy()
+     * @test
+     * @covers \ScalikePHP\Some::minBy()
      */
     public function testMinBy(): void
     {
@@ -360,9 +334,8 @@ final class SomeTest extends TestCase
     }
 
     /**
-     * Tests for Some::mkString().
-     *
-     * @see \ScalikePHP\Some::mkString()
+     * @test
+     * @covers \ScalikePHP\Some::mkString()
      */
     public function testMkString(): void
     {
@@ -371,9 +344,8 @@ final class SomeTest extends TestCase
     }
 
     /**
-     * Tests for Some::nonEmpty().
-     *
-     * @see \ScalikePHP\Some::nonEmpty()
+     * @test
+     * @covers \ScalikePHP\Some::nonEmpty()
      */
     public function testNonEmpty(): void
     {
@@ -382,9 +354,8 @@ final class SomeTest extends TestCase
     }
 
     /**
-     * Tests for Some::orElse().
-     *
-     * @see \ScalikePHP\Some::orElse()
+     * @test
+     * @covers \ScalikePHP\Some::orElse()
      */
     public function testOrElse(): void
     {
@@ -396,9 +367,8 @@ final class SomeTest extends TestCase
     }
 
     /**
-     * Tests for Some::orNull().
-     *
-     * @see \ScalikePHP\Some::orNull()
+     * @test
+     * @covers \ScalikePHP\Some::orNull()
      */
     public function testOrNull(): void
     {
@@ -407,9 +377,8 @@ final class SomeTest extends TestCase
     }
 
     /**
-     * Tests for Some::partition().
-     *
-     * @see \ScalikePHP\Some::partition()
+     * @test
+     * @covers \ScalikePHP\Some::partition()
      */
     public function testPartition(): void
     {
@@ -432,9 +401,8 @@ final class SomeTest extends TestCase
     }
 
     /**
-     * Tests for Some::pick().
-     *
-     * @see \ScalikePHP\Some::pick()
+     * @test
+     * @covers \ScalikePHP\Some::pick()
      */
     public function testPick(): void
     {
@@ -442,9 +410,8 @@ final class SomeTest extends TestCase
     }
 
     /**
-     * Tests for Some::size().
-     *
-     * @see \ScalikePHP\Some::size()
+     * @test
+     * @covers \ScalikePHP\Some::size()
      */
     public function testSize(): void
     {
@@ -455,9 +422,8 @@ final class SomeTest extends TestCase
     }
 
     /**
-     * Tests for Some::sum().
-     *
-     * @see \ScalikePHP\Some::sum()
+     * @test
+     * @covers \ScalikePHP\Some::sum()
      */
     public function testSum(): void
     {
@@ -468,9 +434,8 @@ final class SomeTest extends TestCase
     }
 
     /**
-     * Tests for Some::sumBy().
-     *
-     * @see \ScalikePHP\Some::sumBy()
+     * @test
+     * @covers \ScalikePHP\Some::sumBy()
      */
     public function testSumBy(): void
     {
@@ -482,9 +447,8 @@ final class SomeTest extends TestCase
     }
 
     /**
-     * Tests for Some::tail().
-     *
-     * @see \ScalikePHP\Some::tail()
+     * @test
+     * @covers \ScalikePHP\Some::tail()
      */
     public function testTail(): void
     {
@@ -493,9 +457,8 @@ final class SomeTest extends TestCase
     }
 
     /**
-     * Tests for Some::take().
-     *
-     * @see \ScalikePHP\Some::take()
+     * @test
+     * @covers \ScalikePHP\Some::take()
      */
     public function testTake(): void
     {
@@ -508,9 +471,8 @@ final class SomeTest extends TestCase
     }
 
     /**
-     * Tests for Some::takeRight().
-     *
-     * @see \ScalikePHP\Some::takeRight()
+     * @test
+     * @covers \ScalikePHP\Some::takeRight()
      */
     public function testTakeRight(): void
     {
@@ -523,9 +485,8 @@ final class SomeTest extends TestCase
     }
 
     /**
-     * Tests for Some::toArray().
-     *
-     * @see \ScalikePHP\Some::toArray()
+     * @test
+     * @covers \ScalikePHP\Some::toArray()
      */
     public function testToArray(): void
     {
@@ -534,9 +495,8 @@ final class SomeTest extends TestCase
     }
 
     /**
-     * Tests for Some::toSeq().
-     *
-     * @see \ScalikePHP\Some::toSeq()
+     * @test
+     * @covers \ScalikePHP\Some::toSeq()
      */
     public function testToSeq(): void
     {
