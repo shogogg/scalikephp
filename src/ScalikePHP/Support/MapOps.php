@@ -89,7 +89,7 @@ trait MapOps
     /**
      * {@inheritdoc}
      */
-    public function flatten(): self
+    public function flatten(): Map
     {
         throw new LogicException('Map::flatten() has not supported');
     }
