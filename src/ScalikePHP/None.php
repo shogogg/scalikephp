@@ -331,6 +331,16 @@ final class None extends Option
 
     /**
      * {@inheritdoc}
+     *
+     * @return array|\ScalikePHP\Seq[]
+     */
+    public function partition(Closure $p): array
+    {
+        return [Seq::empty(), Seq::empty()];
+    }
+
+    /**
+     * {@inheritdoc}
      */
     public function pick($name): Option
     {

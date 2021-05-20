@@ -25,7 +25,7 @@ abstract class Option extends ScalikeTraversable
      * @param mixed $value 値
      * @param mixed $none $value を None とする判定に使用する値（デフォルト: null）
      *
-     * @return Option 与えられた値が $none に等しい場合に None, そうでない場合は Some
+     * @return \ScalikePHP\Option 与えられた値が $none に等しい場合に None, そうでない場合は Some
      */
     final public static function from($value, $none = null): self
     {
@@ -39,7 +39,7 @@ abstract class Option extends ScalikeTraversable
      * @param string $key 対象のキー
      * @param mixed $none $array から見つかった要素を None とする判定に使用する値（デフォルト: null）
      *
-     * @return Option $array に $key が含まれないか、その値が $none に等しい場合に None, そうでない場合は Some
+     * @return \ScalikePHP\Option $array に $key が含まれないか、その値が $none に等しい場合に None, そうでない場合は Some
      */
     final public static function fromArray($array, $key, $none = null): self
     {
@@ -51,7 +51,7 @@ abstract class Option extends ScalikeTraversable
      *
      * @param mixed $value
      *
-     * @return Some
+     * @return \ScalikePHP\Some
      */
     final public static function some($value): Some
     {
@@ -61,7 +61,7 @@ abstract class Option extends ScalikeTraversable
     /**
      * Get a None instance.
      *
-     * @return None
+     * @return \ScalikePHP\None
      */
     final public static function none(): None
     {
@@ -107,7 +107,7 @@ abstract class Option extends ScalikeTraversable
      *
      * @param Closure $b
      *
-     * @return Option
+     * @return \ScalikePHP\Option
      */
     abstract public function orElse(Closure $b): self;
 
@@ -124,7 +124,7 @@ abstract class Option extends ScalikeTraversable
      * 値を持たないか、与えられたキーに対応する要素・プロパティが存在しない場合は None を返す
      *
      * @param string $name
-     * @return Option
+     * @return \ScalikePHP\Option
      */
     abstract public function pick(string $name): self;
 

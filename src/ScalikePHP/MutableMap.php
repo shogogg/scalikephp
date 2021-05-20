@@ -114,7 +114,7 @@ class MutableMap extends ArrayMap
      * 指定したキーに該当する要素を削除し、その値を返す.
      *
      * @param int|string $key
-     * @return Option 該当する要素がある場合に Some, ない場合は None
+     * @return \ScalikePHP\Option 該当する要素がある場合に Some, ない場合は None
      */
     public function remove($key): Option
     {

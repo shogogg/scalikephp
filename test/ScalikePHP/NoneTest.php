@@ -381,6 +381,31 @@ final class NoneTest extends TestCase
     }
 
     /**
+     * Tests for None::partition().
+     *
+     * @see \ScalikePHP\None::partition()
+     */
+    public function testPartition(): void
+    {
+        $a = Option::none()->partition(fn (int $x): bool => $x === 1);
+        $b = Option::none()->partition(fn (int $x): bool => $x !== 1);
+
+        Assert::true(is_array($a));
+        Assert::same(2, count($a));
+        Assert::instanceOf(Seq::class, $a[0]);
+        Assert::instanceOf(Seq::class, $a[1]);
+        Assert::true($a[0]->isEmpty());
+        Assert::true($a[1]->isEmpty());
+
+        Assert::true(is_array($b));
+        Assert::same(2, count($b));
+        Assert::instanceOf(Seq::class, $b[0]);
+        Assert::instanceOf(Seq::class, $b[1]);
+        Assert::true($b[0]->isEmpty());
+        Assert::true($b[1]->isEmpty());
+    }
+
+    /**
      * Tests for None::pick().
      *
      * @see \ScalikePHP\None::pick()

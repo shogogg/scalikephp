@@ -28,7 +28,7 @@ final class Some extends Option
      * Create a Some instance.
      *
      * @param mixed $value 値
-     * @return Some
+     * @return \ScalikePHP\Some
      */
     public static function create($value): self
     {
@@ -203,6 +203,19 @@ final class Some extends Option
     public function orNull()
     {
         return $this->array[0];
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @return array|\ScalikePHP\Seq[]
+     */
+    public function partition(Closure $p): array
+    {
+        $value = $this->array[0];
+        return $p($value)
+            ? [Seq::from($value), Seq::empty()]
+            : [Seq::empty(), Seq::from($value)];
     }
 
     /**

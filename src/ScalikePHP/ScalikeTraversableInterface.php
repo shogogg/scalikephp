@@ -63,7 +63,7 @@ interface ScalikeTraversableInterface extends ArrayAccess, \Countable, \Iterator
      * 条件にマッチする（関数が true を返す）最初の要素を返す.
      *
      * @param Closure $p 真偽値を返す関数
-     * @return Option 最初に見つかった要素, 見つからなかった場合は None
+     * @return \ScalikePHP\Option 最初に見つかった要素, 見つからなかった場合は None
      */
     public function find(Closure $p): Option;
 
@@ -105,7 +105,7 @@ interface ScalikeTraversableInterface extends ArrayAccess, \Countable, \Iterator
      * - $f に \Closure が渡された場合は各要素を引数として $f を実行し、それをキーとする
      *
      * @param Closure|string $f
-     * @return Map
+     * @return \ScalikePHP\Map
      */
     public function groupBy($f): Map;
 
@@ -120,7 +120,7 @@ interface ScalikeTraversableInterface extends ArrayAccess, \Countable, \Iterator
     /**
      * 値の先頭要素を返す.
      *
-     * @return Option 先頭の要素, 要素がない場合は None
+     * @return \ScalikePHP\Option 先頭の要素, 要素がない場合は None
      */
     public function headOption(): Option;
 
@@ -141,7 +141,7 @@ interface ScalikeTraversableInterface extends ArrayAccess, \Countable, \Iterator
     /**
      * 値の末尾(最終)要素を返す.
      *
-     * @return Option 末尾の要素, 要素がない場合は None
+     * @return \ScalikePHP\Option 末尾の要素, 要素がない場合は None
      */
     public function lastOption(): Option;
 
@@ -197,6 +197,20 @@ interface ScalikeTraversableInterface extends ArrayAccess, \Countable, \Iterator
      * @return bool 値が空でない場合に true, そうでない場合に false
      */
     public function nonEmpty(): bool;
+
+    /**
+     * 条件を満たす要素と満たさない要素に分離する.
+     *
+     * ```
+     * [
+     *     0 => 条件を満たす要素のコレクション,
+     *     1 => 条件を満たさない要素のコレクション
+     * ]
+     * ```
+     *
+     * @return array|\ScalikePHP\ScalikeTraversableInterface[]
+     */
+    public function partition(Closure $p): array;
 
     /**
      * Returns a number of elements.
@@ -260,7 +274,7 @@ interface ScalikeTraversableInterface extends ArrayAccess, \Countable, \Iterator
     /**
      * Convert to a Seq.
      *
-     * @return Seq
+     * @return \ScalikePHP\Seq
      */
     public function toSeq(): Seq;
 }

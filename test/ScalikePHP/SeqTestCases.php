@@ -595,6 +595,33 @@ trait SeqTestCases
     }
 
     /**
+     * Tests for Seq::partition().
+     *
+     * @see \ScalikePHP\Seq::partition()
+     * @noinspection PhpUnused
+     */
+    public function testPartition(): void
+    {
+        $seq = $this->seq(1, 2, 3, 4, 5, 6, 7, 8);
+        $a = $seq->partition(fn (int $x): bool => $x % 2 === 0);
+        $b = $seq->partition(fn (int $x): bool => $x % 2 !== 0);
+
+        Assert::true(is_array($a));
+        Assert::same(2, count($a));
+        Assert::instanceOf(Seq::class, $a[0]);
+        Assert::instanceOf(Seq::class, $a[1]);
+        Assert::same([2, 4, 6, 8], $a[0]->toArray());
+        Assert::same([1, 3, 5, 7], $a[1]->toArray());
+
+        Assert::true(is_array($b));
+        Assert::same(2, count($b));
+        Assert::instanceOf(Seq::class, $b[0]);
+        Assert::instanceOf(Seq::class, $b[1]);
+        Assert::same([1, 3, 5, 7], $b[0]->toArray());
+        Assert::same([2, 4, 6, 8], $b[1]->toArray());
+    }
+
+    /**
      * Tests for Seq::prepend().
      *
      * @see \ScalikePHP\ArraySeq::prepend()

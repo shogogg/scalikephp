@@ -39,7 +39,7 @@ abstract class Map extends ScalikeTraversable
     /**
      * Get an empty Map instance.
      *
-     * @return Map
+     * @return \ScalikePHP\Map
      */
     final public static function empty(): self
     {
@@ -52,7 +52,7 @@ abstract class Map extends ScalikeTraversable
     /**
      * Get an empty Map instance.
      *
-     * @return Map
+     * @return \ScalikePHP\Map
      * @deprecated
      */
     public static function emptyMap(): self
@@ -65,7 +65,7 @@ abstract class Map extends ScalikeTraversable
      *
      * @param null|iterable $iterable
      * @throws InvalidArgumentException
-     * @return Map
+     * @return \ScalikePHP\Map
      */
     final public static function from(?iterable $iterable): self
     {
@@ -163,7 +163,7 @@ abstract class Map extends ScalikeTraversable
      *
      * @param null|iterable $iterable
      * @throws InvalidArgumentException
-     * @return MutableMap
+     * @return \ScalikePHP\MutableMap
      * @noinspection PhpUnused
      */
     public static function mutable(?iterable $iterable): MutableMap
@@ -256,7 +256,7 @@ abstract class Map extends ScalikeTraversable
      * 要素を取得する.
      *
      * @param mixed $key
-     * @return Option
+     * @return \ScalikePHP\Option
      */
     abstract public function get($key): Option;
 
@@ -283,7 +283,7 @@ abstract class Map extends ScalikeTraversable
     /**
      * キーの一覧を Seq として取得する.
      *
-     * @return Seq
+     * @return \ScalikePHP\Seq
      */
     abstract public function keys(): Seq;
 
@@ -379,6 +379,25 @@ abstract class Map extends ScalikeTraversable
 
     /**
      * {@inheritdoc}
+     *
+     * @return \ScalikePHP\Map[]
+     */
+    public function partition(Closure $p): array
+    {
+        $a = [];
+        $b = [];
+        foreach ($this->getRawIterable() as $key => $value) {
+            if ($p($value)) {
+                $a[$key] = $value;
+            } else {
+                $b[$key] = $value;
+            }
+        }
+        return [new ArrayMap($a), new ArrayMap($b)];
+    }
+
+    /**
+     * {@inheritdoc}
      */
     public function sum()
     {
@@ -448,7 +467,7 @@ abstract class Map extends ScalikeTraversable
     /**
      * Get the values as Seq.
      *
-     * @return Seq
+     * @return \ScalikePHP\Seq
      */
     abstract public function values(): Seq;
 

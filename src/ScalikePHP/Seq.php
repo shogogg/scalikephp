@@ -346,6 +346,25 @@ abstract class Seq extends ScalikeTraversable
     }
 
     /**
+     * {@inheritdoc}
+     *
+     * @return array|\ScalikePHP\Seq[]
+     */
+    public function partition(Closure $p): array
+    {
+        $a = [];
+        $b = [];
+        foreach ($this->getRawIterable() as $value) {
+            if ($p($value)) {
+                $a[] = $value;
+            } else {
+                $b[] = $value;
+            }
+        }
+        return [new ArraySeq($a), new ArraySeq($b)];
+    }
+
+    /**
      * 先頭に要素を追加する.
      *
      * @param iterable $that
@@ -425,7 +444,7 @@ abstract class Seq extends ScalikeTraversable
      *
      * @param Closure|string $key
      * @throws InvalidArgumentException
-     * @return Map
+     * @return \ScalikePHP\Map
      */
     public function toMap($key): Map
     {

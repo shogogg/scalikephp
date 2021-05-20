@@ -617,6 +617,33 @@ trait MapTestCases
     }
 
     /**
+     * Tests for Map::partition().
+     *
+     * @see \ScalikePHP\Map::partition()
+     * @noinspection PhpUnused
+     */
+    public function testPartition(): void
+    {
+        $map = $this->map(['A' => 1, 'B' => 2, 'C' => 3, 'D' => 4]);
+        $a = $map->partition(fn (int $x): bool => $x % 2 === 0);
+        $b = $map->partition(fn (int $x): bool => $x % 2 !== 0);
+
+        Assert::true(is_array($a));
+        Assert::same(2, count($a));
+        Assert::instanceOf(Map::class, $a[0]);
+        Assert::instanceOf(Map::class, $a[1]);
+        Assert::same(['B' => 2, 'D' => 4], $a[0]->toAssoc());
+        Assert::same(['A' => 1, 'C' => 3], $a[1]->toAssoc());
+
+        Assert::true(is_array($b));
+        Assert::same(2, count($b));
+        Assert::instanceOf(Map::class, $b[0]);
+        Assert::instanceOf(Map::class, $b[1]);
+        Assert::same(['A' => 1, 'C' => 3], $b[0]->toAssoc());
+        Assert::same(['B' => 2, 'D' => 4], $b[1]->toAssoc());
+    }
+
+    /**
      * Tests for Map::size().
      *
      * @see \ScalikePHP\ArrayMap::size()

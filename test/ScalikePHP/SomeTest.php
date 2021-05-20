@@ -407,6 +407,31 @@ final class SomeTest extends TestCase
     }
 
     /**
+     * Tests for Some::partition().
+     *
+     * @see \ScalikePHP\Some::partition()
+     */
+    public function testPartition(): void
+    {
+        $a = Option::some(1)->partition(fn (int $x): bool => $x === 1);
+        $b = Option::some(1)->partition(fn (int $x): bool => $x !== 1);
+
+        Assert::true(is_array($a));
+        Assert::same(2, count($a));
+        Assert::instanceOf(Seq::class, $a[0]);
+        Assert::instanceOf(Seq::class, $a[1]);
+        Assert::same([1], $a[0]->toArray());
+        Assert::true($a[1]->isEmpty());
+
+        Assert::true(is_array($b));
+        Assert::same(2, count($b));
+        Assert::instanceOf(Seq::class, $b[0]);
+        Assert::instanceOf(Seq::class, $b[1]);
+        Assert::true($b[0]->isEmpty());
+        Assert::same([1], $b[1]->toArray());
+    }
+
+    /**
      * Tests for Some::pick().
      *
      * @see \ScalikePHP\Some::pick()
