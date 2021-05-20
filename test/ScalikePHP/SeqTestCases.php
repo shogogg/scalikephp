@@ -332,6 +332,21 @@ trait SeqTestCases
 
     /**
      * @test
+     * @covers \ScalikePHP\ArraySeq::indexOf()
+     * @covers \ScalikePHP\TraversableSeq::indexOf()
+     * @noinspection PhpUnused
+     */
+    public function testIndexOf(): void
+    {
+        $seq = $this->seq('foo', 'bar', 'baz');
+        Assert::same(0, $seq->indexOf('foo'));
+        Assert::same(2, $seq->indexOf('baz'));
+        Assert::same(1, $seq->indexOf('bar'));
+        Assert::same(-1, $seq->indexOf('qux'));
+    }
+
+    /**
+     * @test
      * @covers \ScalikePHP\ArraySeq::isEmpty()
      * @covers \ScalikePHP\TraversableSeq::isEmpty()
      * @noinspection PhpUnused

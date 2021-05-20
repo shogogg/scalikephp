@@ -81,7 +81,7 @@ trait SeqBuilder
         if ($iterable === null) {
             return self::empty();
         } elseif (is_array($iterable)) {
-            return empty($iterable) ? static::empty() : new ArraySeq((array)$iterable);
+            return empty($iterable) ? self::empty() : new ArraySeq((array)$iterable);
         } elseif ($iterable instanceof Traversable) {
             return self::fromTraversable($iterable);
         } else {

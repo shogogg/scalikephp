@@ -49,6 +49,15 @@ class ArraySeq extends Seq
     /**
      * {@inheritdoc}
      */
+    public function indexOf($elem): int
+    {
+        $index = array_search($elem, $this->array, true);
+        return $index === false ? -1 : $index;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function take(int $n): Seq
     {
         if ($n > 0) {

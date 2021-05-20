@@ -60,6 +60,15 @@ abstract class Seq extends ScalikeTraversable
     abstract public function distinctBy(Closure $f): self;
 
     /**
+     * Finds index of first occurrence of some value in this sequence.
+     *
+     * @param mixed $elem the element value to search for.
+     * @return int the index >= 0 of the first element of this sequence that is equal (as determined by `===`) to elem,
+     *             or -1, if none exists.
+     */
+    abstract public function indexOf($elem): int;
+
+    /**
      * Returns a new sequence containing the elements from `$that` followed by the elements from this sequence.
      *
      * @param iterable $that the iterable to prepend.

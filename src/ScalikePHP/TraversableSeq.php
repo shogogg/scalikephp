@@ -61,6 +61,15 @@ class TraversableSeq extends Seq
     /**
      * {@inheritdoc}
      */
+    public function indexOf($elem): int
+    {
+        $index = array_search($elem, $this->toArray(), true);
+        return $index === false ? -1 : $index;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function take(int $n): Seq
     {
         if ($n > 0) {
