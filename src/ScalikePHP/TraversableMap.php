@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace ScalikePHP;
 
 use Generator;
+use ScalikePHP\Support\MapOps;
 use ScalikePHP\Support\TraversableSupport;
 use Traversable;
 
@@ -18,10 +19,11 @@ use Traversable;
  */
 class TraversableMap extends Map
 {
+    use MapOps;
     use TraversableSupport;
 
     /**
-     * Constructor.
+     * {@link \ScalikePHP\TraversableMap} Constructor.
      *
      * @param Traversable $traversable
      */

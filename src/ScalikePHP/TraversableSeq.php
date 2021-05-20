@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace ScalikePHP;
 
 use Generator;
+use ScalikePHP\Support\SeqOps;
 use ScalikePHP\Support\TraversableSupport;
 use Traversable;
 
@@ -18,10 +19,11 @@ use Traversable;
  */
 class TraversableSeq extends Seq
 {
+    use SeqOps;
     use TraversableSupport;
 
     /**
-     * Constructor.
+     * {@link \ScalikePHP\TraversableSeq} Constructor.
      *
      * @param Traversable $traversable
      */

@@ -24,7 +24,7 @@ final class None extends Option
     private static ?self $instance = null;
 
     /**
-     * Get a None instance.
+     * Returns the None instance.
      *
      * @return self
      */
@@ -106,6 +106,14 @@ final class None extends Option
     public function flatten(): self
     {
         return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function fold($z, Closure $op)
+    {
+        return $z;
     }
 
     /**
@@ -311,9 +319,9 @@ final class None extends Option
     /**
      * {@inheritdoc}
      */
-    public function orElse(Closure $b): Option
+    public function orElse(Closure $alternative): Option
     {
-        $option = $b();
+        $option = $alternative();
         if ($option instanceof Option) {
             return $option;
         } else {

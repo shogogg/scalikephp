@@ -21,7 +21,7 @@ final class CachingIterator implements IteratorAggregate
     private array $cache = [];
 
     /**
-     * CachingIterator constructor.
+     * {@link \ScalikePHP\Support\CachingIterator} constructor.
      *
      * @param Iterator $iterator
      */

@@ -84,24 +84,17 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
     public function generate(Closure $f): Generator
     {
         foreach ($this->getRawIterable() as $k => $v) {
-            foreach ($f($v, $k) as $gk => $gv) {
-                yield $gk => $gv;
-            }
+            yield from $f($v, $k);
         }
     }
 
     /**
-     * Get raw iterable.
-     *
      * @return iterable
      */
     abstract protected function getRawIterable(): iterable;
 
     /**
-     * Generate a Closure for `groupBy`.
-     *
      * @param Closure|string $f
-     *
      * @return Closure
      */
     protected function groupByClosure($f): Closure

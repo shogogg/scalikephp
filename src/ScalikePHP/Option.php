@@ -11,7 +11,7 @@ namespace ScalikePHP;
 
 use Closure;
 use Generator;
-use RuntimeException;
+use LogicException;
 use ScalikePHP\Support\OptionBuilder;
 
 /**
@@ -22,61 +22,55 @@ abstract class Option extends ScalikeTraversable
     use OptionBuilder;
 
     /**
-     * 値を返す, 値を持たない場合は例外を投げる.
+     * Returns the value, throw exception if empty.
      *
-     * @throws RuntimeException
-     *
+     * @throws LogicException if this option is empty.
      * @return mixed
      */
     abstract public function get();
 
     /**
-     * 値を返す, 値を持たない場合は $default の戻り値を返す.
+     * Returns the value if the option is non-empty, otherwise return the result of evaluating `$default`.
      *
-     * @param Closure $default デフォルト値を返す関数
-     *
+     * @param Closure $default the default expression.
      * @return mixed
      */
     abstract public function getOrElse(Closure $default);
 
     /**
-     * 値を返す, 値を持たない場合は $default の値を返す.
+     * Returns the value if the option is non-empty, otherwise return the `$default`.
      *
-     * @param mixed $default デフォルト値
-     *
+     * @param mixed $default the default value.
      * @return mixed
      */
     abstract public function getOrElseValue($default);
 
     /**
-     * 値を持っているかどうかを判定する.
+     * Returns true if the option is an instance of {@link \ScalikePHP\Some}, false otherwise.
      *
      * @return bool
      */
     abstract public function isDefined(): bool;
 
     /**
-     * Some の場合は自身を返し, None の場合は引数で渡されたクロージャの戻り値を返す.
+     * Returns this option if it is non-empty, otherwise return the result of evaluating `$alternative`.
      *
-     * @param Closure $b
-     *
+     * @param Closure $alternative
      * @return \ScalikePHP\Option
      */
-    abstract public function orElse(Closure $b): self;
+    abstract public function orElse(Closure $alternative): self;
 
     /**
-     * 値を返す, 値を持たない場合は null を返す.
+     * Returns the value if the option is non-empty, otherwise return `null`.
      *
      * @return null|mixed
      */
     abstract public function orNull();
 
     /**
-     * 値が配列またはオブジェクトの場合に、与えられたキーの値を取得する.
+     * Returns the value from a single column of this option's value if it exists, otherwise return {@link \ScalikePHP\None}.
      *
-     * 値を持たないか、与えられたキーに対応する要素・プロパティが存在しない場合は None を返す
-     *
-     * @param string $name
+     * @param string $name the key of array, or property name.
      * @return \ScalikePHP\Option
      */
     abstract public function pick(string $name): self;

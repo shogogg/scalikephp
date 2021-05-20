@@ -36,7 +36,7 @@ final class Some extends Option
     }
 
     /**
-     * Constructor.
+     * {@link \ScalikePHP\Some} Constructor.
      *
      * @param mixed $value 値
      */
@@ -84,6 +84,14 @@ final class Some extends Option
         } else {
             throw new LogicException('Element should be an Option');
         }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function fold($z, Closure $op)
+    {
+        return $op($z, $this->array[0]);
     }
 
     /**
@@ -192,7 +200,7 @@ final class Some extends Option
     /**
      * {@inheritdoc}
      */
-    public function orElse(Closure $b): Option
+    public function orElse(Closure $alternative): Option
     {
         return $this;
     }

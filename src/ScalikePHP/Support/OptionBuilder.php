@@ -20,11 +20,11 @@ use ScalikePHP\Some;
 trait OptionBuilder
 {
     /**
-     * 与えられた値から Option を生成する.
+     * Returns an {@link \ScalikePHP\Option} of the value.
      *
-     * @param mixed $value 値
-     * @param mixed $none $value を None とする判定に使用する値（デフォルト: null）
-     * @return \ScalikePHP\Option 与えられた値が $none に等しい場合に None, そうでない場合は Some
+     * @param mixed $value
+     * @param mixed $none
+     * @return \ScalikePHP\Option
      */
     final public static function from($value, $none = null): Option
     {
@@ -32,12 +32,12 @@ trait OptionBuilder
     }
 
     /**
-     * 配列から Option を生成する.
+     * Returns an {@link \ScalikePHP\Option} of the array element.
      *
-     * @param array|ArrayAccess $array 配列
-     * @param string $key 対象のキー
-     * @param mixed $none $array から見つかった要素を None とする判定に使用する値（デフォルト: null）
-     * @return \ScalikePHP\Option $array に $key が含まれないか、その値が $none に等しい場合に None, そうでない場合は Some
+     * @param array|ArrayAccess $array
+     * @param int|string $key
+     * @param mixed $none
+     * @return \ScalikePHP\Option
      */
     final public static function fromArray($array, $key, $none = null): Option
     {
@@ -45,10 +45,9 @@ trait OptionBuilder
     }
 
     /**
-     * Get a Some instance.
+     * Returns a {@link \ScalikePHP\Some} of the value.
      *
      * @param mixed $value
-     *
      * @return \ScalikePHP\Some
      */
     final public static function some($value): Some
@@ -57,7 +56,7 @@ trait OptionBuilder
     }
 
     /**
-     * Get a None instance.
+     * Returns the {@link \ScalikePHP\None} instance.
      *
      * @return \ScalikePHP\None
      */

@@ -38,6 +38,7 @@ return $config
         'ordered_imports' => true,
         'php_unit_test_class_requires_covers' => false,
         'php_unit_test_annotation' => false,
+        'phpdoc_annotation_without_dot' => false,
         'phpdoc_align' => [
             'align' => 'left',
         ],

@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace ScalikePHP;
 
 use ScalikePHP\Support\ArraySupport;
+use ScalikePHP\Support\MapOps;
 
 /**
  * A Seq implementation using array.
@@ -17,9 +18,10 @@ use ScalikePHP\Support\ArraySupport;
 class ArrayMap extends Map
 {
     use ArraySupport;
+    use MapOps;
 
     /**
-     * Constructor.
+     * {@link \ScalikePHP\ArrayMap} Constructor.
      *
      * @param array $assoc
      */

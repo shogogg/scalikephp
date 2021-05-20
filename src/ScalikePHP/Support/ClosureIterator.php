@@ -21,7 +21,7 @@ final class ClosureIterator implements IteratorAggregate
     private Closure $closure;
 
     /**
-     * CachingIterator constructor.
+     * {@link \ScalikePHP\Support\ClosureIterator} constructor.
      *
      * @param Closure $closure
      */

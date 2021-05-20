@@ -11,6 +11,7 @@ namespace ScalikePHP;
 
 use Closure;
 use ScalikePHP\Support\ArraySupport;
+use ScalikePHP\Support\MutableMapOps;
 use Traversable;
 
 /**
@@ -19,9 +20,10 @@ use Traversable;
 class MutableMap extends ArrayMap
 {
     use ArraySupport;
+    use MutableMapOps;
 
     /**
-     * Constructor.
+     * {@link \ScalikePHP\MutableMap} Constructor.
      *
      * @param iterable $iterable 値
      */
@@ -32,6 +34,8 @@ class MutableMap extends ArrayMap
 
     /**
      * {@inheritdoc}
+     *
+     * @return self
      */
     public function append($keyOrArray, $value = null): self
     {
@@ -47,6 +51,8 @@ class MutableMap extends ArrayMap
 
     /**
      * {@inheritdoc}
+     *
+     * @return self
      */
     public function filter(Closure $p): self
     {
@@ -55,6 +61,8 @@ class MutableMap extends ArrayMap
 
     /**
      * {@inheritdoc}
+     *
+     * @return self
      */
     public function flatMap(Closure $f): self
     {
@@ -62,24 +70,9 @@ class MutableMap extends ArrayMap
     }
 
     /**
-     * 要素を取得する, 要素が存在しない場合は $op の値で更新し、その値を返す.
-     *
-     * @param mixed $key
-     * @param Closure $op
-     * @return mixed
-     * @noinspection PhpUnused
-     */
-    public function getOrElseUpdate($key, Closure $op)
-    {
-        return $this->get($key)->getOrElse(function () use ($key, $op) {
-            $value = $op();
-            $this->update($key, $value);
-            return $value;
-        });
-    }
-
-    /**
      * {@inheritdoc}
+     *
+     * @return self
      */
     public function map(Closure $f): self
     {
@@ -94,57 +87,5 @@ class MutableMap extends ArrayMap
     public function mapValues(Closure $f): self
     {
         return new self($this->mapValuesGenerator($f));
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function offsetSet($offset, $value): void
-    {
-        $this->update($offset, $value);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function offsetUnset($offset): void
-    {
-        unset($this->array[$offset]);
-    }
-
-    /**
-     * 指定したキーに該当する要素を削除し、その値を返す.
-     *
-     * @param int|string $key
-     * @return \ScalikePHP\Option 該当する要素がある場合に Some, ない場合は None
-     */
-    public function remove($key): Option
-    {
-        if (isset($this->array[$key])) {
-            $value = $this->array[$key];
-            unset($this->array[$key]);
-            return Option::some($value);
-        } else {
-            return Option::none();
-        }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getRawIterable(): iterable
-    {
-        return $this->array;
-    }
-
-    /**
-     * 新しい値を追加する.
-     *
-     * @param int|string $key
-     * @param mixed $value
-     */
-    public function update($key, $value): void
-    {
-        $this->array[$key] = $value;
     }
 }

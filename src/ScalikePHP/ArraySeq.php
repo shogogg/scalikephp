@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace ScalikePHP;
 
 use ScalikePHP\Support\ArraySupport;
+use ScalikePHP\Support\SeqOps;
 
 /**
  * A Seq implementation using array.
@@ -17,9 +18,10 @@ use ScalikePHP\Support\ArraySupport;
 class ArraySeq extends Seq
 {
     use ArraySupport;
+    use SeqOps;
 
     /**
-     * Constructor.
+     * {@link \ScalikePHP\ArraySeq} Constructor.
      *
      * @param array $values
      */
