@@ -94,7 +94,7 @@ class TraversableSeq extends Seq
     protected function compute(): void
     {
         if ($this->computed === false) {
-            $this->array = iterator_to_array($this->traversable, false);
+            $this->array = [...$this->traversable];
             $this->computed = true;
         }
     }

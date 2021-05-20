@@ -89,7 +89,7 @@ abstract class Seq extends ScalikeTraversable
      */
     public function filter(Closure $p): self
     {
-        return static::create(function () use ($p): Traversable {
+        return self::create(function () use ($p): Traversable {
             $index = 0;
             foreach ($this->getRawIterable() as $value) {
                 if ($p($value)) {
@@ -271,7 +271,6 @@ abstract class Seq extends ScalikeTraversable
      * 先頭に要素を追加する.
      *
      * @param iterable $that
-     *
      * @return \ScalikePHP\Seq
      */
     public function prepend(iterable $that): self
