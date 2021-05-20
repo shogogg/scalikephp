@@ -10,7 +10,6 @@ declare(strict_types=1);
 namespace ScalikePHP;
 
 use Closure;
-use Generator;
 use LogicException;
 use ScalikePHP\Support\OptionBuilder;
 
@@ -74,30 +73,4 @@ abstract class Option extends ScalikeTraversable
      * @return \ScalikePHP\Option
      */
     abstract public function pick(string $name): self;
-
-    /**
-     * {@inheritdoc}
-     */
-    public function take(int $n): self
-    {
-        return $n <= 0 ? self::none() : $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function takeRight(int $n): self
-    {
-        return $n <= 0 ? self::none() : $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function toGenerator(): Generator
-    {
-        foreach ($this->toArray() as $index => $value) {
-            yield $index => $value;
-        }
-    }
 }

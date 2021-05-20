@@ -15,6 +15,7 @@ use Closure;
 use JsonSerializable;
 use LogicException;
 use ScalikePHP\Support\ArraySupport;
+use ScalikePHP\Support\OptionOps;
 use Traversable;
 
 /**
@@ -23,6 +24,7 @@ use Traversable;
 final class Some extends Option
 {
     use ArraySupport;
+    use OptionOps;
 
     /**
      * Create a Some instance.

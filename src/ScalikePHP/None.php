@@ -14,6 +14,7 @@ use Closure;
 use EmptyIterator;
 use LogicException;
 use OutOfBoundsException;
+use ScalikePHP\Support\OptionOps;
 use Traversable;
 
 /**
@@ -21,6 +22,8 @@ use Traversable;
  */
 final class None extends Option
 {
+    use OptionOps;
+
     private static ?self $instance = null;
 
     /**
