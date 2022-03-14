@@ -49,10 +49,10 @@ abstract class Map extends ScalikeTraversable
      * Returns the value associated with a key, or a default value if the key is not contained in the map.
      *
      * @param int|string $key the key value.
-     * @param Closure $default a closure that returns a default value in case no binding for key is found in the map.
+     * @param \Closure $default a closure that returns a default value in case no binding for key is found in the map.
      * @return mixed the value associated with key if it exists, otherwise the result of the default computation.
      */
-    abstract public function getOrElse($key, Closure $default);
+    abstract public function getOrElse($key, \Closure $default);
 
     /**
      * Collects all keys of this map in a seq.
@@ -64,10 +64,10 @@ abstract class Map extends ScalikeTraversable
     /**
      * Transforms this map by applying a function to every retrieved value.
      *
-     * @param Closure $f the function used to transform values of this map.
+     * @param \Closure $f the function used to transform values of this map.
      * @return \ScalikePHP\Map a map which maps every key of this map to `$f($this[$key])`.
      */
-    abstract public function mapValues(Closure $f): self;
+    abstract public function mapValues(\Closure $f): self;
 
     /**
      * Converts this collection to an assoc.

@@ -9,10 +9,6 @@ declare(strict_types=1);
 
 namespace ScalikePHP\Implementations;
 
-use Closure;
-use Generator;
-use LogicException;
-use RuntimeException;
 use ScalikePHP\Map;
 use ScalikePHP\Option;
 use ScalikePHP\Seq;
@@ -25,7 +21,7 @@ use ScalikePHP\Seq;
 trait MapOps
 {
     // overrides
-    public function exists(Closure $p): bool
+    public function exists(\Closure $p): bool
     {
         foreach ($this->getRawIterable() as $key => $value) {
             if ($p($value, $key)) {
@@ -36,13 +32,13 @@ trait MapOps
     }
 
     // overrides
-    public function filter(Closure $p): Map
+    public function filter(\Closure $p): Map
     {
         return self::from($this->filterGenerator($p));
     }
 
     // overrides
-    public function find(Closure $p): Option
+    public function find(\Closure $p): Option
     {
         foreach ($this->getRawIterable() as $key => $value) {
             if ($p($value, $key)) {
@@ -53,7 +49,7 @@ trait MapOps
     }
 
     // overrides
-    public function flatMap(Closure $f): Map
+    public function flatMap(\Closure $f): Map
     {
         return self::from($this->flatMapGenerator($f));
     }
@@ -77,11 +73,11 @@ trait MapOps
     // overrides
     public function flatten(): Map
     {
-        throw new LogicException('Map::flatten() has not supported');
+        throw new \LogicException('Map::flatten() has not supported');
     }
 
     // overrides
-    public function fold($z, Closure $op)
+    public function fold($z, \Closure $op)
     {
         foreach ($this->getRawIterable() as $key => $value) {
             $z = $op($z, $value, $key);
@@ -90,7 +86,7 @@ trait MapOps
     }
 
     // overrides
-    public function forAll(Closure $p): bool
+    public function forAll(\Closure $p): bool
     {
         foreach ($this->getRawIterable() as $key => $value) {
             if (!$p($value, $key)) {
@@ -101,7 +97,7 @@ trait MapOps
     }
 
     // overrides
-    public function getOrElse($key, Closure $default)
+    public function getOrElse($key, \Closure $default)
     {
         return $this->get($key)->getOrElse($default);
     }
@@ -112,7 +108,7 @@ trait MapOps
         foreach ($this->getRawIterable() as $key => $value) {
             return [$key, $value];
         }
-        throw new LogicException('There is no value');
+        throw new \LogicException('There is no value');
     }
 
     // overrides
@@ -125,19 +121,20 @@ trait MapOps
     }
 
     // overrides
+    #[\ReturnTypeWillChange]
     public function jsonSerialize(): array
     {
         return $this->toAssoc();
     }
 
     // overrides
-    public function map(Closure $f): Map
+    public function map(\Closure $f): Map
     {
         return self::fromTraversable($this->mapGenerator($f));
     }
 
     // overrides
-    public function mapValues(Closure $f): Map
+    public function mapValues(\Closure $f): Map
     {
         return self::fromTraversable($this->mapValuesGenerator($f));
     }
@@ -153,16 +150,16 @@ trait MapOps
     public function max(): array
     {
         if ($this->isEmpty()) {
-            throw new RuntimeException('empty.max');
+            throw new \RuntimeException('empty.max');
         }
         return [$key = $this->keys()->max(), $this->get($key)->get()];
     }
 
     // overrides
-    public function maxBy(Closure $f): array
+    public function maxBy(\Closure $f): array
     {
         if ($this->isEmpty()) {
-            throw new RuntimeException('empty.max');
+            throw new \RuntimeException('empty.max');
         }
         $max = null;
         $res = [];
@@ -180,16 +177,16 @@ trait MapOps
     public function min(): array
     {
         if ($this->isEmpty()) {
-            throw new RuntimeException('empty.min');
+            throw new \RuntimeException('empty.min');
         }
         return [$key = $this->keys()->min(), $this->get($key)->get()];
     }
 
     // overrides
-    public function minBy(Closure $f): array
+    public function minBy(\Closure $f): array
     {
         if ($this->isEmpty()) {
-            throw new RuntimeException('empty.min');
+            throw new \RuntimeException('empty.min');
         }
         $min = null;
         $res = [];
@@ -206,7 +203,7 @@ trait MapOps
     /**
      * @return array|\ScalikePHP\Map[]
      */
-    public function partition(Closure $p): array
+    public function partition(\Closure $p): array
     {
         $a = [];
         $b = [];
@@ -223,11 +220,11 @@ trait MapOps
     // overrides
     public function sum()
     {
-        throw new LogicException('`Map::sum()` has not supported: Use `Map::sumBy()` instead');
+        throw new \LogicException('`Map::sum()` has not supported: Use `Map::sumBy()` instead');
     }
 
     // overrides
-    public function sumBy(Closure $f)
+    public function sumBy(\Closure $f)
     {
         return $this->fold(0, $f);
     }
@@ -251,7 +248,7 @@ trait MapOps
     }
 
     // overrides
-    public function toGenerator(): Generator
+    public function toGenerator(): \Generator
     {
         foreach ($this->getRawIterable() as $key => $value) {
             yield $key => $value;
@@ -261,7 +258,7 @@ trait MapOps
     // overrides
     public function toSeq(): Seq
     {
-        return Seq::create(function (): Generator {
+        return Seq::create(function (): \Generator {
             $index = 0;
             foreach ($this->getRawIterable() as $key => $value) {
                 yield $index++ => [$key, $value];
@@ -270,10 +267,10 @@ trait MapOps
     }
 
     /**
-     * @param Closure $p
-     * @return Generator
+     * @param \Closure $p
+     * @return \Generator
      */
-    protected function filterGenerator(Closure $p): Generator
+    protected function filterGenerator(\Closure $p): \Generator
     {
         foreach ($this->getRawIterable() as $key => $value) {
             if ($p($value, $key)) {
@@ -283,16 +280,16 @@ trait MapOps
     }
 
     /**
-     * @param Closure $f
-     * @throws LogicException
-     * @return Generator
+     * @param \Closure $f
+     * @throws \LogicException
+     * @return \Generator
      */
-    protected function flatMapGenerator(Closure $f): Generator
+    protected function flatMapGenerator(\Closure $f): \Generator
     {
         foreach ($this->getRawIterable() as $key => $value) {
             $iterable = $f($value, $key);
             if (is_iterable($iterable) === false) {
-                throw new LogicException('Closure should returns an iterable');
+                throw new \LogicException('Closure should returns an iterable');
             }
             foreach ($iterable as $newKey => $newValue) {
                 yield $newKey => $newValue;
@@ -301,10 +298,10 @@ trait MapOps
     }
 
     /**
-     * @param Closure $f
-     * @return Generator
+     * @param \Closure $f
+     * @return \Generator
      */
-    protected function mapGenerator(Closure $f): Generator
+    protected function mapGenerator(\Closure $f): \Generator
     {
         foreach ($this->getRawIterable() as $key => $value) {
             [$newKey, $newValue] = $f($value, $key);
@@ -313,10 +310,10 @@ trait MapOps
     }
 
     /**
-     * @param Closure $f
-     * @return Generator
+     * @param \Closure $f
+     * @return \Generator
      */
-    protected function mapValuesGenerator(Closure $f): Generator
+    protected function mapValuesGenerator(\Closure $f): \Generator
     {
         foreach ($this->getRawIterable() as $key => $value) {
             yield $key => $f($value, $key);

@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace Test\ScalikePHP;
 
-use ArrayIterator;
 use ScalikePHP\Implementations\TraversableMap;
 use ScalikePHP\Map;
 
@@ -27,6 +26,6 @@ final class TraversableMapTest extends TestCase
      */
     protected function map(array $values = []): Map
     {
-        return new TraversableMap(new ArrayIterator($values));
+        return new TraversableMap(new \ArrayIterator($values));
     }
 }

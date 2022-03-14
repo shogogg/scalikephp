@@ -9,20 +9,13 @@ declare(strict_types=1);
 
 namespace ScalikePHP;
 
-use BadMethodCallException;
-use Closure;
-use Generator;
-use InvalidArgumentException;
-use LogicException;
-use RuntimeException;
-
 /**
  * Scala like Traversable Implementation.
  */
 abstract class ScalikeTraversable implements ScalikeTraversableInterface
 {
     // overrides
-    public function each(Closure $f): void
+    public function each(\Closure $f): void
     {
         foreach ($this->getRawIterable() as $key => $value) {
             $f($value, $key);
@@ -30,7 +23,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
     }
 
     // overrides
-    public function exists(Closure $p): bool
+    public function exists(\Closure $p): bool
     {
         foreach ($this->getRawIterable() as $value) {
             if ($p($value)) {
@@ -41,13 +34,13 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
     }
 
     // overrides
-    public function filterNot(Closure $p): self
+    public function filterNot(\Closure $p): self
     {
         return $this->filter(fn ($value): bool => !$p($value));
     }
 
     // overrides
-    public function find(Closure $p): Option
+    public function find(\Closure $p): Option
     {
         foreach ($this->getRawIterable() as $value) {
             if ($p($value)) {
@@ -58,7 +51,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
     }
 
     // overrides
-    public function forAll(Closure $p): bool
+    public function forAll(\Closure $p): bool
     {
         foreach ($this->getRawIterable() as $value) {
             if (!$p($value)) {
@@ -69,7 +62,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
     }
 
     // overrides
-    public function generate(Closure $f): Generator
+    public function generate(\Closure $f): \Generator
     {
         foreach ($this->getRawIterable() as $k => $v) {
             yield from $f($v, $k);
@@ -82,20 +75,20 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
     abstract protected function getRawIterable(): iterable;
 
     /**
-     * @param Closure|string $f
-     * @return Closure
+     * @param \Closure|string $f
+     * @return \Closure
      */
-    protected function groupByClosure($f): Closure
+    protected function groupByClosure($f): \Closure
     {
         if (is_string($f)) {
             return fn ($value) => Option::from($value)->pick($f)->getOrElse(function () use ($f): void {
-                throw new RuntimeException("Undefined index {$f}");
+                throw new \RuntimeException("Undefined index {$f}");
             });
-        } elseif ($f instanceof Closure) {
+        } elseif ($f instanceof \Closure) {
             return $f;
         } else {
             $type = gettype($f);
-            throw new InvalidArgumentException("`groupBy` needs a string or \\Closure. {$type} given.");
+            throw new \InvalidArgumentException("`groupBy` needs a string or \\Closure. {$type} given.");
         }
     }
 
@@ -105,7 +98,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
         foreach ($this->getRawIterable() as $value) {
             return $value;
         }
-        throw new LogicException('There is no value');
+        throw new \LogicException('There is no value');
     }
 
     // overrides
@@ -149,7 +142,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
      */
     public function offsetSet($offset, $value): void
     {
-        throw new BadMethodCallException();
+        throw new \BadMethodCallException();
     }
 
     /**
@@ -159,7 +152,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
      */
     public function offsetUnset($offset): void
     {
-        throw new BadMethodCallException();
+        throw new \BadMethodCallException();
     }
 
     // overrides
@@ -172,7 +165,7 @@ abstract class ScalikeTraversable implements ScalikeTraversableInterface
     public function tail(): self
     {
         if ($this->isEmpty()) {
-            throw new LogicException('Unsupported operation: tail of empty list');
+            throw new \LogicException('Unsupported operation: tail of empty list');
         }
         return $this->drop(1);
     }

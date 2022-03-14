@@ -9,15 +9,12 @@ declare(strict_types=1);
 
 namespace ScalikePHP;
 
-use ArrayAccess;
-use Closure;
 use Generator;
-use LogicException;
 
 /**
  * Scala like Traversable Interface.
  */
-interface ScalikeTraversableInterface extends ArrayAccess, \Countable, \IteratorAggregate, \JsonSerializable
+interface ScalikeTraversableInterface extends \ArrayAccess, \Countable, \IteratorAggregate, \JsonSerializable
 {
     /**
      * Selects all elements except first `$n` ones.
@@ -32,43 +29,43 @@ interface ScalikeTraversableInterface extends ArrayAccess, \Countable, \Iterator
     /**
      * Apply `$f` to each element for its side effects.
      *
-     * @param Closure $f the function to apply to each element.
+     * @param \Closure $f the function to apply to each element.
      */
-    public function each(Closure $f): void;
+    public function each(\Closure $f): void;
 
     /**
      * Tests whether a predicate holds for at least one element of this collection.
      *
-     * @param Closure $p the predicate used to test elements.
+     * @param \Closure $p the predicate used to test elements.
      * @return bool true if the given predicate `$p` is satisfied by at least one element of this collection,
      *              otherwise false.
      */
-    public function exists(Closure $p): bool;
+    public function exists(\Closure $p): bool;
 
     /**
      * Selects all elements of this collection which satisfy a predicate.
      *
-     * @param Closure $p the predicate used to test elements.
+     * @param \Closure $p the predicate used to test elements.
      * @return static a new collection consisting of all elements of this collection that do not satisfy the given predicate `$p`.
      */
-    public function filter(Closure $p): self;
+    public function filter(\Closure $p): self;
 
     /**
      * Selects all elements of this collection which do not satisfy a predicate.
      *
-     * @param Closure $p the predicate used to test elements.
+     * @param \Closure $p the predicate used to test elements.
      * @return static a new collection consisting of all elements of this collection that satisfy the given predicate `$p`.
      */
-    public function filterNot(Closure $p): self;
+    public function filterNot(\Closure $p): self;
 
     /**
      * Finds the first element of this collection satisfying a predicate, if any.
      *
-     * @param Closure $p the predicate used to test elements.
+     * @param \Closure $p the predicate used to test elements.
      * @return \ScalikePHP\Option an Option containing the first element in this collection that satisfies `$p`,
      *                            or None if none exists.
      */
-    public function find(Closure $p): Option;
+    public function find(\Closure $p): Option;
 
     /**
      * Converts this collection of traversable collections into a collection formed by the elements of these collections.
@@ -80,42 +77,42 @@ interface ScalikeTraversableInterface extends ArrayAccess, \Countable, \Iterator
     /**
      * Builds a new collection by applying a function to all elements of this collection and using the elements of the resulting collections.
      *
-     * @param Closure $f the function to apply to each element.
+     * @param \Closure $f the function to apply to each element.
      * @return static a new collection resulting from concatenating all element collections.
      */
-    public function flatMap(Closure $f): self;
+    public function flatMap(\Closure $f): self;
 
     /**
      * Folds the elements of this collection using the specified associative binary operator.
      *
      * @param mixed $z a neutral element for the fold operation; may be added to the result an arbitrary number of times,
      *                 and must not change the result (e.g., Nil for list concatenation, 0 for addition, or 1 for multiplication).
-     * @param Closure $op a binary operator that must be associative.
+     * @param \Closure $op a binary operator that must be associative.
      * @return mixed the result of applying the fold operator op between all the elements and z, or z if this collection is empty.
      */
-    public function fold($z, Closure $op);
+    public function fold($z, \Closure $op);
 
     /**
      * Tests whether a predicate holds for all elements of this collection.
      *
-     * @param Closure $p the predicate used to test elements.
+     * @param \Closure $p the predicate used to test elements.
      * @return bool true if this collection is empty or the given predicate p holds for all elements of this collection,
      *              otherwise false.
      */
-    public function forAll(Closure $p): bool;
+    public function forAll(\Closure $p): bool;
 
     /**
      * Creates a new {@link Generator} from this collection.
      *
-     * @param Closure $f the function to apply to each element. it should returns a {@link Generator}.
-     * @return Generator
+     * @param \Closure $f the function to apply to each element. it should returns a {@link Generator}.
+     * @return \Generator
      */
-    public function generate(Closure $f): Generator;
+    public function generate(\Closure $f): \Generator;
 
     /**
      * Partitions this collection into a map of collections according to some discriminator function.
      *
-     * @param Closure|string $f the discriminator function or key of element.
+     * @param \Closure|string $f the discriminator function or key of element.
      * @return \ScalikePHP\Map|\ScalikePHP\Seq[] A map from keys to collections.
      */
     public function groupBy($f): Map;
@@ -123,7 +120,7 @@ interface ScalikeTraversableInterface extends ArrayAccess, \Countable, \Iterator
     /**
      * Selects the first element of this collection.
      *
-     * @throws LogicException if this collection is empty.
+     * @throws \LogicException if this collection is empty.
      * @return mixed the first element of this collection.
      */
     public function head();
@@ -145,7 +142,7 @@ interface ScalikeTraversableInterface extends ArrayAccess, \Countable, \Iterator
     /**
      * Selects the last element of this collection.
      *
-     * @throws LogicException if this collection is empty.
+     * @throws \LogicException if this collection is empty.
      * @return mixed the last element of this collection.
      */
     public function last();
@@ -160,15 +157,15 @@ interface ScalikeTraversableInterface extends ArrayAccess, \Countable, \Iterator
     /**
      * Builds a new collection by applying a function to all elements of this collection.
      *
-     * @param Closure $f the function to apply to each element.
+     * @param \Closure $f the function to apply to each element.
      * @return static
      */
-    public function map(Closure $f): self;
+    public function map(\Closure $f): self;
 
     /**
      * Finds the largest element.
      *
-     * @throws LogicException if this collection is empty.
+     * @throws \LogicException if this collection is empty.
      * @return mixed the largest element of this collection.
      */
     public function max();
@@ -176,15 +173,15 @@ interface ScalikeTraversableInterface extends ArrayAccess, \Countable, \Iterator
     /**
      * Finds the first element which yields the largest value measured by function `$f`.
      *
-     * @param Closure $f the measuring function.
+     * @param \Closure $f the measuring function.
      * @return mixed the first element of this collection with the largest value measured by function `$f`.
      */
-    public function maxBy(Closure $f);
+    public function maxBy(\Closure $f);
 
     /**
      * Finds the smallest element.
      *
-     * @throws LogicException if this collection is empty.
+     * @throws \LogicException if this collection is empty.
      * @return mixed the smallest element of this collection.
      */
     public function min();
@@ -192,10 +189,10 @@ interface ScalikeTraversableInterface extends ArrayAccess, \Countable, \Iterator
     /**
      * Finds the first element which yields the smallest value measured by function `$f`.
      *
-     * @param Closure $f the measuring function.
+     * @param \Closure $f the measuring function.
      * @return mixed the first element of this collection with the smallest value measured by function `$f`.
      */
-    public function minBy(Closure $f);
+    public function minBy(\Closure $f);
 
     /**
      * Returns all elements of this collection in a string using a separator string.
@@ -220,7 +217,7 @@ interface ScalikeTraversableInterface extends ArrayAccess, \Countable, \Iterator
      * @return array|self[] an array of, first, all elements that satisfy predicate p and,
      *                      second, all elements that do not.
      */
-    public function partition(Closure $p): array;
+    public function partition(\Closure $p): array;
 
     /**
      * Returns the size of this collection.
@@ -240,10 +237,10 @@ interface ScalikeTraversableInterface extends ArrayAccess, \Countable, \Iterator
     /**
      * Sums up the elements of this collection.
      *
-     * @param Closure $f the measuring function.
+     * @param \Closure $f the measuring function.
      * @return float|int the sum of all elements of this collection.
      */
-    public function sumBy(Closure $f);
+    public function sumBy(\Closure $f);
 
     /**
      * Returns rest of this collection without its first element.
@@ -282,9 +279,9 @@ interface ScalikeTraversableInterface extends ArrayAccess, \Countable, \Iterator
     /**
      * Converts this collection to a Generator.
      *
-     * @return Generator
+     * @return \Generator
      */
-    public function toGenerator(): Generator;
+    public function toGenerator(): \Generator;
 
     /**
      * Converts this collection to a Seq.

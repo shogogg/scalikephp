@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace Test\ScalikePHP;
 
-use Closure;
 use Exception;
 use ScalikePHP\None;
 use ScalikePHP\Option;
@@ -83,15 +82,15 @@ final class Assert
      * Asserts that an exception throws in block.
      *
      * @param string $expected
-     * @param Closure $block
+     * @param \Closure $block
      * @param string $message
      */
-    public static function throws(string $expected, Closure $block, string $message = ''): void
+    public static function throws(string $expected, \Closure $block, string $message = ''): void
     {
         try {
             $block();
             TestCase::fail($message);
-        } catch (Exception $exception) {
+        } catch (\Exception $exception) {
             TestCase::assertInstanceOf($expected, $exception, $message);
         }
     }

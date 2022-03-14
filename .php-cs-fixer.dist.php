@@ -29,7 +29,11 @@ return $config
             'spacing' => 'one',
         ],
         'declare_strict_types' => true,
-        'global_namespace_import' => true,
+        'global_namespace_import' => [
+            'import_classes' => false,
+            'import_constants' => false,
+            'import_functions' => null,
+        ],
         'linebreak_after_opening_tag' => true,
         'native_function_invocation' => false,
         'no_superfluous_elseif' => false,

@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace Test\ScalikePHP;
 
-use ArrayIterator;
 use ScalikePHP\Implementations\ArraySeq;
 use ScalikePHP\Implementations\TraversableSeq;
 use ScalikePHP\Seq;
@@ -28,7 +27,7 @@ final class TraversableSeqTest extends TestCase
      */
     protected function seq(...$values): Seq
     {
-        return new TraversableSeq(new ArrayIterator($values));
+        return new TraversableSeq(new \ArrayIterator($values));
     }
 
     /**

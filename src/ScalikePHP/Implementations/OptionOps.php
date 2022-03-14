@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace ScalikePHP\Implementations;
 
-use Generator;
 use ScalikePHP\Option;
 
 /**
@@ -32,7 +31,7 @@ trait OptionOps
     }
 
     // overrides
-    public function toGenerator(): Generator
+    public function toGenerator(): \Generator
     {
         foreach ($this->toArray() as $index => $value) {
             yield $index => $value;

@@ -9,8 +9,6 @@ declare(strict_types=1);
 
 namespace Test\ScalikePHP;
 
-use BadMethodCallException;
-use LogicException;
 use ScalikePHP\Map;
 use ScalikePHP\Seq;
 
@@ -226,7 +224,7 @@ trait MapTestCases
     {
         $map = $this->map(['Civic' => 'Honda', 'Levorg' => 'Subaru', 'Prius' => 'Toyota']);
         Assert::throws(
-            LogicException::class,
+            \LogicException::class,
             function () use ($map): void {
                 $map->flatten();
             }
@@ -339,7 +337,7 @@ trait MapTestCases
         $map = $this->map(['Civic' => 'Honda', 'Levorg' => 'Subaru', 'Prius' => 'Toyota']);
         Assert::same(['Civic', 'Honda'], $map->head());
         Assert::throws(
-            LogicException::class,
+            \LogicException::class,
             function (): void {
                 $this->map()->head();
             }
@@ -396,7 +394,7 @@ trait MapTestCases
         $map = $this->map(['Civic' => 'Honda', 'Levorg' => 'Subaru', 'Prius' => 'Toyota']);
         Assert::same(['Prius', 'Toyota'], $map->last());
         Assert::throws(
-            LogicException::class,
+            \LogicException::class,
             function (): void {
                 $this->map()->last();
             }
@@ -561,8 +559,8 @@ trait MapTestCases
         $g = function () use ($map): void {
             $map['Fit'] = 'Honda';
         };
-        Assert::throws(BadMethodCallException::class, $f);
-        Assert::throws(BadMethodCallException::class, $g);
+        Assert::throws(\BadMethodCallException::class, $f);
+        Assert::throws(\BadMethodCallException::class, $g);
     }
 
     /**
@@ -580,8 +578,8 @@ trait MapTestCases
         $g = function () use ($map): void {
             unset($map['Fit']);
         };
-        Assert::throws(BadMethodCallException::class, $f);
-        Assert::throws(BadMethodCallException::class, $g);
+        Assert::throws(\BadMethodCallException::class, $f);
+        Assert::throws(\BadMethodCallException::class, $g);
     }
 
     /**
@@ -639,8 +637,8 @@ trait MapTestCases
         $g = function (): void {
             $this->map(['a' => 1, 'b' => 2, 'c' => 3])->sum();
         };
-        Assert::throws(LogicException::class, $f);
-        Assert::throws(LogicException::class, $g);
+        Assert::throws(\LogicException::class, $f);
+        Assert::throws(\LogicException::class, $g);
     }
 
     /**
@@ -669,7 +667,7 @@ trait MapTestCases
         Assert::same(['two' => 2, 'three' => 3, 'four' => 4, 'five' => 5], $map->tail()->toAssoc());
         Assert::same(['three' => 3, 'four' => 4, 'five' => 5], $map->tail()->tail()->toAssoc());
         Assert::throws(
-            LogicException::class,
+            \LogicException::class,
             function (): void {
                 Seq::empty()->tail();
             }

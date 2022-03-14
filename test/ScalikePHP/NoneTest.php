@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace Test\ScalikePHP;
 
-use LogicException;
 use ScalikePHP\None;
 use ScalikePHP\Option;
 use ScalikePHP\Seq;
@@ -138,7 +137,7 @@ final class NoneTest extends TestCase
     public function testGet(): void
     {
         Assert::throws(
-            LogicException::class,
+            \LogicException::class,
             function (): void {
                 Option::none()->get();
             }
@@ -187,7 +186,7 @@ final class NoneTest extends TestCase
     public function testHead(): void
     {
         Assert::throws(
-            LogicException::class,
+            \LogicException::class,
             function (): void {
                 Option::none()->head();
             }
@@ -228,7 +227,7 @@ final class NoneTest extends TestCase
     public function testLast(): void
     {
         Assert::throws(
-            LogicException::class,
+            \LogicException::class,
             function (): void {
                 Option::none()->last();
             }
@@ -261,7 +260,7 @@ final class NoneTest extends TestCase
     public function testMax(): void
     {
         Assert::throws(
-            LogicException::class,
+            \LogicException::class,
             function (): void {
                 Option::none()->max();
             }
@@ -275,7 +274,7 @@ final class NoneTest extends TestCase
     public function testMaxBy(): void
     {
         Assert::throws(
-            LogicException::class,
+            \LogicException::class,
             function (): void {
                 Option::none()->maxBy(fn ($x): string => (string)$x);
             }
@@ -289,7 +288,7 @@ final class NoneTest extends TestCase
     public function testMin(): void
     {
         Assert::throws(
-            LogicException::class,
+            \LogicException::class,
             function (): void {
                 Option::none()->min();
             }
@@ -303,7 +302,7 @@ final class NoneTest extends TestCase
     public function testMinBy(): void
     {
         Assert::throws(
-            LogicException::class,
+            \LogicException::class,
             function (): void {
                 Option::none()->minBy(fn ($x): string => (string)$x);
             }
@@ -416,7 +415,7 @@ final class NoneTest extends TestCase
     public function testTail(): void
     {
         Assert::throws(
-            LogicException::class,
+            \LogicException::class,
             function (): void {
                 Option::none()->tail();
             }

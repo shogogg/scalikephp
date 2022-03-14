@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace ScalikePHP\Support;
 
-use ArrayAccess;
 use ScalikePHP\None;
 use ScalikePHP\Option;
 use ScalikePHP\Some;
@@ -34,7 +33,7 @@ trait OptionBuilder
     /**
      * Returns an Option of the array element.
      *
-     * @param array|ArrayAccess $array
+     * @param array|\ArrayAccess $array
      * @param int|string $key
      * @param mixed $none
      * @return \ScalikePHP\Option
