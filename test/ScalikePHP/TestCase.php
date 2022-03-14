@@ -26,6 +26,6 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
      */
     protected static function spy(): Mockery\MockInterface
     {
-        return Mockery::spy();
+        return \Mockery::spy();
     }
 }

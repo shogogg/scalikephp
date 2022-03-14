@@ -9,8 +9,6 @@ declare(strict_types=1);
 
 namespace Test\ScalikePHP;
 
-use BadMethodCallException;
-use LogicException;
 use ScalikePHP\Seq;
 
 /**
@@ -311,7 +309,7 @@ trait SeqTestCases
     {
         Assert::same('foo', $this->seq('foo', 'bar', 'baz')->head());
         Assert::throws(
-            LogicException::class,
+            \LogicException::class,
             function (): void {
                 $this->seq()->head();
             }
@@ -381,7 +379,7 @@ trait SeqTestCases
     {
         Assert::same('baz', $this->seq('foo', 'bar', 'baz')->last());
         Assert::throws(
-            LogicException::class,
+            \LogicException::class,
             function (): void {
                 $this->seq()->last();
             }
@@ -555,8 +553,8 @@ trait SeqTestCases
         $g = function () use ($seq): void {
             $seq[3] = 'FizzBuzz';
         };
-        Assert::throws(BadMethodCallException::class, $f);
-        Assert::throws(BadMethodCallException::class, $g);
+        Assert::throws(\BadMethodCallException::class, $f);
+        Assert::throws(\BadMethodCallException::class, $g);
     }
 
     /**
@@ -574,8 +572,8 @@ trait SeqTestCases
         $g = function () use ($seq): void {
             unset($seq[3]);
         };
-        Assert::throws(BadMethodCallException::class, $f);
-        Assert::throws(BadMethodCallException::class, $g);
+        Assert::throws(\BadMethodCallException::class, $f);
+        Assert::throws(\BadMethodCallException::class, $g);
     }
 
     /**
@@ -703,7 +701,7 @@ trait SeqTestCases
         Assert::same(['two', 'three', 'four', 'five'], $seq->tail()->toArray());
         Assert::same(['three', 'four', 'five'], $seq->tail()->tail()->toArray());
         Assert::throws(
-            LogicException::class,
+            \LogicException::class,
             function (): void {
                 Seq::empty()->tail();
             }

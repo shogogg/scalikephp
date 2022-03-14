@@ -9,8 +9,6 @@ declare(strict_types=1);
 
 namespace Test\ScalikePHP;
 
-use ArrayIterator;
-use Generator;
 use ScalikePHP\Implementations\ArraySeq;
 use ScalikePHP\Implementations\TraversableSeq;
 use ScalikePHP\Seq;
@@ -59,12 +57,12 @@ final class SeqTest extends TestCase
     public function testFromArray(): void
     {
         $array = [1, 2, 3];
-        $generator = (function (): Generator {
+        $generator = (function (): \Generator {
             for ($i = 1; $i <= 3; ++$i) {
                 yield $i;
             }
         })();
-        $iterator = new ArrayIterator($array);
+        $iterator = new \ArrayIterator($array);
         Assert::instanceOf(ArraySeq::class, Seq::fromArray($array));
         Assert::instanceOf(TraversableSeq::class, Seq::fromArray($generator));
         Assert::instanceOf(TraversableSeq::class, Seq::fromArray($iterator));

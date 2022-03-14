@@ -9,11 +9,6 @@ declare(strict_types=1);
 
 namespace ScalikePHP\Implementations;
 
-use Closure;
-use Generator;
-use InvalidArgumentException;
-use LogicException;
-use RuntimeException;
 use ScalikePHP\Map;
 use ScalikePHP\Option;
 use ScalikePHP\Seq;
@@ -45,7 +40,7 @@ trait SeqOps
     }
 
     // overrides
-    public function distinctBy(Closure $f): Seq
+    public function distinctBy(\Closure $f): Seq
     {
         return self::create(function () use ($f) {
             $keys = [];
@@ -60,9 +55,9 @@ trait SeqOps
     }
 
     // overrides
-    public function filter(Closure $p): Seq
+    public function filter(\Closure $p): Seq
     {
-        return self::create(function () use ($p): Generator {
+        return self::create(function () use ($p): \Generator {
             $index = 0;
             foreach ($this->getRawIterable() as $value) {
                 if ($p($value)) {
@@ -73,14 +68,14 @@ trait SeqOps
     }
 
     // overrides
-    public function flatMap(Closure $f): Seq
+    public function flatMap(\Closure $f): Seq
     {
-        return self::create(function () use ($f): Generator {
+        return self::create(function () use ($f): \Generator {
             $index = 0;
             foreach ($this->getRawIterable() as $key => $value) {
                 $xs = $f($value, $key);
                 if (is_iterable($xs) === false) {
-                    throw new LogicException('Closure should returns an iterable');
+                    throw new \LogicException('Closure should returns an iterable');
                 }
                 foreach ($xs as $x) {
                     yield $index++ => $x;
@@ -92,11 +87,11 @@ trait SeqOps
     // overrides
     public function flatten(): Seq
     {
-        return self::create(function (): Generator {
+        return self::create(function (): \Generator {
             $index = 0;
             foreach ($this->getRawIterable() as $value) {
                 if (is_iterable($value) === false) {
-                    throw new LogicException('Closure should returns an iterable');
+                    throw new \LogicException('Closure should returns an iterable');
                 }
                 foreach ($value as $x) {
                     yield $index++ => $x;
@@ -106,7 +101,7 @@ trait SeqOps
     }
 
     // overrides
-    public function fold($z, Closure $op)
+    public function fold($z, \Closure $op)
     {
         foreach ($this->getRawIterable() as $value) {
             $z = $op($z, $value);
@@ -131,15 +126,16 @@ trait SeqOps
     }
 
     // overrides
+    #[\ReturnTypeWillChange]
     public function jsonSerialize(): array
     {
         return $this->toArray();
     }
 
     // overrides
-    public function map(Closure $f): Seq
+    public function map(\Closure $f): Seq
     {
-        return self::create(function () use ($f): Generator {
+        return self::create(function () use ($f): \Generator {
             $index = 0;
             foreach ($this->getRawIterable() as $key => $value) {
                 yield $index++ => $f($value, $key);
@@ -151,13 +147,13 @@ trait SeqOps
     public function max()
     {
         if ($this->isEmpty()) {
-            throw new LogicException('empty.max');
+            throw new \LogicException('empty.max');
         }
         return max($this->toArray());
     }
 
     // overrides
-    public function maxBy(Closure $f)
+    public function maxBy(\Closure $f)
     {
         $maxValue = null;
         $maxElement = null;
@@ -175,13 +171,13 @@ trait SeqOps
     public function min()
     {
         if ($this->isEmpty()) {
-            throw new RuntimeException('empty.min');
+            throw new \RuntimeException('empty.min');
         }
         return min($this->toArray());
     }
 
     // overrides
-    public function minBy(Closure $f)
+    public function minBy(\Closure $f)
     {
         $minValue = null;
         $minElement = null;
@@ -198,7 +194,7 @@ trait SeqOps
     /**
      * @return array|\ScalikePHP\Seq[]
      */
-    public function partition(Closure $p): array
+    public function partition(\Closure $p): array
     {
         $a = [];
         $b = [];
@@ -232,13 +228,13 @@ trait SeqOps
             foreach ($this->toArray() as $value) {
                 $sortValues[] = Option::fromArray($value, $f)->orNull();
             }
-        } elseif ($f instanceof Closure) {
+        } elseif ($f instanceof \Closure) {
             foreach ($this->toArray() as $value) {
                 $sortValues[] = $f($value);
             }
         } else {
             $type = gettype($f);
-            throw new InvalidArgumentException("Seq::sortWith() needs a string or \\Closure. {$type} given.");
+            throw new \InvalidArgumentException("Seq::sortWith() needs a string or \\Closure. {$type} given.");
         }
         $array = $this->toArray();
         array_multisort($sortValues, SORT_ASC, SORT_REGULAR, $array);
@@ -246,7 +242,7 @@ trait SeqOps
     }
 
     // overrides
-    public function sumBy(Closure $f)
+    public function sumBy(\Closure $f)
     {
         return $this->fold(0, $f);
     }
@@ -258,7 +254,7 @@ trait SeqOps
     }
 
     // overrides
-    public function toGenerator(): Generator
+    public function toGenerator(): \Generator
     {
         yield from $this->getRawIterable();
     }
@@ -270,17 +266,17 @@ trait SeqOps
         if (is_string($key)) {
             foreach ($this->getRawIterable() as $value) {
                 $k = Option::from($value)->pick($key)->getOrElse(function () use ($key): void {
-                    throw new RuntimeException("Undefined index {$key}");
+                    throw new \RuntimeException("Undefined index {$key}");
                 });
                 $assoc[$k] = $value;
             }
-        } elseif ($key instanceof Closure) {
+        } elseif ($key instanceof \Closure) {
             foreach ($this->getRawIterable() as $value) {
                 $assoc[$key($value)] = $value;
             }
         } else {
             $type = gettype($key);
-            throw new InvalidArgumentException("Seq::toMap() needs a string or \\Closure. {$type} given.");
+            throw new \InvalidArgumentException("Seq::toMap() needs a string or \\Closure. {$type} given.");
         }
         return new ArrayMap($assoc);
     }

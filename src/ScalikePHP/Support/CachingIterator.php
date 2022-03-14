@@ -10,14 +10,13 @@ declare(strict_types=1);
 namespace ScalikePHP\Support;
 
 use Iterator;
-use IteratorAggregate;
 
 /**
  * CachingIterator - Rewindable iterator wrapping generator.
  */
-final class CachingIterator implements IteratorAggregate
+final class CachingIterator implements \IteratorAggregate
 {
-    private Iterator $iterator;
+    private \Iterator $iterator;
     private array $cache = [];
 
     /**
@@ -25,16 +24,16 @@ final class CachingIterator implements IteratorAggregate
      *
      * The constructor of {@see \ScalikePHP\Support\CachingIterator}.
      *
-     * @param Iterator $iterator
+     * @param \Iterator $iterator
      */
-    public function __construct(Iterator $iterator)
+    public function __construct(\Iterator $iterator)
     {
         $this->iterator = $iterator;
         $this->iterator->rewind();
     }
 
     // overrides
-    public function getIterator(): Iterator
+    public function getIterator(): \Iterator
     {
         foreach ($this->cache as $key => $value) {
             yield $key => $value;

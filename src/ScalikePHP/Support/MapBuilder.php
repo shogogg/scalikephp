@@ -9,12 +9,9 @@ declare(strict_types=1);
 
 namespace ScalikePHP\Support;
 
-use Closure;
-use InvalidArgumentException;
 use ScalikePHP\Implementations\ArrayMap;
 use ScalikePHP\Implementations\TraversableMap;
 use ScalikePHP\Map;
-use Traversable;
 
 /**
  * Map building functions.
@@ -26,11 +23,11 @@ trait MapBuilder
     /**
      * Create an instance from generator function.
      *
-     * @param Closure $f
+     * @param \Closure $f
      *
      * @return \ScalikePHP\Map
      */
-    final public static function create(Closure $f): Map
+    final public static function create(\Closure $f): Map
     {
         return Map::fromTraversable(new ClosureIterator($f));
     }
@@ -63,7 +60,7 @@ trait MapBuilder
      * Create a Map instance from an iterable.
      *
      * @param null|iterable $iterable
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      * @return \ScalikePHP\Map
      */
     final public static function from(?iterable $iterable): Map
@@ -72,20 +69,20 @@ trait MapBuilder
             return Map::empty();
         } elseif (is_array($iterable)) {
             return empty($iterable) ? Map::empty() : new ArrayMap((array)$iterable);
-        } elseif ($iterable instanceof Traversable) {
+        } elseif ($iterable instanceof \Traversable) {
             return Map::fromTraversable($iterable);
         } else {
-            throw new InvalidArgumentException('Map::from() needs to array or \Traversable.');
+            throw new \InvalidArgumentException('Map::from() needs to array or \Traversable.');
         }
     }
 
     /**
      * Create an instance from an iterator.
      *
-     * @param Traversable $traversable
+     * @param \Traversable $traversable
      * @return \ScalikePHP\Map
      */
-    final public static function fromTraversable(Traversable $traversable): Map
+    final public static function fromTraversable(\Traversable $traversable): Map
     {
         return new TraversableMap($traversable);
     }

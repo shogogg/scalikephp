@@ -9,10 +9,6 @@ declare(strict_types=1);
 
 namespace ScalikePHP\Implementations;
 
-use ArrayIterator;
-use OutOfBoundsException;
-use Traversable;
-
 /**
  * ScalikeTraversable implementation using an array.
  *
@@ -37,9 +33,9 @@ trait ArraySupport
     }
 
     // overrides
-    public function getIterator(): Traversable
+    public function getIterator(): \Traversable
     {
-        return new ArrayIterator($this->array);
+        return new \ArrayIterator($this->array);
     }
 
     // overrides
@@ -71,12 +67,13 @@ trait ArraySupport
      * @param $offset
      * @return mixed
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         if (isset($this->array[$offset])) {
             return $this->array[$offset];
         } else {
-            throw new OutOfBoundsException("Undefined offset: {$offset}");
+            throw new \OutOfBoundsException("Undefined offset: {$offset}");
         }
     }
 

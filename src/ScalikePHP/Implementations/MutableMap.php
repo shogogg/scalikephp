@@ -9,9 +9,6 @@ declare(strict_types=1);
 
 namespace ScalikePHP\Implementations;
 
-use Closure;
-use Traversable;
-
 /**
  * A Mutable Map Implementation.
  */
@@ -29,7 +26,7 @@ class MutableMap extends ArrayMap
      */
     public function __construct(iterable $iterable)
     {
-        parent::__construct($iterable instanceof Traversable ? iterator_to_array($iterable) : $iterable);
+        parent::__construct($iterable instanceof \Traversable ? iterator_to_array($iterable) : $iterable);
     }
 
     // overrides
@@ -46,25 +43,25 @@ class MutableMap extends ArrayMap
     }
 
     // overrides
-    public function filter(Closure $p): self
+    public function filter(\Closure $p): self
     {
         return new self($this->filterGenerator($p));
     }
 
     // overrides
-    public function flatMap(Closure $f): self
+    public function flatMap(\Closure $f): self
     {
         return new self($this->flatMapGenerator($f));
     }
 
     // overrides
-    public function map(Closure $f): self
+    public function map(\Closure $f): self
     {
         return new self($this->mapGenerator($f));
     }
 
     // overrides
-    public function mapValues(Closure $f): self
+    public function mapValues(\Closure $f): self
     {
         return new self($this->mapValuesGenerator($f));
     }

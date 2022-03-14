@@ -9,11 +9,9 @@ declare(strict_types=1);
 
 namespace ScalikePHP\Implementations;
 
-use Generator;
 use ScalikePHP\Map;
 use ScalikePHP\Option;
 use ScalikePHP\Seq;
-use Traversable;
 
 /**
  * A Map Implementation using \Traversable.
@@ -28,9 +26,9 @@ class TraversableMap extends Map
      *
      * The constructor of {@see \ScalikePHP\TraversableMap}.
      *
-     * @param Traversable $traversable
+     * @param \Traversable $traversable
      */
-    public function __construct(Traversable $traversable)
+    public function __construct(\Traversable $traversable)
     {
         $this->setTraversable($traversable);
     }
@@ -38,7 +36,7 @@ class TraversableMap extends Map
     // overrides
     public function append($keyOrArray, $value = null): Map
     {
-        return Map::create(function () use ($keyOrArray, $value): Generator {
+        return Map::create(function () use ($keyOrArray, $value): \Generator {
             yield from $this->traversable;
             yield from is_array($keyOrArray) ? $keyOrArray : [$keyOrArray => $value];
         });
@@ -53,7 +51,7 @@ class TraversableMap extends Map
     // overrides
     public function drop(int $n): Map
     {
-        return $n <= 0 ? $this : Map::create(function () use ($n): Traversable {
+        return $n <= 0 ? $this : Map::create(function () use ($n): \Traversable {
             $i = $n;
             foreach ($this->getRawIterable() as $key => $value) {
                 if ($i <= 0) {
@@ -81,7 +79,7 @@ class TraversableMap extends Map
     public function take(int $n): Map
     {
         if ($n > 0) {
-            return Map::create(function () use ($n): Traversable {
+            return Map::create(function () use ($n): \Traversable {
                 $i = $n;
                 foreach ($this->getRawIterable() as $key => $value) {
                     yield $key => $value;

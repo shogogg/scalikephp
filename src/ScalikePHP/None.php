@@ -9,13 +9,7 @@ declare(strict_types=1);
 
 namespace ScalikePHP;
 
-use BadMethodCallException;
-use Closure;
-use EmptyIterator;
-use LogicException;
-use OutOfBoundsException;
 use ScalikePHP\Implementations\OptionOps;
-use Traversable;
 
 /**
  * Scala like None.
@@ -52,37 +46,37 @@ final class None extends Option
     }
 
     // overrides
-    public function each(Closure $f): void
+    public function each(\Closure $f): void
     {
         // nothing to do.
     }
 
     // overrides
-    public function exists(Closure $p): bool
+    public function exists(\Closure $p): bool
     {
         return false;
     }
 
     // overrides
-    public function filter(Closure $p): self
+    public function filter(\Closure $p): self
     {
         return $this;
     }
 
     // overrides
-    public function filterNot(Closure $p): self
+    public function filterNot(\Closure $p): self
     {
         return $this;
     }
 
     // overrides
-    public function find(Closure $p): Option
+    public function find(\Closure $p): Option
     {
         return $this;
     }
 
     // overrides
-    public function flatMap(Closure $f): self
+    public function flatMap(\Closure $f): self
     {
         return $this;
     }
@@ -94,13 +88,13 @@ final class None extends Option
     }
 
     // overrides
-    public function fold($z, Closure $op)
+    public function fold($z, \Closure $op)
     {
         return $z;
     }
 
     // overrides
-    public function forAll(Closure $p): bool
+    public function forAll(\Closure $p): bool
     {
         return true;
     }
@@ -108,17 +102,17 @@ final class None extends Option
     // overrides
     public function get()
     {
-        throw new LogicException('None has no value.');
+        throw new \LogicException('None has no value.');
     }
 
     // overrides
-    public function getIterator(): Traversable
+    public function getIterator(): \Traversable
     {
-        return new EmptyIterator();
+        return new \EmptyIterator();
     }
 
     // overrides
-    public function getOrElse(Closure $default)
+    public function getOrElse(\Closure $default)
     {
         return $default();
     }
@@ -144,7 +138,7 @@ final class None extends Option
     // overrides
     public function head()
     {
-        throw new LogicException('There is no value');
+        throw new \LogicException('There is no value');
     }
 
     // overrides
@@ -166,6 +160,7 @@ final class None extends Option
     }
 
     // overrides
+    #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
         return null;
@@ -174,7 +169,7 @@ final class None extends Option
     // overrides
     public function last()
     {
-        throw new LogicException('There is no value');
+        throw new \LogicException('There is no value');
     }
 
     // overrides
@@ -184,7 +179,7 @@ final class None extends Option
     }
 
     // overrides
-    public function map(Closure $f): self
+    public function map(\Closure $f): self
     {
         return $this;
     }
@@ -192,25 +187,25 @@ final class None extends Option
     // overrides
     public function max()
     {
-        throw new LogicException('empty.max');
+        throw new \LogicException('empty.max');
     }
 
     // overrides
-    public function maxBy(Closure $f)
+    public function maxBy(\Closure $f)
     {
-        throw new LogicException('empty.max');
+        throw new \LogicException('empty.max');
     }
 
     // overrides
     public function min()
     {
-        throw new LogicException('empty.min');
+        throw new \LogicException('empty.min');
     }
 
     // overrides
-    public function minBy(Closure $f)
+    public function minBy(\Closure $f)
     {
-        throw new LogicException('empty.min');
+        throw new \LogicException('empty.min');
     }
 
     // overrides
@@ -242,9 +237,10 @@ final class None extends Option
      * @param mixed $offset
      * @return mixed|void
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
-        throw new OutOfBoundsException("Undefined offset: {$offset}");
+        throw new \OutOfBoundsException("Undefined offset: {$offset}");
     }
 
     /**
@@ -255,7 +251,7 @@ final class None extends Option
      */
     public function offsetSet($offset, $value): void
     {
-        throw new BadMethodCallException();
+        throw new \BadMethodCallException();
     }
 
     /**
@@ -265,17 +261,17 @@ final class None extends Option
      */
     public function offsetUnset($offset): void
     {
-        throw new BadMethodCallException();
+        throw new \BadMethodCallException();
     }
 
     // overrides
-    public function orElse(Closure $alternative): Option
+    public function orElse(\Closure $alternative): Option
     {
         $option = $alternative();
         if ($option instanceof Option) {
             return $option;
         } else {
-            throw new LogicException('Closure should returns an Option');
+            throw new \LogicException('Closure should returns an Option');
         }
     }
 
@@ -288,7 +284,7 @@ final class None extends Option
     /**
      * @return array|\ScalikePHP\Seq[]
      */
-    public function partition(Closure $p): array
+    public function partition(\Closure $p): array
     {
         return [Seq::empty(), Seq::empty()];
     }
@@ -306,7 +302,7 @@ final class None extends Option
     }
 
     // overrides
-    public function sumBy(Closure $f): int
+    public function sumBy(\Closure $f): int
     {
         return 0;
     }

@@ -9,12 +9,7 @@ declare(strict_types=1);
 
 namespace ScalikePHP\Implementations;
 
-use ArrayIterator;
-use Generator;
-use NoRewindIterator;
-use OutOfBoundsException;
 use ScalikePHP\Support\CachingIterator;
-use Traversable;
 
 /**
  * ScalikeTraversable implementation using an iterator(\Traversable).
@@ -24,17 +19,17 @@ use Traversable;
 trait TraversableSupport
 {
     protected array $array;
-    protected Traversable $traversable;
+    protected \Traversable $traversable;
     protected bool $computed = false;
 
     /**
      * Set the traversable.
      *
-     * @param Traversable $traversable
+     * @param \Traversable $traversable
      */
-    protected function setTraversable(Traversable $traversable): void
+    protected function setTraversable(\Traversable $traversable): void
     {
-        $this->traversable = $traversable instanceof Generator || $traversable instanceof NoRewindIterator
+        $this->traversable = $traversable instanceof \Generator || $traversable instanceof \NoRewindIterator
             ? new CachingIterator($traversable)
             : $traversable;
     }
@@ -46,9 +41,9 @@ trait TraversableSupport
     }
 
     // overrides
-    public function getIterator(): Traversable
+    public function getIterator(): \Traversable
     {
-        return $this->computed ? new ArrayIterator($this->array) : $this->traversable;
+        return $this->computed ? new \ArrayIterator($this->array) : $this->traversable;
     }
 
     // overrides
@@ -81,13 +76,14 @@ trait TraversableSupport
      * @param $offset
      * @return mixed
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         $this->compute();
         if (isset($this->array[$offset])) {
             return $this->array[$offset];
         } else {
-            throw new OutOfBoundsException("Undefined offset: {$offset}");
+            throw new \OutOfBoundsException("Undefined offset: {$offset}");
         }
     }
 

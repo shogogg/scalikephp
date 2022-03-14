@@ -9,16 +9,10 @@ declare(strict_types=1);
 
 namespace ScalikePHP;
 
-use ArrayAccess;
-use ArrayIterator;
-use Closure;
-use JsonSerializable;
-use LogicException;
 use ScalikePHP\Implementations\ArrayMap;
 use ScalikePHP\Implementations\ArraySeq;
 use ScalikePHP\Implementations\ArraySupport;
 use ScalikePHP\Implementations\OptionOps;
-use Traversable;
 
 /**
  * Scala like Some.
@@ -33,6 +27,7 @@ final class Some extends Option
      *
      * @param mixed $value 値
      * @return \ScalikePHP\Some
+     * @noinspection PhpMissingParamTypeInspection
      */
     public static function create($value): self
     {
@@ -45,6 +40,7 @@ final class Some extends Option
      * The constructor of {@see \ScalikePHP\Some}.
      *
      * @param mixed $value 値
+     * @noinspection PhpMissingParamTypeInspection
      */
     protected function __construct($value)
     {
@@ -58,19 +54,19 @@ final class Some extends Option
     }
 
     // overrides
-    public function filter(Closure $p): Option
+    public function filter(\Closure $p): Option
     {
         return $p($this->array[0]) ? $this : Option::none();
     }
 
     // overrides
-    public function flatMap(Closure $f): Option
+    public function flatMap(\Closure $f): Option
     {
         $option = $f($this->array[0]);
         if ($option instanceof Option) {
             return $option;
         } else {
-            throw new LogicException('Closure should returns an Option');
+            throw new \LogicException('Closure should returns an Option');
         }
     }
 
@@ -80,12 +76,12 @@ final class Some extends Option
         if ($this->array[0] instanceof Option) {
             return $this->array[0];
         } else {
-            throw new LogicException('Element should be an Option');
+            throw new \LogicException('Element should be an Option');
         }
     }
 
     // overrides
-    public function fold($z, Closure $op)
+    public function fold($z, \Closure $op)
     {
         return $op($z, $this->array[0]);
     }
@@ -97,13 +93,13 @@ final class Some extends Option
     }
 
     // overrides
-    public function getIterator(): Traversable
+    public function getIterator(): \Traversable
     {
-        return new ArrayIterator($this->array);
+        return new \ArrayIterator($this->array);
     }
 
     // overrides
-    public function getOrElse(Closure $default)
+    public function getOrElse(\Closure $default)
     {
         return $this->array[0];
     }
@@ -133,14 +129,15 @@ final class Some extends Option
     }
 
     // overrides
+    #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
         $value = $this->array[0];
-        return $value instanceof JsonSerializable ? $value->jsonSerialize() : $value;
+        return $value instanceof \JsonSerializable ? $value->jsonSerialize() : $value;
     }
 
     // overrides
-    public function map(Closure $f): self
+    public function map(\Closure $f): self
     {
         return new self($f($this->array[0]));
     }
@@ -152,7 +149,7 @@ final class Some extends Option
     }
 
     // overrides
-    public function maxBy(Closure $f)
+    public function maxBy(\Closure $f)
     {
         return $this->array[0];
     }
@@ -164,13 +161,13 @@ final class Some extends Option
     }
 
     // overrides
-    public function minBy(Closure $f)
+    public function minBy(\Closure $f)
     {
         return $this->array[0];
     }
 
     // overrides
-    public function orElse(Closure $alternative): Option
+    public function orElse(\Closure $alternative): Option
     {
         return $this;
     }
@@ -182,9 +179,9 @@ final class Some extends Option
     }
 
     /**
-     * @return array|\ScalikePHP\Seq[]
+     * @return \ScalikePHP\Seq[]
      */
-    public function partition(Closure $p): array
+    public function partition(\Closure $p): array
     {
         $value = $this->array[0];
         return $p($value)
@@ -199,7 +196,7 @@ final class Some extends Option
     }
 
     // overrides
-    public function sumBy(Closure $f)
+    public function sumBy(\Closure $f)
     {
         return $this->array[0];
     }
@@ -208,7 +205,7 @@ final class Some extends Option
     public function pick($name): Option
     {
         $value = $this->array[0];
-        if (is_array($value) || $value instanceof ArrayAccess) {
+        if (is_array($value) || $value instanceof \ArrayAccess) {
             return Option::fromArray($value, $name);
         } elseif (is_object($value) && (property_exists($value, $name) || method_exists($value, '__get'))) {
             return Option::from($value->{$name});

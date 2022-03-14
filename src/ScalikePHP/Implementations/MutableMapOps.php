@@ -24,11 +24,11 @@ trait MutableMapOps
      * stores with key in map and returns that value.
      *
      * @param int|string $key the key to test.
-     * @param Closure $op a closure returns the value to associate with key, if key is previously unbound.
+     * @param \Closure $op a closure returns the value to associate with key, if key is previously unbound.
      * @return mixed the value associated with key (either previously or as a result of executing the method).
      * @noinspection PhpUnused
      */
-    public function getOrElseUpdate($key, Closure $op)
+    public function getOrElseUpdate($key, \Closure $op)
     {
         return $this->get($key)->getOrElse(function () use ($key, $op) {
             $value = $op();

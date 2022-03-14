@@ -9,8 +9,6 @@ declare(strict_types=1);
 
 namespace ScalikePHP;
 
-use Closure;
-use InvalidArgumentException;
 use ScalikePHP\Support\SeqBuilder;
 
 /**
@@ -54,10 +52,10 @@ abstract class Seq extends ScalikeTraversable
      * Selects all the elements of this sequence ignoring the duplicates
      * as determined by `===` after applying the transforming function `$f`.
      *
-     * @param Closure $f the transforming function whose result is used to determine the uniqueness of each element.
+     * @param \Closure $f the transforming function whose result is used to determine the uniqueness of each element.
      * @return \ScalikePHP\Seq a new sequence consisting of all the elements of this sequence without duplicates.
      */
-    abstract public function distinctBy(Closure $f): self;
+    abstract public function distinctBy(\Closure $f): self;
 
     /**
      * Finds index of first occurrence of some value in this sequence.
@@ -86,7 +84,7 @@ abstract class Seq extends ScalikeTraversable
     /**
      * Sorts this sequence according to the ordering with a transformation function.
      *
-     * @param Closure|string $f the transformation function or key of each element.
+     * @param \Closure|string $f the transformation function or key of each element.
      * @return \ScalikePHP\Seq a sequence consisting of the elements of this sequence sorted.
      */
     abstract public function sortBy($f): self;
@@ -94,8 +92,8 @@ abstract class Seq extends ScalikeTraversable
     /**
      * Converts this sequence to a Map.
      *
-     * @param Closure|string $key
-     * @throws InvalidArgumentException
+     * @param \Closure|string $key
+     * @throws \InvalidArgumentException
      * @return \ScalikePHP\Map
      */
     abstract public function toMap($key): Map;

@@ -9,8 +9,6 @@ declare(strict_types=1);
 
 namespace ScalikePHP;
 
-use Closure;
-use LogicException;
 use ScalikePHP\Support\OptionBuilder;
 
 /**
@@ -23,7 +21,7 @@ abstract class Option extends ScalikeTraversable
     /**
      * Returns the value, throw exception if empty.
      *
-     * @throws LogicException if this Option is empty.
+     * @throws \LogicException if this Option is empty.
      * @return mixed
      */
     abstract public function get();
@@ -31,10 +29,10 @@ abstract class Option extends ScalikeTraversable
     /**
      * Returns the value if the Option is non-empty, otherwise return the result of evaluating `$default`.
      *
-     * @param Closure $default the default expression.
+     * @param \Closure $default the default expression.
      * @return mixed
      */
-    abstract public function getOrElse(Closure $default);
+    abstract public function getOrElse(\Closure $default);
 
     /**
      * Returns the value if this Option is non-empty, otherwise return the `$default`.
@@ -54,10 +52,10 @@ abstract class Option extends ScalikeTraversable
     /**
      * Returns this Option if it is non-empty, otherwise return the result of evaluating `$alternative`.
      *
-     * @param Closure $alternative
+     * @param \Closure $alternative
      * @return \ScalikePHP\Option
      */
-    abstract public function orElse(Closure $alternative): self;
+    abstract public function orElse(\Closure $alternative): self;
 
     /**
      * Returns the value if this Option is non-empty, otherwise return `null`.

@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace Test\ScalikePHP;
 
-use LogicException;
 use ScalikePHP\Option;
 use ScalikePHP\Seq;
 use ScalikePHP\Some;
@@ -139,7 +138,7 @@ final class SomeTest extends TestCase
         Assert::some(2, Some::create(1)->flatMap($returnsSome));
         Assert::none(Some::create(1)->flatMap($returnsNone));
         Assert::throws(
-            LogicException::class,
+            \LogicException::class,
             function () use ($returnsArray): void {
                 Some::create(1)->flatMap($returnsArray);
             }
